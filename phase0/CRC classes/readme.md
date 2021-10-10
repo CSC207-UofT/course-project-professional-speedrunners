@@ -2,7 +2,7 @@ An example for the formal we should follow (tentative) to edit and create CRC ca
 ```
 [abstract/interface] [ClassName] [extends ParentClass]
 
-(if abstract or interface) Parentof: [ClassName1], [ClassName2]
+(if parent) Parentof: [ClassName1], [ClassName2]
 
 Responsibilities:
     
