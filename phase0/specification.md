@@ -16,13 +16,9 @@ Each shop is associated with the following:
 - a location
 - a rating 
 
-
-A standard user of this program can:
+A user of this program can:
 - give rating to a bubble tea item or a shop that exist in the system
 - get a sorted list of bubble teas or stores base on either rating or price
-
-
-An admin user of this program, apart from the standard user privileges, can also:
 - add and remove bubble tea items or shops
 
 
