@@ -1,9 +1,29 @@
-List of considerations:
+Specification: Price Comparing System
 
-- What does the program need to do
-  - different from gasoline, which is a near perfect substitute with gasoline from other stations, the cheapest bubble tea is not necessarily the best.
-  - while gas prices are listed by liter, bubble teas are sold in different unit i.e. small, mid, large. How do we reflect this difference?
-  - having maps and distance calculation will be a fundamental part of this program, as bubble tea shop in Vancouver is irrelevant to a UofT student.
-    - are there ways to simplify this further? e.g. limit the area covered to St George campus only and disregard the location of the user, such that distance computation can be skipped
+This program can keep track of prices and ratings for bubble teas, sort them, and present them to the user.
 
-- Perhaps we could implement the program for simple commodity first e.g. gasoline, such that we would obtain a base design upon which we could expand on in future phases to account for intricacies of bubble teas and other non-commodity merchandises
+Each bubble tea item is associated with the following:
+- a name
+- an id
+- a price
+- the shop in which it is being sold
+- a rating that is aggregated from multiple user reviews
+
+Each shop is associated with the following:
+- a name
+- an id
+- a menu 
+- a location
+- a rating 
+
+
+A standard user of this program can:
+- give rating to a bubble tea item or a shop that exist in the system
+- get a sorted list of bubble teas or stores base on either rating or price
+
+
+An admin user of this program, apart from the standard user privileges, can also:
+- add and remove bubble tea items or shops
+
+
+
