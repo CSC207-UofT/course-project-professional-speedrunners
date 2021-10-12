@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/application/application.iml" filepath="$PROJECT_DIR$/application/application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/application/command-line-app/command-line-app.iml" filepath="$PROJECT_DIR$/application/command-line-app/command-line-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/course-project-professional-speedrunners.iml" filepath="$PROJECT_DIR$/course-project-professional-speedrunners.iml" />
+      <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adapter/dataBases/itemDb-hashmap/itemDb-hashmap.iml" filepath="$PROJECT_DIR$/adapter/dataBases/itemDb-hashmap/itemDb-hashmap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adapter/dataBases/ratingDb-hashmap/ratingDb-hashmap.iml" filepath="$PROJECT_DIR$/adapter/dataBases/ratingDb-hashmap/ratingDb-hashmap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adapter/dataBases/storeDb-hashmap/storeDb-hashmap.iml" filepath="$PROJECT_DIR$/adapter/dataBases/storeDb-hashmap/storeDb-hashmap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/usecase/usecase.iml" filepath="$PROJECT_DIR$/usecase/usecase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adapter/dataBases/userDb-hashmap/userDb-hashmap.iml" filepath="$PROJECT_DIR$/adapter/dataBases/userDb-hashmap/userDb-hashmap.iml" />
+    </modules>
+  </component>
+</project>

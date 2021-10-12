@@ -10,5 +10,5 @@ Responsibilities:
     getPriceHistory
     
 Collaborators:
-    User
+    domain.entity.User
 ```
