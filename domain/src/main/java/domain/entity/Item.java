@@ -20,6 +20,10 @@ public class Item implements PriceComparable{
         return store;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setPrice(float price) {
         this.price = price;
     }

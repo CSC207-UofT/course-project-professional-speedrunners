@@ -34,7 +34,7 @@ public class User {
         return password;
     }
 
-    public static UserBuilder build(){return new UserBuilder();}
+    public static UserBuilder builder(){return new UserBuilder();}
 
     public static class UserBuilder{
         private String id;
