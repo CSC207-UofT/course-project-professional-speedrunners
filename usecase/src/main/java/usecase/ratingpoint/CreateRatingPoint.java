@@ -2,8 +2,6 @@ package usecase.ratingpoint;
 
 import domain.entity.Ratable;
 import domain.entity.RatingPoint;
-import domain.entity.User;
-import usecase.port.ItemDb;
 import usecase.port.RatingDb;
 
 

@@ -12,8 +12,9 @@ public class AddRating {
         this.itemDb = itemDb;
     }
 
+    //TODO:
     public boolean add(final RatingPoint rating, final Ratable ratable){
-        itemDb.
+        return false;
     }
 
 

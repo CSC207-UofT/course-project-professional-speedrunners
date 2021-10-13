@@ -1,7 +1,6 @@
 package usecase.port;
 
 import domain.entity.Item;
-import domain.entity.RatableItem;
 import domain.entity.Store;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public interface ItemDb {
 
     Item setPrice(float price, Item item);
 
-    Item add(Item item);
+    boolean add(Item item);
 
     boolean remove(Item item);
 

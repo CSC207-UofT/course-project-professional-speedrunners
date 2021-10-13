@@ -1,5 +1,4 @@
 import domain.entity.Item;
-import domain.entity.RatableItem;
 import domain.entity.Store;
 import usecase.port.ItemDb;
 
@@ -20,7 +19,7 @@ public class ItemDbHashmap implements ItemDb {
     }
 
     @Override
-    public Item add(final Item item) {
+    public boolean add(final Item item) {
         inMemoryDb.put(item.getId(), item);
         return item;
     }

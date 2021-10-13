@@ -3,25 +3,31 @@ package domain.entity;
 public class Item implements PriceComparable{
 
     private float price;
-    private Store store;
-    private String id;
+    private final String storeId;
+    private final String id;
+    private final String name;
 
-    public Item(float price, Store store, String id){
+    public Item(float price, String storeId, String id, String name){
         this.price = price;
-        this.store = store;
+        this.storeId = storeId;
         this.id = id;
+        this.name = name;
     }
 
     public float getPrice() {
         return price;
     }
 
-    public Store getStore() {
-        return store;
+    public String getStoreId() {
+        return storeId;
     }
 
     public String getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setPrice(float price) {
@@ -32,8 +38,9 @@ public class Item implements PriceComparable{
 
     public static class ItemBuilder{
         private float price;
-        private Store store;
+        private String storeId;
         private String id;
+        private String name;
 
         public ItemBuilder setPrice(float price) {
             this.price = price;
@@ -45,12 +52,17 @@ public class Item implements PriceComparable{
             return this;
         }
 
-        public ItemBuilder setStore(Store store) {
-            this.store = store;
+        public ItemBuilder setStoreId(String storeId) {
+            this.storeId = storeId;
             return this;
         }
 
-        public Item build(){return new Item(this.price, this.store, this.id);}
+        public ItemBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Item build(){return new Item(this.price, this.storeId, this.id, this.name);}
 
     }
 

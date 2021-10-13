@@ -1,26 +1,36 @@
 package usecase;
 
-import usecase.item.ItemFacade;
-import usecase.port.InputBoundary;
-import usecase.port.OutputBoundary;
-import usecase.sort.Sorter;
-import usecase.store.StoreFacade;
+import usecase.port.IItemIn.IItem;
+import usecase.port.PresenterInterface;
+import usecase.port.RequestModel;
+import usecase.port.RespondModel;
 
 public class UseCaseInteractor {
 
-    private final ItemFacade itemFacade;
-    private final StoreFacade storeFacade;
-    private final Sorter sorter;
-    private final InputBoundary request;
-    private final OutputBoundary response;
+    private final IItem inputBoundary;
+    private final PresenterInterface outputBoundary;
 
-    public UseCaseInteractor(InputBoundary request, OutputBoundary response){
-        this.request = request;
-        this.response = response;
-        itemFacade = new ItemFacade();
-        storeFacade = new StoreFacade();
-        sorter = new Sorter();
+    public UseCaseInteractor(IItem inputBoundary, PresenterInterface outputBoundary){
+        this.inputBoundary = inputBoundary;
+        this.outputBoundary = outputBoundary;
     }
+
+    public RequestModel getRequest(){
+       return inputBoundary.getRequest();
+    }
+
+    public RespondModel responseGenerator(RequestModel request){
+
+
+
+    }
+
+    public void display(RespondModel respond){
+        outputBoundary.Show(respond);
+    }
+
+
+
 
 
 
