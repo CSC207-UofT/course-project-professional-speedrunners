@@ -5,7 +5,7 @@ import usecase.port.IResponse.PresenterInterface;
 
 public class GenericPresenter implements PresenterInterface {
     @Override
-    public void Show(RespondModel respond) {
+    public void show(RespondModel respond) {
         if(respond.getResult()){
             //TODO: also show if a sorting operation was requested
             System.out.println(String.format("Operation %s Success!", respond.getOperation()));

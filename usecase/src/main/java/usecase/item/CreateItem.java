@@ -31,7 +31,7 @@ public final class CreateItem implements ICreateItem {
                 .setId(idGen.generate())
                 .setStoreId(request.getStoreId())
                 .build();
-         presenter.Show(new CreateItemResponse(repo.add(itemToAdd), itemToAdd.toString(), "createItem"));
+         presenter.show(new CreateItemResponse(repo.add(itemToAdd), itemToAdd.toString(), "createItem"));
     }
 
     @Override

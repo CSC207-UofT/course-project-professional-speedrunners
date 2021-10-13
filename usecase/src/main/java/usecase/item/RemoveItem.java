@@ -27,7 +27,7 @@ public final class RemoveItem implements IRemoveItem {
     public void execute(RemoveItemRequest request) {
         RemoveItemResponse response = new RemoveItemResponse("removeItem");
         response.setResponse(repo.remove(request.getItemId()));
-        presenter.Show(response);
+        presenter.show(response);
     }
 
     // Request Generator

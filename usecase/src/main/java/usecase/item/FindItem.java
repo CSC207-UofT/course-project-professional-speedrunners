@@ -33,14 +33,14 @@ public final class FindItem implements IFindItem {
         _sort(store,lst);
 
         response.setLstResponse(lst);
-        presenter.Show(response);
+        presenter.show(response);
     }
 
     @Override
     public void findById(FindItemRequest id) {
         FindItemResponse response = new FindItemResponse("findById");
         response.setItemResponse(repo.findById(id.getItemId()));
-        presenter.Show(response);
+        presenter.show(response);
     }
 
     @Override
@@ -50,7 +50,7 @@ public final class FindItem implements IFindItem {
         _sort(sort, lst);
 
         response.setLstResponse(lst);
-        presenter.Show(response);
+        presenter.show(response);
     }
 
     private void _sort(FindItemRequest request, List<? extends Item> lst){
@@ -129,10 +129,7 @@ public final class FindItem implements IFindItem {
 
         private void setLstResponse(List<? extends Item> lst) {
             if (lst.isEmpty()){return;}
-
-            List<String> lstStr = new ArrayList<>();
-            for (Item i : lst) {lstStr.add(i.toString());}
-            this.response = lstStr;
+            for (Item i : lst) {response.add(i.toString());}
             this.success = true;
 
         }
