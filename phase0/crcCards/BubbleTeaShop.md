@@ -4,4 +4,4 @@ Responsibilities:
     
 
 Collaborators:
-    User
+    domain.entity.User

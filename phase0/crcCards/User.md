@@ -1,6 +1,6 @@
 _an example for the formal we should follow (tentative) to edit and create CRC cards_
 ```
-User
+domain.entity.User
     
 Responsibilities:
     uploadShop
