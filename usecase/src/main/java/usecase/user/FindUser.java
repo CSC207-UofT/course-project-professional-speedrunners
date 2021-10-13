@@ -1,7 +1,7 @@
 package usecase.user;
 
 import domain.entity.User;
-import usecase.port.UserDb;
+import usecase.port.IDb.UserDb;
 
 import java.util.List;
 import java.util.Optional;

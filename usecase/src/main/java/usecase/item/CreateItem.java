@@ -2,30 +2,36 @@ package usecase.item;
 
 import domain.entity.Item;
 import org.jetbrains.annotations.NotNull;
-import usecase.port.IItemIn.ICreateItem;
-import usecase.port.IdGenerator;
-import usecase.port.ItemDb;
-import usecase.port.RequestModel;
-import usecase.port.RespondModel;
+import usecase.port.*;
+import usecase.port.IDb.ItemDb;
+import usecase.port.IRequest.IItemIn.ICreateItem;
+import usecase.port.IRequest.RequestModel;
+import usecase.port.IResponse.PresenterInterface;
+import usecase.port.IResponse.RespondModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class CreateItem implements ICreateItem {
 
     private final ItemDb repo;
     private final IdGenerator idGen;
+    private final PresenterInterface presenter;
 
-    public CreateItem(final ItemDb repo, final IdGenerator idGen) {
+    public CreateItem(final ItemDb repo, final IdGenerator idGen, final PresenterInterface presenter) {
         this.repo = repo;
         this.idGen = idGen;
+        this.presenter = presenter;
     }
     //TODO: how to create Ratable item
     @Override
-    public CreateItemResponse execute(final @NotNull CreateItemRequest request) {
+    public void execute(final @NotNull CreateItemRequest request) {
         Item itemToAdd = Item.builder()
                 .setPrice(request.getPrice())
                 .setId(idGen.generate())
                 .setStoreId(request.getStoreId())
                 .build();
-         return new CreateItemResponse(repo.add(itemToAdd), itemToAdd.getName(), itemToAdd.getId());
+         presenter.Show(new CreateItemResponse(repo.add(itemToAdd), itemToAdd.toString(), "createItem"));
     }
 
     @Override
@@ -33,7 +39,7 @@ public final class CreateItem implements ICreateItem {
         return new CreateItemRequest(price, storeId);
     }
 
-    public static class CreateItemRequest implements RequestModel{
+    public static class CreateItemRequest implements RequestModel {
         private final float price;
         private final String storeId;
 
@@ -52,24 +58,32 @@ public final class CreateItem implements ICreateItem {
     }
     public static class CreateItemResponse implements RespondModel {
         private final boolean result;
-        private String name;
-        private String id;
+        private List<String> response;
+        private String operation;
 
-        public CreateItemResponse(boolean result, String name, String id){
+        private CreateItemResponse(boolean result, String item, String operation){
             this.result = result;
-            this.name = name;
-            this.id = id;
+            this.response = new ArrayList<>();
+            this.operation = operation;
+            response.add(item);
+
         }
         @Override
         public boolean getResult() {
             return result;
         }
-        public String getName() {
-            return name;
+
+        @Override
+        public List<String> getResponse() {
+            return response;
         }
-        public String getId() {
-            return id;
+
+        @Override
+        public String getOperation() {
+            return operation;
         }
+
+
     }
 
 

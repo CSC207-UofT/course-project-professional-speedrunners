@@ -6,7 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/adapter/controller/controller.iml" filepath="$PROJECT_DIR$/adapter/controller/controller.iml" />
       <module fileurl="file://$PROJECT_DIR$/course-project-professional-speedrunners.iml" filepath="$PROJECT_DIR$/course-project-professional-speedrunners.iml" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" />
-      <module fileurl="file://$PROJECT_DIR$/adapter/dataBases/itemDb-hashmap/itemDb-hashmap.iml" filepath="$PROJECT_DIR$/adapter/dataBases/itemDb-hashmap/itemDb-hashmap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adapter/dataBases/item_db_hashmap/item_db_hashmap.iml" filepath="$PROJECT_DIR$/adapter/dataBases/item_db_hashmap/item_db_hashmap.iml" />
       <module fileurl="file://$PROJECT_DIR$/adapter/presenter/presenter.iml" filepath="$PROJECT_DIR$/adapter/presenter/presenter.iml" />
       <module fileurl="file://$PROJECT_DIR$/adapter/dataBases/ratingDb-hashmap/ratingDb-hashmap.iml" filepath="$PROJECT_DIR$/adapter/dataBases/ratingDb-hashmap/ratingDb-hashmap.iml" />
       <module fileurl="file://$PROJECT_DIR$/adapter/dataBases/storeDb-hashmap/storeDb-hashmap.iml" filepath="$PROJECT_DIR$/adapter/dataBases/storeDb-hashmap/storeDb-hashmap.iml" />

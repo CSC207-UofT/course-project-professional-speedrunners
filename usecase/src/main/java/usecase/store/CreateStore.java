@@ -2,7 +2,7 @@ package usecase.store;
 
 import domain.entity.Store;
 import usecase.port.IdGenerator;
-import usecase.port.StoreDb;
+import usecase.port.IDb.StoreDb;
 
 public final class CreateStore {
 

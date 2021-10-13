@@ -2,7 +2,7 @@ package usecase.user;
 
 import domain.entity.User;
 import usecase.port.IdGenerator;
-import usecase.port.UserDb;
+import usecase.port.IDb.UserDb;
 
 public final class CreateUser {
 

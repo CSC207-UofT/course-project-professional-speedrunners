@@ -2,7 +2,7 @@ package usecase.ratable;
 
 import domain.entity.Ratable;
 import domain.entity.RatingPoint;
-import usecase.port.ItemDb;
+import usecase.port.IDb.ItemDb;
 
 public class AddRating {
 

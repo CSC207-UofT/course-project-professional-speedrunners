@@ -3,7 +3,7 @@ package usecase.ratingpoint;
 import domain.entity.Ratable;
 import domain.entity.RatingPoint;
 import domain.entity.User;
-import usecase.port.RatingDb;
+import usecase.port.IDb.RatingDb;
 
 import java.util.List;
 import java.util.Optional;

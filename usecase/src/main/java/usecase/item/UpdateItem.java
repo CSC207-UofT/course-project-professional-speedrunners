@@ -1,9 +1,11 @@
 package usecase.item;
 
 import domain.entity.Item;
-import usecase.port.IItemIn.IUpdateItem;
-import usecase.port.ItemDb;
-import usecase.port.RespondModel;
+import usecase.port.IRequest.IItemIn.IUpdateItem;
+import usecase.port.IDb.ItemDb;
+import usecase.port.IResponse.RespondModel;
+
+import java.util.List;
 
 public final class UpdateItem implements IUpdateItem {
     private final ItemDb db;
@@ -16,8 +18,27 @@ public final class UpdateItem implements IUpdateItem {
         return db.setPrice(price, item);
     }
 
+    @Override
+    public RespondModel execute() {
+        return null;
+    }
+
     public static class UpdateItemResponse implements RespondModel {
 
+        @Override
+        public boolean getResult() {
+            return false;
+        }
+
+        @Override
+        public List<String> getResponse() {
+            return null;
+        }
+
+        @Override
+        public String getOperation() {
+            return null;
+        }
     }
 
 }

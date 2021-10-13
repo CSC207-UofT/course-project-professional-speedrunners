@@ -7,8 +7,8 @@ public class RatableItem extends Item implements Ratable{
 
     List<RatingPoint> lst;
 
-    public RatableItem(float price, Store store, String id) {
-        super(price, store, id);
+    public RatableItem(float price, String storeId, String id, String name) {
+        super(price, storeId, id, name);
         this.lst = new ArrayList<>();
     }
 

@@ -1,7 +1,7 @@
 package usecase.ratingpoint;
 
 import domain.entity.RatingPoint;
-import usecase.port.RatingDb;
+import usecase.port.IDb.RatingDb;
 
 public final class UpdateRatingPoint {
     private RatingDb ratingDb;
