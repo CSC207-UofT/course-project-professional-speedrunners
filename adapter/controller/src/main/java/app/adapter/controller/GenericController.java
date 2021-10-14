@@ -47,13 +47,16 @@ public class GenericController  {
                 case "1":
                     float price;
                     String storeId;
+                    String name;
+                    System.out.println("Enter the item Name:");
+                    name = input.nextLine();
                     System.out.println("Enter the item Price:");
                     price = input.nextFloat();
                     input.nextLine();
                     System.out.println("Enter the storeId associated with the item:");
                     storeId = input.nextLine();
                     ICreateItem createItem = new CreateItem(itemDb, idGen, presenter);
-                    createItem.execute(createItem.generateRequest(price, storeId));
+                    createItem.execute(createItem.generateRequest(price, storeId, name));
                     break;
                 case "2":
                     IFindItem findItem = new FindItem(itemDb, presenter);
