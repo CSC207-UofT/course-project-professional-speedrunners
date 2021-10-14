@@ -28,7 +28,7 @@ public class GenericController  {
         this.idGen = new UuidGen();
         this.presenter = new GenericPresenter();
 
-    };
+    }
 
     public void run(){
         Scanner input = new Scanner(System.in);
@@ -39,7 +39,7 @@ public class GenericController  {
             System.out.println("Please select an operation:" +
                     "\n 1: createItem" +
                     "\n 2: findAll + Sort by price" +
-                    "\n 3:RemoveItem");
+                    "\n 3: RemoveItem");
 
             option = input.nextLine();
 
