@@ -36,7 +36,7 @@ public class Item implements PriceComparable{
 
     @Override
     public String toString(){
-        return "Price: " + this.price + ", Id: " + this.id;
+        return "Item: " + this.name + ", Price: " + this.price + ", Id: " + this.id;
     }
 
     //TODO: Implement toString for entity classes

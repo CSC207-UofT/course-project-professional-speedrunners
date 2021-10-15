@@ -30,22 +30,25 @@ public final class CreateItem implements ICreateItem {
                 .setPrice(request.getPrice())
                 .setId(idGen.generate())
                 .setStoreId(request.getStoreId())
+                .setName(request.getName())
                 .build();
          presenter.Show(new CreateItemResponse(repo.add(itemToAdd), itemToAdd.toString(), "createItem"));
     }
 
     @Override
-    public CreateItemRequest generateRequest(float price, String storeId) {
-        return new CreateItemRequest(price, storeId);
+    public CreateItemRequest generateRequest(float price, String storeId, String name) {
+        return new CreateItemRequest(price, storeId, name);
     }
 
     public static class CreateItemRequest implements RequestModel {
         private final float price;
         private final String storeId;
+        private final String name;
 
-        public CreateItemRequest(float price, String storeId){
+        public CreateItemRequest(float price, String storeId, String name){
             this.price = price;
             this.storeId = storeId;
+            this.name = name;
         }
 
         public float getPrice() {
@@ -54,6 +57,10 @@ public final class CreateItem implements ICreateItem {
 
         public String getStoreId() {
             return storeId;
+        }
+
+        public String getName() {
+            return name;
         }
     }
     public static class CreateItemResponse implements RespondModel {
