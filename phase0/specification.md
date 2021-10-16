@@ -1,9 +1,10 @@
-List of considerations:
+Specification: Price Comparing System
 
-- What does the program need to do
-  - different from gasoline, which is a near perfect substitute with gasoline from other stations, the cheapest bubble tea is not necessarily the best.
-  - while gas prices are listed by liter, bubble teas are sold in different unit i.e. small, mid, large. How do we reflect this difference?
-  - having maps and distance calculation will be a fundamental part of this program, as bubble tea shop in Vancouver is irrelevant to a UofT student.
-    - are there ways to simplify this further? e.g. limit the area covered to St George campus only and disregard the location of the user, such that distance computation can be skipped
+This is a price comparing system that is designed for students from University of Toronto. The purpose of this program is to keep track of prices and ratings for bubble teas, sort them based on users’ preference (based on price, distance or rating), and present the store that is associated with the item on the map to the user. With this, the user can find their desired bubble tea with the store location and the price information. 
 
-- Perhaps we could implement the program for simple commodity first e.g. gasoline, such that we would obtain a base design upon which we could expand on in future phases to account for intricacies of bubble teas and other non-commodity merchandises
+Within the program, there are three main entity classes, they are item, store, and user. Each item in the program is associated with a name, an id, a price, the shop in which it is being sold and a rating that is aggregated from multiple user reviews. Each store is associated with a store name, an id, a menu, a location and a rating. Each user is associated with a name, an id, an email, and a password. 
+
+In this program, there are three different types of users, they are logged in users, logged out users and admin. Users can log into the system with their username and password. Every user can get a sorted list of bubble teas on the map, and they can all update the price of an item. However, only the logged in users can leave a rating (0 for thumbs down, 1 for thumbs up) or a review on the item or the store. Admins of the program can create stores, delete stores, and modify the menu that is associated with the store. 
+
+
+
