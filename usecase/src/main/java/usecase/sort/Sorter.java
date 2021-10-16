@@ -2,7 +2,6 @@ package usecase.sort;
 
 import domain.entity.PriceComparable;
 import domain.entity.Ratable;
-import org.jetbrains.annotations.NotNull;
 import usecase.sort.comparator.*;
 
 import java.util.List;
@@ -19,11 +18,11 @@ public final class Sorter {
     }
 
     // mutates input, TODO: discuss alternative
-    public void sortByPrice(@NotNull List<? extends PriceComparable> lst){
+    public void sortByPrice( List<? extends PriceComparable> lst){
         lst.sort(priceComparator);
     }
 
-    public void sortByRating(@NotNull List<? extends Ratable> lst){
+    public void sortByRating( List<? extends Ratable> lst){
         lst.sort(ratingComparator);
     }
 
