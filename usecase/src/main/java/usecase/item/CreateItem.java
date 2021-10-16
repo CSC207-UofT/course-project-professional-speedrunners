@@ -47,7 +47,7 @@ public final class CreateItem implements ICreateItem {
      *                by the user interacting with the program.
      */
     @Override
-    public void execute(final @NotNull CreateItemRequest request) {
+    public void create(final @NotNull CreateItemRequest request) {
         Item itemToAdd = Item.builder()
                 .setPrice(request.getPrice())
                 .setId(idGen.generate()) //unique id of the item is set by the id generator

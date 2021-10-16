@@ -56,7 +56,7 @@ public class GenericController  {
                     System.out.println("Enter the storeId associated with the item:");
                     storeId = input.nextLine();
                     ICreateItem createItem = new CreateItem(itemDb, idGen, presenter);
-                    createItem.execute(createItem.generateRequest(price, storeId, name));
+                    createItem.create(createItem.generateRequest(price, storeId, name));
                     break;
                 case "2":
                     IFindItem findItem = new FindItem(itemDb, presenter);
