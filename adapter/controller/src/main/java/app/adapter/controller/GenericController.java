@@ -20,20 +20,25 @@ public class GenericController  {
         this.presenter = new GenericPresenter();
     }
 
-    public void run(){
-        ISystemInputOutput user = new SystemInputOutput();
+    public interface ISystemInputOutput {
+        void output(String message);
+        String input();
+    }
+
+    public void run(ISystemInputOutput userInteractor){
         String ifLoop = "y";
         String option;
         while(Objects.equals(ifLoop, "y")){
-            user.output("Please select an operation:" +
+            userInteractor.output("Please select an operation:" +
                     "\n 1: createItem" +
                     "\n 2: findAll + Sort by price" +
                     "\n 3: RemoveItem");
-            option = user.input();
+            option = userInteractor.input();
 
             switch (option) {
                 case "1":
-                    CreateItemController createItemController = new CreateItemController(itemDb, idGen, presenter);
+                    CreateItemController createItemController = new CreateItemController(itemDb, idGen, presenter,
+                            userInteractor);
                     createItemController.createItem();
                     break;
                 case "2":
@@ -41,12 +46,13 @@ public class GenericController  {
                     findItemsController.findItems();
                     break;
                 case "3":
-                    DeleteItemController deleteItemController = new DeleteItemController(itemDb, idGen, presenter);
+                    DeleteItemController deleteItemController = new DeleteItemController(itemDb, idGen, presenter,
+                            userInteractor);
                     deleteItemController.deleteItem();
                     break;
             }
-            user.output("Make another query? y/n");
-            ifLoop = user.input();
+            userInteractor.output("Make another query? y/n");
+            ifLoop = userInteractor.input();
         }
 
 

@@ -10,18 +10,20 @@ public class DeleteItemController {
     private final ItemDb repo;
     private final IdGenerator idGen;
     private final PresenterInterface presenter;
+    private GenericController.ISystemInputOutput userInteractor;
 
-    public DeleteItemController(final ItemDb repo, final IdGenerator idGen, final PresenterInterface presenter){
+    public DeleteItemController(final ItemDb repo, final IdGenerator idGen, final PresenterInterface presenter,
+                                GenericController.ISystemInputOutput userInteractor){
         this.repo = repo;
         this.idGen = idGen;
         this.presenter = presenter;
+        this.userInteractor = userInteractor;
     }
 
     public void deleteItem(){
         String itemId;
-        ISystemInputOutput user = new SystemInputOutput();
-        user.output("Enter the itemId associated with the item:");
-        itemId = user.input();
+        userInteractor.output("Enter the itemId associated with the item:");
+        itemId = userInteractor.input();
         IRemoveItem removeItem = new RemoveItem(repo, presenter);
         removeItem.remove(removeItem.generateRequest(itemId));
     }

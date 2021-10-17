@@ -1,8 +1,10 @@
-package app.adapter.controller;
+package app.view.cmd_main;
+
+import app.adapter.controller.GenericController;
 
 import java.util.Scanner;
 
-public class SystemInputOutput implements ISystemInputOutput {
+public class SystemInputOutput implements GenericController.ISystemInputOutput {
     private Scanner input;
 
     public SystemInputOutput(){
