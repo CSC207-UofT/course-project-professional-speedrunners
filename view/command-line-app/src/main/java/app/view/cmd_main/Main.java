@@ -1,5 +1,4 @@
 package app.view.cmd_main;
-
 import app.adapter.controller.GenericController;
 
 public class Main {

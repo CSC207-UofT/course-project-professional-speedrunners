@@ -54,11 +54,6 @@ public class GenericController  {
             userInteractor.output("Make another query? y/n");
             ifLoop = userInteractor.input();
         }
-
-
-
-
-
     }
 
 
