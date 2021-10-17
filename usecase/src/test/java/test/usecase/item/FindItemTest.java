@@ -2,11 +2,11 @@ package test.usecase.item;
 
 import app.adapter.db.item_db.ItemDbHashmap;
 import app.adapter.presenter.GenericPresenter;
+import org.junit.jupiter.api.AfterEach;
 import usecase.item.FindItem;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IResponse.PresenterInterface;
 import domain.entity.Item;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,12 +45,11 @@ public class FindItemTest {
         repo.add(item3);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         System.setOut(originalOut);
     }
 
-    //ignore this
     //TODO: the newline character that gets generated from java are different between macos and windows.
     // \r\n works for windows and \r works for mac.
     @Test
@@ -58,16 +57,29 @@ public class FindItemTest {
         FindItem.FindItemRequest itemRequest = new FindItem.FindItemRequest();
         itemRequest.buildStoreId("abc123");
         findItem.findByStore(itemRequest);
-        String expected = "Operation findByStore Success!\r\n[Item: Milk tea, Price: 5.0, Id: 1, Item: Boba, Price: 5.0, Id: 2]\r\n";
+        String expected = "Operation findByStore Success!\r\n[Item: Milk tea, Price: 5.0, Id: 1, Item: Boba, " +
+                "Price: 5.0, Id: 2]\r\n";
         assertEquals(expected, outContent.toString());
     }
 
     @Test
     public void testFindById() {
+        FindItem.FindItemRequest itemRequest = new FindItem.FindItemRequest();
+        itemRequest.buildItemId("1");
+        findItem.findById(itemRequest);
+        String expected = "Operation findById Success!\r\n[Item: Milk tea, Price: 5.0, Id: 1]\r\n";
+        assertEquals(expected, outContent.toString());
     }
 
-    //without sort
+    //without sorting
     @Test
     public void testFindAll() {
+        FindItem.FindItemRequest itemRequest = new FindItem.FindItemRequest();
+        itemRequest.buildSorted("p");
+        findItem.findAll(itemRequest);
+        String expected = "Operation findAll Success!\r\n[Item: Milk tea, Price: 5.0, Id: 1, " +
+                "Item: Boba, Price: 5.0, Id: 2, " +
+                "Item: Milk tea, Price: 5.0, Id: 3]\r\n";
+        assertEquals(expected, outContent.toString());
     }
 }
