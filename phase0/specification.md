@@ -1,4 +1,5 @@
 Specification: Price Comparing System
+=============
 
 This is a price comparing system that is designed for students from University of Toronto. The purpose of this program is to keep track of prices and ratings for bubble teas, sort them based on a user supplied parameter (price, distance or rating), and present the store that is associated with the item on the map to the user. With this, the user can find their desired bubble tea with the store location and the price information. 
 
