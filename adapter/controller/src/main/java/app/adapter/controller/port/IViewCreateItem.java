@@ -5,5 +5,4 @@ public interface IViewCreateItem {
     float getItemPrice();
     String getItemId();
     String getStoreId();
-
 }

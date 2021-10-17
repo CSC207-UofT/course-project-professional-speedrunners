@@ -8,7 +8,7 @@ import app.adapter.controller.port.IViewRemoveItem;
 
 import java.util.Scanner;
 
-public class View implements IView, IViewCreateItem, IViewRemoveItem, IViewFindItem {
+public class View implements IView{
 
     private final Scanner input;
 

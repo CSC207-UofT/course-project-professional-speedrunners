@@ -1,32 +1,24 @@
 package app.adapter.controller;
 
 import app.adapter.controller.port.IView;
-import app.adapter.controller.port.IViewCreateItem;
-import app.adapter.controller.port.IViewFindItem;
-import app.adapter.controller.port.IViewRemoveItem;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IResponse.PresenterInterface;
 import usecase.port.IdGenerator;
 
-public class GenericController  {
+public class GenericController{
 
     private final ItemDb itemDb;
     private final IdGenerator idGen;
     private final PresenterInterface presenter;
     private final IView view;
-    private final IViewCreateItem viewCreateItem;
-    private final IViewFindItem viewFindItem;
-    private final IViewRemoveItem viewRemoveItem;
 
-    public GenericController(ItemDb itemDb, IdGenerator idGen, PresenterInterface presenter, IView view,
-                             IViewCreateItem viewCreateItem, IViewFindItem viewFindItem, IViewRemoveItem viewRemoveItem){
+
+    public GenericController(ItemDb itemDb, IdGenerator idGen, PresenterInterface presenter, IView view){
         this.itemDb = itemDb;
         this.idGen = idGen;
         this.presenter = presenter;
         this.view = view;
-        this.viewCreateItem = viewCreateItem;
-        this.viewFindItem = viewFindItem;
-        this.viewRemoveItem = viewRemoveItem;
+
     }
 
     public void run(){
@@ -37,7 +29,7 @@ public class GenericController  {
             switch (operation) {
                 case "1":
                     CreateItemController createItemController = new CreateItemController(itemDb, idGen, presenter,
-                            viewCreateItem);
+                            view);
                     createItemController.createItem();
                     break;
                 case "2":
@@ -46,7 +38,7 @@ public class GenericController  {
                     break;
                 case "3":
                     DeleteItemController deleteItemController = new DeleteItemController(itemDb, presenter,
-                            viewRemoveItem);
+                            view);
                     deleteItemController.deleteItem();
                     break;
             }
@@ -60,9 +52,6 @@ public class GenericController  {
         private IdGenerator idGen;
         private PresenterInterface presenter;
         private IView view;
-        private IViewCreateItem viewCreateItem;
-        private IViewFindItem viewFindItem;
-        private IViewRemoveItem viewRemoveItem;
 
         public GenericControllerBuilder setItemDb(ItemDb itemDb){
             this.itemDb = itemDb;
@@ -84,29 +73,11 @@ public class GenericController  {
             return this;
         }
 
-        public GenericControllerBuilder setViewCreateItem(IViewCreateItem viewCreateItem) {
-            this.viewCreateItem = viewCreateItem;
-            return this;
-        }
-
-        public GenericControllerBuilder setViewFindItem(IViewFindItem viewFindItem) {
-            this.viewFindItem = viewFindItem;
-            return this;
-        }
-
-        public GenericControllerBuilder setViewRemoveItem(IViewRemoveItem viewRemoveItem) {
-            this.viewRemoveItem = viewRemoveItem;
-            return this;
-        }
-
         public GenericController build(){
             return new GenericController(this.itemDb,
                     this.idGen,
                     this.presenter,
-                    this.view,
-                    this.viewCreateItem,
-                    this.viewFindItem,
-                    this.viewRemoveItem);
+                    this.view);
         }
 
     }
