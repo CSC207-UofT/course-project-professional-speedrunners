@@ -1,31 +1,27 @@
 package app.adapter.controller;
 
+import app.adapter.controller.port.IViewCreateItem;
+import app.adapter.controller.port.IViewRemoveItem;
+import usecase.item.CreateItem;
 import usecase.item.RemoveItem;
 import usecase.port.IDb.ItemDb;
+import usecase.port.IRequest.IItemIn.ICreateItem;
 import usecase.port.IRequest.IItemIn.IRemoveItem;
 import usecase.port.IResponse.PresenterInterface;
 import usecase.port.IdGenerator;
 
 public class DeleteItemController {
-    private final ItemDb repo;
-    private final IdGenerator idGen;
-    private final PresenterInterface presenter;
-    private GenericController.ISystemInputOutput userInteractor;
+    private final IViewRemoveItem view;
+    private final IRemoveItem removeItem;
 
 
-    public DeleteItemController(final ItemDb repo, final IdGenerator idGen, final PresenterInterface presenter,
-                                GenericController.ISystemInputOutput userInteractor){
-        this.repo = repo;
-        this.idGen = idGen;
-        this.presenter = presenter;
-        this.userInteractor = userInteractor;
+
+    public DeleteItemController(final ItemDb repo, final PresenterInterface presenter, IViewRemoveItem view){
+        this.view = view;
+        this.removeItem = new RemoveItem(repo, presenter);
     }
 
     public void deleteItem(){
-        String itemId;
-        userInteractor.output("Enter the itemId associated with the item:");
-        itemId = userInteractor.input();
-        IRemoveItem removeItem = new RemoveItem(repo, presenter);
-        removeItem.remove(removeItem.generateRequest(itemId));
+        removeItem.remove(removeItem.generateRequest(view.getItemId()));
     }
 }

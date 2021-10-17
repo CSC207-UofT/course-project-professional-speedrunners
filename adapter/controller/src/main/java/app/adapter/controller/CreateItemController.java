@@ -1,4 +1,5 @@
 package app.adapter.controller;
+import app.adapter.controller.port.IViewCreateItem;
 import usecase.item.CreateItem;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IRequest.IItemIn.ICreateItem;
@@ -7,30 +8,22 @@ import usecase.port.IdGenerator;
 
 public class CreateItemController {
 
-    private final ItemDb repo;
-    private final IdGenerator idGen;
-    private final PresenterInterface presenter;
-    private GenericController.ISystemInputOutput userInteractor;
+    private final IViewCreateItem view;
+    private final ICreateItem createItem;
 
-    public CreateItemController(final ItemDb repo, final IdGenerator idGen, final PresenterInterface presenter,
-                                GenericController.ISystemInputOutput userInteractor){
-        this.repo = repo;
-        this.idGen = idGen;
-        this.presenter = presenter;
-        this.userInteractor = userInteractor;
+    public CreateItemController(final ItemDb repo, final IdGenerator idGen, final PresenterInterface presenter, IViewCreateItem view){
+        this.view = view;
+        this.createItem = new CreateItem(repo, idGen, presenter);
     }
 
     public void createItem(){
         float price;
         String storeId;
         String name;
-        userInteractor.output("Enter the item Name:");
-        name = userInteractor.input();
-        userInteractor.output("Enter the item Price:");
-        price = Float.parseFloat(userInteractor.input());
-        userInteractor.output("Enter the storeId associated with the item:");
-        storeId = userInteractor.input();
-        ICreateItem createItem = new CreateItem(repo, idGen, presenter);
+
+        name = view.getItemName();
+        price = view.getItemPrice();
+        storeId = view.getStoreId();
         createItem.create(createItem.generateRequest(price, storeId, name));
     }
 }

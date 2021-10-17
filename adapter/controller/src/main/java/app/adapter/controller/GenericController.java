@@ -1,44 +1,43 @@
 package app.adapter.controller;
 
-import app.adapter.presenter.GenericPresenter;
-import app.adapter.id_generator.uuid.UuidGen;
-import app.adapter.db.item_db.ItemDbHashmap;
+import app.adapter.controller.port.IView;
+import app.adapter.controller.port.IViewCreateItem;
+import app.adapter.controller.port.IViewFindItem;
+import app.adapter.controller.port.IViewRemoveItem;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IResponse.PresenterInterface;
 import usecase.port.IdGenerator;
-import java.util.Objects;
 
 public class GenericController  {
 
     private final ItemDb itemDb;
     private final IdGenerator idGen;
     private final PresenterInterface presenter;
+    private final IView view;
+    private final IViewCreateItem viewCreateItem;
+    private final IViewFindItem viewFindItem;
+    private final IViewRemoveItem viewRemoveItem;
 
-    public GenericController(){
-        this.itemDb = new ItemDbHashmap();
-        this.idGen = new UuidGen();
-        this.presenter = new GenericPresenter();
+    public GenericController(ItemDb itemDb, IdGenerator idGen, PresenterInterface presenter, IView view,
+                             IViewCreateItem viewCreateItem, IViewFindItem viewFindItem, IViewRemoveItem viewRemoveItem){
+        this.itemDb = itemDb;
+        this.idGen = idGen;
+        this.presenter = presenter;
+        this.view = view;
+        this.viewCreateItem = viewCreateItem;
+        this.viewFindItem = viewFindItem;
+        this.viewRemoveItem = viewRemoveItem;
     }
 
-    public interface ISystemInputOutput {
-        void output(String message);
-        String input();
-    }
+    public void run(){
+        String operation;
 
-    public void run(ISystemInputOutput userInteractor){
-        String ifLoop = "y";
-        String option;
-        while(Objects.equals(ifLoop, "y")){
-            userInteractor.output("Please select an operation:" +
-                    "\n 1: createItem" +
-                    "\n 2: findAll + Sort by price" +
-                    "\n 3: RemoveItem");
-            option = userInteractor.input();
-
-            switch (option) {
+        do{
+            operation = view.getOperation();
+            switch (operation) {
                 case "1":
                     CreateItemController createItemController = new CreateItemController(itemDb, idGen, presenter,
-                            userInteractor);
+                            viewCreateItem);
                     createItemController.createItem();
                     break;
                 case "2":
@@ -46,17 +45,71 @@ public class GenericController  {
                     findItemsController.findItems();
                     break;
                 case "3":
-                    DeleteItemController deleteItemController = new DeleteItemController(itemDb, idGen, presenter,
-                            userInteractor);
+                    DeleteItemController deleteItemController = new DeleteItemController(itemDb, presenter,
+                            viewRemoveItem);
                     deleteItemController.deleteItem();
                     break;
             }
-            userInteractor.output("Make another query? y/n");
-            ifLoop = userInteractor.input();
-        }
+        }while(view.getAnotherQuery());
     }
 
+    public static GenericControllerBuilder builder(){return new GenericControllerBuilder();}
 
+    public static class GenericControllerBuilder{
+        private ItemDb itemDb;
+        private IdGenerator idGen;
+        private PresenterInterface presenter;
+        private IView view;
+        private IViewCreateItem viewCreateItem;
+        private IViewFindItem viewFindItem;
+        private IViewRemoveItem viewRemoveItem;
+
+        public GenericControllerBuilder setItemDb(ItemDb itemDb){
+            this.itemDb = itemDb;
+            return this;
+        }
+
+        public GenericControllerBuilder setIdGen(IdGenerator idGen){
+            this.idGen = idGen;
+            return this;
+        }
+
+        public GenericControllerBuilder setPresenter(PresenterInterface presenter) {
+            this.presenter = presenter;
+            return this;
+        }
+
+        public GenericControllerBuilder setView(IView view) {
+            this.view = view;
+            return this;
+        }
+
+        public GenericControllerBuilder setViewCreateItem(IViewCreateItem viewCreateItem) {
+            this.viewCreateItem = viewCreateItem;
+            return this;
+        }
+
+        public GenericControllerBuilder setViewFindItem(IViewFindItem viewFindItem) {
+            this.viewFindItem = viewFindItem;
+            return this;
+        }
+
+        public GenericControllerBuilder setViewRemoveItem(IViewRemoveItem viewRemoveItem) {
+            this.viewRemoveItem = viewRemoveItem;
+            return this;
+        }
+
+        public GenericController build(){
+            return new GenericController(this.itemDb,
+                    this.idGen,
+                    this.presenter,
+                    this.view,
+                    this.viewCreateItem,
+                    this.viewFindItem,
+                    this.viewRemoveItem);
+        }
+
+    }
 
 
 
