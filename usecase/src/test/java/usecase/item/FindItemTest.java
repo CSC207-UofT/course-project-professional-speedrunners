@@ -9,6 +9,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.Assert.*;
 
 
@@ -16,6 +19,8 @@ public class FindItemTest {
     FindItem findItem;
     ItemDb repo;
     PresenterInterface presenter;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
 
 
     @Before
@@ -23,6 +28,7 @@ public class FindItemTest {
         repo = new ItemDbHashmap();
         presenter = new GenericPresenter();
         findItem = new FindItem(repo, presenter);
+        System.setOut(new PrintStream(outContent));
 
         //create items to store in repo
         float price = 5;
@@ -40,13 +46,18 @@ public class FindItemTest {
 
     @After
     public void tearDown() {
+        System.setOut(originalOut);
     }
 
+    //ignore this
     @Test
     public void testFindByStore() {
         FindItem.FindItemRequest itemRequest = new FindItem.FindItemRequest();
         itemRequest.buildStoreId("abc123");
         findItem.findByStore(itemRequest);
+
+        String expected = "Operation findByStore Success!\r[Item: Milk tea, Price: 5.0, Id: 1, Item: Boba, Price: 5.0, Id: 2]\r";
+        assertEquals(expected, outContent.toString());
     }
 
     @Test
