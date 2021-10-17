@@ -11,5 +11,6 @@
     <orderEntry type="module" module-name="item_db_hashmap" />
     <orderEntry type="module" module-name="uuid-generator" />
     <orderEntry type="module" module-name="presenter" />
+    <orderEntry type="module" module-name="command-line-app" />
   </component>
 </module>
