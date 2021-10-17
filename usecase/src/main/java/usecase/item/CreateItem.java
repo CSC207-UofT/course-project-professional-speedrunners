@@ -1,7 +1,6 @@
 package usecase.item;
 
 import domain.entity.Item;
-import org.jetbrains.annotations.NotNull;
 import usecase.port.*;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IRequest.IItemIn.ICreateItem;
@@ -47,7 +46,7 @@ public final class CreateItem implements ICreateItem {
      *                by the user interacting with the program.
      */
     @Override
-    public void execute(final @NotNull CreateItemRequest request) {
+    public void create(final CreateItemRequest request) {
         Item itemToAdd = Item.builder()
                 .setPrice(request.getPrice())
                 .setId(idGen.generate()) //unique id of the item is set by the id generator

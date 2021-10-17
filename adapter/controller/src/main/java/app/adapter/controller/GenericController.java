@@ -56,7 +56,7 @@ public class GenericController  {
                     System.out.println("Enter the storeId associated with the item:");
                     storeId = input.nextLine();
                     ICreateItem createItem = new CreateItem(itemDb, idGen, presenter);
-                    createItem.execute(createItem.generateRequest(price, storeId, name));
+                    createItem.create(createItem.generateRequest(price, storeId, name));
                     break;
                 case "2":
                     IFindItem findItem = new FindItem(itemDb, presenter);
@@ -67,7 +67,7 @@ public class GenericController  {
                     System.out.println("Enter the itemId associated with the item:");
                     itemId = input.nextLine();
                     IRemoveItem removeItem = new RemoveItem(itemDb, presenter);
-                    removeItem.execute(removeItem.generateRequest(itemId));
+                    removeItem.remove(removeItem.generateRequest(itemId));
                     break;
             }
             System.out.println("Make another query? y/n");
