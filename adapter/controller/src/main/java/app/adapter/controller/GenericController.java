@@ -3,19 +3,10 @@ package app.adapter.controller;
 import app.adapter.presenter.GenericPresenter;
 import app.adapter.id_generator.uuid.UuidGen;
 import app.adapter.db.item_db.ItemDbHashmap;
-import usecase.item.CreateItem;
-import usecase.item.FindItem;
-import usecase.item.RemoveItem;
 import usecase.port.IDb.ItemDb;
-import usecase.port.IRequest.IItemIn.ICreateItem;
-import usecase.port.IRequest.IItemIn.IFindItem;
-import usecase.port.IRequest.IItemIn.IRemoveItem;
 import usecase.port.IResponse.PresenterInterface;
 import usecase.port.IdGenerator;
-
-
 import java.util.Objects;
-import java.util.Scanner;
 
 public class GenericController  {
 
@@ -27,51 +18,35 @@ public class GenericController  {
         this.itemDb = new ItemDbHashmap();
         this.idGen = new UuidGen();
         this.presenter = new GenericPresenter();
-
     }
 
     public void run(){
-        Scanner input = new Scanner(System.in);
+        ISystemInputOutput user = new SystemInputOutput();
         String ifLoop = "y";
         String option;
         while(Objects.equals(ifLoop, "y")){
-
-            System.out.println("Please select an operation:" +
+            user.output("Please select an operation:" +
                     "\n 1: createItem" +
                     "\n 2: findAll + Sort by price" +
                     "\n 3: RemoveItem");
-
-            option = input.nextLine();
+            option = user.input();
 
             switch (option) {
                 case "1":
-                    float price;
-                    String storeId;
-                    String name;
-                    System.out.println("Enter the item Name:");
-                    name = input.nextLine();
-                    System.out.println("Enter the item Price:");
-                    price = input.nextFloat();
-                    input.nextLine();
-                    System.out.println("Enter the storeId associated with the item:");
-                    storeId = input.nextLine();
-                    ICreateItem createItem = new CreateItem(itemDb, idGen, presenter);
-                    createItem.create(createItem.generateRequest(price, storeId, name));
+                    CreateItemController createItemController = new CreateItemController(itemDb, idGen, presenter);
+                    createItemController.createItem();
                     break;
                 case "2":
-                    IFindItem findItem = new FindItem(itemDb, presenter);
-                    findItem.findAll(findItem.requestFindAll("p"));
+                    FindItemController findItemsController = new FindItemController(itemDb, presenter);
+                    findItemsController.findItems();
                     break;
                 case "3":
-                    String itemId;
-                    System.out.println("Enter the itemId associated with the item:");
-                    itemId = input.nextLine();
-                    IRemoveItem removeItem = new RemoveItem(itemDb, presenter);
-                    removeItem.remove(removeItem.generateRequest(itemId));
+                    DeleteItemController deleteItemController = new DeleteItemController(itemDb, idGen, presenter);
+                    deleteItemController.deleteItem();
                     break;
             }
-            System.out.println("Make another query? y/n");
-            ifLoop = input.nextLine();
+            user.output("Make another query? y/n");
+            ifLoop = user.input();
         }
 
 
