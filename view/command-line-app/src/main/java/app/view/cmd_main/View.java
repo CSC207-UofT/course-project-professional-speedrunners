@@ -31,7 +31,7 @@ public class View implements IView{
 
     @Override
     public String getStoreId() {
-        System.out.println("Enter the itemId associated with the item:");
+        System.out.println("Enter the storeID associated with the item:");
         return input.nextLine();
     }
 
