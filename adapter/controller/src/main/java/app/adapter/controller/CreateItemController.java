@@ -1,6 +1,5 @@
 package app.adapter.controller;
 import app.adapter.controller.port.IView;
-import app.adapter.controller.port.IViewCreateItem;
 import usecase.item.CreateItem;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IRequest.IItemIn.ICreateItem;

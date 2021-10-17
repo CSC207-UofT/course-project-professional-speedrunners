@@ -1,10 +1,6 @@
 package app.view.cmd_main;
 
-import app.adapter.controller.GenericController;
 import app.adapter.controller.port.IView;
-import app.adapter.controller.port.IViewCreateItem;
-import app.adapter.controller.port.IViewFindItem;
-import app.adapter.controller.port.IViewRemoveItem;
 
 import java.util.Scanner;
 
