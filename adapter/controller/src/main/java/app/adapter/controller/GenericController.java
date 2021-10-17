@@ -1,8 +1,12 @@
 package app.adapter.controller;
 
+import app.adapter.controller.port.IViewCreateItem;
+import app.adapter.controller.port.IViewFindItem;
+import app.adapter.controller.port.IViewRemoveItem;
 import app.adapter.presenter.GenericPresenter;
 import app.adapter.id_generator.uuid.UuidGen;
 import app.adapter.db.item_db.ItemDbHashmap;
+import app.view.cmd_main.ViewCreateItem;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IResponse.PresenterInterface;
 import usecase.port.IdGenerator;
@@ -13,19 +17,20 @@ public class GenericController  {
     private final ItemDb itemDb;
     private final IdGenerator idGen;
     private final PresenterInterface presenter;
+    private final IViewCreateItem viewCreateItem;
+    private final IViewFindItem viewFindItem;
+    private final IViewRemoveItem viewRemoveItem;
 
-    public GenericController(){
+    public GenericController(IViewCreateItem viewCreateItem, IViewFindItem viewFindItem, IViewRemoveItem viewRemoveItem){
         this.itemDb = new ItemDbHashmap();
         this.idGen = new UuidGen();
         this.presenter = new GenericPresenter();
+        this.viewCreateItem = viewCreateItem;
+        this.viewFindItem = viewFindItem;
+        this.viewRemoveItem = viewRemoveItem;
     }
 
-    public interface ISystemInputOutput {
-        void output(String message);
-        String input();
-    }
-
-    public void run(ISystemInputOutput userInteractor){
+    public void run(){
         String ifLoop = "y";
         String option;
         while(Objects.equals(ifLoop, "y")){

@@ -1,21 +1,20 @@
 package app.adapter.controller;
 
+import app.adapter.controller.port.IViewFindItem;
 import usecase.item.FindItem;
+import usecase.item.RemoveItem;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IRequest.IItemIn.IFindItem;
 import usecase.port.IResponse.PresenterInterface;
 
 public class FindItemController {
-    private final ItemDb repo;
-    private final PresenterInterface presenter;
-
+    //private final IViewFindItem view;
+    private final IFindItem findItem;
     public FindItemController(final ItemDb repo, final PresenterInterface presenter){
-        this.repo = repo;
-        this.presenter = presenter;
+        this.findItem = new FindItem(repo, presenter);
     }
 
     public void findItems(){
-        IFindItem findItem = new FindItem(repo, presenter);
         findItem.findAll(findItem.requestFindAll("p"));
     }
 }
