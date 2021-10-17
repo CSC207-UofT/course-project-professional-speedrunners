@@ -5,6 +5,9 @@ import usecase.port.IDb.ItemDb;
 import usecase.port.IResponse.PresenterInterface;
 import usecase.port.IdGenerator;
 
+/**
+ * Controller for handling usecase invocation and interaction with view object
+ */
 public class GenericController{
 
     private final ItemDb itemDb;
@@ -12,7 +15,14 @@ public class GenericController{
     private final PresenterInterface presenter;
     private final IView view;
 
-
+    /**
+     * Initiates the generic controller.
+     * Dependencies are set up and injected from main method.
+     * @param itemDb a Database object
+     * @param idGen an Id generator
+     * @param presenter a presenter for passing output
+     * @param view a ui object
+     */
     public GenericController(ItemDb itemDb, IdGenerator idGen, PresenterInterface presenter, IView view){
         this.itemDb = itemDb;
         this.idGen = idGen;
@@ -21,6 +31,9 @@ public class GenericController{
 
     }
 
+    /**
+     * house the main logic for deciding which usecase to invoke
+     */
     public void run(){
         String operation;
 
@@ -45,6 +58,9 @@ public class GenericController{
         }while(view.getAnotherQuery());
     }
 
+    /**
+     * Builder for the GenericController
+     */
     public static GenericControllerBuilder builder(){return new GenericControllerBuilder();}
 
     public static class GenericControllerBuilder{
