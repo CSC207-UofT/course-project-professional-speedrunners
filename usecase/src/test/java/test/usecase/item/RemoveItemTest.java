@@ -1,4 +1,4 @@
-package usecase.item;
+package test.usecase.item;
 
 import app.adapter.db.item_db.ItemDbHashmap;
 import app.adapter.presenter.GenericPresenter;
@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import usecase.item.RemoveItem;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IResponse.PresenterInterface;
 
@@ -41,7 +42,6 @@ class RemoveItemTest {
     void remove() {
         RemoveItem.RemoveItemRequest request = removeItem.generateRequest("123");
         removeItem.remove(request);
-
         assertTrue(repo.findAll().isEmpty());
     }
 }

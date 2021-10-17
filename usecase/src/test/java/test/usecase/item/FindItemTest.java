@@ -1,7 +1,8 @@
-package usecase.item;
+package test.usecase.item;
 
 import app.adapter.db.item_db.ItemDbHashmap;
 import app.adapter.presenter.GenericPresenter;
+import usecase.item.FindItem;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IResponse.PresenterInterface;
 import domain.entity.Item;
@@ -50,13 +51,14 @@ public class FindItemTest {
     }
 
     //ignore this
+    //TODO: the newline character that gets generated from java are different between macos and windows.
+    // \r\n works for windows and \r works for mac.
     @Test
     public void testFindByStore() {
         FindItem.FindItemRequest itemRequest = new FindItem.FindItemRequest();
         itemRequest.buildStoreId("abc123");
         findItem.findByStore(itemRequest);
-
-        String expected = "Operation findByStore Success!\r[Item: Milk tea, Price: 5.0, Id: 1, Item: Boba, Price: 5.0, Id: 2]\r";
+        String expected = "Operation findByStore Success!\r\n[Item: Milk tea, Price: 5.0, Id: 1, Item: Boba, Price: 5.0, Id: 2]\r\n";
         assertEquals(expected, outContent.toString());
     }
 
