@@ -1,8 +1,6 @@
 package app.adapter.controller;
 
-import app.adapter.controller.port.IViewFindItem;
 import usecase.item.FindItem;
-import usecase.item.RemoveItem;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IRequest.IItemIn.IFindItem;
 import usecase.port.IResponse.PresenterInterface;

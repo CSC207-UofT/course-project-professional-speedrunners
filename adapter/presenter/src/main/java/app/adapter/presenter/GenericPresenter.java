@@ -5,6 +5,7 @@ import usecase.port.IResponse.PresenterInterface;
 
 public class GenericPresenter implements PresenterInterface {
     @Override
+    //TODO: have this class interact with view object instead?
     public void Show(RespondModel respond) {
         if(respond.getResult()){
             //TODO: also show if a sorting operation was requested

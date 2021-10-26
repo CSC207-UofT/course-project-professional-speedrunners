@@ -1,49 +1,48 @@
 package app.adapter.controller;
 
-import app.adapter.controller.port.IViewCreateItem;
-import app.adapter.controller.port.IViewFindItem;
-import app.adapter.controller.port.IViewRemoveItem;
-import app.adapter.presenter.GenericPresenter;
-import app.adapter.id_generator.uuid.UuidGen;
-import app.adapter.db.item_db.ItemDbHashmap;
-import app.view.cmd_main.ViewCreateItem;
+import app.adapter.controller.port.IView;
 import usecase.port.IDb.ItemDb;
 import usecase.port.IResponse.PresenterInterface;
 import usecase.port.IdGenerator;
-import java.util.Objects;
 
-public class GenericController  {
+/**
+ * Controller for handling usecase invocation and interaction with view object
+ */
+public class GenericController{
 
     private final ItemDb itemDb;
     private final IdGenerator idGen;
     private final PresenterInterface presenter;
-    private final IViewCreateItem viewCreateItem;
-    private final IViewFindItem viewFindItem;
-    private final IViewRemoveItem viewRemoveItem;
+    private final IView view;
 
-    public GenericController(IViewCreateItem viewCreateItem, IViewFindItem viewFindItem, IViewRemoveItem viewRemoveItem){
-        this.itemDb = new ItemDbHashmap();
-        this.idGen = new UuidGen();
-        this.presenter = new GenericPresenter();
-        this.viewCreateItem = viewCreateItem;
-        this.viewFindItem = viewFindItem;
-        this.viewRemoveItem = viewRemoveItem;
+    /**
+     * Initiates the generic controller.
+     * Dependencies are set up and injected from main method.
+     * @param itemDb a Database object
+     * @param idGen an Id generator
+     * @param presenter a presenter for passing output
+     * @param view a ui object
+     */
+    public GenericController(ItemDb itemDb, IdGenerator idGen, PresenterInterface presenter, IView view){
+        this.itemDb = itemDb;
+        this.idGen = idGen;
+        this.presenter = presenter;
+        this.view = view;
+
     }
 
+    /**
+     * house the main logic for deciding which usecase to invoke
+     */
     public void run(){
-        String ifLoop = "y";
-        String option;
-        while(Objects.equals(ifLoop, "y")){
-            userInteractor.output("Please select an operation:" +
-                    "\n 1: createItem" +
-                    "\n 2: findAll + Sort by price" +
-                    "\n 3: RemoveItem");
-            option = userInteractor.input();
+        String operation;
 
-            switch (option) {
+        do{
+            operation = view.getOperation();
+            switch (operation) {
                 case "1":
                     CreateItemController createItemController = new CreateItemController(itemDb, idGen, presenter,
-                            userInteractor);
+                            view);
                     createItemController.createItem();
                     break;
                 case "2":
@@ -51,17 +50,53 @@ public class GenericController  {
                     findItemsController.findItems();
                     break;
                 case "3":
-                    DeleteItemController deleteItemController = new DeleteItemController(itemDb, idGen, presenter,
-                            userInteractor);
+                    DeleteItemController deleteItemController = new DeleteItemController(itemDb, presenter,
+                            view);
                     deleteItemController.deleteItem();
                     break;
             }
-            userInteractor.output("Make another query? y/n");
-            ifLoop = userInteractor.input();
-        }
+        }while(view.getAnotherQuery());
     }
 
+    /**
+     * Builder for the GenericController
+     */
+    public static GenericControllerBuilder builder(){return new GenericControllerBuilder();}
 
+    public static class GenericControllerBuilder{
+        private ItemDb itemDb;
+        private IdGenerator idGen;
+        private PresenterInterface presenter;
+        private IView view;
+
+        public GenericControllerBuilder setItemDb(ItemDb itemDb){
+            this.itemDb = itemDb;
+            return this;
+        }
+
+        public GenericControllerBuilder setIdGen(IdGenerator idGen){
+            this.idGen = idGen;
+            return this;
+        }
+
+        public GenericControllerBuilder setPresenter(PresenterInterface presenter) {
+            this.presenter = presenter;
+            return this;
+        }
+
+        public GenericControllerBuilder setView(IView view) {
+            this.view = view;
+            return this;
+        }
+
+        public GenericController build(){
+            return new GenericController(this.itemDb,
+                    this.idGen,
+                    this.presenter,
+                    this.view);
+        }
+
+    }
 
 
 

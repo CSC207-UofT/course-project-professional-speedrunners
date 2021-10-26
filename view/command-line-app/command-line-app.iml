@@ -8,5 +8,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="controller" />
+    <orderEntry type="module" module-name="uuid-generator" />
+    <orderEntry type="module" module-name="presenter" />
+    <orderEntry type="module" module-name="item_db_hashmap" />
   </component>
 </module>
