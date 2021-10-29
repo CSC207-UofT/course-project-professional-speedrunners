@@ -2,24 +2,32 @@ package com.boba.bobabuddy.core.entity;
 
 import com.boba.bobabuddy.core.entity.builder.ItemBuilder;
 
-import org.hibernate.Hibernate;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.util.HashSet;
-import java.util.Objects;
 
 /**
  * Class that represents an Item in the domain layer
+ * Note that entities are now coupled directly with Persistence implementation (JPA)
+ * This is done to save time and reduce boilerplate codes.
+ * JPA is Object Relational Mapping API designed for Java
+ * Refer to Spring Data JPA doc for more information
  */
+
+// Note that RatableItem and PriceComparable class are removed. Ratable Interface have been modified to become
+// RatableObject abstract class due to JPA limitation with persisting interface object.
+// Now Item class exhibit PriceComparable behaviour and extends RatableObject Directly.
+
+// JPA annotation indicating that the class is an object to be persisted.
 @Entity
 public class Item extends RatableObject {
 
     private float price;
+    // JPA annotation to indicate many-to-one relationship between item and store
+    // cascade parameter tells JPA that if Item's store field is mutated, those changes to the store
+    // entity should also be persisted
     private @ManyToOne(cascade = CascadeType.ALL)
     Store store;
-    private String name;
 
     /**
      * Creates an Item with relevant parameters
@@ -30,49 +38,32 @@ public class Item extends RatableObject {
      * @param name  name of the item
      */
     public Item(float price, Store store, String name) {
-        super(new HashSet<>());
+        super(name);
         this.price = price;
         this.store = store;
-        this.name = name;
     }
 
-    //For JPA
+    // For JPA
     protected Item() {
 
     }
 
-    /**
-     * A builder class for item objects
-     * This class is responsible for making construction of objects more readable in code, among other benefits.
-     * It is not a necessary or important part of the class, but something nice to have.
-     * Refer to builder design patterns for more detail
-     *
-     * @return An ItemBuilder object
-     */
+    // Builder object for Item.
+    public static ItemBuilder builder() {
+        return new ItemBuilder();
+    }
 
+    // Getters and Setters for price
     public float getPrice() {
         return price;
     }
 
-    /**
-     * setter for Price. Mutating method
-     *
-     * @param price new price of the item
-     */
     public void setPrice(float price) {
         this.price = price;
     }
 
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    // Getters and Setters for Store
     public Store getStore() {
         return store;
     }
@@ -81,27 +72,12 @@ public class Item extends RatableObject {
         this.store = store;
     }
 
-    public static ItemBuilder builder(){return new ItemBuilder();}
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Item item = (Item) o;
-        return getId() != null && Objects.equals(getId(), item.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "id = " + getId() + ", " +
                 "price = " + getPrice() + ", " +
-                "store = " + store + ", " +
+                "store = " + getStore() + ", " +
+                "avgRating = " + getAvgRating() + ", " +
                 "name = " + getName() + ")";
     }
 }

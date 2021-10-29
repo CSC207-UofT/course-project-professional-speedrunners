@@ -3,6 +3,11 @@ package com.boba.bobabuddy.core.entity.builder;
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.Store;
 
+
+/***
+ * Builder class for Item
+ * note that these along with other builders in this package is currently unused.
+ */
 public class ItemBuilder {
     private float price;
     private Store store;

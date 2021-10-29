@@ -9,19 +9,27 @@ import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
+/***
+ * Class that represents a User
+ * JPA annotation comments will be omitted. refer to other entity class for info
+ */
 @Entity
 public class User {
     private @Id
     @GeneratedValue
-    UUID id;
+    String email;
     private String name;
-    private String email;
     private String password;
     private @OneToMany
     List<RatingPoint> ratingLst;
 
+    /***
+     * Constructs a user.
+     * @param name name of the user. can be duplicate
+     * @param email email of user, should not have duplicate in the database
+     * @param password password of the user. TODO: add encryption (low priority)
+     */
     public User(final String name, final String email, final String password) {
         this.name = name;
         this.email = email;
@@ -29,24 +37,41 @@ public class User {
         this.ratingLst = new ArrayList<>();
     }
 
+    // For JPA
     public User() {
 
+    }
+
+    public List<RatingPoint> getRatingLst() {
+        return ratingLst;
+    }
+
+    public void setRatingLst(List<RatingPoint> ratingLst) {
+        this.ratingLst = ratingLst;
     }
 
     public String getName() {
         return name;
     }
 
-    public UUID getId() {
-        return id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -54,7 +79,7 @@ public class User {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
+        return email != null && Objects.equals(email, user.email);
     }
 
     @Override
@@ -65,9 +90,8 @@ public class User {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "id = " + id + ", " +
-                "name = " + name + ", " +
                 "email = " + email + ", " +
+                "name = " + name + ", " +
                 "password = " + password + ")";
     }
 }

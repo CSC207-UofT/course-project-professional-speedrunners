@@ -1,18 +1,18 @@
-package com.boba.bobabuddy.core.usecase.port.IRequest.IItemIn;
+package com.boba.bobabuddy.core.usecase.port.itemport;
 
 import com.boba.bobabuddy.core.entity.Item;
-import org.springframework.data.util.Streamable;
+import com.boba.bobabuddy.core.usecase.item.exceptions.ItemNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+
 @Component
 
 public interface IFindItem {
     List<Item> findByStore(UUID id);
 
-    Optional<Item> findById(UUID id);
+    Item findById(UUID id) throws ItemNotFoundException;
 
     List<Item> findAll();
 

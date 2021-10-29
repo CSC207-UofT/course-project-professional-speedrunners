@@ -1,41 +1,44 @@
 package com.boba.bobabuddy.core.entity;
 
-import org.hibernate.Hibernate;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * Class that represents a Store in the domain layer
+ * Note that entities are now coupled directly with Persistence implementation (JPA)
+ * This is done to save time and reduce boilerplate codes.
+ */
+
+// Note that Ratable Interface have been modified to become
+// RatableObject abstract class due to JPA limitation with persisting interface object.
+
+// JPA annotation indicating that the class is an object to be persisted.
 @Entity
 public class Store extends RatableObject {
-    private String name;
+
     private String location;
+    /***
+     * JPA annotation to indicate one-to-many relationship between Store and Item.
+     * cascade parameter tells JPA that if a Store's menu field is mutated, those changes to the Item
+     * entities should also be persisted
+     */
     private @OneToMany(cascade = CascadeType.ALL)
     List<Item> menu;
 
-
+    // For JPA
     protected Store() {
     }
 
     public Store(String name, String location) {
-        super(new HashSet<>());
-        this.name = name;
+        super(name);
         this.location = location;
         this.menu = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    // Getters and Setters
     public List<Item> getMenu() {
         return menu;
     }
@@ -62,23 +65,12 @@ public class Store extends RatableObject {
         return this.menu.remove(item);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Store store = (Store) o;
-        return getId() != null && Objects.equals(getId(), store.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "name = " + name + ", " +
-                "location = " + location + ")";
+                "avgRating = " + getAvgRating() + ", " +
+                "name = " + getName() + ", " +
+                "location = " + getLocation() + ")";
     }
 }

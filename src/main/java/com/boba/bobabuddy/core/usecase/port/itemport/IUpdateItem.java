@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.core.usecase.port.IRequest.IItemIn;
+package com.boba.bobabuddy.core.usecase.port.itemport;
 
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.usecase.item.exceptions.NoSuchItemException;

@@ -1,11 +1,11 @@
-package com.boba.bobabuddy.core.usecase.port.IRequest.IItemIn;
+package com.boba.bobabuddy.core.usecase.port.itemport;
 
 import com.boba.bobabuddy.core.entity.Item;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
-@Component
 
+@Component
 public interface IRemoveItem {
-    Item execute(UUID id);
+    Item removeById(UUID id);
 }

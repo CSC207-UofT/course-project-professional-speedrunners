@@ -5,13 +5,15 @@ import com.boba.bobabuddy.infrastructure.controller.port.IView;
 
 import java.util.Scanner;
 
+// Unused
 public class View implements IView {
 
     private final Scanner input;
 
-    public View(){
+    public View() {
         input = new Scanner(System.in);
     }
+
     @Override
     public String getItemName() {
         System.out.println("Enter the item Name:");

@@ -1,9 +1,14 @@
-package com.boba.bobabuddy.core.usecase.port.IRequest.IItemIn;
+package com.boba.bobabuddy.core.usecase.port.request;
 
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.Store;
 
-
+/***
+ * Class that stores information required to create a new Item entity
+ * A API call that invoke the CreateItem usecase will have the HTTP request body in
+ * JSON converted to this class via HTTPMessageConverter.
+ * Subsequently, this class will handle the construction of the Item entity.
+ */
 public class CreateItemRequest {
     private float price;
     private Store store;
@@ -33,5 +38,11 @@ public class CreateItemRequest {
         this.price = price;
     }
 
-    public Item toItem(){return new Item(getPrice(),getStore(),getName());}
+    /***
+     * Construct an Item entity base on the fields provided.
+     * @return a new Item object to be stored in the database
+     */
+    public Item toItem() {
+        return new Item(getPrice(), getStore(), getName());
+    }
 }

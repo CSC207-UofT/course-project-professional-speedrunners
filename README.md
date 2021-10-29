@@ -1,10 +1,10 @@
 ## Replace this README.md!
 
 - ~~TODO: add external dependency requirements for setting up project~~
-- ~~TODO: add code documentation~~ 
+- ~~TODO: add code documentation~~
 - TODO: add more description for CRC classes
 - ~~TODO: rework controller class and add ui class~~
-- ~~TODO: add description for TA on which classes to read~~ 
+- ~~TODO: add description for TA on which classes to read~~
 - ~~TODO: refactor method names to be more readable~~
 
 For TA:
