@@ -9,14 +9,33 @@ import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public class UpdateRatingPoint implements IUpdateRatingPoint {
+/**
+ * This is the usecase responsible for updating existing RatingPoint entities in the system.
+ */
 
+public class UpdateRatingPoint implements IUpdateRatingPoint {
+    /**
+     * JPA repository port, probably the most important part of the code
+     * Handles queries and update, creation, deletion of entries in the database
+     */
     private final RatingJpaRepository repo;
 
+    /**
+     * Constructor for the UpdateRatingPoint usecase.
+     * @param repo the RatingJpaRepository with RatingPoint entities to be updated
+     */
     public UpdateRatingPoint(RatingJpaRepository repo) {
         this.repo = repo;
     }
 
+    /**
+     * Update the rating of a RatingPoint.
+     * @param id the UUID of the RatingPoint to be updated
+     * @param newRating the new rating of the RatingPoint
+     * @return the updated RatingPoint
+     * @throws RatingPointNotFoundException if no RatingPoint with the given UUID is found
+     * @throws InvalidRatingException if the new rating is not 1 or 0
+     */
     @Override
     public RatingPoint updateRatingPointRating(UUID id, int newRating)
             throws RatingPointNotFoundException, InvalidRatingException {
@@ -25,8 +44,10 @@ public class UpdateRatingPoint implements IUpdateRatingPoint {
         }
         Optional<RatingPoint> ratingPoint = repo.findById(id);
         if (ratingPoint.isPresent()) {
-            ratingPoint.get().setRating(newRating);
-            return ratingPoint.get();
+            RatingPoint updatedRatingPoint = ratingPoint.get();
+            updatedRatingPoint.setRating(newRating);
+            repo.save(updatedRatingPoint);
+            return updatedRatingPoint;
         }
         throw new RatingPointNotFoundException();
     }
