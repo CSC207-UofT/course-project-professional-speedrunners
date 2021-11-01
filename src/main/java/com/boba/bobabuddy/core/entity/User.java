@@ -2,10 +2,7 @@ package com.boba.bobabuddy.core.entity;
 
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +18,7 @@ public class User {
     String email;
     private String name;
     private String password;
-    private @OneToMany
+    private @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     List<RatingPoint> ratingLst;
 
     /***
