@@ -42,7 +42,7 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
      * cascade parameter tells JPA that if RatableObject's ratings field is mutated, those changes to the RatingPoint
      * entities should also be persisted
      */
-    private @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
+    private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
             @JoinColumn(name = "rating_id")
     Set<RatingPoint> ratings;
 

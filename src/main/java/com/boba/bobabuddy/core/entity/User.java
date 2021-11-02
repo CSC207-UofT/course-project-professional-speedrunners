@@ -14,11 +14,10 @@ import java.util.Objects;
 @Entity
 public class User {
     private @Id
-    @GeneratedValue
     String email;
     private String name;
     private String password;
-    private @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
             @JoinColumn(name = "rating_id")
     List<RatingPoint> ratingLst;
 
