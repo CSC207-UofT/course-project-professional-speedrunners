@@ -25,7 +25,7 @@ public class Store extends RatableObject {
      * cascade parameter tells JPA that if a Store's menu field is mutated, those changes to the Item
      * entities should also be persisted
      */
-    private @OneToMany(cascade = CascadeType.ALL)
+    private @OneToMany(cascade = CascadeType.ALL, mappedBy = "store", orphanRemoval = true)
     List<Item> menu;
 
     // For JPA
