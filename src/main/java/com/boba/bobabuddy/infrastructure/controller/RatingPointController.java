@@ -1,10 +1,7 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.RatingPoint;
-import com.boba.bobabuddy.core.usecase.port.request.CreateRatingPointRequest;
-import com.boba.bobabuddy.core.usecase.port.request.FindByIdRequest;
-import com.boba.bobabuddy.core.usecase.port.request.RemoveByIdRequest;
-import com.boba.bobabuddy.core.usecase.port.request.UpdateRatingPointRequest;
+import com.boba.bobabuddy.core.usecase.port.request.*;
 import com.boba.bobabuddy.core.usecase.ratingpoint.CreateRatingPoint;
 import com.boba.bobabuddy.core.usecase.ratingpoint.FindRatingPoint;
 import com.boba.bobabuddy.core.usecase.ratingpoint.RemoveRatingPoint;
@@ -28,8 +25,8 @@ public class RatingPointController {
         return findRatingPoint.findByRatableObject(findByIdRequest.getId());
     }
 
-    public List<RatingPoint> findByUser(FindByIdRequest findByIdRequest) {
-        return findRatingPoint.findByUser(findByIdRequest.getId());
+    public List<RatingPoint> findByUser(FindByEmailRequest findByEmailRequest) {
+        return findRatingPoint.findByUser(findByEmailRequest.getEmail());
     }
 
     public RatingPoint findById(FindByIdRequest findByIdRequest) throws RatingPointNotFoundException {

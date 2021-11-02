@@ -40,12 +40,12 @@ public class FindRatingPoint implements IFindRatingPoint {
 
     /**
      * Find every RatingPoint associated with a User by its UUID.
-     * @param id the UUID of the User
+     * @param email the UUID of the User
      * @return a list of every RatingPoint associated the User
      */
     @Override
-    public List<RatingPoint> findByUser(UUID id) {
-        return repo.findByUser_id(id);
+    public List<RatingPoint> findByUser(String email) {
+        return repo.findByUser_email(email);
     }
 
     /**
