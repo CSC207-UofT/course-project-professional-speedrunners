@@ -2,7 +2,6 @@ package com.boba.bobabuddy.core.usecase.store;
 
 import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.port.storeport.IFindStore;
-import com.boba.bobabuddy.core.usecase.store.exceptions.RatingOutOfBoundsException;
 import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,14 +87,13 @@ public class FindStore implements IFindStore {
      * Find all stores that have avgRating greater than or equal to param rating
      * @param avgRating avgRating to be compared with
      * @return Stores that has avgRating greater than or equal to param rating, or an empty list if no such Store exist
-     * @throws RatingOutOfBoundsException If avgRating is out of bounds (not between 0 and 1)
      */
     @Override
-    public List<Store> findByAvgRatingGreaterThanEqual(float avgRating) throws RatingOutOfBoundsException {
+    public List<Store> findByAvgRatingGreaterThanEqual(float avgRating){
         if (0.0 <= avgRating && avgRating <= 1){
             return repo.findByAvgRatingGreaterThanEqual(avgRating);
         }
-        throw new RatingOutOfBoundsException("Rating out of bounds");
+        throw new IllegalArgumentException("Rating out of bounds");
     }
 }
 
