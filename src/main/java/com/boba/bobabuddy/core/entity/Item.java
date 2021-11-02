@@ -24,7 +24,7 @@ public class Item extends RatableObject {
     // JPA annotation to indicate many-to-one relationship between item and store
     // cascade parameter tells JPA that if Item's store field is mutated, those changes to the store
     // entity should also be persisted
-    private @ManyToOne(fetch = FetchType.LAZY)
+    private @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     Store store;
 
     /**
