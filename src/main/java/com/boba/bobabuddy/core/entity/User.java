@@ -18,7 +18,8 @@ public class User {
     String email;
     private String name;
     private String password;
-    private @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+            @JoinColumn(name = "rating_id")
     List<RatingPoint> ratingLst;
 
     /***

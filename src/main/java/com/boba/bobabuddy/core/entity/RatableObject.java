@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.core.entity;
 
 import org.hibernate.Hibernate;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -21,7 +22,7 @@ import java.util.UUID;
 // JPA annotation indicating that this class has child entities that also need to be persisted.
 // Table per class strategy separates Item and Store into two separate tables in the SQL database.
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class RatableObject {
+public abstract class RatableObject extends RepresentationModel<RatableObject> {
 
     /***
      * avgRating is augmented in the class.
@@ -41,7 +42,8 @@ public abstract class RatableObject {
      * cascade parameter tells JPA that if RatableObject's ratings field is mutated, those changes to the RatingPoint
      * entities should also be persisted
      */
-    private @OneToMany(cascade = CascadeType.ALL, mappedBy = "ratableObject", orphanRemoval = true)
+    private @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
+            @JoinColumn(name = "rating_id")
     Set<RatingPoint> ratings;
 
     /***
