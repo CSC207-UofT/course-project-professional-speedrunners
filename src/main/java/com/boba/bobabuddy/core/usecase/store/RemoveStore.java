@@ -28,20 +28,16 @@ import java.util.UUID;
 public class RemoveStore implements IRemoveStore{
 
     private final StoreJpaRepository repo;
-    private final PresenterInterface presenter; //depreciated
 
     /**
      * Initialize RemoveStore usecase by injecting dependencies
      *
      * @param repo database object for handling store data
-     * @param presenter a presenter object responsible for translating data from usecase readable format into view
-     *                  object readable format (view model).
      */
 
     @Autowired
-    public RemoveStore(final StoreJpaRepository repo, PresenterInterface presenter){
+    public RemoveStore(final StoreJpaRepository repo){
         this.repo = repo;
-        this.presenter = presenter;
     }
 
     /**
