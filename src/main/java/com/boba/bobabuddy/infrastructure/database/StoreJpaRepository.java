@@ -12,9 +12,9 @@ import java.util.List;
 public interface StoreJpaRepository extends JpaRepository<Store, UUID> {
     Optional<Store> findById(UUID id);
 
-    List<Store> findByName(String name);
+    Store findByName(String name);
 
-    List<Store> findByLocation(String location);
+    Store findByLocation(String location);
 
     List<Store> findByAvgRatingGreaterThanEqual(float rating);
 

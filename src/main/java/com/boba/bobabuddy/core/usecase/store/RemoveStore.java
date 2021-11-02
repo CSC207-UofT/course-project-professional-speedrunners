@@ -41,7 +41,7 @@ public class RemoveStore implements IRemoveStore{
     }
 
     /**
-     * Removes an store from database that has the matching storeId.
+     * Removes a store from database that has the matching storeId.
      * @param id id of the store.
      * @return Store that was removed from the database.
      */
