@@ -30,8 +30,9 @@ public class FindRatingPoint implements IFindRatingPoint {
 
     /**
      * Find every RatingPoint associated with a RatableObject by its UUID.
+     * TODO: consider moving this usecase to RatableObject since it stores its ratings
      * @param id the UUID of the RatableObject
-     * @return a list of every RatingPoint associated the RatableObject
+     * @return a list of every RatingPoint associated with the RatableObject
      */
     @Override
     public List<RatingPoint> findByRatableObject(UUID id) {
@@ -39,9 +40,10 @@ public class FindRatingPoint implements IFindRatingPoint {
     }
 
     /**
-     * Find every RatingPoint associated with a User by its UUID.
+     * Find every RatingPoint associated with a User by its email.
+     * TODO: consider moving this usecase to User since it stores its ratings
      * @param email the UUID of the User
-     * @return a list of every RatingPoint associated the User
+     * @return a list of every RatingPoint associated with the User
      */
     @Override
     public List<RatingPoint> findByUser(String email) {

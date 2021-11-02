@@ -25,6 +25,7 @@ public class CreateRatingPoint implements ICreateRatingPoint {
 
     /**
      * Save a RatingPoint to the database.
+     * TODO: add the new RatingPoint to the associated User and RatableObject
      * @param ratingPoint the RatingPoint to be saved in the database
      * @return the saved RatingPoint
      */

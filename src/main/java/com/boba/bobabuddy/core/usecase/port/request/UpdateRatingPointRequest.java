@@ -2,6 +2,10 @@ package com.boba.bobabuddy.core.usecase.port.request;
 
 import java.util.UUID;
 
+/**
+ * Class that stores the information needed to update a RatingPoint rating.
+ */
+
 public class UpdateRatingPointRequest {
     private UUID id;
     private int rating;

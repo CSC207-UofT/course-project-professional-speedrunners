@@ -5,6 +5,10 @@ import com.boba.bobabuddy.core.entity.RatingPoint;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.InvalidRatingException;
 
+/**
+ * Class that stores the information required to create a new RatingPoint entity.
+ */
+
 public class CreateRatingPointRequest {
     private int rating;
     private User user;
@@ -37,6 +41,10 @@ public class CreateRatingPointRequest {
         this.ratableObject = ratableObject;
     }
 
+    /**
+     * Create a new RatingPoint from the stored information.
+     * @return a new RatingPoint object
+     */
     public RatingPoint getRatingPoint() {
         return new RatingPoint(rating, user, ratableObject);
     }

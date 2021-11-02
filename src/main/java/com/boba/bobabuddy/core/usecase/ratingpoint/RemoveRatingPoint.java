@@ -27,6 +27,7 @@ public class RemoveRatingPoint implements IRemoveRatingPoint {
 
     /**
      * Remove the RatingPoint entity with the given UUID.
+     * TODO: make sure the RatingPoint is also removed from its associated User and RatableObject
      * @param id the UUID of the RatingPoint to be removed
      * @return the removed RatingPoint entity
      */

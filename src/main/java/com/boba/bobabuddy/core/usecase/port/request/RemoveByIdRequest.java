@@ -2,6 +2,10 @@ package com.boba.bobabuddy.core.usecase.port.request;
 
 import java.util.UUID;
 
+/**
+ * Class that stores in information needed to remove a RatingPoint object.
+ */
+
 public class RemoveByIdRequest {
     private UUID id;
 
