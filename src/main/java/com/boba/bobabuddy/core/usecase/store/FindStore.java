@@ -24,7 +24,7 @@ import java.util.UUID;
 // Indicates that operations performed in this class in Transactional.
 // Refers to this link for more info: https://java.christmas/2019/24
 @Transactional
-public class FindStore implements IFindStore {
+public class FindStore implements IFindStore{
     //JPA repository port - Handles queries and update, creation, deletion of entries in the database
     private final StoreJpaRepository repo;
 
@@ -90,7 +90,7 @@ public class FindStore implements IFindStore {
      */
     @Override
     public List<Store> findByAvgRatingGreaterThanEqual(float avgRating){
-        if (0.0 <= avgRating && avgRating <= 1){
+        if (0 <= avgRating && avgRating <= 1){
             return repo.findByAvgRatingGreaterThanEqual(avgRating);
         }
         throw new IllegalArgumentException("Rating out of bounds");

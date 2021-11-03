@@ -1,7 +1,6 @@
 package com.boba.bobabuddy.core.usecase.port.storeport;
 
 import com.boba.bobabuddy.core.entity.Store;
-import com.boba.bobabuddy.core.usecase.store.exceptions.RatingOutOfBoundsException;
 import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -19,5 +18,5 @@ public interface IFindStore {
 
     Store findByName(String name);
 
-    Store findByAvgRatingGreaterThanEqual(float rating) throws RatingOutOfBoundsException;
+    List<Store> findByAvgRatingGreaterThanEqual(float rating);
 }
