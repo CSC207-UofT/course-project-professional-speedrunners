@@ -12,4 +12,6 @@ public interface IFindUser {
     List<User> findAll();
 
     List<User> findByName(String name);
+
+    boolean userExistanceCheck(String email);
 }

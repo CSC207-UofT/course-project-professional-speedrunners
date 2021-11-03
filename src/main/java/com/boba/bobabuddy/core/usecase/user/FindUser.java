@@ -35,4 +35,10 @@ public class FindUser implements IFindUser {
     public List<User> findByName(String name) {
         return repo.findByName(name);
     }
+
+    @Override
+    public boolean userExistanceCheck(String email) {
+        Optional<User> user = Optional.ofNullable(repo.findByEmail(email));
+        return user.isPresent();
+    }
 }

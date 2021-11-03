@@ -27,6 +27,7 @@ public class UpdateUser implements IUpdateUser {
             updatedUser.setName(newUser.getName());
             updatedUser.setEmail(newUser.getEmail());
             updatedUser.setPassword(newUser.getPassword());
+            updatedUser.setRatingLst(newUser.getRatingLst());
             repo.save(updatedUser);
             return updatedUser;
         }
