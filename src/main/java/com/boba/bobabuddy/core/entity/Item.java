@@ -2,9 +2,7 @@ package com.boba.bobabuddy.core.entity;
 
 import com.boba.bobabuddy.core.entity.builder.ItemBuilder;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Class that represents an Item in the domain layer

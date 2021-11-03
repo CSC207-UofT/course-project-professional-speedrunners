@@ -2,10 +2,7 @@ package com.boba.bobabuddy.core.entity;
 
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,10 +13,10 @@ import java.util.UUID;
 @Entity
 public class RatingPoint {
     private int rating;
-    // Indicates one-to-one relationship between entities.
-    private @OneToOne
+    // Indicates ManyToOne relationship between entities.
+    private @ManyToOne(cascade = CascadeType.ALL)
     User user;
-    private @OneToOne
+    private @ManyToOne(cascade = CascadeType.ALL)
     RatableObject ratableObject;
     private @Id
     @GeneratedValue

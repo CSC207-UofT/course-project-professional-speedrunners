@@ -1,7 +1,6 @@
 ## How To run
 
 - Clone the repo
-- Checkout to branch phase1
 - Let intellij set up the project for you
 - run BobabuddyApplication in src/main/java
 - Spring boot will initialize a web server on localhost, which you can access with curl through url: http://127.0.0.1:8080/<api endpoints>

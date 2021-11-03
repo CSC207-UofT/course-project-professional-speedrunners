@@ -1,8 +1,6 @@
 package com.boba.bobabuddy.core.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,8 @@ public class Store extends RatableObject {
      * cascade parameter tells JPA that if a Store's menu field is mutated, those changes to the Item
      * entities should also be persisted
      */
-    private @OneToMany(cascade = CascadeType.ALL)
+    private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+            @JoinColumn(name = "item_id")
     List<Item> menu;
 
     // For JPA
