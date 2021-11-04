@@ -21,7 +21,8 @@ import java.util.UUID;
 @Entity
 // JPA annotation indicating that this class has child entities that also need to be persisted.
 // Table per class strategy separates Item and Store into two separate tables in the SQL database.
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE")
 public abstract class RatableObject extends RepresentationModel<RatableObject> {
 
     /***

@@ -2,7 +2,6 @@ package com.boba.bobabuddy.core.usecase.item;
 
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.usecase.port.IResponse.PresenterInterface;
 import com.boba.bobabuddy.core.usecase.port.itemport.ICreateItem;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,22 +29,16 @@ public class CreateItem implements ICreateItem {
      */
     private final ItemJpaRepository repo;
     // Unused and will possibly be depreciated.
-    private final PresenterInterface presenter; // port for injecting presenter implementations.
 
     /**
      * Initialize the Create Item usecase by injecting it with required dependencies.
      *
-     * @param repo      a database object for handling item data
-     * @param presenter a presenter object responsible for translating data from usecase readable format into view
-     *                  object readable format (view model).
-     *                  note this is currently handled automatically via Spring and a hand coded presenter may not be
-     *                  necessary
+     * @param repo a database object for handling item data
      */
     // Spring annotation that instruct springboot to attempt to automatically inject dependencies as needed.
     @Autowired
-    public CreateItem(ItemJpaRepository repo, PresenterInterface presenter) {
+    public CreateItem(ItemJpaRepository repo) {
         this.repo = repo;
-        this.presenter = presenter;
     }
 
 

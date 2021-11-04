@@ -1,7 +1,7 @@
 package com.boba.bobabuddy.infrastructure.database;
 
 import com.boba.bobabuddy.core.entity.Item;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,16 +15,9 @@ import java.util.UUID;
  * refer to Spring Data JPA documentation for details.
  */
 @Repository
-public interface ItemJpaRepository extends JpaRepository<Item, UUID> {
+public interface ItemJpaRepository extends RatableObjectJpaRepository<Item> {
     List<Item> findByStore_id(UUID id);
 
-    List<Item> findByName(String name);
+    List<Item> findByPriceLessThanEqual(float price, Sort sort);
 
-    List<Item> findByNameContaining(String name);
-
-    List<Item> findByPriceLessThanEqual(float price);
-
-    List<Item> findByAvgRatingGreaterThanEqual(float rating);
-
-    Item removeById(UUID id);
 }
