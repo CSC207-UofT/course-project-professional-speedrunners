@@ -61,11 +61,14 @@ public class CreateRatingPoint implements ICreateRatingPoint {
         RatableObject ratableToUpdate = findRatable.findById(ratableId);
         User userToUpdate = findUser.findByEmail(email);
 
+        ratingPoint = repo.save(ratingPoint);
+        ratingPoint.setRatableObject(ratableToUpdate);
+        ratingPoint.setUser(userToUpdate);
+
         updateUser.addRating(userToUpdate, ratingPoint);
         updateRatable.addRating(ratableToUpdate, ratingPoint);
 
-        ratingPoint.setRatableObject(ratableToUpdate);
-        ratingPoint.setUser(userToUpdate);
+
 
         return repo.save(ratingPoint);
     }

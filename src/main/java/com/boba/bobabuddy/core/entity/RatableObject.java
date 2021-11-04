@@ -1,5 +1,7 @@
 package com.boba.bobabuddy.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -23,6 +25,7 @@ import java.util.UUID;
 // Table per class strategy separates Item and Store into two separate tables in the SQL database.
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public abstract class RatableObject extends RepresentationModel<RatableObject> {
 
     /***
