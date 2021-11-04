@@ -7,9 +7,9 @@ import java.util.List;
 
 public class UpdateUserRequest {
     String email;
+    List<RatingPoint> ratingLst;
     private String name;
     private String password;
-    List<RatingPoint> ratingLst;
 
     public List<RatingPoint> getRatingLst() {
         return ratingLst;
@@ -43,7 +43,7 @@ public class UpdateUserRequest {
         this.password = password;
     }
 
-    public User updateUser(){
+    public User updateUser() {
         User updatedUser = new User(getName(), getEmail(), getPassword());
         updatedUser.setRatingLst(getRatingLst());
         return updatedUser;

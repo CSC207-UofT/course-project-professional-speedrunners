@@ -49,7 +49,7 @@ public class RemoveItem implements IRemoveItem {
     @Override
     public Item removeById(UUID id) throws ResourceNotFoundException {
         Optional<Item> item = repo.removeById(id);
-        if (item.isPresent()){
+        if (item.isPresent()) {
             return item.get();
         } else throw new ResourceNotFoundException("no such item", new Exception());
     }

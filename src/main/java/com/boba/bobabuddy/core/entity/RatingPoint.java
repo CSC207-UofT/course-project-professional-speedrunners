@@ -1,5 +1,7 @@
 package com.boba.bobabuddy.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ import java.util.UUID;
  * JPA annotation comments will be omitted. refer to other entity class for info
  */
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class RatingPoint {
     private int rating;
     // Indicates ManyToOne relationship between entities.

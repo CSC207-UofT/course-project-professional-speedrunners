@@ -2,35 +2,47 @@ package com.boba.bobabuddy.core.usecase.user;
 
 import com.boba.bobabuddy.core.entity.RatingPoint;
 import com.boba.bobabuddy.core.entity.User;
+import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.port.userport.IUpdateUser;
-import com.boba.bobabuddy.core.usecase.user.exceptions.UserNotFoundException;
-import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
 import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.Objects;
 
+@Service
+@Transactional
 public class UpdateUser implements IUpdateUser {
 
     private final UserJpaRepository repo;
 
+    @Autowired
     public UpdateUser(UserJpaRepository repo) {
         this.repo = repo;
     }
 
     @Override
-    public User updateUser(String email, User newUser) throws UserNotFoundException {
+    public User updateUser(User userToUpdate, User newUser) throws DifferentResourceException {
 
-        Optional<User> user = Optional.ofNullable(repo.findByEmail(email));
+        if (Objects.equals(userToUpdate, newUser)) {
+            userToUpdate.setName(newUser.getName());
+            userToUpdate.setEmail(newUser.getEmail());
+            userToUpdate.setPassword(newUser.getPassword());
+            userToUpdate.setRatingLst(newUser.getRatingLst());
+            return repo.save(userToUpdate);
 
-        if(user.isPresent()){
-            User updatedUser = user.get();
-            updatedUser.setName(newUser.getName());
-            updatedUser.setEmail(newUser.getEmail());
-            updatedUser.setPassword(newUser.getPassword());
-            updatedUser.setRatingLst(newUser.getRatingLst());
-            repo.save(updatedUser);
-            return updatedUser;
         }
-        throw new UserNotFoundException();
+        throw new DifferentResourceException("Not the same user", new Exception());
     }
+
+    @Override
+    public User addRating(User userToUpdate, RatingPoint ratingPoint) throws Exception {
+        if (userToUpdate.addRating(ratingPoint)) {
+            return repo.save(userToUpdate);
+        }
+        throw new Exception("add Rating failed");
+    }
+
+
 }

@@ -4,7 +4,6 @@ import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Component

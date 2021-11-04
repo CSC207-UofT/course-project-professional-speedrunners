@@ -31,7 +31,7 @@ public class CreateUserRequest {
         this.password = password;
     }
 
-    public User createUser(){
+    public User createUser() {
         return new User(getName(), getEmail(), getPassword());
     }
 }

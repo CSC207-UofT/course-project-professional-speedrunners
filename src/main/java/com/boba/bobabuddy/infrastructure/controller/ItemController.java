@@ -1,23 +1,18 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.entity.RatableObject;
-import com.boba.bobabuddy.core.usecase.exceptions.DifferentItemException;
+import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.itemport.ICreateItem;
 import com.boba.bobabuddy.core.usecase.port.itemport.IFindItem;
 import com.boba.bobabuddy.core.usecase.port.itemport.IRemoveItem;
 import com.boba.bobabuddy.core.usecase.port.itemport.IUpdateItem;
 import com.boba.bobabuddy.core.usecase.port.request.CreateItemRequest;
-import com.boba.bobabuddy.core.usecase.port.request.FindByIdRequest;
-import com.boba.bobabuddy.infrastructure.controller.port.UpdateItemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 /***
@@ -135,9 +130,9 @@ public class ItemController {
     }
 
     @PutMapping(path = "/api/item/{id}")
-    public Item updateItem(@RequestBody Item newItem, @PathVariable UUID id) throws ResourceNotFoundException, DifferentItemException {
+    public Item updateItem(@RequestBody Item newItem, @PathVariable UUID id) throws ResourceNotFoundException, DifferentResourceException {
         Item itemToUpdate = findById(id);
-        return updateItem.updateItem(itemToUpdate,newItem);
+        return updateItem.updateItem(itemToUpdate, newItem);
     }
 
     @DeleteMapping(path = "/api/item/{id}")

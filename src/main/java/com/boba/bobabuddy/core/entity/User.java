@@ -1,25 +1,27 @@
 package com.boba.bobabuddy.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 /***
  * Class that represents a User
  * JPA annotation comments will be omitted. refer to other entity class for info
  */
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class User {
     private @Id
     String email;
     private String name;
     private String password;
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-            @JoinColumn(name = "rating_id")
+    @JoinColumn(name = "user_rating_id")
     List<RatingPoint> ratingLst;
 
     /***
@@ -46,6 +48,14 @@ public class User {
 
     public void setRatingLst(List<RatingPoint> ratingLst) {
         this.ratingLst = ratingLst;
+    }
+
+    public boolean addRating(RatingPoint point) {
+        return this.ratingLst.add(point);
+    }
+
+    public boolean removeRating(RatingPoint point) {
+        return this.ratingLst.remove(point);
     }
 
     public String getName() {

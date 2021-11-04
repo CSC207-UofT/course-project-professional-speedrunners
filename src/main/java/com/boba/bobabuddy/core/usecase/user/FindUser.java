@@ -1,29 +1,29 @@
 package com.boba.bobabuddy.core.usecase.user;
 
 import com.boba.bobabuddy.core.entity.User;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.userport.IFindUser;
-import com.boba.bobabuddy.core.usecase.user.exceptions.UserNotFoundException;
 import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
+@Service
+@Transactional
 public class FindUser implements IFindUser {
 
     private final UserJpaRepository repo;
 
-    public FindUser(UserJpaRepository repo){
+    @Autowired
+    public FindUser(UserJpaRepository repo) {
         this.repo = repo;
     }
 
     @Override
-    public User findByEmail(String email) throws UserNotFoundException {
-        Optional<User> user = Optional.ofNullable(repo.findByEmail(email));
-        if (user.isPresent()){
-            return user.get();
-        }
-        throw new UserNotFoundException();
+    public User findByEmail(String email) throws ResourceNotFoundException {
+        return repo.findById(email).orElseThrow(() -> new ResourceNotFoundException("user not found", new Exception()));
     }
 
     @Override
@@ -38,7 +38,6 @@ public class FindUser implements IFindUser {
 
     @Override
     public boolean userExistanceCheck(String email) {
-        Optional<User> user = Optional.ofNullable(repo.findByEmail(email));
-        return user.isPresent();
+        return repo.findById(email).isPresent();
     }
 }

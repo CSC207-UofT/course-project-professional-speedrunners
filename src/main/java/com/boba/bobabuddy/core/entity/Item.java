@@ -1,8 +1,13 @@
 package com.boba.bobabuddy.core.entity;
 
 import com.boba.bobabuddy.core.entity.builder.ItemBuilder;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 /**
  * Class that represents an Item in the domain layer
@@ -19,6 +24,7 @@ import javax.persistence.*;
 // JPA annotation indicating that the class is an object to be persisted.
 @Entity
 @DiscriminatorValue("Item")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Item extends RatableObject {
 
     private float price;

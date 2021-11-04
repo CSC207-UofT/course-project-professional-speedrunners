@@ -2,12 +2,12 @@ package com.boba.bobabuddy.infrastructure.database;
 
 import com.boba.bobabuddy.core.entity.RatableObject;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
-@NoRepositoryBean
+@Repository
 public interface RatableObjectJpaRepository<T extends RatableObject> extends GenericResourceJpaRepository<T, UUID> {
 
     List<T> findByName(String name);
@@ -15,9 +15,6 @@ public interface RatableObjectJpaRepository<T extends RatableObject> extends Gen
     List<T> findByNameContaining(String name);
 
     List<T> findByAvgRatingGreaterThanEqual(float rating, Sort sort);
-
-
-
 
 
 }
