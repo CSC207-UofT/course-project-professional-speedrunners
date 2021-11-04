@@ -15,6 +15,8 @@ import java.util.List;
 
 // JPA annotation indicating that the class is an object to be persisted.
 @Entity
+@DiscriminatorValue("Store")
+
 public class Store extends RatableObject {
 
     private String location;
@@ -23,8 +25,8 @@ public class Store extends RatableObject {
      * cascade parameter tells JPA that if a Store's menu field is mutated, those changes to the Item
      * entities should also be persisted
      */
-    private @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-            @JoinColumn(name = "item_id")
+    private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "item_id")
     List<Item> menu;
 
     // For JPA

@@ -14,9 +14,9 @@ import java.util.UUID;
 public class RatingPoint {
     private int rating;
     // Indicates ManyToOne relationship between entities.
-    private @ManyToOne
+    private @ManyToOne(cascade = CascadeType.ALL)
     User user;
-    private @ManyToOne
+    private @ManyToOne(cascade = CascadeType.ALL)
     RatableObject ratableObject;
     private @Id
     @GeneratedValue
