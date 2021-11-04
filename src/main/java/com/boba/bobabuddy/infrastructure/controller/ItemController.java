@@ -1,14 +1,16 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.usecase.item.exceptions.ItemNotFoundException;
+import com.boba.bobabuddy.core.entity.RatableObject;
+import com.boba.bobabuddy.core.usecase.exceptions.DifferentItemException;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.itemport.ICreateItem;
 import com.boba.bobabuddy.core.usecase.port.itemport.IFindItem;
 import com.boba.bobabuddy.core.usecase.port.itemport.IRemoveItem;
 import com.boba.bobabuddy.core.usecase.port.itemport.IUpdateItem;
 import com.boba.bobabuddy.core.usecase.port.request.CreateItemRequest;
 import com.boba.bobabuddy.core.usecase.port.request.FindByIdRequest;
-import com.boba.bobabuddy.core.usecase.port.request.FindByNameRequest;
+import com.boba.bobabuddy.infrastructure.controller.port.UpdateItemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 /***
@@ -70,29 +75,6 @@ public class ItemController {
     }
 
     /***
-     * query for an item resource with a matching store id
-     * @param findByIdRequest Request class containing a UUID
-     * @return List of item resources matching the query.
-     */
-    // GetMapping maps a GET request to the endpoint defined by path parameter. A GET request initiates a query.
-    @GetMapping(path = "/api/item/store", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Item> findByStore(@RequestBody FindByIdRequest findByIdRequest) {
-        return findItem.findByStore(findByIdRequest.getId());
-    }
-
-    /***
-     * query for an item resource with matching id.
-     * @param id Request class containing a UUID
-     * @return Item with matching UUID, which will be automatically converted to JSON and send it to the caller.
-     * @throws ItemNotFoundException thrown when the item was not found
-     */
-    // Exceptions thrown in controller class will be handled automatically by SpringFramework
-    @GetMapping(path = "/api/item/{id}")
-    public Item findById(@PathVariable String id) throws ItemNotFoundException {
-        return findItem.findById(UUID.fromString(id));
-    }
-
-    /***
      * Query for all exiting item resource
      * @return list of Item resources exist in the database
      */
@@ -102,36 +84,58 @@ public class ItemController {
     }
 
     /***
+     * query for an item resource with matching id.
+     * @param id the primary uuid key of the resource
+     * @return Item with matching UUID, which will be automatically converted to JSON and send it to the caller.
+     * @throws ResourceNotFoundException thrown when the item was not found
+     */
+    // Exceptions thrown in controller class will be handled automatically by SpringFramework
+    @GetMapping(path = "/api/item/{id}")
+    public Item findById(@PathVariable UUID id) throws ResourceNotFoundException {
+        return findItem.findById(id);
+    }
+
+    /***
      * query for item resources that have matching name.
-     * @param findByNameRequest request class contain a name in String.
      * @return list of item resources that match the query.
      */
-    @GetMapping(path = "/api/item/name")
-    public List<Item> findByName(@RequestBody FindByNameRequest findByNameRequest) {
-        return findItem.findByName(findByNameRequest.getName());
+    @GetMapping(path = "/api/item/", params = "name")
+    public List<Item> findByName(@RequestParam("name") String name) {
+        return findItem.findByName(name);
     }
 
     /***
      * query for item resource that partially matches the provided name
-     * @param findByNameRequest request class contain a name in String.
      * @return list of item resources that match the query.
      */
-    @GetMapping(path = "/api/item/name-contain")
-    public List<Item> findByNameContaining(@RequestBody FindByNameRequest findByNameRequest) {
-        return findItem.findByNameContaining(findByNameRequest.getName());
+    @GetMapping(path = "/api/item/", params = "name-contain")
+    public List<Item> findByNameContaining(@RequestParam("name-contain") String nameContain) {
+        return findItem.findByNameContaining(nameContain);
     }
+
+    /***
+     * query for an item resource with a matching store id
+     * @return List of item resources matching the query.
+     */
+    // GetMapping maps a GET request to the endpoint defined by path parameter. A GET request initiates a query.
+    @GetMapping(path = "/api/item/", params = "storeId")
+    public List<Item> findByStore(@RequestParam("storeId") UUID storeId) {
+        return findItem.findByStore(storeId);
+    }
+
 
     /***
      * query for item resources that have price less than equal to a given value
      * @param price the price used for comparison
      * @return list of item resources that match the query.
      */
-    @GetMapping(path = "/api/item/price-less-or-equal/{price}")
+    @GetMapping(path = "/api/item/", params = "price-leq")
     // @PathVariable annotation maps the value present at the specified location in the URL to the method parameter.
     // For example, <Get ~/api/item/price-less-or-equal/15.5> will initiate the method call
     // findByPriceLessThanEqual(15.5).
-    public List<Item> findByPriceLessThanEqual(@PathVariable float price) {
-        return findItem.findByPriceLessThanEqual(price);
+    public List<Item> findByPriceLessThanEqual(@RequestParam("price-leq") float price,
+                                               @RequestParam(defaultValue = "false") boolean sorted) {
+        return findItem.findByPriceLessThanEqual(price, sorted);
     }
 
     /***
@@ -139,9 +143,21 @@ public class ItemController {
      * @param rating the rating used for comparison
      * @return list of item resources that match the query.
      */
-    @GetMapping(path = "/api/item/rating-greater-or-equal/{rating}")
-    public List<Item> findByAvgRatingGreaterThanEqual(@PathVariable float rating) {
-        return findItem.findByAvgRatingGreaterThanEqual(rating);
+    @GetMapping(path = "/api/item/", params = "rating-geq")
+    public List<Item> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
+                                                      @RequestParam(defaultValue = "false") boolean sorted) {
+        return findItem.findByAvgRatingGreaterThanEqual(rating, sorted);
+    }
+
+    @PutMapping(path = "/api/item/{id}")
+    public Item updateItem(@RequestBody Item newItem, @PathVariable UUID id) throws ResourceNotFoundException, DifferentItemException {
+        Item itemToUpdate = findById(id);
+        return updateItem.updateItem(itemToUpdate,newItem);
+    }
+
+    @DeleteMapping(path = "/api/item/{id}")
+    public Item removeItem(@PathVariable UUID id) throws ResourceNotFoundException {
+        return removeItem.removeById(id);
     }
 
 

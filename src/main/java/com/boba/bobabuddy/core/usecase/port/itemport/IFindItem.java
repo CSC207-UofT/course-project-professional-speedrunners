@@ -1,7 +1,8 @@
 package com.boba.bobabuddy.core.usecase.port.itemport;
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.usecase.item.exceptions.ItemNotFoundException;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.UUID;
 public interface IFindItem {
     List<Item> findByStore(UUID id);
 
-    Item findById(UUID id) throws ItemNotFoundException;
+    Item findById(UUID id) throws ResourceNotFoundException;
 
     List<Item> findAll();
 
@@ -20,8 +21,7 @@ public interface IFindItem {
 
     List<Item> findByNameContaining(String name);
 
-    List<Item> findByPriceLessThanEqual(float price);
+    List<Item> findByPriceLessThanEqual(float price, boolean sorted);
 
-    List<Item> findByAvgRatingGreaterThanEqual(float rating);
-
+    List<Item> findByAvgRatingGreaterThanEqual(float rating, boolean sorted);
 }

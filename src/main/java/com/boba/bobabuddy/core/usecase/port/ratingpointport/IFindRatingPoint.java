@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface IFindRatingPoint {
     List<RatingPoint> findByRatableObject(UUID id);
 
-    List<RatingPoint> findByUser(UUID id);
+    List<RatingPoint> findByUser(String email);
 
     RatingPoint findById(UUID id) throws RatingPointNotFoundException;
 }

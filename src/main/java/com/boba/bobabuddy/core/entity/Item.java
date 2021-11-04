@@ -18,6 +18,7 @@ import javax.persistence.*;
 
 // JPA annotation indicating that the class is an object to be persisted.
 @Entity
+@DiscriminatorValue("Item")
 public class Item extends RatableObject {
 
     private float price;
