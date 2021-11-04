@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 /***
  * Class that represents a User
@@ -19,7 +18,7 @@ public class User {
     private String name;
     private String password;
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-            @JoinColumn(name = "rating_id")
+    @JoinColumn(name = "user_rating_id")
     List<RatingPoint> ratingLst;
 
     /***
@@ -46,6 +45,14 @@ public class User {
 
     public void setRatingLst(List<RatingPoint> ratingLst) {
         this.ratingLst = ratingLst;
+    }
+
+    public boolean addRating(RatingPoint point) {
+        return this.ratingLst.add(point);
+    }
+
+    public boolean removeRating(RatingPoint point) {
+        return this.ratingLst.remove(point);
     }
 
     public String getName() {

@@ -26,7 +26,7 @@ public class Store extends RatableObject {
      * entities should also be persisted
      */
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-            @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id")
     List<Item> menu;
 
     // For JPA
