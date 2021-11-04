@@ -10,10 +10,10 @@ import com.boba.bobabuddy.core.usecase.port.request.*;
 import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.InvalidRatingException;
 import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.RatingPointNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Controller for RatingPoint related api calls.
@@ -42,9 +42,11 @@ public class RatingPointController {
      * @param createRatingPointRequest request class containing the data to construct a new RatingPoint entity
      * @return the constructed RatingPoint
      */
-    @GetMapping(path = "api/{ratableObject}/{id}/rating/?createdBy={userId}")
-    public RatingPoint createRatingPoint(CreateRatingPointRequest createRatingPointRequest) {
-        return createRatingPoint.create(createRatingPointRequest.getRatingPoint());
+
+    @PostMapping(path = "/api/{ratableObject}/{id}/rating/", params = "createdBy")
+    public RatingPoint createRatingPoint(@RequestBody CreateRatingPointRequest createRatingPointRequest,
+                                         @PathVariable UUID id, @RequestParam("createdBy") String email) throws Exception {
+        return createRatingPoint.create(createRatingPointRequest.getRatingPoint(), id, email);
     }
 
     /**

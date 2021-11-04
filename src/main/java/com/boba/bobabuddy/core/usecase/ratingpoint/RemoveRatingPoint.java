@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,7 +43,7 @@ public class RemoveRatingPoint implements IRemoveRatingPoint {
     @Override
     public RatingPoint removeById(UUID id) throws ResourceNotFoundException {
         Optional<RatingPoint> point = repo.removeById(id);
-        if (point.isPresent()){
+        if (point.isPresent()) {
             return point.get();
         } else throw new ResourceNotFoundException("resource not found", new Exception());
 
