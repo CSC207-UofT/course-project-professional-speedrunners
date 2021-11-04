@@ -43,6 +43,7 @@ public class CreateRatingPointRequest {
 
     /**
      * Create a new RatingPoint from the stored information.
+     *
      * @return a new RatingPoint object
      */
     public RatingPoint getRatingPoint() {
