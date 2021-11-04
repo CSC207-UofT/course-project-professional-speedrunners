@@ -2,10 +2,11 @@ package com.boba.bobabuddy.core.usecase.item;
 
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.usecase.item.exceptions.ItemNotFoundException;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.itemport.IFindItem;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,10 +73,10 @@ public class FindItem implements IFindItem {
      * @return the Item if it was found. Otherwise, return null.
      */
     @Override
-    public Item findById(UUID id) throws ItemNotFoundException {
+    public Item findById(UUID id) throws ResourceNotFoundException {
         var item = repo.findById(id);
         if (item.isPresent()) return item.get();
-        throw new ItemNotFoundException();
+        throw new ResourceNotFoundException("not found", new Exception());
     }
 
     /***
@@ -117,8 +118,9 @@ public class FindItem implements IFindItem {
      * @return Items that have price less than or equal to param price, or an empty list if no such Item exist
      */
     @Override
-    public List<Item> findByPriceLessThanEqual(float price) {
-        return repo.findByPriceLessThanEqual(price);
+    public List<Item> findByPriceLessThanEqual(float price, boolean sorted) {
+        Sort sorter = ((sorted) ? Sort.by("price").ascending() : Sort.unsorted());
+        return repo.findByPriceLessThanEqual(price, sorter);
     }
 
     /***
@@ -128,9 +130,11 @@ public class FindItem implements IFindItem {
      * @return Items that has avgRating greater than or equal to param rating, or an empty list if no such Item exist
      */
     @Override
-    public List<Item> findByAvgRatingGreaterThanEqual(float avgRating) {
-        return repo.findByAvgRatingGreaterThanEqual(avgRating);
+    public List<Item> findByAvgRatingGreaterThanEqual(float avgRating, boolean sorted) {
+        Sort sorter = ((sorted) ? Sort.by("avgRating").descending() : Sort.unsorted());
+        return repo.findByAvgRatingGreaterThanEqual(avgRating, sorter);
     }
+
 
 }
 

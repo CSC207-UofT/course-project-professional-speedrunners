@@ -2,13 +2,14 @@ package com.boba.bobabuddy.core.usecase.item;
 
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.usecase.port.IResponse.PresenterInterface;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.itemport.IRemoveItem;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -28,20 +29,16 @@ import java.util.UUID;
 public class RemoveItem implements IRemoveItem {
 
     private final ItemJpaRepository repo;
-    private final PresenterInterface presenter; //depreciated
 
     /**
      * Initialize RemoveItem usecase by injecting dependencies
      *
-     * @param repo      database object for handling item data
-     * @param presenter a presenter object responsible for translating data from usecase readable format into view
-     *                  object readable format (view model).
+     * @param repo database object for handling item data
      */
     // Spring annotation that instruct springboot to attempt to automatically inject dependencies as needed.
     @Autowired
-    public RemoveItem(final ItemJpaRepository repo, PresenterInterface presenter) {
+    public RemoveItem(final ItemJpaRepository repo) {
         this.repo = repo;
-        this.presenter = presenter;
     }
 
     /***
@@ -50,8 +47,11 @@ public class RemoveItem implements IRemoveItem {
      * @return Item that was removed from the database
      */
     @Override
-    public Item removeById(UUID id) {
-        return repo.removeById(id);
+    public Item removeById(UUID id) throws ResourceNotFoundException {
+        Optional<Item> item = repo.removeById(id);
+        if (item.isPresent()){
+            return item.get();
+        } else throw new ResourceNotFoundException("no such item", new Exception());
     }
 
     //TODO: add removeByStore

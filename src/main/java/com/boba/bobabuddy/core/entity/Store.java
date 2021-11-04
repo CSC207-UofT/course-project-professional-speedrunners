@@ -15,6 +15,8 @@ import java.util.List;
 
 // JPA annotation indicating that the class is an object to be persisted.
 @Entity
+@DiscriminatorValue("Store")
+
 public class Store extends RatableObject {
 
     private String location;
