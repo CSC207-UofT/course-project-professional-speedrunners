@@ -1,12 +1,17 @@
 package com.boba.bobabuddy.core.usecase.item;
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.usecase.item.exceptions.NoSuchItemException;
+import com.boba.bobabuddy.core.usecase.exceptions.DifferentItemException;
+import com.boba.bobabuddy.core.usecase.exceptions.NoSuchItemException;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.itemport.IUpdateItem;
+import com.boba.bobabuddy.infrastructure.controller.port.UpdateItemRequest;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 /**
  * This class handle the usecase of updating items in the system.
@@ -42,14 +47,17 @@ public class UpdateItem implements IUpdateItem {
      * updated.
      * However if no Item with the same uuid exist an exception will be thrown.
      * TODO: properly implement the exception
-     * @param item Item to update.
+     * @param itemToUpdate Item to update.
+     * @param newItem the overwriting item.
      * @return the updated item.
-     * @throws NoSuchItemException thrown when the param item does not exist in the database.
+     * @throws DifferentItemException thrown when newItem have a different id than the itemToUpdate
      */
     @Override
-    public Item updateItem(Item item) throws NoSuchItemException {
-        if (repo.existsById(item.getId())) return repo.save(item);
-        throw new NoSuchItemException("No such item", new Exception());
+    public Item updateItem(Item itemToUpdate, Item newItem) throws DifferentItemException {
+        if(Objects.equals(itemToUpdate.getId(),newItem.getId())){
+            repo.save(newItem);
+        }
+        throw new DifferentItemException();
     }
 
 
