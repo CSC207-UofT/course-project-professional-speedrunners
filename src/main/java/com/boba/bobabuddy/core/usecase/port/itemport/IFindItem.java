@@ -2,7 +2,6 @@ package com.boba.bobabuddy.core.usecase.port.itemport;
 
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

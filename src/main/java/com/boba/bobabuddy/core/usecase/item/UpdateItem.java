@@ -1,11 +1,8 @@
 package com.boba.bobabuddy.core.usecase.item;
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.usecase.exceptions.DifferentItemException;
-import com.boba.bobabuddy.core.usecase.exceptions.NoSuchItemException;
-import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
+import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.port.itemport.IUpdateItem;
-import com.boba.bobabuddy.infrastructure.controller.port.UpdateItemRequest;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,14 +47,14 @@ public class UpdateItem implements IUpdateItem {
      * @param itemToUpdate Item to update.
      * @param newItem the overwriting item.
      * @return the updated item.
-     * @throws DifferentItemException thrown when newItem have a different id than the itemToUpdate
+     * @throws DifferentResourceException thrown when newItem have a different id than the itemToUpdate
      */
     @Override
-    public Item updateItem(Item itemToUpdate, Item newItem) throws DifferentItemException {
-        if(Objects.equals(itemToUpdate.getId(),newItem.getId())){
+    public Item updateItem(Item itemToUpdate, Item newItem) throws DifferentResourceException {
+        if (Objects.equals(itemToUpdate.getId(), newItem.getId())) {
             repo.save(newItem);
         }
-        throw new DifferentItemException();
+        throw new DifferentResourceException("Not the same item", new Exception());
     }
 
 
