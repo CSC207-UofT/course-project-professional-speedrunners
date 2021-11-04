@@ -60,7 +60,7 @@ public class ItemController {
     // representation by HTTPMessageConverter, which converts it to the parameter type (in this case createItemRequest).
     // Then, it will be passed to the method.
     @PostMapping(path = "/api/item/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createItem(@RequestBody CreateItemRequest createItemRequest) throws ItemNotFoundException{
+    public ResponseEntity<?> createItem(@RequestBody CreateItemRequest createItemRequest) throws ResourceNotFoundException{
         try {
             Item newItem = createItem.create(createItemRequest.toItem());
 
