@@ -19,7 +19,7 @@ import java.util.UUID;
 public interface RatingJpaRepository extends JpaRepository<RatingPoint, UUID> {
     List<RatingPoint> findByRatableObject_id(UUID id);
 
-    List<RatingPoint> findByUser_id(UUID id);
+    List<RatingPoint> findByUser_email(UUID id);
 
     RatingPoint removeById(UUID id);
 }

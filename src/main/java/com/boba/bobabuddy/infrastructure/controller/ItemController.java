@@ -10,10 +10,16 @@ import com.boba.bobabuddy.core.usecase.port.request.CreateItemRequest;
 import com.boba.bobabuddy.core.usecase.port.request.FindByIdRequest;
 import com.boba.bobabuddy.core.usecase.port.request.FindByNameRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.UUID;
 
 /***
  * REST controller for Item related api calls
@@ -49,8 +55,18 @@ public class ItemController {
     // representation by HTTPMessageConverter, which converts it to the parameter type (in this case createItemRequest).
     // Then, it will be passed to the method.
     @PostMapping(path = "/api/item/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Item createItem(@RequestBody CreateItemRequest createItemRequest) {
-        return createItem.create(createItemRequest.toItem());
+    public ResponseEntity<?> createItem(@RequestBody CreateItemRequest createItemRequest) throws ItemNotFoundException{
+        try {
+            Item newItem = createItem.create(createItemRequest.toItem());
+
+            EntityModel<Item> itemResource = EntityModel.of(newItem, //
+                    linkTo(methodOn(ItemController.class).findById(newItem.getId().toString())).withSelfRel());
+
+            return ResponseEntity.created(new URI(itemResource.getRequiredLink(IanaLinkRelations.SELF).getHref()))
+                    .body(itemResource);
+        } catch (URISyntaxException e){
+            return ResponseEntity.badRequest().body("Cannot create " + createItemRequest.toItem());
+        }
     }
 
     /***
@@ -66,14 +82,14 @@ public class ItemController {
 
     /***
      * query for an item resource with matching id.
-     * @param findByIdRequest Request class containing a UUID
+     * @param id Request class containing a UUID
      * @return Item with matching UUID, which will be automatically converted to JSON and send it to the caller.
      * @throws ItemNotFoundException thrown when the item was not found
      */
     // Exceptions thrown in controller class will be handled automatically by SpringFramework
-    @GetMapping(path = "/api/item/id")
-    public Item findById(@RequestBody FindByIdRequest findByIdRequest) throws ItemNotFoundException {
-        return findItem.findById(findByIdRequest.getId());
+    @GetMapping(path = "/api/item/{id}")
+    public Item findById(@PathVariable String id) throws ItemNotFoundException {
+        return findItem.findById(UUID.fromString(id));
     }
 
     /***
