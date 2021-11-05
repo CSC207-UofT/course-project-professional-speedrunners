@@ -21,7 +21,7 @@ public class User {
     private String name;
     private String password;
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "user_rating_id")
+    @JoinColumn(name = "user_email")
     List<RatingPoint> ratingLst;
 
     /***
