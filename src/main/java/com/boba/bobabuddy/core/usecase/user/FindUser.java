@@ -23,7 +23,7 @@ public class FindUser implements IFindUser {
 
     @Override
     public User findByEmail(String email) throws ResourceNotFoundException {
-        return repo.findById(email).orElseThrow(() -> new ResourceNotFoundException("user not found", new Exception()));
+        return repo.findById(email).orElseThrow(() -> new ResourceNotFoundException("user not found"));
     }
 
     @Override
