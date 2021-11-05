@@ -71,6 +71,16 @@ public class StoreController {
     }
 
     /***
+     * query for store resources that have matching location.
+     * @param location location of required store
+     * @return A store resource that match the query.
+     */
+    @GetMapping(path = "/api/store/", params = "location")
+    public Store findByLocation(@RequestParam("location")String location){
+        return findStore.findByLocation(location);
+    }
+
+    /***
      * query for a store resource with matching id.
      * @param id the primary uuid key of the resource
      * @return Store with matching UUID, which will be automatically converted to JSON and send it to the caller.
@@ -84,6 +94,7 @@ public class StoreController {
 
     /***
      * query for store resources that have matching name.
+     * @param name name of required store
      * @return A store resource that match the query.
      */
     @GetMapping(path = "/api/store/", params = "name")
@@ -93,6 +104,7 @@ public class StoreController {
 
     /***
      * query for store resource that partially matches the provided name
+     * @param nameContain infix of required store's name
      * @return list of store resources that match the query.
      */
     @GetMapping(path = "/api/store/", params = "name-contain")
@@ -103,6 +115,7 @@ public class StoreController {
     /***
      * query for store resources that have rating greater than or equal to a given value
      * @param rating the rating used for comparison
+     * @param sorted whether returned list should be sorted
      * @return list of store resources that match the query.
      */
     @GetMapping(path = "/api/store/", params = "rating-geq")
@@ -111,12 +124,25 @@ public class StoreController {
         return findStore.findByAvgRatingGreaterThanEqual(rating, sorted);
     }
 
+    /***
+     * Update a store given its id by overwriting it.
+     * @param id the primary uuid key of the resource
+     * @return updated store
+     * @throws NoSuchStoreException thrown when the store (found via param id) does not exist in the database.
+     * @throws StoreNotFoundException thrown when store was not found
+     */
     @PutMapping(path = "/api/store/{id}")
     public Store updateStore(@RequestParam Store storePatch, @PathVariable UUID id) throws ResourceNotFoundException,
             DifferentResourceException {
         return updateStore.updateStore(findById(id), storePatch);
     }
 
+    /***
+     * Removes a store from database that has the matching storeId.
+     * @param id the primary uuid key of the resource
+     * @return Store that was removed from the database.
+     * @throws StoreNotFoundException thrown when store was not found
+     */
     @DeleteMapping(path = "/api/store/{id}")
     public Store removeStore(@PathVariable UUID id) throws ResourceNotFoundException {
         return removeStore.removeById(id);
