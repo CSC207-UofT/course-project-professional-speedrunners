@@ -14,9 +14,11 @@ public interface IFindStore {
 
     Store findByLocation(String location);
 
+    List<Store> findByNameContaining(String name);
+
     Store findById(UUID id) throws StoreNotFoundException;
 
     Store findByName(String name);
 
-    List<Store> findByAvgRatingGreaterThanEqual(float rating);
+    List<Store> findByAvgRatingGreaterThanEqual(float rating, boolean sorted);
 }

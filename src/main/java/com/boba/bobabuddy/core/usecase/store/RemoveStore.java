@@ -3,12 +3,14 @@ package com.boba.bobabuddy.core.usecase.store;
 import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.port.IResponse.PresenterInterface;
 import com.boba.bobabuddy.core.usecase.port.storeport.IRemoveStore;
+import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+import java.util.Optional;
 
 /**
  * This class handle the usecase fo removing stores in the system.
@@ -45,8 +47,10 @@ public class RemoveStore implements IRemoveStore{
      * @param id id of the store.
      * @return Store that was removed from the database.
      */
-    @Override
-    public Store removeStoreById(UUID id){
-        return repo.removeStoreById(id);
+    public Store removeById(UUID id) throws StoreNotFoundException {
+        Optional<Store> store = Optional.ofNullable(repo.removeById(id));
+        if (store.isPresent()){
+            return store.get();
+        } else throw new StoreNotFoundException("no such store", new Exception());
     }
 }

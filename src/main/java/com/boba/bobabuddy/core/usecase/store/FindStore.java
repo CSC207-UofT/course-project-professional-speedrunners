@@ -5,6 +5,7 @@ import com.boba.bobabuddy.core.usecase.port.storeport.IFindStore;
 import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,7 +71,7 @@ public class FindStore implements IFindStore{
     public Store findById(UUID id) throws StoreNotFoundException {
         var store = repo.findById(id);
         if (store.isPresent()) return store.get();
-        throw new StoreNotFoundException();
+        throw new StoreNotFoundException("not found", new Exception());
     }
 
     /***
@@ -84,14 +85,25 @@ public class FindStore implements IFindStore{
     }
 
     /***
+     * Find Store by its name. Also do partial match.
+     * @param name name to be matched
+     * @return Store that has a name containing param name, or an empty list if no such Store exist
+     */
+    @Override
+    public List<Store> findByNameContaining(String name) {
+        return repo.findByNameContaining(name);
+    }
+
+    /***
      * Find all stores that have avgRating greater than or equal to param rating
      * @param avgRating avgRating to be compared with
      * @return Stores that has avgRating greater than or equal to param rating, or an empty list if no such Store exist
      */
     @Override
-    public List<Store> findByAvgRatingGreaterThanEqual(float avgRating){
+    public List<Store> findByAvgRatingGreaterThanEqual(float avgRating, boolean sorted){
         if (0 <= avgRating && avgRating <= 1){
-            return repo.findByAvgRatingGreaterThanEqual(avgRating);
+            Sort sorter = ((sorted) ? Sort.by("avgRating").descending() : Sort.unsorted());
+            return repo.findByAvgRatingGreaterThanEqual(avgRating, sorter);
         }
         throw new IllegalArgumentException("Rating out of bounds");
     }
