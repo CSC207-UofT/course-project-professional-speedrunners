@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.RatingPoint;
+import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.ratingpointport.ICreateRatingPoint;
 import com.boba.bobabuddy.core.usecase.port.ratingpointport.IFindRatingPoint;
@@ -12,7 +13,9 @@ import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.RatingPointNotFoun
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -45,62 +48,70 @@ public class RatingPointController {
 
     @PostMapping(path = "/api/{ratableObject}/{id}/rating/", params = "createdBy")
     public RatingPoint createRatingPoint(@RequestBody CreateRatingPointRequest createRatingPointRequest,
-                                         @PathVariable UUID id, @RequestParam("createdBy") String email) throws Exception {
+                                         @PathVariable UUID id, @RequestParam("createdBy") String email)
+            throws DuplicateResourceException, ResourceNotFoundException {
         return createRatingPoint.create(createRatingPointRequest.getRatingPoint(), id, email);
     }
 
     /**
      * Find every RatingPoint associated with a RatableObject.
      *
-     * @param findByIdRequest request class containing the UUID of the RatableObject
      * @return the list RatingPoint entities associated the RatableObject
      */
-    public List<RatingPoint> findByRatableObject(FindByIdRequest findByIdRequest) {
-        return findRatingPoint.findByRatableObject(findByIdRequest.getId());
+    @GetMapping(path = "/api/{ratableObject}/{id}/rating/")
+    public Set<RatingPoint> findByRatableObject(@PathVariable String ratableObject, @PathVariable UUID id)
+            throws MalformedURLException, ResourceNotFoundException {
+        if(ratableObject.equals("item") || ratableObject.equals("store")){
+            return findRatingPoint.findByRatableObject(id);
+        } throw new MalformedURLException("must be /api/item/ or /api/store/");
     }
 
     /**
      * Find every RatingPoint associated with a User.
      *
-     * @param findByEmailRequest request class containing the email of the User
      * @return the list RatingPoint entities associated the User
      */
-    public List<RatingPoint> findByUser(FindByEmailRequest findByEmailRequest) {
-        return findRatingPoint.findByUser(findByEmailRequest.getEmail());
+    @GetMapping(path = "/api/user/{email}/rating/")
+    public List<RatingPoint> findByUser(@PathVariable String email) {
+        return findRatingPoint.findByUser(email);
     }
 
     /**
      * Find a RatingPoint entity by UUID.
      *
-     * @param findByIdRequest request class containing the UUID of the RatingPoint
+     * @param id request class containing the UUID of the RatingPoint
      * @return the RatingPoint with the UUID
-     * @throws RatingPointNotFoundException if no RatingPoint with the given UUID is found
+     * @throws ResourceNotFoundException if no RatingPoint with the given UUID is found
      */
-    public RatingPoint findById(FindByIdRequest findByIdRequest) throws RatingPointNotFoundException {
-        return findRatingPoint.findById(findByIdRequest.getId());
+    @GetMapping(path = "/api/rating/{id}")
+    public RatingPoint findById(@PathVariable UUID id) throws ResourceNotFoundException {
+        return findRatingPoint.findById(id);
     }
 
     /**
      * Remove a RatingPoint entity by UUID.
      *
-     * @param removeByIdRequest request class containing the UUID of the RatingPoint
+     * @param id request class containing the UUID of the RatingPoint
      * @return the RatingPoint removed
      */
-    public RatingPoint removeById(RemoveByIdRequest removeByIdRequest) throws ResourceNotFoundException {
-        return removeRatingPoint.removeById(removeByIdRequest.getId());
+    @DeleteMapping(path = "/api/rating/{id}")
+    public RatingPoint removeById(@PathVariable UUID id) throws ResourceNotFoundException {
+        return removeRatingPoint.removeById(id);
     }
 
     /**
      * Update the rating of a RatingPoint.
      *
-     * @param updateRatingPointRequest request class containing the UUID of the RatingPoint and the new rating
+     * @param id request class containing the UUID of the RatingPoint and the new rating
      * @return the updated RatingPoint
-     * @throws RatingPointNotFoundException if no RatingPoint with the given UUID is found
-     * @throws InvalidRatingException       if the new rating is not 1 or 0
+     * @throws ResourceNotFoundException if no RatingPoint with the given UUID is found
+     * @throws IllegalArgumentException       if the new rating is not 1 or 0
      */
-    public RatingPoint updateRatingPointRating(UpdateRatingPointRequest updateRatingPointRequest)
-            throws RatingPointNotFoundException, InvalidRatingException {
-        return updateRatingPoint.updateRatingPointRating(updateRatingPointRequest.getId(),
-                updateRatingPointRequest.getRating());
+
+    @PutMapping(path = "/api/rating/{id}", params = "rate")
+    public RatingPoint updateRatingPointRating(@PathVariable UUID id, @RequestParam int rate)
+            throws IllegalArgumentException, ResourceNotFoundException {
+        return updateRatingPoint.updateRatingPointRating(id,
+                rate);
     }
 }

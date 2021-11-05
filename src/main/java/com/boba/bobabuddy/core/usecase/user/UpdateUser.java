@@ -3,6 +3,7 @@ package com.boba.bobabuddy.core.usecase.user;
 import com.boba.bobabuddy.core.entity.RatingPoint;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
+import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.port.userport.IUpdateUser;
 import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +38,11 @@ public class UpdateUser implements IUpdateUser {
     }
 
     @Override
-    public User addRating(User userToUpdate, RatingPoint ratingPoint) throws Exception {
+    public User addRating(User userToUpdate, RatingPoint ratingPoint) throws DuplicateResourceException {
         if (userToUpdate.addRating(ratingPoint)) {
             return repo.save(userToUpdate);
         }
-        throw new Exception("add Rating failed");
+        throw new DuplicateResourceException("add Rating failed");
     }
 
 

@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.core.usecase.user;
 
 import com.boba.bobabuddy.core.entity.User;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.userport.IRemoveUser;
 import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class RemoveUser implements IRemoveUser {
     }
 
     @Override
-    public User removeByEmail(String email) {
-        return repo.removeByEmail(email);
+    public User removeByEmail(String email) throws ResourceNotFoundException {
+        return repo.removeByEmail(email).orElseThrow(() -> new ResourceNotFoundException("No such user"));
     }
 }

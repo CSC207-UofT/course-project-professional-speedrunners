@@ -8,11 +8,10 @@ import com.boba.bobabuddy.core.usecase.port.userport.*;
 import com.boba.bobabuddy.core.usecase.user.exceptions.UserAlreadyExists;
 import com.boba.bobabuddy.core.usecase.user.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class UserController {
@@ -41,33 +40,36 @@ public class UserController {
         return createUser.create(createUserRequest.createUser());
     }
 
-    public User findByEmail(FindByEmailRequest findByEmailRequest) throws UserNotFoundException, ResourceNotFoundException {
-        return findUser.findByEmail(findByEmailRequest.getEmail());
+    @GetMapping(path = "/api/user/{email}")
+    public User findByEmail(@PathVariable String email) throws ResourceNotFoundException {
+        return findUser.findByEmail(email);
     }
 
-    public List<User> findByName(FindByNameRequest findByNameRequest) {
-        return findUser.findByName(findByNameRequest.getName());
+    @GetMapping(path = "/api/user/", params = "name")
+    public List<User> findByName(@RequestParam("name") String name) {
+        return findUser.findByName(name);
     }
 
+    @GetMapping(path = "/api/user/")
     public List<User> findAll() {
         return findUser.findAll();
     }
 
-    public User removeUserByEmail(RemoveByEmailRequest removeByEmailRequest) {
-        return removeUser.removeByEmail(removeByEmailRequest.getEmail());
+    @DeleteMapping(path = "/api/user/{email}")
+    public User removeUserByEmail(@PathVariable String email) throws ResourceNotFoundException {
+        return removeUser.removeByEmail(email);
     }
 
-    public User updateUserEmail(UpdateUserRequest updateUserRequest) throws UserNotFoundException, DifferentResourceException {
-        User updatedUser = updateUserRequest.updateUser();
-        if (findUser.userExistanceCheck(updatedUser.getEmail())) {
-            return updateUser.updateUser(updatedUser, updatedUser);
-        } else {
-            throw new UserNotFoundException();
-        }
+    @PutMapping(path = "/api/user/{email}")
+    public User updateUser(@PathVariable String email, @RequestBody User userPatch)
+            throws DifferentResourceException, ResourceNotFoundException {
+        return updateUser.updateUser(findByEmail(email), userPatch);
+
     }
 
-    public boolean loginUser(LoginUserRequest loginUserRequest) throws UserNotFoundException, ResourceNotFoundException {
-        User user = findUser.findByEmail(loginUserRequest.getEmail());
-        return loginUser.logIn(user, loginUserRequest.getPassword());
-    }
+//    @GetMapping(path = "/api/user/{email}")
+//    public boolean loginUser(@RequestBody LoginUserRequest loginUserRequest, @PathVariable String email) throws ResourceNotFoundException {
+//        User user = findUser.findByEmail(email);
+//        return loginUser.logIn(user, loginUserRequest.getPassword());
+//    }
 }

@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Class that represents a Store in the domain layer
@@ -29,7 +31,7 @@ public class Store extends RatableObject {
      * entities should also be persisted
      */
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "store_id")
     List<Item> menu;
 
     // For JPA
@@ -61,12 +63,11 @@ public class Store extends RatableObject {
     }
 
     public boolean addItem(Item item) {
-        this.menu.add(item);
-        return true;
+        return menu.add(item);
     }
 
     public boolean removeItem(Item item) {
-        return this.menu.remove(item);
+        return menu.remove(item);
     }
 
 

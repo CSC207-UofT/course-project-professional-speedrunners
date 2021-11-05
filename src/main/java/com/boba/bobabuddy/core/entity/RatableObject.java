@@ -47,7 +47,7 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
      * entities should also be persisted
      */
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ratable_rating_id")
+    @JoinColumn(name = "ratable_object_id")
     Set<RatingPoint> ratings;
 
     /***

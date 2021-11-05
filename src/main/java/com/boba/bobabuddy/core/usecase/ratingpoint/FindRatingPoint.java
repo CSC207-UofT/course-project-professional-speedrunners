@@ -1,6 +1,8 @@
 package com.boba.bobabuddy.core.usecase.ratingpoint;
 
 import com.boba.bobabuddy.core.entity.RatingPoint;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
+import com.boba.bobabuddy.core.usecase.port.ratableport.IFindRatable;
 import com.boba.bobabuddy.core.usecase.port.ratingpointport.IFindRatingPoint;
 import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.RatingPointNotFoundException;
 import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -23,15 +26,18 @@ public class FindRatingPoint implements IFindRatingPoint {
      * Handles queries and update, creation, deletion of entries in the database
      */
     private final RatingJpaRepository repo;
+    private final IFindRatable findRatable;
 
     /**
      * Constructor for the FindRatingPoint usecase.
      *
      * @param repo the RatingJpaRepository to be searched for RatingPoint entities
+     * @param findRatable
      */
     @Autowired
-    public FindRatingPoint(RatingJpaRepository repo) {
+    public FindRatingPoint(RatingJpaRepository repo, IFindRatable findRatable) {
         this.repo = repo;
+        this.findRatable = findRatable;
     }
 
     /**
@@ -39,11 +45,11 @@ public class FindRatingPoint implements IFindRatingPoint {
      * TODO: consider moving this usecase to RatableObject since it stores its ratings
      *
      * @param id the UUID of the RatableObject
-     * @return a list of every RatingPoint associated with the RatableObject
+     * @return a list of every RatingPoi.nt associated with the RatableObject
      */
     @Override
-    public List<RatingPoint> findByRatableObject(UUID id) {
-        return repo.findByRatableObject_id(id);
+    public Set<RatingPoint> findByRatableObject(UUID id) throws ResourceNotFoundException {
+        return findRatable.findById(id).getRatings();
     }
 
     /**
@@ -63,14 +69,10 @@ public class FindRatingPoint implements IFindRatingPoint {
      *
      * @param id the UUID of the RatingPoint
      * @return the RatingPoint with the UUID
-     * @throws RatingPointNotFoundException if no RatingPoint with the given UUID is found
+     * @throws ResourceNotFoundException if no RatingPoint with the given UUID is found
      */
     @Override
-    public RatingPoint findById(UUID id) throws RatingPointNotFoundException {
-        Optional<RatingPoint> ratingPoint = repo.findById(id);
-        if (ratingPoint.isPresent()) {
-            return ratingPoint.get();
-        }
-        throw new RatingPointNotFoundException();
+    public RatingPoint findById(UUID id) throws ResourceNotFoundException {
+        return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("No such rating"));
     }
 }

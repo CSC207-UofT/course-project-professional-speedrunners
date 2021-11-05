@@ -23,7 +23,6 @@ public class UpdateRatable implements IUpdateRating {
     @Override
     public RatableObject addRating(RatableObject ratable, RatingPoint newRating) {
         ratable.addRating(newRating);
-        newRating.setRatableObject(ratable);
         return repo.save(ratable);
     }
 
