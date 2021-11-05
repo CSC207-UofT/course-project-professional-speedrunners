@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.core.usecase.port.storeport;
 
 import com.boba.bobabuddy.core.entity.Store;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -12,13 +13,13 @@ import java.util.UUID;
 public interface IFindStore {
     List<Store> findAll();
 
-    Store findByLocation(String location);
+    List<Store> findByLocation(String location);
 
     List<Store> findByNameContaining(String name);
 
-    Store findById(UUID id) throws StoreNotFoundException;
+    Store findById(UUID id) throws ResourceNotFoundException;
 
-    Store findByName(String name);
+    List<Store> findByName(String name);
 
     List<Store> findByAvgRatingGreaterThanEqual(float rating, boolean sorted);
 }

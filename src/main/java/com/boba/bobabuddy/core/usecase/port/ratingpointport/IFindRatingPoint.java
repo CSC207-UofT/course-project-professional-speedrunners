@@ -1,15 +1,17 @@
 package com.boba.bobabuddy.core.usecase.port.ratingpointport;
 
 import com.boba.bobabuddy.core.entity.RatingPoint;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.RatingPointNotFoundException;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface IFindRatingPoint {
-    List<RatingPoint> findByRatableObject(UUID id);
+    Set<RatingPoint> findByRatableObject(UUID id) throws ResourceNotFoundException;
 
     List<RatingPoint> findByUser(String email);
 
-    RatingPoint findById(UUID id) throws RatingPointNotFoundException;
+    RatingPoint findById(UUID id) throws ResourceNotFoundException;
 }

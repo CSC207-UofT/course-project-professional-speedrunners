@@ -11,7 +11,6 @@ import com.boba.bobabuddy.core.entity.Store;
  */
 public class CreateItemRequest {
     private float price;
-    private Store store;
     private String name;
 
     public String getName() {
@@ -20,14 +19,6 @@ public class CreateItemRequest {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
     }
 
     public float getPrice() {
@@ -43,6 +34,6 @@ public class CreateItemRequest {
      * @return a new Item object to be stored in the database
      */
     public Item toItem() {
-        return new Item(getPrice(), getStore(), getName());
+        return new Item(getPrice(), null, getName());
     }
 }
