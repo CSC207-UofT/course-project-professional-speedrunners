@@ -42,7 +42,7 @@ public class UpdateStore implements IUpdateStore{
      * TODO: properly implement the exception
      * @param store Store to update.
      * @return the updated item.
-     * @throws NoSuchStoreException thrown when teh param store does not exist in the database.
+     * @throws NoSuchStoreException thrown when the param store does not exist in the database.
      */
 
     @Override

@@ -46,6 +46,7 @@ public class RemoveStore implements IRemoveStore{
      * Removes a store from database that has the matching storeId.
      * @param id id of the store.
      * @return Store that was removed from the database.
+     * @throws StoreNotFoundException thrown when store was not found
      */
     public Store removeById(UUID id) throws StoreNotFoundException {
         Optional<Store> store = Optional.ofNullable(repo.removeById(id));
