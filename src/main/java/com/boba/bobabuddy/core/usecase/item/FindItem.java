@@ -4,10 +4,12 @@ package com.boba.bobabuddy.core.usecase.item;
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.itemport.IFindItem;
+import com.boba.bobabuddy.core.usecase.port.storeport.IFindStore;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -33,16 +35,19 @@ public class FindItem implements IFindItem {
      * Handles queries and update, creation, deletion of entries in the database
      */
     private final ItemJpaRepository repo;
+    private final IFindStore findStore;
 
     /**
      * Initalize FindItem usecase by injecting dependencies
      *
      * @param repo database object for handling item data
+     * @param findStore
      */
     // Spring annotation that instruct springboot to attempt to automatically inject dependencies as needed.
     @Autowired
-    public FindItem(final ItemJpaRepository repo) {
+    public FindItem(final ItemJpaRepository repo, IFindStore findStore) {
         this.repo = repo;
+        this.findStore = findStore;
     }
 
 
