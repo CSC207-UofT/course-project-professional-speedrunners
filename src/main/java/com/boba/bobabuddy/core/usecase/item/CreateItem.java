@@ -2,11 +2,20 @@ package com.boba.bobabuddy.core.usecase.item;
 
 
 import com.boba.bobabuddy.core.entity.Item;
+import com.boba.bobabuddy.core.entity.Store;
+import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.itemport.ICreateItem;
+import com.boba.bobabuddy.core.usecase.port.storeport.IFindStore;
+import com.boba.bobabuddy.core.usecase.port.storeport.IUpdateStore;
+import com.boba.bobabuddy.core.usecase.store.FindStore;
+import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 /**
  * This class handle the usecase of creating item and adding it into the system.
@@ -28,17 +37,22 @@ public class CreateItem implements ICreateItem {
      * Handles queries and update, creation, deletion of entries in the database
      */
     private final ItemJpaRepository repo;
+    private final IFindStore findStore;
+    private final IUpdateStore updateStore;
     // Unused and will possibly be depreciated.
 
     /**
      * Initialize the Create Item usecase by injecting it with required dependencies.
-     *
-     * @param repo a database object for handling item data
+     *  @param repo a database object for handling item data
+     * @param findStore
+     * @param updateStore
      */
     // Spring annotation that instruct springboot to attempt to automatically inject dependencies as needed.
     @Autowired
-    public CreateItem(ItemJpaRepository repo) {
+    public CreateItem(ItemJpaRepository repo, IFindStore findStore, IUpdateStore updateStore) {
         this.repo = repo;
+        this.findStore = findStore;
+        this.updateStore = updateStore;
     }
 
 
@@ -54,10 +68,15 @@ public class CreateItem implements ICreateItem {
      *     This should not happen since the controller constructs a CreateItemRequest object, which constructs
      *     a Item object with random UUID. But testing will be required.
      * @param item Item to be persisted in the database.
+     * @param storeId
      * @return the Item object that was persisted in the database.
      */
     @Override
-    public Item create(Item item) {
+    public Item create(Item item, UUID storeId) throws DuplicateResourceException, ResourceNotFoundException {
+        Store store = findStore.findById(storeId);
+        item.setStore(store);
+        item = repo.save(item);
+        updateStore.addItem(store, item);
         return repo.save(item);
     }
 }
