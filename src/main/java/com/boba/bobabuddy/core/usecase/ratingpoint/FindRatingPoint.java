@@ -29,7 +29,7 @@ public class FindRatingPoint implements IFindRatingPoint {
     /**
      * Constructor for the FindRatingPoint usecase.
      *
-     * @param repo        the RatingJpaRepository to be searched for RatingPoint entities
+     * @param repo the RatingJpaRepository to be searched for RatingPoint entities
      */
     @Autowired
     public FindRatingPoint(RatingJpaRepository repo, IFindRatable findRatable) {

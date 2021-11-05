@@ -1,7 +1,9 @@
 package com.boba.bobabuddy.core.entity;
 
 import com.boba.bobabuddy.core.entity.builder.ItemBuilder;
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -24,13 +26,14 @@ import javax.persistence.ManyToOne;
 @Entity
 @DiscriminatorValue("Item")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Item extends RatableObject {
 
     private float price;
     // JPA annotation to indicate many-to-one relationship between item and store
     // cascade parameter tells JPA that if Item's store field is mutated, those changes to the store
     // entity should also be persisted
-    private @ManyToOne(cascade = CascadeType.ALL)
+    private @ManyToOne
     Store store;
 
     /**

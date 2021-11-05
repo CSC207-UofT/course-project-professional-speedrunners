@@ -21,4 +21,8 @@ public interface IFindStore {
     List<Store> findByName(String name);
 
     List<Store> findByAvgRatingGreaterThanEqual(float rating, boolean sorted);
+
+    Store findByItem(UUID id) throws ResourceNotFoundException;
+
+    Store findByRating(UUID id) throws ResourceNotFoundException;
 }

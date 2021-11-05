@@ -30,7 +30,7 @@ public class UpdateUser implements IUpdateUser {
             userToUpdate.setName(newUser.getName());
             userToUpdate.setEmail(newUser.getEmail());
             userToUpdate.setPassword(newUser.getPassword());
-            userToUpdate.setRatingLst(newUser.getRatingLst());
+            userToUpdate.setRatings(newUser.getRatings());
             return repo.save(userToUpdate);
 
         }

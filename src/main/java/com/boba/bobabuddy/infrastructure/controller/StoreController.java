@@ -10,11 +10,16 @@ import com.boba.bobabuddy.core.usecase.port.storeport.IRemoveStore;
 import com.boba.bobabuddy.core.usecase.port.storeport.IUpdateStore;
 import com.boba.bobabuddy.core.usecase.store.exceptions.NoSuchStoreException;
 import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
+import com.boba.bobabuddy.infrastructure.assembler.StoreResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.UUID;
 
 /***
@@ -31,14 +36,17 @@ public class StoreController {
     private final IRemoveStore removeStore;
     private final IUpdateStore updateStore;
     private final IFindStore findStore;
+    private final StoreResourceAssembler assembler;
 
     @Autowired
     public StoreController(ICreateStore createStore, IRemoveStore removeStore, IUpdateStore updateStore,
-                           IFindStore findStore) {
+                           IFindStore findStore, StoreResourceAssembler assembler) {
         this.createStore = createStore;
         this.findStore = findStore;
         this.removeStore = removeStore;
         this.updateStore = updateStore;
+        this.assembler = assembler;
+        this.assembler.setBasePath("/api");
     }
 
     /***
@@ -52,28 +60,10 @@ public class StoreController {
     // the @RequestBody annotation indicates that the body of an HTTP request will be interpreted as an POJO
     // representation by HTTPMessageConverter, which converts it to the parameter type (in this case createStoreRequest).
     // Then, it will be passed to the method.
-    @PostMapping(path = "/api/store/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Store createStore(@RequestBody CreateStoreRequest createStoreRequest) {
-        return createStore.create(createStoreRequest.toStore());
-    }
-
-    /***
-     * Query for all exiting store resource
-     * @return list of store resources exist in the database
-     */
-    @GetMapping(path = "/api/store/")
-    public List<Store> findAll() {
-        return findStore.findAll();
-    }
-
-    /***
-     * query for store resources that have matching location.
-     * @param location location of required store
-     * @return A store resource that match the query.
-     */
-    @GetMapping(path = "/api/store/", params = "location")
-    public List<Store> findByLocation(@RequestParam("location") String location) {
-        return findStore.findByLocation(location);
+    @PostMapping(path = "/api/stores", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EntityModel<Store>> createStore(@RequestBody CreateStoreRequest createStoreRequest) {
+        Store storeToPresent = createStore.create(createStoreRequest.toStore());
+        return ResponseEntity.ok(assembler.toModel(storeToPresent));
     }
 
     /***
@@ -83,19 +73,53 @@ public class StoreController {
      * @throws StoreNotFoundException thrown when the store was not found
      */
     // Exceptions thrown in controller class will be handled automatically by SpringFramework
-    @GetMapping(path = "/api/store/{id}")
-    public Store findById(@PathVariable UUID id) throws ResourceNotFoundException {
-        return findStore.findById(id);
+    @GetMapping(path = "/api/stores/{id}")
+    public ResponseEntity<EntityModel<Store>> findById(@PathVariable UUID id) {
+        try {
+            return ResponseEntity.ok(assembler.toModel(findStore.findById(id)));
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
+
+    @GetMapping(path = "/api/stores", params = "itemId")
+    public ResponseEntity<EntityModel<Store>> findByItem(@RequestParam("itemId") UUID id) {
+        try {
+            return ResponseEntity.ok(assembler.toModel(findStore.findByItem(id)));
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
+
+
+    /***
+     * Query for all exiting store resource
+     * @return list of store resources exist in the database
+     */
+    @GetMapping(path = "/api/stores")
+    public ResponseEntity<CollectionModel<EntityModel<Store>>> findAll() {
+        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findAll()));
+    }
+
+    /***
+     * query for store resources that have matching location.
+     * @param location location of required store
+     * @return A store resource that match the query.
+     */
+    @GetMapping(path = "/api/stores", params = "location")
+    public ResponseEntity<CollectionModel<EntityModel<Store>>> findByLocation(@RequestParam("location") String location) {
+        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findByLocation(location)));
+    }
+
 
     /***
      * query for store resources that have matching name.
      * @param name name of required store
      * @return A store resource that match the query.
      */
-    @GetMapping(path = "/api/store/", params = "name")
-    public List<Store> findByName(@RequestParam("name") String name) {
-        return findStore.findByName(name);
+    @GetMapping(path = "/api/stores", params = "name")
+    public ResponseEntity<CollectionModel<EntityModel<Store>>> findByName(@RequestParam("name") String name) {
+        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findByName(name)));
     }
 
     /***
@@ -103,9 +127,9 @@ public class StoreController {
      * @param nameContain infix of required store's name
      * @return list of store resources that match the query.
      */
-    @GetMapping(path = "/api/store/", params = "name-contain")
-    public List<Store> findByNameContaining(@RequestParam("name-contain") String nameContain) {
-        return findStore.findByNameContaining(nameContain);
+    @GetMapping(path = "/api/stores", params = "name-contain")
+    public ResponseEntity<CollectionModel<EntityModel<Store>>> findByNameContaining(@RequestParam("name-contain") String nameContain) {
+        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findByNameContaining(nameContain)));
     }
 
     /***
@@ -114,10 +138,10 @@ public class StoreController {
      * @param sorted whether returned list should be sorted
      * @return list of store resources that match the query.
      */
-    @GetMapping(path = "/api/store/", params = "rating-geq")
-    public List<Store> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
-                                                       @RequestParam(defaultValue = "false") boolean sorted) {
-        return findStore.findByAvgRatingGreaterThanEqual(rating, sorted);
+    @GetMapping(path = "/api/stores", params = "rating-geq")
+    public ResponseEntity<CollectionModel<EntityModel<Store>>> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
+                                                                                               @RequestParam(defaultValue = "false") boolean sorted) {
+        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findByAvgRatingGreaterThanEqual(rating, sorted)));
     }
 
     /***
@@ -127,11 +151,17 @@ public class StoreController {
      * @throws NoSuchStoreException thrown when the store (found via param id) does not exist in the database.
      * @throws StoreNotFoundException thrown when store was not found
      */
-    @PutMapping(path = "/api/store/{id}")
-    public Store updateStore(@RequestParam Store storePatch, @PathVariable UUID id) throws ResourceNotFoundException,
-            DifferentResourceException {
-        return updateStore.updateStore(findById(id), storePatch);
+    @PutMapping(path = "/api/stores/{id}")
+    public ResponseEntity<EntityModel<Store>> updateStore(@RequestParam Store storePatch, @PathVariable UUID id) {
+        try {
+            return ResponseEntity.ok(assembler.toModel(updateStore.updateStore(findStore.findById(id), storePatch)));
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (DifferentResourceException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
+        }
     }
+
 
     /***
      * Removes a store from database that has the matching storeId.
@@ -139,10 +169,21 @@ public class StoreController {
      * @return Store that was removed from the database.
      * @throws StoreNotFoundException thrown when store was not found
      */
-    @DeleteMapping(path = "/api/store/{id}")
-    public Store removeStore(@PathVariable UUID id) throws ResourceNotFoundException {
-        return removeStore.removeById(id);
+    @DeleteMapping(path = "/api/stores/{id}")
+    public ResponseEntity<EntityModel<Store>> removeStore(@PathVariable UUID id) {
+        try {
+            return ResponseEntity.ok(assembler.toModel(removeStore.removeById(id)));
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
-
+    @GetMapping(path = "/api/stores", params = "ratingId")
+    public ResponseEntity<EntityModel<Store>> findByRating(@RequestParam("ratingId") UUID id) {
+        try {
+            return ResponseEntity.ok(assembler.toModel(findStore.findByRating(id)));
+        } catch (ResourceNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
 }

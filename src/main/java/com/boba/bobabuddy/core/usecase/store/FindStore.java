@@ -2,6 +2,7 @@ package com.boba.bobabuddy.core.usecase.store;
 
 import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
+import com.boba.bobabuddy.core.usecase.port.itemport.IFindItem;
 import com.boba.bobabuddy.core.usecase.port.storeport.IFindStore;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.module.ResolutionException;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,16 +30,19 @@ import java.util.UUID;
 public class FindStore implements IFindStore {
     //JPA repository port - Handles queries and update, creation, deletion of entries in the database
     private final StoreJpaRepository repo;
+    private final IFindItem findItem;
 
     /**
      * Initalize FindStore usecase by injecting dependencies
      *
-     * @param repo database object for handling item data
+     * @param repo     database object for handling item data
+     * @param findItem
      */
     // Spring annotation that instruct springboot to attempt to automatically inject dependencies as needed.
     @Autowired
-    public FindStore(final StoreJpaRepository repo) {
+    public FindStore(final StoreJpaRepository repo, IFindItem findItem) {
         this.repo = repo;
+        this.findItem = findItem;
     }
 
     //usecase interactors
@@ -104,6 +109,16 @@ public class FindStore implements IFindStore {
             return repo.findByAvgRatingGreaterThanEqual(avgRating, sorter);
         }
         throw new IllegalArgumentException("Rating out of bounds");
+    }
+
+    @Override
+    public Store findByItem(UUID id) throws ResourceNotFoundException {
+        return findItem.findById(id).getStore();
+    }
+
+    @Override
+    public Store findByRating(UUID id) throws ResourceNotFoundException {
+        return repo.findByRatings_id(id).orElseThrow(() -> new ResourceNotFoundException("No Store with the specified rating exist"));
     }
 }
 

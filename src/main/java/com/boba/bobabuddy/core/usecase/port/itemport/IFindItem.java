@@ -23,4 +23,6 @@ public interface IFindItem {
     List<Item> findByPriceLessThanEqual(float price, boolean sorted);
 
     List<Item> findByAvgRatingGreaterThanEqual(float rating, boolean sorted);
+
+    Item findByRating(UUID id) throws ResourceNotFoundException;
 }

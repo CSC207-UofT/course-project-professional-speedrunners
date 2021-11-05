@@ -12,6 +12,8 @@ import java.util.UUID;
 public interface StoreJpaRepository extends RatableObjectJpaRepository<Store> {
     List<Store> findByLocation(String location);
 
+    Optional<Store> findByMenu_Id(UUID id);
+
     Optional<Store> findById(UUID id);
 
     List<Store> findByNameContaining(String name);

@@ -3,6 +3,7 @@ package com.boba.bobabuddy.core.usecase.item;
 
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
+import com.boba.bobabuddy.core.usecase.port.itemport.IFindItem;
 import com.boba.bobabuddy.core.usecase.port.itemport.IRemoveItem;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +30,19 @@ import java.util.UUID;
 public class RemoveItem implements IRemoveItem {
 
     private final ItemJpaRepository repo;
+    private final IFindItem findItem;
 
     /**
      * Initialize RemoveItem usecase by injecting dependencies
      *
      * @param repo database object for handling item data
+     * @param findItem
      */
     // Spring annotation that instruct springboot to attempt to automatically inject dependencies as needed.
     @Autowired
-    public RemoveItem(final ItemJpaRepository repo) {
+    public RemoveItem(final ItemJpaRepository repo, IFindItem findItem) {
         this.repo = repo;
+        this.findItem = findItem;
     }
 
     /***
@@ -48,10 +52,9 @@ public class RemoveItem implements IRemoveItem {
      */
     @Override
     public Item removeById(UUID id) throws ResourceNotFoundException {
-        Optional<Item> item = repo.removeById(id);
-        if (item.isPresent()) {
-            return item.get();
-        } else throw new ResourceNotFoundException("no such item", new Exception());
+        Item item = findItem.findById(id);
+        repo.delete(item);
+        return item;
     }
 
     //TODO: add removeByStore

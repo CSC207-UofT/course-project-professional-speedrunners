@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 
@@ -14,12 +15,13 @@ import java.util.UUID;
  */
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RatingPoint {
     private int rating;
     // Indicates ManyToOne relationship between entities.
-    private @ManyToOne(cascade = CascadeType.ALL)
+    private @ManyToOne
     User user;
-    private @ManyToOne(cascade = CascadeType.ALL)
+    private @ManyToOne
     RatableObject ratableObject;
     private @Id
     @GeneratedValue

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -37,7 +38,12 @@ public class FindUser implements IFindUser {
     }
 
     @Override
-    public boolean userExistanceCheck(String email) {
+    public boolean userExistenceCheck(String email) {
         return repo.findById(email).isPresent();
+    }
+
+    @Override
+    public User findByRating(UUID id) throws ResourceNotFoundException {
+        return repo.findByRatings_id(id).orElseThrow(() -> new ResourceNotFoundException("No user with this rating entry exist"));
     }
 }

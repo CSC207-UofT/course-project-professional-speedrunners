@@ -4,6 +4,7 @@ import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface IFindUser {
 
@@ -13,5 +14,7 @@ public interface IFindUser {
 
     List<User> findByName(String name);
 
-    boolean userExistanceCheck(String email);
+    boolean userExistenceCheck(String email);
+
+    User findByRating(UUID id) throws ResourceNotFoundException;
 }

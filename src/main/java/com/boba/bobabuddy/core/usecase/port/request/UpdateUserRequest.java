@@ -4,18 +4,19 @@ import com.boba.bobabuddy.core.entity.RatingPoint;
 import com.boba.bobabuddy.core.entity.User;
 
 import java.util.List;
+import java.util.Set;
 
 public class UpdateUserRequest {
     String email;
-    List<RatingPoint> ratingLst;
+    Set<RatingPoint> ratingLst;
     private String name;
     private String password;
 
-    public List<RatingPoint> getRatingLst() {
+    public Set<RatingPoint> getRatingLst() {
         return ratingLst;
     }
 
-    public void setRatingLst(List<RatingPoint> ratingLst) {
+    public void setRatingLst(Set<RatingPoint> ratingLst) {
         this.ratingLst = ratingLst;
     }
 
@@ -45,7 +46,7 @@ public class UpdateUserRequest {
 
     public User updateUser() {
         User updatedUser = new User(getName(), getEmail(), getPassword());
-        updatedUser.setRatingLst(getRatingLst());
+        updatedUser.setRatings(getRatingLst());
         return updatedUser;
     }
 }
