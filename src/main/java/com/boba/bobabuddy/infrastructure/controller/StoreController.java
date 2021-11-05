@@ -2,6 +2,8 @@ package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.entity.RatableObject;
+import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.store.exceptions.NoSuchStoreException;
 import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.storeport.ICreateStore;
@@ -76,7 +78,7 @@ public class StoreController {
      */
     // Exceptions thrown in controller class will be handled automatically by SpringFramework
     @GetMapping(path = "/api/store/{id}")
-    public Store findById(@PathVariable UUID id) throws StoreNotFoundException{
+    public Store findById(@PathVariable UUID id) throws ResourceNotFoundException {
         return findStore.findById(id);
     }
 
@@ -85,7 +87,7 @@ public class StoreController {
      * @return A store resource that match the query.
      */
     @GetMapping(path = "/api/store/", params = "name")
-    public Store findByName(@RequestParam("name")String name){
+    public List<Store> findByName(@RequestParam("name")String name){
         return findStore.findByName(name);
     }
 
@@ -110,13 +112,13 @@ public class StoreController {
     }
 
     @PutMapping(path = "/api/store/{id}")
-    public Store updateStore(@PathVariable UUID id) throws NoSuchStoreException, StoreNotFoundException {
-        Store storeToUpdate = findById(id);
-        return updateStore.updateStore(storeToUpdate);
+    public Store updateStore(@RequestParam Store storePatch, @PathVariable UUID id) throws ResourceNotFoundException,
+            DifferentResourceException {
+        return updateStore.updateStore(findById(id), storePatch);
     }
 
     @DeleteMapping(path = "/api/store/{id}")
-    public Store removeStore(@PathVariable UUID id) throws StoreNotFoundException{
+    public Store removeStore(@PathVariable UUID id) throws ResourceNotFoundException {
         return removeStore.removeById(id);
     }
 

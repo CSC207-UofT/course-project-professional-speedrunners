@@ -2,6 +2,7 @@ package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
+import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.itemport.ICreateItem;
 import com.boba.bobabuddy.core.usecase.port.itemport.IFindItem;
@@ -30,6 +31,7 @@ public class ItemController {
     private final IFindItem findItem;
 
 
+
     @Autowired
     public ItemController(ICreateItem createItem, IFindItem findItem, IRemoveItem removeItem, IUpdateItem updateItem) {
         this.createItem = createItem;
@@ -49,9 +51,10 @@ public class ItemController {
     // the @RequestBody annotation indicates that the body of an HTTP request will be interpreted as an POJO
     // representation by HTTPMessageConverter, which converts it to the parameter type (in this case createItemRequest).
     // Then, it will be passed to the method.
-    @PostMapping(path = "/api/item/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Item createItem(@RequestBody CreateItemRequest createItemRequest) {
-        return createItem.create(createItemRequest.toItem());
+    @PostMapping(path = "/api/store/{storeId}/item/")
+    public Item createItem(@RequestBody CreateItemRequest createItemRequest, @PathVariable UUID storeId)
+            throws ResourceNotFoundException, DuplicateResourceException {
+        return createItem.create(createItemRequest.toItem(), storeId);
     }
 
     /***
@@ -103,7 +106,6 @@ public class ItemController {
         return findItem.findByStore(storeId);
     }
 
-
     /***
      * query for item resources that have price less than equal to a given value
      * @param price the price used for comparison
@@ -130,7 +132,8 @@ public class ItemController {
     }
 
     @PutMapping(path = "/api/item/{id}")
-    public Item updateItem(@RequestBody Item newItem, @PathVariable UUID id) throws ResourceNotFoundException, DifferentResourceException {
+    public Item updateItem(@RequestBody Item newItem, @PathVariable UUID id) throws ResourceNotFoundException,
+            DifferentResourceException {
         Item itemToUpdate = findById(id);
         return updateItem.updateItem(itemToUpdate, newItem);
     }
