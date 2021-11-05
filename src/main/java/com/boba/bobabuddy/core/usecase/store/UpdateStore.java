@@ -1,12 +1,22 @@
 package com.boba.bobabuddy.core.usecase.store;
 
+import com.boba.bobabuddy.core.entity.Item;
+import com.boba.bobabuddy.core.entity.RatableObject;
+import com.boba.bobabuddy.core.entity.RatingPoint;
 import com.boba.bobabuddy.core.entity.Store;
+import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
+import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.store.exceptions.NoSuchStoreException;
 import com.boba.bobabuddy.core.usecase.port.storeport.IUpdateStore;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 /**
  * This class handle the usecase of updating stores in the system.
@@ -40,14 +50,32 @@ public class UpdateStore implements IUpdateStore{
      * The api user is responsible for sending in a Store representation that was modified.
      * However, if no Store with the same uuid exist and exception will be thrown.
      * TODO: properly implement the exception
-     * @param store Store to update.
+     * @param storeToUpdate Store to update.
+     * @param storePatch the same store with updated fields
      * @return the updated item.
-     * @throws NoSuchStoreException thrown when teh param store does not exist in the database.
+     * @throws ResourceNotFoundException thrown when teh param store does not exist in the database.
      */
 
     @Override
-    public Store updateStore(Store store) throws NoSuchStoreException{
-        if (repo.existsById(store.getId())) return repo.save(store);
-        throw new NoSuchStoreException("No such store", new Exception());
+    public Store updateStore(Store storeToUpdate, Store storePatch) throws DifferentResourceException {
+        if (Objects.equals(storeToUpdate, storePatch)) {
+            repo.save(storePatch);
+        }
+        throw new DifferentResourceException("Not the same store", new Exception());
+    }
+
+    @Override
+    public Store addItem(Store store, Item item) throws DuplicateResourceException {
+        if(store.addItem(item)){
+        return repo.save(store);}
+        throw new DuplicateResourceException("Item already in store");
+    }
+
+    @Override
+    public Store removeItem(Store store, Item item) throws ResourceNotFoundException {
+        if (store.removeItem(item)) {
+            return repo.save(store);
+        }
+        throw new ResourceNotFoundException("No such Item", new Exception());
     }
 }

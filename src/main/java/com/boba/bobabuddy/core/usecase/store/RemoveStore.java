@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.core.usecase.store;
 
 import com.boba.bobabuddy.core.entity.Store;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.IResponse.PresenterInterface;
 import com.boba.bobabuddy.core.usecase.port.storeport.IRemoveStore;
 import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
@@ -47,10 +48,8 @@ public class RemoveStore implements IRemoveStore{
      * @param id id of the store.
      * @return Store that was removed from the database.
      */
-    public Store removeById(UUID id) throws StoreNotFoundException {
-        Optional<Store> store = Optional.ofNullable(repo.removeById(id));
-        if (store.isPresent()){
-            return store.get();
-        } else throw new StoreNotFoundException("no such store", new Exception());
+    public Store removeById(UUID id) throws ResourceNotFoundException {
+        return repo.removeById(id).orElseThrow(() -> new ResourceNotFoundException("No such store", new Exception()));
+
     }
 }

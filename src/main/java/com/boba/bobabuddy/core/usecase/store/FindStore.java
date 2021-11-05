@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.core.usecase.store;
 
 import com.boba.bobabuddy.core.entity.Store;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.storeport.IFindStore;
 import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,7 +59,7 @@ public class FindStore implements IFindStore{
      * @return the Store if it was found. Otherwise, return null.
      */
     @Override
-    public Store findByLocation(String location) {
+    public List<Store> findByLocation(String location) {
         return repo.findByLocation(location);
     }
 
@@ -65,13 +67,11 @@ public class FindStore implements IFindStore{
      * Find Store by its uuid
      * @param id uuid of the store
      * @return the Store if it was found
-     * @throws StoreNotFoundException if this store does not exist
+     * @throws ResourceNotFoundException if this store does not exist
      */
     @Override
-    public Store findById(UUID id) throws StoreNotFoundException {
-        var store = repo.findById(id);
-        if (store.isPresent()) return store.get();
-        throw new StoreNotFoundException("not found", new Exception());
+    public Store findById(UUID id) throws ResourceNotFoundException {
+        return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("No such store", new Exception()));
     }
 
     /***
@@ -80,7 +80,7 @@ public class FindStore implements IFindStore{
      * @return Store that has name as its name. Or null if no such Store exist
      */
     @Override
-    public Store findByName(String name) {
+    public List<Store> findByName(String name) {
         return repo.findByName(name);
     }
 
