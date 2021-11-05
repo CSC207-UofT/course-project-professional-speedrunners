@@ -7,9 +7,7 @@ import com.boba.bobabuddy.core.usecase.port.ratingpointport.ICreateRatingPoint;
 import com.boba.bobabuddy.core.usecase.port.ratingpointport.IFindRatingPoint;
 import com.boba.bobabuddy.core.usecase.port.ratingpointport.IRemoveRatingPoint;
 import com.boba.bobabuddy.core.usecase.port.ratingpointport.IUpdateRatingPoint;
-import com.boba.bobabuddy.core.usecase.port.request.*;
-import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.InvalidRatingException;
-import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.RatingPointNotFoundException;
+import com.boba.bobabuddy.core.usecase.port.request.CreateRatingPointRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,9 +59,10 @@ public class RatingPointController {
     @GetMapping(path = "/api/{ratableObject}/{id}/rating/")
     public Set<RatingPoint> findByRatableObject(@PathVariable String ratableObject, @PathVariable UUID id)
             throws MalformedURLException, ResourceNotFoundException {
-        if(ratableObject.equals("item") || ratableObject.equals("store")){
+        if (ratableObject.equals("item") || ratableObject.equals("store")) {
             return findRatingPoint.findByRatableObject(id);
-        } throw new MalformedURLException("must be /api/item/ or /api/store/");
+        }
+        throw new MalformedURLException("must be /api/item/ or /api/store/");
     }
 
     /**
@@ -105,7 +104,7 @@ public class RatingPointController {
      * @param id request class containing the UUID of the RatingPoint and the new rating
      * @return the updated RatingPoint
      * @throws ResourceNotFoundException if no RatingPoint with the given UUID is found
-     * @throws IllegalArgumentException       if the new rating is not 1 or 0
+     * @throws IllegalArgumentException  if the new rating is not 1 or 0
      */
 
     @PutMapping(path = "/api/rating/{id}", params = "rate")

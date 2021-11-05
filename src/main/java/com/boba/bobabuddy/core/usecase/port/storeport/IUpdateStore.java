@@ -5,7 +5,6 @@ import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.store.exceptions.NoSuchStoreException;
 import org.springframework.stereotype.Component;
 
 @Component

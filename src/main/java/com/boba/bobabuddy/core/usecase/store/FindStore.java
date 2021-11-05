@@ -3,14 +3,12 @@ package com.boba.bobabuddy.core.usecase.store;
 import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.storeport.IFindStore;
-import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +25,7 @@ import java.util.UUID;
 // Indicates that operations performed in this class in Transactional.
 // Refers to this link for more info: https://java.christmas/2019/24
 @Transactional
-public class FindStore implements IFindStore{
+public class FindStore implements IFindStore {
     //JPA repository port - Handles queries and update, creation, deletion of entries in the database
     private final StoreJpaRepository repo;
 
@@ -100,8 +98,8 @@ public class FindStore implements IFindStore{
      * @return Stores that has avgRating greater than or equal to param rating, or an empty list if no such Store exist
      */
     @Override
-    public List<Store> findByAvgRatingGreaterThanEqual(float avgRating, boolean sorted){
-        if (0 <= avgRating && avgRating <= 1){
+    public List<Store> findByAvgRatingGreaterThanEqual(float avgRating, boolean sorted) {
+        if (0 <= avgRating && avgRating <= 1) {
             Sort sorter = ((sorted) ? Sort.by("avgRating").descending() : Sort.unsorted());
             return repo.findByAvgRatingGreaterThanEqual(avgRating, sorter);
         }

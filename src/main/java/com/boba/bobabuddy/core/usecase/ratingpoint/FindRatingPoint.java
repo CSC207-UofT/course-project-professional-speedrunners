@@ -4,14 +4,12 @@ import com.boba.bobabuddy.core.entity.RatingPoint;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.ratableport.IFindRatable;
 import com.boba.bobabuddy.core.usecase.port.ratingpointport.IFindRatingPoint;
-import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.RatingPointNotFoundException;
 import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,8 +29,7 @@ public class FindRatingPoint implements IFindRatingPoint {
     /**
      * Constructor for the FindRatingPoint usecase.
      *
-     * @param repo the RatingJpaRepository to be searched for RatingPoint entities
-     * @param findRatable
+     * @param repo        the RatingJpaRepository to be searched for RatingPoint entities
      */
     @Autowired
     public FindRatingPoint(RatingJpaRepository repo, IFindRatable findRatable) {

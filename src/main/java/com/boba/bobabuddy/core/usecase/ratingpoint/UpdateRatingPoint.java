@@ -3,14 +3,11 @@ package com.boba.bobabuddy.core.usecase.ratingpoint;
 import com.boba.bobabuddy.core.entity.RatingPoint;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.ratingpointport.IUpdateRatingPoint;
-import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.InvalidRatingException;
-import com.boba.bobabuddy.core.usecase.ratingpoint.exceptions.RatingPointNotFoundException;
 import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.InvalidParameterException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,7 +40,7 @@ public class UpdateRatingPoint implements IUpdateRatingPoint {
      * @param newRating the new rating of the RatingPoint
      * @return the updated RatingPoint
      * @throws ResourceNotFoundException if no RatingPoint with the given UUID is found
-     * @throws IllegalArgumentException       if the new rating is not 1 or 0
+     * @throws IllegalArgumentException  if the new rating is not 1 or 0
      */
     @Override
     public RatingPoint updateRatingPointRating(UUID id, int newRating)

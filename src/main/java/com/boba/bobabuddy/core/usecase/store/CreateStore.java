@@ -27,6 +27,7 @@ public class CreateStore implements ICreateStore {
 
     /**
      * Initialize the Create Store usecase by injecting it with required dependencies.
+     *
      * @param repo a database object for handling item data
      */
     // Spring annotation that instruct springboot to attempt to automatically inject dependencies as needed.

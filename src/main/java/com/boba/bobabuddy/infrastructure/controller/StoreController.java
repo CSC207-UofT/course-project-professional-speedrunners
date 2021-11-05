@@ -3,13 +3,13 @@ package com.boba.bobabuddy.infrastructure.controller;
 import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.store.exceptions.NoSuchStoreException;
-import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
+import com.boba.bobabuddy.core.usecase.port.request.CreateStoreRequest;
 import com.boba.bobabuddy.core.usecase.port.storeport.ICreateStore;
 import com.boba.bobabuddy.core.usecase.port.storeport.IFindStore;
 import com.boba.bobabuddy.core.usecase.port.storeport.IRemoveStore;
 import com.boba.bobabuddy.core.usecase.port.storeport.IUpdateStore;
-import com.boba.bobabuddy.core.usecase.port.request.CreateStoreRequest;
+import com.boba.bobabuddy.core.usecase.store.exceptions.NoSuchStoreException;
+import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -27,19 +27,19 @@ import java.util.UUID;
 public class StoreController {
 
     //fields for all Store usecase, with interface
-   private ICreateStore createStore;
-   private IRemoveStore removeStore;
-   private IUpdateStore updateStore;
-   private IFindStore findStore;
+    private final ICreateStore createStore;
+    private final IRemoveStore removeStore;
+    private final IUpdateStore updateStore;
+    private final IFindStore findStore;
 
-   @Autowired
-   public StoreController(ICreateStore createStore, IRemoveStore removeStore, IUpdateStore updateStore,
-                          IFindStore findStore){
-       this.createStore = createStore;
-       this.findStore = findStore;
-       this.removeStore = removeStore;
-       this.updateStore = updateStore;
-   }
+    @Autowired
+    public StoreController(ICreateStore createStore, IRemoveStore removeStore, IUpdateStore updateStore,
+                           IFindStore findStore) {
+        this.createStore = createStore;
+        this.findStore = findStore;
+        this.removeStore = removeStore;
+        this.updateStore = updateStore;
+    }
 
     /***
      * add the Store resource into the database.
@@ -53,7 +53,7 @@ public class StoreController {
     // representation by HTTPMessageConverter, which converts it to the parameter type (in this case createStoreRequest).
     // Then, it will be passed to the method.
     @PostMapping(path = "/api/store/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Store createStore(@RequestBody CreateStoreRequest createStoreRequest){
+    public Store createStore(@RequestBody CreateStoreRequest createStoreRequest) {
         return createStore.create(createStoreRequest.toStore());
     }
 
@@ -62,7 +62,7 @@ public class StoreController {
      * @return list of store resources exist in the database
      */
     @GetMapping(path = "/api/store/")
-    public List<Store> findAll(){
+    public List<Store> findAll() {
         return findStore.findAll();
     }
 
@@ -72,7 +72,7 @@ public class StoreController {
      * @return A store resource that match the query.
      */
     @GetMapping(path = "/api/store/", params = "location")
-    public List<Store> findByLocation(@RequestParam("location")String location){
+    public List<Store> findByLocation(@RequestParam("location") String location) {
         return findStore.findByLocation(location);
     }
 
@@ -94,7 +94,7 @@ public class StoreController {
      * @return A store resource that match the query.
      */
     @GetMapping(path = "/api/store/", params = "name")
-    public List<Store> findByName(@RequestParam("name")String name){
+    public List<Store> findByName(@RequestParam("name") String name) {
         return findStore.findByName(name);
     }
 
@@ -116,7 +116,7 @@ public class StoreController {
      */
     @GetMapping(path = "/api/store/", params = "rating-geq")
     public List<Store> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
-                                                      @RequestParam(defaultValue = "false") boolean sorted) {
+                                                       @RequestParam(defaultValue = "false") boolean sorted) {
         return findStore.findByAvgRatingGreaterThanEqual(rating, sorted);
     }
 

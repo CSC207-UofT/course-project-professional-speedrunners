@@ -1,7 +1,6 @@
 package com.boba.bobabuddy.core.usecase.port.request;
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.entity.Store;
 
 /***
  * Class that stores information required to create a new Item entity

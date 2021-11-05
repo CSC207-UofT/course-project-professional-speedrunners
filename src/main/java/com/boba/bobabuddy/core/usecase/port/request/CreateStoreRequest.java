@@ -13,27 +13,28 @@ public class CreateStoreRequest {
     private String name;
     private String location;
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getLocation(){
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location){
+    public void setLocation(String location) {
         this.location = location;
     }
+
     /***
      * Construct a Store entity base on the fields provided.
      * @return a new Store object to be stored in the database
      */
 
-    public Store toStore(){
+    public Store toStore() {
         return new Store(getName(), getLocation());
     }
 }

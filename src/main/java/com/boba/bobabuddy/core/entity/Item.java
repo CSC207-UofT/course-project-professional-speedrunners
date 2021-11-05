@@ -1,10 +1,12 @@
 package com.boba.bobabuddy.core.entity;
 
 import com.boba.bobabuddy.core.entity.builder.ItemBuilder;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 /**
  * Class that represents an Item in the domain layer

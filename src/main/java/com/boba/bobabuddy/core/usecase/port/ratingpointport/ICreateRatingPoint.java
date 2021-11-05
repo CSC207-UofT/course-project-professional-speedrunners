@@ -7,5 +7,5 @@ import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import java.util.UUID;
 
 public interface ICreateRatingPoint {
-    public RatingPoint create(RatingPoint ratingPoint, UUID ratableId, String email) throws ResourceNotFoundException, DuplicateResourceException;
+    RatingPoint create(RatingPoint ratingPoint, UUID ratableId, String email) throws ResourceNotFoundException, DuplicateResourceException;
 }

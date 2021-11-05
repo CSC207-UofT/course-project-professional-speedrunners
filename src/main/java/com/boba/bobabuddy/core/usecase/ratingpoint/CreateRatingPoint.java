@@ -37,10 +37,6 @@ public class CreateRatingPoint implements ICreateRatingPoint {
      * Constructor for the CreateRatingPoint usecase.
      *
      * @param repo          a RatingJpaRepository for storing the new RatingPoint objects
-     * @param findRatable
-     * @param updateRatable
-     * @param findUser
-     * @param updateUser
      */
     @Autowired
     public CreateRatingPoint(RatingJpaRepository repo, FindRatable findRatable, UpdateRatable updateRatable,

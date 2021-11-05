@@ -6,7 +6,6 @@ import com.boba.bobabuddy.core.usecase.port.itemport.IUpdateItem;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;

@@ -10,7 +10,6 @@ import com.boba.bobabuddy.core.usecase.port.itemport.IRemoveItem;
 import com.boba.bobabuddy.core.usecase.port.itemport.IUpdateItem;
 import com.boba.bobabuddy.core.usecase.port.request.CreateItemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +28,6 @@ public class ItemController {
     private final IRemoveItem removeItem;
     private final IUpdateItem updateItem;
     private final IFindItem findItem;
-
 
 
     @Autowired

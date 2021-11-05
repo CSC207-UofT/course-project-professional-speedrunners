@@ -8,5 +8,5 @@ import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 public interface IUpdateUser {
     User updateUser(User userToUpdate, User newUser) throws DifferentResourceException;
 
-    public User addRating(User userToUpdate, RatingPoint ratingPoint) throws DuplicateResourceException;
+    User addRating(User userToUpdate, RatingPoint ratingPoint) throws DuplicateResourceException;
 }

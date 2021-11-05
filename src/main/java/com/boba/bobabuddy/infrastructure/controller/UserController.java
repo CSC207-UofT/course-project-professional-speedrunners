@@ -3,22 +3,19 @@ package com.boba.bobabuddy.infrastructure.controller;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.port.request.*;
+import com.boba.bobabuddy.core.usecase.port.request.CreateUserRequest;
 import com.boba.bobabuddy.core.usecase.port.userport.*;
 import com.boba.bobabuddy.core.usecase.user.exceptions.UserAlreadyExists;
-import com.boba.bobabuddy.core.usecase.user.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class UserController {
 
     private final ICreateUser createUser;
     private final IFindUser findUser;
-    private final ILoginUser loginUser;
     private final IRemoveUser removeUser;
     private final IUpdateUser updateUser;
 
@@ -26,7 +23,6 @@ public class UserController {
     public UserController(ICreateUser createUser, IFindUser findUser, ILoginUser loginUser, IRemoveUser removeUser, IUpdateUser updateUser) {
         this.createUser = createUser;
         this.findUser = findUser;
-        this.loginUser = loginUser;
         this.removeUser = removeUser;
         this.updateUser = updateUser;
     }
