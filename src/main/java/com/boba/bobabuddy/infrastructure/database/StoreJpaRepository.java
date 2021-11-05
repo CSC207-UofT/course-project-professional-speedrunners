@@ -16,13 +16,7 @@ public interface StoreJpaRepository extends RatableObjectJpaRepository<Store> {
 
     Optional<Store> findById(UUID id);
 
-    Store findByName(String name);
-
-    Store findByLocation(String location);
-
     List<Store> findByNameContaining(String name);
 
     List<Store> findByAvgRatingGreaterThanEqual(float rating, Sort sort);
-
-    Store removeById(UUID id);
 }
