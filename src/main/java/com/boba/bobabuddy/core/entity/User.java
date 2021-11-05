@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 
@@ -21,7 +22,8 @@ public class User {
     private String name;
     private String password;
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "user_rating_id")
+    @JoinColumn(name = "user_email")
+    @JsonIdentityReference(alwaysAsId = true)
     List<RatingPoint> ratingLst;
 
     /***

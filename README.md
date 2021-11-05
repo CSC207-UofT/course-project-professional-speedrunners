@@ -9,28 +9,76 @@
   intellij and click on the green icons on the left side of each method definitions.
 - some sample api calls:
 
+creating a store:
+
 ```
-POST http://localhost:8080/api/item/
+POST http://localhost:8080/api/store/
 Content-Type: application/json
 
 {
-  "price": 19,
-  "store": {
-    "name": "bob",
-    "location": "St. George"
-  },
+  "name": "bob's bubble tea",
+  "location": "St.George"
+}
+```
+
+creating an item and add it to a store
+
+```
+POST http://localhost:8080/api/store/<storeId>/item/
+Content-Type: application/json
+
+{
+  "price": 17,
   "name": "milk tea"
 }
 ```
 
+creating a user
+
 ```
-GET http://localhost:8080/api/item/name-contain
+POST http://localhost:8080/api/user/
 Content-Type: application/json
 
 {
-  "name": "tea"
+  "email": "yeye@gmail.com",
+  "name": "yeye",
+  "password": "yeye123"
 }
 ```
+
+creating a rating and add association
+
+```
+POST http://localhost:8080/api/store/<storeId>/rating/?createdBy=yeye@gmail.com
+Content-Type: application/json
+
+{
+  "rating": 1
+}
+
+###
+POST http://localhost:8080/api/item/<itemId>/rating/?createdBy=yeye@gmail.com
+Content-Type: application/json
+
+{
+  "rating": 0
+}
+```
+
+search item by partial name match
+
+```
+GET http://localhost:8080/api/item/?name-contain=milk
+```
+
+search item by price leq & sort
+
+```
+GET http://localhost:8080/api/item/?price-leq=15&sorted=true
+
+```
+
+more example & full documentation to come
 
 ### where to start
 

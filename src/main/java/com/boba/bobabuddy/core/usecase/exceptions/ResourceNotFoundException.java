@@ -5,4 +5,8 @@ public class ResourceNotFoundException extends Exception {
         super(msg, err);
     }
 
+    public ResourceNotFoundException(String msg) {
+        super(msg);
+    }
+
 }

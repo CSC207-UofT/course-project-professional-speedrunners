@@ -6,6 +6,6 @@ import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import java.util.UUID;
 
 public interface IFindRatable {
-    public RatableObject findById(UUID id) throws ResourceNotFoundException;
+    RatableObject findById(UUID id) throws ResourceNotFoundException;
 
 }

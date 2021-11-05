@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 import org.springframework.hateoas.RepresentationModel;
@@ -47,7 +48,8 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
      * entities should also be persisted
      */
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ratable_rating_id")
+    @JoinColumn(name = "ratable_object_id")
+    @JsonIdentityReference(alwaysAsId = true)
     Set<RatingPoint> ratings;
 
     /***

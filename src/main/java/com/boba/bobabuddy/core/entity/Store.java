@@ -1,6 +1,8 @@
 package com.boba.bobabuddy.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
@@ -28,8 +30,9 @@ public class Store extends RatableObject {
      * cascade parameter tells JPA that if a Store's menu field is mutated, those changes to the Item
      * entities should also be persisted
      */
-    private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "item_id")
+    private @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "store_id")
+    @JsonIdentityReference(alwaysAsId = true)
     List<Item> menu;
 
     // For JPA
@@ -61,12 +64,11 @@ public class Store extends RatableObject {
     }
 
     public boolean addItem(Item item) {
-        this.menu.add(item);
-        return true;
+        return menu.add(item);
     }
 
     public boolean removeItem(Item item) {
-        return this.menu.remove(item);
+        return menu.remove(item);
     }
 
 

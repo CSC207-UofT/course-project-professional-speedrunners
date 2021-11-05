@@ -3,6 +3,8 @@ package com.boba.bobabuddy.core.usecase.ratingpoint;
 import com.boba.bobabuddy.core.entity.RatableObject;
 import com.boba.bobabuddy.core.entity.RatingPoint;
 import com.boba.bobabuddy.core.entity.User;
+import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.port.ratingpointport.ICreateRatingPoint;
 import com.boba.bobabuddy.core.usecase.ratableobject.FindRatable;
 import com.boba.bobabuddy.core.usecase.ratableobject.UpdateRatable;
@@ -35,13 +37,10 @@ public class CreateRatingPoint implements ICreateRatingPoint {
      * Constructor for the CreateRatingPoint usecase.
      *
      * @param repo          a RatingJpaRepository for storing the new RatingPoint objects
-     * @param findRatable
-     * @param updateRatable
-     * @param findUser
-     * @param updateUser
      */
     @Autowired
-    public CreateRatingPoint(RatingJpaRepository repo, FindRatable findRatable, UpdateRatable updateRatable, FindUser findUser, UpdateUser updateUser) {
+    public CreateRatingPoint(RatingJpaRepository repo, FindRatable findRatable, UpdateRatable updateRatable,
+                             FindUser findUser, UpdateUser updateUser) {
         this.repo = repo;
         this.findRatable = findRatable;
         this.updateRatable = updateRatable;
@@ -57,7 +56,9 @@ public class CreateRatingPoint implements ICreateRatingPoint {
      * @return the saved RatingPoint
      */
     @Override
-    public RatingPoint create(RatingPoint ratingPoint, UUID ratableId, String email) throws Exception {
+    public RatingPoint create(RatingPoint ratingPoint, UUID ratableId, String email)
+            throws ResourceNotFoundException, DuplicateResourceException {
+
         RatableObject ratableToUpdate = findRatable.findById(ratableId);
         User userToUpdate = findUser.findByEmail(email);
 
@@ -67,8 +68,6 @@ public class CreateRatingPoint implements ICreateRatingPoint {
 
         updateUser.addRating(userToUpdate, ratingPoint);
         updateRatable.addRating(ratableToUpdate, ratingPoint);
-
-
 
         return repo.save(ratingPoint);
     }
