@@ -1,7 +1,6 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Store;
-import com.boba.bobabuddy.core.entity.RatableObject;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.store.exceptions.NoSuchStoreException;
@@ -11,14 +10,11 @@ import com.boba.bobabuddy.core.usecase.port.storeport.IFindStore;
 import com.boba.bobabuddy.core.usecase.port.storeport.IRemoveStore;
 import com.boba.bobabuddy.core.usecase.port.storeport.IUpdateStore;
 import com.boba.bobabuddy.core.usecase.port.request.CreateStoreRequest;
-import com.boba.bobabuddy.core.usecase.port.request.FindByIdRequest;
-import com.boba.bobabuddy.core.usecase.port.request.UpdateStoreRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /***
@@ -76,7 +72,7 @@ public class StoreController {
      * @return A store resource that match the query.
      */
     @GetMapping(path = "/api/store/", params = "location")
-    public Store findByLocation(@RequestParam("location")String location){
+    public List<Store> findByLocation(@RequestParam("location")String location){
         return findStore.findByLocation(location);
     }
 
