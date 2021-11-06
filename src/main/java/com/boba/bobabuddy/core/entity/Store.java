@@ -4,21 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class that represents a Store in the domain layer
- * Note that entities are now coupled directly with Persistence implementation (JPA)
- * This is done to save time and reduce boilerplate codes.
  */
 
-// Note that Ratable Interface have been modified to become
-// RatableObject abstract class due to JPA limitation with persisting interface object.
-
-// JPA annotation indicating that the class is an object to be persisted.
 @Entity
 @DiscriminatorValue("Store")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -74,10 +70,25 @@ public class Store extends RatableObject {
 
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Store store = (Store) o;
+        return getId() != null && Objects.equals(getId(), store.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
+                "id = " + getId() + ", " +
                 "avgRating = " + getAvgRating() + ", " +
                 "name = " + getName() + ", " +
-                "location = " + getLocation() + ")";
+                "location = " + getLocation() + ", " +
+                "links = " + getLinks() + ")";
     }
 }

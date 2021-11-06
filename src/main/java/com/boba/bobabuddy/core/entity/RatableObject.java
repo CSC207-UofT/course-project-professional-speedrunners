@@ -15,16 +15,10 @@ import java.util.UUID;
 
 /**
  * Abstract Class that defines a RatableObject in the domain layer
- * This replaces the Ratable interface
  * Item class and Store class extends this class
- * Note that entities are now coupled directly with Persistence implementation (JPA)
- * This is done to save time and reduce boilerplate codes.
  */
 
-// JPA annotation indicating that the class is an entity to be persisted.
 @Entity
-// JPA annotation indicating that this class has child entities that also need to be persisted.
-// Table per class strategy separates Item and Store into two separate tables in the SQL database.
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -35,11 +29,7 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
      * avgRating is augmented in the class.
      * any mutation to the ratings field should also mutate avgRating accordingly
      */
-    float avgRating;
-    /***
-     * JPA annotation indicating that the field is the primary key for the entity.
-     * GeneratedValue annotation instructs JPA to auto generate a primary key value.
-     */
+    private float avgRating;
     private @Id
     @GeneratedValue
     UUID id;
@@ -52,7 +42,7 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ratable_object_id")
     @JsonIdentityReference(alwaysAsId = true)
-    Set<RatingPoint> ratings;
+    Set<Rating> ratings;
 
     /***
      * Constructor that initiates RatableObject
@@ -76,18 +66,17 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
         this.name = name;
     }
 
-    // Getter and setters
-    public Set<RatingPoint> getRatings() {
+    public Set<Rating> getRatings() {
         return ratings;
     }
 
     /***
      * note that this method computes the average rating and set both ratings field and avgRating field.
      */
-    public void setRatings(Set<RatingPoint> ratings) {
+    public void setRatings(Set<Rating> ratings) {
         this.ratings = ratings;
         float counter = 0;
-        for (RatingPoint i : ratings) {
+        for (Rating i : ratings) {
             counter += i.getRating();
         }
         setAvgRating(counter / ratings.size());
@@ -111,14 +100,29 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
     }
 
     //TODO: Check if this formula is correct. need to be tested
-    public boolean addRating(RatingPoint point) {
-        this.avgRating = (avgRating * ratings.size() + point.getRating()) / (ratings.size() + 1);
+
+    /***
+     * add a rating to the object and modify the avgRating accordingly
+     * @param point a RatingPoint object
+     * @return true if the operation was successful
+     */
+    public boolean addRating(Rating point) {
+        if (ratings.contains(point)) {
+            return false;
+        }
+        setAvgRating((avgRating * ratings.size() + point.getRating()) / (ratings.size() + 1));
         return ratings.add(point);
 
     }
 
     //TODO: Check if this formula is correct. need to be tested
-    public boolean removeRating(RatingPoint point) {
+
+    /***
+     * remove a rating to the object and modify the avgRating accordingly
+     * @param point a RatingPoint object
+     * @return true if the operation was successful
+     */
+    public boolean removeRating(Rating point) {
         int size = ratings.size();
         boolean result = ratings.remove(point);
         if (result) {
@@ -144,6 +148,9 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "avgRating = " + avgRating + ")";
+                "id = " + getId() + ", " +
+                "avgRating = " + getAvgRating() + ", " +
+                "name = " + getName() + ", " +
+                "links = " + getLinks() + ")";
     }
 }

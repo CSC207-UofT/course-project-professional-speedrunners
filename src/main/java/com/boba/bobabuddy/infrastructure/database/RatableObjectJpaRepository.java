@@ -1,6 +1,5 @@
 package com.boba.bobabuddy.infrastructure.database;
 
-import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.RatableObject;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;

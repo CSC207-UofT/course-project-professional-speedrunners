@@ -7,11 +7,12 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /***
  * Class that represents a User
- * JPA annotation comments will be omitted. refer to other entity class for info
  */
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
@@ -24,7 +25,7 @@ public class User {
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_email")
     @JsonIdentityReference(alwaysAsId = true)
-    Set<RatingPoint> ratings;
+    Set<Rating> ratings;
 
     /***
      * Constructs a user.
@@ -44,19 +45,19 @@ public class User {
 
     }
 
-    public Set<RatingPoint> getRatings() {
+    public Set<Rating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(Set<RatingPoint> ratingLst) {
+    public void setRatings(Set<Rating> ratingLst) {
         this.ratings = ratingLst;
     }
 
-    public boolean addRating(RatingPoint point) {
+    public boolean addRating(Rating point) {
         return this.ratings.add(point);
     }
 
-    public boolean removeRating(RatingPoint point) {
+    public boolean removeRating(Rating point) {
         return this.ratings.remove(point);
     }
 

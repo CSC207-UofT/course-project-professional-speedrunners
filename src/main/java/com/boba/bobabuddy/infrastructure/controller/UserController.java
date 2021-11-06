@@ -4,8 +4,8 @@ import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.port.request.CreateUserRequest;
-import com.boba.bobabuddy.core.usecase.port.userport.*;
+import com.boba.bobabuddy.core.usecase.request.CreateUserRequest;
+import com.boba.bobabuddy.core.usecase.user.port.*;
 import com.boba.bobabuddy.infrastructure.assembler.UserResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -14,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.UUID;
 
 @RestController
 public class UserController {
@@ -33,10 +31,9 @@ public class UserController {
         this.removeUser = removeUser;
         this.updateUser = updateUser;
         this.assembler = assembler;
-        this.assembler.setBasePath("/api");
     }
 
-    @PostMapping(path = "/api/users")
+    @PostMapping(path = "/users")
     public ResponseEntity<EntityModel<User>> createUser(@RequestBody CreateUserRequest createUserRequest) {
         try {
             return ResponseEntity.ok(assembler.toModel(createUser.create(createUserRequest.createUser())));
@@ -45,7 +42,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(path = "/api/users/{email}")
+    @GetMapping(path = "/users/{email}")
     public ResponseEntity<EntityModel<User>> findByEmail(@PathVariable String email) {
         try {
             return ResponseEntity.ok(assembler.toModel(findUser.findByEmail(email)));
@@ -54,27 +51,28 @@ public class UserController {
         }
     }
 
-    @GetMapping(path = "/api/users", params = "name")
+    @GetMapping(path = "/users", params = "name")
     public ResponseEntity<CollectionModel<EntityModel<User>>> findByName(@RequestParam("name") String name) {
         return ResponseEntity.ok(assembler.toCollectionModel(findUser.findByName(name)));
     }
 
-    @GetMapping(path = "/api/users")
+    @GetMapping(path = "/users")
     public ResponseEntity<CollectionModel<EntityModel<User>>> findAll() {
         return ResponseEntity.ok(assembler.toCollectionModel(findUser.findAll()));
     }
 
-    @DeleteMapping(path = "/api/users/{email}")
-    public ResponseEntity<EntityModel<User>> removeUserByEmail(@PathVariable String email) {
+    @DeleteMapping(path = "/users/{email}")
+    public ResponseEntity<?> removeUserByEmail(@PathVariable String email) {
         try {
-            return ResponseEntity.ok(assembler.toModel(removeUser.removeByEmail(email)));
+            removeUser.removeByEmail(email);
+            return ResponseEntity.noContent().build();
         } catch (ResourceNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
-    @PutMapping(path = "/api/users/{email}")
-    public ResponseEntity<EntityModel<User>> updateUser(@PathVariable String email, @RequestBody User userPatch){
+    @PutMapping(path = "/users/{email}")
+    public ResponseEntity<EntityModel<User>> updateUser(@PathVariable String email, @RequestBody User userPatch) {
         try {
             return ResponseEntity.ok(assembler.toModel(updateUser.updateUser(findUser.findByEmail(email), userPatch)));
         } catch (ResourceNotFoundException e) {
@@ -92,7 +90,7 @@ public class UserController {
 //       }
 //    }
 
-//    @GetMapping(path = "/api/user/{email}")
+//    @GetMapping(path = "/user/{email}")
 //    public boolean loginUser(@RequestBody LoginUserRequest loginUserRequest, @PathVariable String email) throws ResourceNotFoundException {
 //        User user = findUser.findByEmail(email);
 //        return loginUser.logIn(user, loginUserRequest.getPassword());

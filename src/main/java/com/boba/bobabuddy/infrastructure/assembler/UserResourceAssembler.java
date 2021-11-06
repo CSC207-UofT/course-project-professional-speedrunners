@@ -1,15 +1,12 @@
 package com.boba.bobabuddy.infrastructure.assembler;
 
-import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.entity.User;
-import com.boba.bobabuddy.infrastructure.controller.ItemController;
 import com.boba.bobabuddy.infrastructure.controller.RatingPointController;
 import com.boba.bobabuddy.infrastructure.controller.UserController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

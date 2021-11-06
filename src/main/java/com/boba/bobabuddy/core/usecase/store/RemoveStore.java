@@ -2,8 +2,8 @@ package com.boba.bobabuddy.core.usecase.store;
 
 import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.port.storeport.IRemoveStore;
-import com.boba.bobabuddy.core.usecase.store.exceptions.StoreNotFoundException;
+import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
+import com.boba.bobabuddy.core.usecase.store.port.IRemoveStore;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,43 +13,37 @@ import java.util.UUID;
 
 /**
  * This class handle the usecase fo removing stores in the system.
- * It implements the IRemoveStore interface which defines what operations are supported by the usecase object
- * from a controller's perspective.
  */
 
-// Springframework annotations that marks this class as a service component
-// Functionally identical to the @Component annotation as far as I'm aware, and it essentially
-// registers the class as a component (bean) so that Spring can automatically configure and inject dependencies
-// as needed.
 @Service
-// Indicates that operations performed in this class in Transactional.
-// Refers to this link for more info: https://java.christmas/2019/24
 @Transactional
-
 public class RemoveStore implements IRemoveStore {
 
     private final StoreJpaRepository repo;
+    private final IFindStore findStore;
 
     /**
      * Initialize RemoveStore usecase by injecting dependencies
      *
-     * @param repo database object for handling store data
+     * @param repo      DAO for handling store data
+     * @param findStore
      */
 
     @Autowired
-    public RemoveStore(final StoreJpaRepository repo) {
+    public RemoveStore(final StoreJpaRepository repo, IFindStore findStore) {
         this.repo = repo;
+        this.findStore = findStore;
     }
 
     /**
      * Removes a store from database that has the matching storeId.
      *
      * @param id id of the store.
-     * @return Store that was removed from the database.
-     * @throws StoreNotFoundException thrown when store was not found
+     * @throws ResourceNotFoundException thrown when store was not found
      */
-    public Store removeById(UUID id) throws ResourceNotFoundException {
-        return repo.removeById(id).orElseThrow(() -> new ResourceNotFoundException("No such store", new Exception()));
+    public void removeById(UUID id) throws ResourceNotFoundException {
+        Store store = findStore.findById(id);
+        repo.delete(store);
 
     }
 }
