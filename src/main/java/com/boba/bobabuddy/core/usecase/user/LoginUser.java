@@ -1,7 +1,7 @@
 package com.boba.bobabuddy.core.usecase.user;
 
 import com.boba.bobabuddy.core.entity.User;
-import com.boba.bobabuddy.core.usecase.port.userport.ILoginUser;
+import com.boba.bobabuddy.core.usecase.user.port.ILoginUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

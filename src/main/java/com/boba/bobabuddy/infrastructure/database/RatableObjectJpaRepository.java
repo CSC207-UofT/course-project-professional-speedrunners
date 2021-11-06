@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -16,5 +17,5 @@ public interface RatableObjectJpaRepository<T extends RatableObject> extends Gen
 
     List<T> findByAvgRatingGreaterThanEqual(float rating, Sort sort);
 
-
+    Optional<T> findByRatings_id(UUID id);
 }

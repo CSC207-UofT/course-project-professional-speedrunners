@@ -2,20 +2,21 @@ package com.boba.bobabuddy.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /***
  * Class that represents a User
- * JPA annotation comments will be omitted. refer to other entity class for info
  */
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private @Id
     String email;
@@ -24,7 +25,7 @@ public class User {
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_email")
     @JsonIdentityReference(alwaysAsId = true)
-    List<RatingPoint> ratingLst;
+    Set<Rating> ratings;
 
     /***
      * Constructs a user.
@@ -36,7 +37,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.ratingLst = new ArrayList<>();
+        this.ratings = new HashSet<>();
     }
 
     // For JPA
@@ -44,20 +45,20 @@ public class User {
 
     }
 
-    public List<RatingPoint> getRatingLst() {
-        return ratingLst;
+    public Set<Rating> getRatings() {
+        return ratings;
     }
 
-    public void setRatingLst(List<RatingPoint> ratingLst) {
-        this.ratingLst = ratingLst;
+    public void setRatings(Set<Rating> ratingLst) {
+        this.ratings = ratingLst;
     }
 
-    public boolean addRating(RatingPoint point) {
-        return this.ratingLst.add(point);
+    public boolean addRating(Rating point) {
+        return this.ratings.add(point);
     }
 
-    public boolean removeRating(RatingPoint point) {
-        return this.ratingLst.remove(point);
+    public boolean removeRating(Rating point) {
+        return this.ratings.remove(point);
     }
 
     public String getName() {

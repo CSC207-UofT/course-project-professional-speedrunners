@@ -1,6 +1,6 @@
 package com.boba.bobabuddy.infrastructure.database;
 
-import com.boba.bobabuddy.core.entity.RatingPoint;
+import com.boba.bobabuddy.core.entity.Rating;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,9 +15,9 @@ import java.util.UUID;
  */
 
 @Repository
-public interface RatingJpaRepository extends GenericResourceJpaRepository<RatingPoint, UUID> {
-    List<RatingPoint> findByRatableObject_id(UUID id);
+public interface RatingJpaRepository extends GenericResourceJpaRepository<Rating, UUID> {
+    List<Rating> findByRatableObject_id(UUID id);
 
-    List<RatingPoint> findByUser_email(String email);
+    List<Rating> findByUser_email(String email);
 
 }

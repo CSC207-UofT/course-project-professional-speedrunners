@@ -1,19 +1,23 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
-import com.boba.bobabuddy.core.entity.RatingPoint;
+import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.port.ratingpointport.ICreateRatingPoint;
-import com.boba.bobabuddy.core.usecase.port.ratingpointport.IFindRatingPoint;
-import com.boba.bobabuddy.core.usecase.port.ratingpointport.IRemoveRatingPoint;
-import com.boba.bobabuddy.core.usecase.port.ratingpointport.IUpdateRatingPoint;
-import com.boba.bobabuddy.core.usecase.port.request.CreateRatingPointRequest;
+import com.boba.bobabuddy.core.usecase.rating.port.ICreateRating;
+import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
+import com.boba.bobabuddy.core.usecase.rating.port.IRemoveRating;
+import com.boba.bobabuddy.core.usecase.rating.port.IUpdateRating;
+import com.boba.bobabuddy.core.usecase.request.CreateRatingPointRequest;
+import com.boba.bobabuddy.infrastructure.assembler.RatingPointResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.net.MalformedURLException;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -23,46 +27,64 @@ import java.util.UUID;
 public class RatingPointController {
 
     // Input Boundary
-    private final ICreateRatingPoint createRatingPoint;
-    private final IFindRatingPoint findRatingPoint;
-    private final IRemoveRatingPoint removeRatingPoint;
-    private final IUpdateRatingPoint updateRatingPoint;
+    private final ICreateRating createRatingPoint;
+    private final IFindRating findRatingPoint;
+    private final IRemoveRating removeRatingPoint;
+    private final IUpdateRating updateRatingPoint;
+    private final RatingPointResourceAssembler assembler;
 
     @Autowired
-    public RatingPointController(ICreateRatingPoint createRatingPoint, IFindRatingPoint findRatingPoint,
-                                 IRemoveRatingPoint removeRatingPoint, IUpdateRatingPoint updateRatingPoint) {
+    public RatingPointController(ICreateRating createRatingPoint, IFindRating findRatingPoint,
+                                 IRemoveRating removeRatingPoint, IUpdateRating updateRatingPoint, RatingPointResourceAssembler assembler) {
         this.createRatingPoint = createRatingPoint;
         this.findRatingPoint = findRatingPoint;
         this.removeRatingPoint = removeRatingPoint;
         this.updateRatingPoint = updateRatingPoint;
+        this.assembler = assembler;
     }
 
     /**
      * Add a RatingPoint to the database.
+     * TODO: Move illegal argument exception generation to usecase instead of DTO
      *
      * @param createRatingPointRequest request class containing the data to construct a new RatingPoint entity
      * @return the constructed RatingPoint
      */
 
-    @PostMapping(path = "/api/{ratableObject}/{id}/rating/", params = "createdBy")
-    public RatingPoint createRatingPoint(@RequestBody CreateRatingPointRequest createRatingPointRequest,
-                                         @PathVariable UUID id, @RequestParam("createdBy") String email)
-            throws DuplicateResourceException, ResourceNotFoundException {
-        return createRatingPoint.create(createRatingPointRequest.getRatingPoint(), id, email);
+    @PostMapping(path = "/{ratableObject}/{id}/ratings", params = "createdBy")
+    public ResponseEntity<EntityModel<Rating>> createRatingPoint(@RequestBody CreateRatingPointRequest createRatingPointRequest,
+                                                                 @PathVariable UUID id, @RequestParam("createdBy") String email) {
+        try {
+            return ResponseEntity.ok(assembler.toModel(createRatingPoint.create(createRatingPointRequest.getRatingPoint(), id, email)));
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (DuplicateResourceException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
+        }
+    }
+
+    @GetMapping(path = "/ratings")
+    public ResponseEntity<CollectionModel<EntityModel<Rating>>> findAll() {
+        return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findAll()));
     }
 
     /**
      * Find every RatingPoint associated with a RatableObject.
+     * TODO: Should not search on store when ratableObject parameter is item, and vice versa
      *
      * @return the list RatingPoint entities associated the RatableObject
      */
-    @GetMapping(path = "/api/{ratableObject}/{id}/rating/")
-    public Set<RatingPoint> findByRatableObject(@PathVariable String ratableObject, @PathVariable UUID id)
-            throws MalformedURLException, ResourceNotFoundException {
-        if (ratableObject.equals("item") || ratableObject.equals("store")) {
-            return findRatingPoint.findByRatableObject(id);
+    @GetMapping(path = "/{ratableObject}/{id}/ratings")
+    public ResponseEntity<CollectionModel<EntityModel<Rating>>> findByRatableObject(@PathVariable String ratableObject, @PathVariable UUID id) {
+        try {
+            if (ratableObject.equals("items") || ratableObject.equals("stores")) {
+                return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findByRatableObject(id)));
+            }
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
-        throw new MalformedURLException("must be /api/item/ or /api/store/");
+        Exception e = new MalformedURLException("must be /item/ or /store/");
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
     }
 
     /**
@@ -70,9 +92,9 @@ public class RatingPointController {
      *
      * @return the list RatingPoint entities associated the User
      */
-    @GetMapping(path = "/api/user/{email}/rating/")
-    public List<RatingPoint> findByUser(@PathVariable String email) {
-        return findRatingPoint.findByUser(email);
+    @GetMapping(path = "/users/{email}/ratings")
+    public ResponseEntity<CollectionModel<EntityModel<Rating>>> findByUser(@PathVariable String email) {
+        return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findByUser(email)));
     }
 
     /**
@@ -80,11 +102,14 @@ public class RatingPointController {
      *
      * @param id request class containing the UUID of the RatingPoint
      * @return the RatingPoint with the UUID
-     * @throws ResourceNotFoundException if no RatingPoint with the given UUID is found
      */
-    @GetMapping(path = "/api/rating/{id}")
-    public RatingPoint findById(@PathVariable UUID id) throws ResourceNotFoundException {
-        return findRatingPoint.findById(id);
+    @GetMapping(path = "/ratings/{id}")
+    public ResponseEntity<EntityModel<Rating>> findById(@PathVariable UUID id) {
+        try {
+            return ResponseEntity.ok(assembler.toModel(findRatingPoint.findById(id)));
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     /**
@@ -93,9 +118,14 @@ public class RatingPointController {
      * @param id request class containing the UUID of the RatingPoint
      * @return the RatingPoint removed
      */
-    @DeleteMapping(path = "/api/rating/{id}")
-    public RatingPoint removeById(@PathVariable UUID id) throws ResourceNotFoundException {
-        return removeRatingPoint.removeById(id);
+    @DeleteMapping(path = "/ratings/{id}")
+    public ResponseEntity<?> removeById(@PathVariable UUID id) {
+        try {
+            removeRatingPoint.removeById(id);
+            return ResponseEntity.noContent().build();
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     /**
@@ -103,14 +133,19 @@ public class RatingPointController {
      *
      * @param id request class containing the UUID of the RatingPoint and the new rating
      * @return the updated RatingPoint
-     * @throws ResourceNotFoundException if no RatingPoint with the given UUID is found
-     * @throws IllegalArgumentException  if the new rating is not 1 or 0
      */
 
-    @PutMapping(path = "/api/rating/{id}", params = "rate")
-    public RatingPoint updateRatingPointRating(@PathVariable UUID id, @RequestParam int rate)
-            throws IllegalArgumentException, ResourceNotFoundException {
-        return updateRatingPoint.updateRatingPointRating(id,
-                rate);
+    @PutMapping(path = "/ratings/{id}", params = "rate")
+    public ResponseEntity<EntityModel<Rating>> updateRatingPointRating(@PathVariable UUID id, @RequestParam int rate) {
+        try {
+            return ResponseEntity.ok(assembler.toModel(updateRatingPoint.updateRating(id,
+                    rate)));
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
+
     }
+
 }
