@@ -38,7 +38,7 @@ public class UpdateStore implements IUpdateStore {
      * However, if no Store with the same uuid exist and exception will be thrown.
      * @param storeToUpdate Store to update.
      * @param storePatch the same store with updated fields
-     * @return the updated item.
+     * @return the updated store.
      * @throws DifferentResourceException thrown when storePatch have a different id than the storeToUpdate
      */
     @Override

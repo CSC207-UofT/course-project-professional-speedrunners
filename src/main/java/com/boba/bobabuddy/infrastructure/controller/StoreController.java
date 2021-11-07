@@ -32,6 +32,8 @@ public class StoreController {
     private final IRemoveStore removeStore;
     private final IUpdateStore updateStore;
     private final IFindStore findStore;
+
+    // Put response entities into a wrapper that stores hypermedia links (HATEOAS)
     private final StoreResourceAssembler assembler;
 
     @Autowired
@@ -45,16 +47,10 @@ public class StoreController {
     }
 
     /***
-     * add the Store resource into the database.
+     * Post HTTP requests for creating store resource
      * @param createStoreRequest Request class that contains data necessary to construct a Store entity.
      * @return Store that was constructed, which will be automatically converted to JSON and send it to the caller.
      */
-    // Simply, a POST request called to the endpoint <domain address>/store/ will be mapped to this method.
-    // the <produces> parameter decides how the return value will be converted to and be sent back to the caller,
-    // in this case a JSON.
-    // the @RequestBody annotation indicates that the body of an HTTP request will be interpreted as an POJO
-    // representation by HTTPMessageConverter, which converts it to the parameter type (in this case createStoreRequest).
-    // Then, it will be passed to the method.
     @PostMapping(path = "/stores", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityModel<Store>> createStore(@RequestBody CreateStoreRequest createStoreRequest) {
         Store storeToPresent = createStore.create(createStoreRequest.toStore());
@@ -62,11 +58,19 @@ public class StoreController {
     }
 
     /***
-     * query for a store resource with matching id.
-     * @param id the primary uuid key of the resource
-     * @return Store with matching UUID, which will be automatically converted to JSON and send it to the caller.
+     * Root endpoint for store resources
+     * @return collection of store resources exist in the database
      */
-    // Exceptions thrown in controller class will be handled automatically by SpringFramework
+    @GetMapping(path = "/stores")
+    public ResponseEntity<CollectionModel<EntityModel<Store>>> findAll() {
+        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findAll()));
+    }
+
+    /***
+     * Handles GET requests for a store resource with matching id.
+     * @param id the primary uuid key of the resource
+     * @return the store resource with matching UUID
+     */
     @GetMapping(path = "/stores/{id}")
     public ResponseEntity<EntityModel<Store>> findById(@PathVariable UUID id) {
         try {
@@ -76,6 +80,11 @@ public class StoreController {
         }
     }
 
+    /**
+     * Handles GET requests for a store resource that has a certain item
+     * @param id id of the item resource
+     * @return the store resource that has the specified item
+     */
     @GetMapping(path = "/stores", params = "itemId")
     public ResponseEntity<EntityModel<Store>> findByItem(@RequestParam("itemId") UUID id) {
         try {
@@ -85,31 +94,20 @@ public class StoreController {
         }
     }
 
-
     /***
-     * Query for all exiting store resource
-     * @return list of store resources exist in the database
-     */
-    @GetMapping(path = "/stores")
-    public ResponseEntity<CollectionModel<EntityModel<Store>>> findAll() {
-        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findAll()));
-    }
-
-    /***
-     * query for store resources that have matching location.
+     * Handles GET requests for store resources that have matching location.
      * @param location location of required store
-     * @return A store resource that match the query.
+     * @return collection of store resources that match the query.
      */
     @GetMapping(path = "/stores", params = "location")
     public ResponseEntity<CollectionModel<EntityModel<Store>>> findByLocation(@RequestParam("location") String location) {
         return ResponseEntity.ok(assembler.toCollectionModel(findStore.findByLocation(location)));
     }
 
-
     /***
-     * query for store resources that have matching name.
+     * Handles GET requests for store resources that have matching name
      * @param name name of required store
-     * @return A store resource that match the query.
+     * @return collection of store resources that match the query.
      */
     @GetMapping(path = "/stores", params = "name")
     public ResponseEntity<CollectionModel<EntityModel<Store>>> findByName(@RequestParam("name") String name) {
@@ -117,9 +115,9 @@ public class StoreController {
     }
 
     /***
-     * query for store resource that partially matches the provided name
-     * @param nameContain infix of required store's name
-     * @return list of store resources that match the query.
+     * Handles GET requests for store resources that partially matches the provided name
+     * @param nameContain name to match for
+     * @return collection of store resources that match the query.
      */
     @GetMapping(path = "/stores", params = "name-contain")
     public ResponseEntity<CollectionModel<EntityModel<Store>>> findByNameContaining(@RequestParam("name-contain") String nameContain) {
@@ -127,10 +125,9 @@ public class StoreController {
     }
 
     /***
-     * query for store resources that have rating greater than or equal to a given value
+     * Handles GET requests for store resources that have rating greater than or equal to a given value
      * @param rating the rating used for comparison
-     * @param sorted whether returned list should be sorted
-     * @return list of store resources that match the query.
+     * @return collection of store resources that match the query.
      */
     @GetMapping(path = "/stores", params = "rating-geq")
     public ResponseEntity<CollectionModel<EntityModel<Store>>> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
@@ -138,10 +135,25 @@ public class StoreController {
         return ResponseEntity.ok(assembler.toCollectionModel(findStore.findByAvgRatingGreaterThanEqual(rating, sorted)));
     }
 
+    /**
+     * Handle GET request to find a store resource that contains a particular rating
+     * @param id id of the rating
+     * @return a store resource that match teh query
+     */
+    @GetMapping(path = "/stores", params = "ratingId")
+    public ResponseEntity<EntityModel<Store>> findByRating(@RequestParam("ratingId") UUID id) {
+        try {
+            return ResponseEntity.ok(assembler.toModel(findStore.findByRating(id)));
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
+
     /***
-     * Update a store given its id by overwriting it.
-     * @param id the primary uuid key of the resource
-     * @return updated store
+     * Handles PUT request to update an existing store resource
+     * @param id store resource to be updated
+     * @param storePatch the same store with updated fields.
+     * @return the store resource after the modification
      */
     @PutMapping(path = "/stores/{id}")
     public ResponseEntity<EntityModel<Store>> updateStore(@RequestParam Store storePatch, @PathVariable UUID id) {
@@ -154,26 +166,16 @@ public class StoreController {
         }
     }
 
-
     /***
-     * Removes a store from database that has the matching storeId.
-     * @param id the primary uuid key of the resource
-     * @return Store that was removed from the database.
+     * Handle DELETE request to delete a store resource from the system
+     * @param id id of the resource to be deleted.
+     * @return NO_CONTENT http status
      */
     @DeleteMapping(path = "/stores/{id}")
     public ResponseEntity<?> removeStore(@PathVariable UUID id) {
         try {
             removeStore.removeById(id);
             return ResponseEntity.noContent().build();
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
-    }
-
-    @GetMapping(path = "/stores", params = "ratingId")
-    public ResponseEntity<EntityModel<Store>> findByRating(@RequestParam("ratingId") UUID id) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(findStore.findByRating(id)));
         } catch (ResourceNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
