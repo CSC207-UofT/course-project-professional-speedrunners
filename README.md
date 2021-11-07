@@ -12,7 +12,7 @@
 creating a store:
 
 ```
-POST http://localhost:8080/api/store/
+POST http://localhost:8080/stores
 Content-Type: application/json
 
 {
@@ -24,7 +24,7 @@ Content-Type: application/json
 creating an item and add it to a store
 
 ```
-POST http://localhost:8080/api/store/<storeId>/item/
+POST http://localhost:8080/stores/<storeId>/items
 Content-Type: application/json
 
 {
@@ -36,7 +36,7 @@ Content-Type: application/json
 creating a user
 
 ```
-POST http://localhost:8080/api/user/
+POST http://localhost:8080/users
 Content-Type: application/json
 
 {
@@ -49,7 +49,7 @@ Content-Type: application/json
 creating a rating and add association
 
 ```
-POST http://localhost:8080/api/store/<storeId>/rating/?createdBy=yeye@gmail.com
+POST http://localhost:8080/stores/<storeId>/ratings/?createdBy=yeye@gmail.com
 Content-Type: application/json
 
 {
@@ -57,7 +57,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/api/item/<itemId>/rating/?createdBy=yeye@gmail.com
+POST http://localhost:8080/items/<itemId>/ratings/?createdBy=yeye@gmail.com
 Content-Type: application/json
 
 {
@@ -68,22 +68,17 @@ Content-Type: application/json
 search item by partial name match
 
 ```
-GET http://localhost:8080/api/item/?name-contain=milk
+GET http://localhost:8080/items/?name-contain=milk
 ```
 
 search item by price leq & sort
 
 ```
-GET http://localhost:8080/api/item/?price-leq=15&sorted=true
+GET http://localhost:8080/items/?price-leq=15&sorted=true
 
 ```
 
+For all available api methods, go to `http://localhost:8080/swagger-ui/` when the program is running.
+
 more example & full documentation to come
 
-### where to start
-
-Have a look at the refactored entity classes and try to understand the interaction between entity classes, the FindItem
-usecase, ItemJpaRepository, and ItemController.
-
-These are arguably the most informative. Once you have a rough idea of how these classes interact you can start writing
-your own usecases.
