@@ -7,6 +7,7 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+// Config for swagger2 documentation service
 @Configuration
 public class SpringFoxConfig {
     @Bean
