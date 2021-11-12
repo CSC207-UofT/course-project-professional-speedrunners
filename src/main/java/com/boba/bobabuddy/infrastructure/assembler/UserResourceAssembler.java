@@ -1,7 +1,7 @@
 package com.boba.bobabuddy.infrastructure.assembler;
 
 import com.boba.bobabuddy.core.entity.User;
-import com.boba.bobabuddy.infrastructure.controller.RatingPointController;
+import com.boba.bobabuddy.infrastructure.controller.RatingController;
 import com.boba.bobabuddy.infrastructure.controller.UserController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class UserResourceAssembler extends SimpleIdentifiableRepresentationModel
         resource.add(linkTo(methodOn(UserController.class).findAll()).withRel("users"));
 
         // Add custom link to find all ratings
-        resource.add(linkTo(methodOn(RatingPointController.class).findByUser(email)).withRel("ratings"));
+        resource.add(linkTo(methodOn(RatingController.class).findByUser(email)).withRel("ratings"));
 
     }
 }

@@ -17,7 +17,7 @@ public class RootController {
 
         model.add(linkTo(methodOn(RootController.class).root()).withSelfRel());
         model.add(linkTo(methodOn(ItemController.class).findAll()).withRel("items"));
-        model.add(linkTo(methodOn(RatingPointController.class).findAll()).withRel("ratings"));
+        model.add(linkTo(methodOn(RatingController.class).findAll()).withRel("ratings"));
         model.add(linkTo(methodOn(StoreController.class).findAll()).withRel("stores"));
         model.add(linkTo(methodOn(UserController.class).findAll()).withRel("users"));
 

@@ -44,6 +44,5 @@ public class RemoveStore implements IRemoveStore {
     public void removeById(UUID id) throws ResourceNotFoundException {
         Store store = findStore.findById(id);
         repo.delete(store);
-
     }
 }

@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -19,7 +21,6 @@ import java.util.UUID;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Rating {
-
     private int rating;
     private @ManyToOne
     User user;
@@ -59,7 +60,6 @@ public class Rating {
         return rating;
     }
 
-    //TODO: might need a exception for input that are not 0 or 1, should exist in usecase layer
     public void setRating(int rating) {
         this.rating = rating;
     }

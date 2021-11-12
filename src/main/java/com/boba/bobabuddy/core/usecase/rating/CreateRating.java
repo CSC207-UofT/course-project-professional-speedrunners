@@ -52,6 +52,7 @@ public class CreateRating implements ICreateRating {
      * @param rating new rating to be persisted
      * @param ratableId id of the associated ratable object
      * @param email email of the associated user
+     * TODO: add check for illegal argument
      * @return the persisted rating entity
      * @throws ResourceNotFoundException Thrown when either the ratable object or the user was not found
      * @throws DuplicateResourceException Thrown when this rating already exist in either the user or the ratable object

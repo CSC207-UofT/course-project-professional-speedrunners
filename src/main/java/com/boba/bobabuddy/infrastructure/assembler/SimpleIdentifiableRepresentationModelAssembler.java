@@ -119,6 +119,7 @@ public class SimpleIdentifiableRepresentationModelAssembler<T> implements Simple
     private Object getId(EntityModel<T> resource) {
 
         Field id = ReflectionUtils.findField(this.resourceType, "id");
+        assert id != null;
         ReflectionUtils.makeAccessible(id);
 
         return ReflectionUtils.getField(id, resource.getContent());

@@ -24,7 +24,7 @@ import java.util.UUID;
  * Controller for RatingPoint related api calls.
  */
 @RestController
-public class RatingPointController {
+public class RatingController {
 
     // Input Boundary
     private final ICreateRating createRatingPoint;
@@ -34,8 +34,8 @@ public class RatingPointController {
     private final RatingPointResourceAssembler assembler;
 
     @Autowired
-    public RatingPointController(ICreateRating createRatingPoint, IFindRating findRatingPoint,
-                                 IRemoveRating removeRatingPoint, IUpdateRating updateRatingPoint, RatingPointResourceAssembler assembler) {
+    public RatingController(ICreateRating createRatingPoint, IFindRating findRatingPoint,
+                            IRemoveRating removeRatingPoint, IUpdateRating updateRatingPoint, RatingPointResourceAssembler assembler) {
         this.createRatingPoint = createRatingPoint;
         this.findRatingPoint = findRatingPoint;
         this.removeRatingPoint = removeRatingPoint;
