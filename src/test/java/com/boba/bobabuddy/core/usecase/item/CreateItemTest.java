@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.core.usecase;
+package com.boba.bobabuddy.core.usecase.item;
 
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.Store;
@@ -6,7 +6,6 @@ import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.item.CreateItem;
 import com.boba.bobabuddy.core.usecase.item.port.ICreateItem;
-import com.boba.bobabuddy.core.usecase.store.FindStore;
 import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
 import com.boba.bobabuddy.core.usecase.store.port.IUpdateStore;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
@@ -16,56 +15,53 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class CreateItemTest {
 
-    @MockBean
+    @Mock
     private ItemJpaRepository repo;
 
-    @MockBean
-    private StoreJpaRepository storeRepo;
-
-    @MockBean
-    @Autowired
+    @Mock
     private IFindStore findStore;
 
-    @MockBean
-    @Autowired
+    @Mock
     private IUpdateStore updateStore;
 
-    @MockBean
+    @Mock
     private Store store;
 
-    @Autowired
-    private ICreateItem createItem;
+    @InjectMocks
+    private CreateItem createItem;
 
     @Test
     void testCreate() throws ResourceNotFoundException, DuplicateResourceException {
         UUID storeId = UUID.randomUUID();
         store.setId(storeId);
-        doReturn(Optional.of(store)).when(storeRepo).findById(storeId);
+        //Set up return type for mock repo
+        //Note that we are assuming store is returned with findStore.findById, regardless of the actual database status
+        when(findStore.findById(storeId)).thenReturn(store);
+
         Item item = new Item(5, store, "milk tea");
         UUID itemId = UUID.randomUUID();
         item.setId(itemId);
-        doReturn(item).when(repo).save(any());
+        when(repo.save(any())).thenReturn(item);
 
+        //Execute service call
         Item returnedItem = createItem.create(item, storeId);
 
-        Assertions.assertNotNull(returnedItem);
-        Assertions.assertEquals(itemId, returnedItem.getId());
-
+        //Assertions
+        assertNotNull(returnedItem);
+        assertEquals(itemId, returnedItem.getId());
     }
 
 

@@ -95,7 +95,7 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
     }
 
     // Should not be called from outside the class
-    private void setAvgRating(float avgRating) {
+    public void setAvgRating(float avgRating) {
         this.avgRating = avgRating;
     }
 

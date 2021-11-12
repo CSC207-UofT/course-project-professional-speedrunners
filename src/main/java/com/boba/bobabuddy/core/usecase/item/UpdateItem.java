@@ -40,7 +40,7 @@ public class UpdateItem implements IUpdateItem {
     @Override
     public Item updateItem(Item itemToUpdate, Item itemPatch) throws DifferentResourceException {
         if (Objects.equals(itemToUpdate, itemPatch)) {
-            repo.save(itemPatch);
+            return repo.save(itemPatch);
         }
         throw new DifferentResourceException("Not the same item", new Exception());
     }

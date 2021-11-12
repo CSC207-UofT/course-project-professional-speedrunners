@@ -62,6 +62,6 @@ public class CreateItem implements ICreateItem {
         item.setStore(store);
         item = repo.save(item);
         updateStore.addItem(store, item);
-        return repo.save(item);
+        return item;
     }
 }
