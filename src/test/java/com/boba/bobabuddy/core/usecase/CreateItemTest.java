@@ -55,11 +55,11 @@ public class CreateItemTest {
     void testCreate() throws ResourceNotFoundException, DuplicateResourceException {
         UUID storeId = UUID.randomUUID();
         store.setId(storeId);
-        doReturn(store).when(storeRepo).findById(storeId);
+        doReturn(Optional.of(store)).when(storeRepo).findById(storeId);
         Item item = new Item(5, store, "milk tea");
         UUID itemId = UUID.randomUUID();
         item.setId(itemId);
-        doReturn(Optional.of(item)).when(repo).save(any());
+        doReturn(item).when(repo).save(any());
 
         Item returnedItem = createItem.create(item, storeId);
 
