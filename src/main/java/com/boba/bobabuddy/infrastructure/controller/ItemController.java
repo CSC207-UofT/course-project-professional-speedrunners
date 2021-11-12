@@ -135,6 +135,20 @@ public class ItemController {
     }
 
     /***
+     * Handle GET request to find an item resource that contains a particular rating
+     * @param id id of the rating
+     * @return item resource that match the query
+     */
+    @GetMapping(path = "/items", params = "ratingId")
+    public ResponseEntity<EntityModel<Item>> findByRating(@RequestParam("ratingId") UUID id) {
+        try {
+            return ResponseEntity.ok(assembler.toModel(findItem.findByRating(id)));
+        } catch (ResourceNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
+
+    /***
      * Handles PUT request to update an existing item resource
      * @param newItem the new modified item
      * @param id item resource to be updated
@@ -165,20 +179,5 @@ public class ItemController {
         } catch (ResourceNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
-    }
-
-    /***
-     * Handle GET request to find an item resource that contains a particular rating
-     * @param id id of the rating
-     * @return item resource that match the query
-     */
-    @GetMapping(path = "/items", params = "ratingId")
-    public ResponseEntity<EntityModel<Item>> findByRating(@RequestParam("ratingId") UUID id) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(findItem.findByRating(id)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
-
     }
 }
