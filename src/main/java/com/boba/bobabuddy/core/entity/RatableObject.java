@@ -126,7 +126,11 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
         int size = ratings.size();
         boolean result = ratings.remove(point);
         if (result) {
-            this.avgRating = (avgRating * size - point.getRating()) / (size - 1);
+            if (size - 1 == 0) {
+                this.avgRating = 0;
+            } else {
+                this.avgRating = (avgRating * size - point.getRating()) / (size - 1);
+            }
         }
         return result;
     }
