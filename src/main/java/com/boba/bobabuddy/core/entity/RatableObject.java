@@ -135,6 +135,22 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
         return result;
     }
 
+    /**
+     * Update avgRating when a Rating is updated
+     * @param point the updated Rating
+     * @param oldRating the old Rating value
+     * @param newRating the new Rating value
+     * @return true if avgRating was updated
+     */
+    public boolean updateRating(Rating point, int oldRating, int newRating){
+        if (ratings.contains(point)){
+            int size = ratings.size();
+            this.avgRating = (avgRating * size - oldRating + newRating) / size;
+            return true;
+        }
+        return false;
+    }
+
     // It is sufficient to determine equality by comparing the primary key (UUID) alone.
     @Override
     public boolean equals(Object o) {

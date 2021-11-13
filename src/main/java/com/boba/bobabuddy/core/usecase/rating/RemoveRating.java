@@ -32,6 +32,7 @@ public class RemoveRating implements IRemoveRating {
      *
      * @param repo       the RatingJpaRepository to remove Rating entities from
      * @param findRating FindRating usecase to find the rating to be removed
+     * @param updateRatable usecase to update RatableObjects
      */
     @Autowired
     public RemoveRating(RatingJpaRepository repo, IFindRating findRating, IUpdateRatable updateRatable) {
