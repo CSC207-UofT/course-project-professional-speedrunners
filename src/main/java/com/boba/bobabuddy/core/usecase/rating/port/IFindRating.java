@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface IFindRating {
     Set<Rating> findByRatableObject(UUID id) throws ResourceNotFoundException;
 
-    List<Rating> findByUser(String email);
+    Set<Rating> findByUser(String email);
 
     Rating findById(UUID id) throws ResourceNotFoundException;
 

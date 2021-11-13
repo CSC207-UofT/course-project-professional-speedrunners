@@ -73,11 +73,7 @@ public class StoreController {
      */
     @GetMapping(path = "/stores/{id}")
     public ResponseEntity<EntityModel<Store>> findById(@PathVariable UUID id) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(findStore.findById(id)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(findStore.findById(id)));
     }
 
     /**
@@ -87,11 +83,8 @@ public class StoreController {
      */
     @GetMapping(path = "/stores", params = "itemId")
     public ResponseEntity<EntityModel<Store>> findByItem(@RequestParam("itemId") UUID id) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(findStore.findByItem(id)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(findStore.findByItem(id)));
+
     }
 
     /***
@@ -142,11 +135,8 @@ public class StoreController {
      */
     @GetMapping(path = "/stores", params = "ratingId")
     public ResponseEntity<EntityModel<Store>> findByRating(@RequestParam("ratingId") UUID id) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(findStore.findByRating(id)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(findStore.findByRating(id)));
+
     }
 
     /***
@@ -157,13 +147,8 @@ public class StoreController {
      */
     @PutMapping(path = "/stores/{id}")
     public ResponseEntity<EntityModel<Store>> updateStore(@RequestParam Store storePatch, @PathVariable UUID id) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(updateStore.updateStore(findStore.findById(id), storePatch)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch (DifferentResourceException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(updateStore.updateStore(findStore.findById(id), storePatch)));
+
     }
 
     /***
@@ -173,11 +158,7 @@ public class StoreController {
      */
     @DeleteMapping(path = "/stores/{id}")
     public ResponseEntity<?> removeStore(@PathVariable UUID id) {
-        try {
-            removeStore.removeById(id);
-            return ResponseEntity.noContent().build();
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        removeStore.removeById(id);
+        return ResponseEntity.noContent().build();
     }
 }

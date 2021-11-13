@@ -1,14 +1,12 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Rating;
-import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
-import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.rating.port.ICreateRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IRemoveRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IUpdateRating;
 import com.boba.bobabuddy.core.usecase.request.CreateRatingPointRequest;
-import com.boba.bobabuddy.infrastructure.assembler.RatingPointResourceAssembler;
+import com.boba.bobabuddy.infrastructure.assembler.RatingResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -31,11 +29,11 @@ public class RatingController {
     private final IFindRating findRatingPoint;
     private final IRemoveRating removeRatingPoint;
     private final IUpdateRating updateRatingPoint;
-    private final RatingPointResourceAssembler assembler;
+    private final RatingResourceAssembler assembler;
 
     @Autowired
     public RatingController(ICreateRating createRatingPoint, IFindRating findRatingPoint,
-                            IRemoveRating removeRatingPoint, IUpdateRating updateRatingPoint, RatingPointResourceAssembler assembler) {
+                            IRemoveRating removeRatingPoint, IUpdateRating updateRatingPoint, RatingResourceAssembler assembler) {
         this.createRatingPoint = createRatingPoint;
         this.findRatingPoint = findRatingPoint;
         this.removeRatingPoint = removeRatingPoint;
@@ -54,13 +52,7 @@ public class RatingController {
     @PostMapping(path = "/{ratableObject}/{id}/ratings", params = "createdBy")
     public ResponseEntity<EntityModel<Rating>> createRatingPoint(@RequestBody CreateRatingPointRequest createRatingPointRequest,
                                                                  @PathVariable UUID id, @RequestParam("createdBy") String email) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(createRatingPoint.create(createRatingPointRequest.getRatingPoint(), id, email)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch (DuplicateResourceException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(createRatingPoint.create(createRatingPointRequest.getRatingPoint(), id, email)));
     }
 
     @GetMapping(path = "/ratings")
@@ -76,12 +68,8 @@ public class RatingController {
      */
     @GetMapping(path = "/{ratableObject}/{id}/ratings")
     public ResponseEntity<CollectionModel<EntityModel<Rating>>> findByRatableObject(@PathVariable String ratableObject, @PathVariable UUID id) {
-        try {
-            if (ratableObject.equals("items") || ratableObject.equals("stores")) {
-                return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findByRatableObject(id)));
-            }
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        if (ratableObject.equals("items") || ratableObject.equals("stores")) {
+            return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findByRatableObject(id)));
         }
         Exception e = new MalformedURLException("must be /item/ or /store/");
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
@@ -105,11 +93,8 @@ public class RatingController {
      */
     @GetMapping(path = "/ratings/{id}")
     public ResponseEntity<EntityModel<Rating>> findById(@PathVariable UUID id) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(findRatingPoint.findById(id)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(findRatingPoint.findById(id)));
+
     }
 
     /**
@@ -120,12 +105,9 @@ public class RatingController {
      */
     @DeleteMapping(path = "/ratings/{id}")
     public ResponseEntity<?> removeById(@PathVariable UUID id) {
-        try {
-            removeRatingPoint.removeById(id);
-            return ResponseEntity.noContent().build();
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        removeRatingPoint.removeById(id);
+        return ResponseEntity.noContent().build();
+
     }
 
     /**
@@ -137,14 +119,9 @@ public class RatingController {
 
     @PutMapping(path = "/ratings/{id}", params = "rate")
     public ResponseEntity<EntityModel<Rating>> updateRatingPointRating(@PathVariable UUID id, @RequestParam int rate) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(updateRatingPoint.updateRating(id,
-                    rate)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch (IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(updateRatingPoint.updateRating(id,
+                rate)));
+
 
     }
 

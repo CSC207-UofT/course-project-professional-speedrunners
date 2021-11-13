@@ -1,9 +1,6 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
-import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
-import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.item.port.ICreateItem;
 import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.item.port.IRemoveItem;
@@ -12,10 +9,8 @@ import com.boba.bobabuddy.core.usecase.request.CreateItemRequest;
 import com.boba.bobabuddy.infrastructure.assembler.ItemResourceAssembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -49,14 +44,9 @@ public class ItemController {
     @PostMapping(path = "/stores/{storeId}/items")
     public ResponseEntity<EntityModel<Item>> createItem(@RequestBody CreateItemRequest createItemRequest,
                                                         @PathVariable UUID storeId) {
-        try {
-            Item itemToPresent = createItem.create(createItemRequest.toItem(), storeId);
-            return ResponseEntity.ok(assembler.toModel(itemToPresent));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch (DuplicateResourceException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
-        }
+        Item itemToPresent = createItem.create(createItemRequest.toItem(), storeId);
+        return ResponseEntity.ok(assembler.toModel(itemToPresent));
+
     }
 
     /***
@@ -75,11 +65,7 @@ public class ItemController {
      */
     @GetMapping(path = "/items/{id}")
     public ResponseEntity<EntityModel<Item>> findById(@PathVariable UUID id) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(findItem.findById(id)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(findItem.findById(id)));
     }
 
     /***
@@ -141,11 +127,9 @@ public class ItemController {
      */
     @GetMapping(path = "/items", params = "ratingId")
     public ResponseEntity<EntityModel<Item>> findByRating(@RequestParam("ratingId") UUID id) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(findItem.findByRating(id)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+
+        return ResponseEntity.ok(assembler.toModel(findItem.findByRating(id)));
+
     }
 
     /***
@@ -156,14 +140,10 @@ public class ItemController {
      */
     @PutMapping(path = "/items/{id}")
     public ResponseEntity<EntityModel<Item>> updateItem(@RequestBody Item newItem, @PathVariable UUID id) {
-        try {
-            Item itemToUpdate = findItem.findById(id);
-            return ResponseEntity.ok(assembler.toModel(updateItem.updateItem(itemToUpdate, newItem)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch (DifferentResourceException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
-        }
+
+        Item itemToUpdate = findItem.findById(id);
+        return ResponseEntity.ok(assembler.toModel(updateItem.updateItem(itemToUpdate, newItem)));
+
     }
 
     /***
@@ -173,11 +153,8 @@ public class ItemController {
      */
     @DeleteMapping(path = "/items/{id}")
     public ResponseEntity<?> removeItem(@PathVariable UUID id) {
-        try {
-            removeItem.removeById(id);
-            return ResponseEntity.noContent().build();
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        removeItem.removeById(id);
+        return ResponseEntity.noContent().build();
+
     }
 }

@@ -5,7 +5,6 @@ import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.ratableobject.port.IFindRatable;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
 import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +18,7 @@ import java.util.UUID;
 @Service
 @Transactional
 public class FindRating implements IFindRating {
-    /**
-     * JPA repository port, probably the most important part of the code
-     * Handles queries and update, creation, deletion of entries in the database
-     */
+
     private final RatingJpaRepository repo;
     private final IFindRatable findRatable;
 
@@ -31,7 +27,6 @@ public class FindRating implements IFindRating {
      *
      * @param repo the RatingJpaRepository to be searched for Rating entities
      */
-    @Autowired
     public FindRating(RatingJpaRepository repo, IFindRatable findRatable) {
         this.repo = repo;
         this.findRatable = findRatable;
@@ -39,7 +34,6 @@ public class FindRating implements IFindRating {
 
     /**
      * Find every Rating associated with a RatableObject by its UUID.
-     * TODO: consider moving this usecase to RatableObject since it stores its ratings
      *
      * @param id the UUID of the RatableObject
      * @return a list of every RatingPoi.nt associated with the RatableObject
@@ -51,13 +45,12 @@ public class FindRating implements IFindRating {
 
     /**
      * Find every Rating associated with a User by its email.
-     * TODO: consider moving this usecase to User since it stores its ratings
      *
      * @param email the UUID of the User
      * @return a list of every Rating associated with the User
      */
     @Override
-    public List<Rating> findByUser(String email) {
+    public Set<Rating> findByUser(String email) {
         return repo.findByUser_email(email);
     }
 
@@ -73,6 +66,10 @@ public class FindRating implements IFindRating {
         return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("No such rating"));
     }
 
+    /***
+     * Find All Rating Entity within the database
+     * @return list of all ratings
+     */
     @Override
     public List<Rating> findAll() {
         return repo.findAll();

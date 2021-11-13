@@ -44,9 +44,8 @@ public class CreateItemTest {
     private CreateItem createItem;
 
     @Test
-    void testCreate() throws ResourceNotFoundException, DuplicateResourceException {
+    void testCreate(){
         UUID storeId = UUID.randomUUID();
-        store.setId(storeId);
         //Set up return type for mock repo
         //Note that we are assuming store is returned with findStore.findById, regardless of the actual database status
         when(findStore.findById(storeId)).thenReturn(store);

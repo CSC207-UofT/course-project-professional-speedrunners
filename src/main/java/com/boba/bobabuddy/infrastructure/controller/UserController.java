@@ -35,20 +35,13 @@ public class UserController {
 
     @PostMapping(path = "/users")
     public ResponseEntity<EntityModel<User>> createUser(@RequestBody CreateUserRequest createUserRequest) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(createUser.create(createUserRequest.createUser())));
-        } catch (DuplicateResourceException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(createUser.create(createUserRequest.createUser())));
     }
 
     @GetMapping(path = "/users/{email}")
     public ResponseEntity<EntityModel<User>> findByEmail(@PathVariable String email) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(findUser.findByEmail(email)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(findUser.findByEmail(email)));
+
     }
 
     @GetMapping(path = "/users", params = "name")
@@ -63,23 +56,14 @@ public class UserController {
 
     @DeleteMapping(path = "/users/{email}")
     public ResponseEntity<?> removeUserByEmail(@PathVariable String email) {
-        try {
-            removeUser.removeByEmail(email);
-            return ResponseEntity.noContent().build();
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+
+        removeUser.removeByEmail(email);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/users/{email}")
     public ResponseEntity<EntityModel<User>> updateUser(@PathVariable String email, @RequestBody User userPatch) {
-        try {
-            return ResponseEntity.ok(assembler.toModel(updateUser.updateUser(findUser.findByEmail(email), userPatch)));
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch (DifferentResourceException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-        }
+        return ResponseEntity.ok(assembler.toModel(updateUser.updateUser(findUser.findByEmail(email), userPatch)));
     }
 
 //    public ResponseEntity<EntityModel<User>> findByRating(UUID id) {

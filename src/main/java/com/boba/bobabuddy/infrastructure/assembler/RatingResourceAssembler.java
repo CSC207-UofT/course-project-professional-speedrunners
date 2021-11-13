@@ -16,13 +16,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class RatingPointResourceAssembler extends SimpleIdentifiableRepresentationModelAssembler<Rating> {
-    RatingPointResourceAssembler() {
+public class RatingResourceAssembler extends SimpleIdentifiableRepresentationModelAssembler<Rating> {
+    RatingResourceAssembler() {
         super(RatingController.class);
     }
 
     @Override
-    public void addLinks(EntityModel<Rating> resource) {
+    public void addLinks(EntityModel<Rating> resource){
         /**
          * Retain default links.
          */
