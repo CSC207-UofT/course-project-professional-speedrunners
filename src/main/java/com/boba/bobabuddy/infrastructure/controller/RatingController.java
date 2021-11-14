@@ -42,29 +42,36 @@ public class RatingController {
     }
 
     /**
-     * Add a RatingPoint to the database.
-     * TODO: Move illegal argument exception generation to usecase instead of DTO
+     * Handles POST requests to add a Rating to the database.
      *
      * @param createRatingPointRequest request class containing the data to construct a new RatingPoint entity
+     * @param id the id of the rated RatableObject
+     * @param email the email of the user who made the rating
      * @return the constructed RatingPoint
      */
-
     @PostMapping(path = "/{ratableObject}/{id}/ratings", params = "createdBy")
     public ResponseEntity<EntityModel<Rating>> createRatingPoint(@RequestBody CreateRatingPointRequest createRatingPointRequest,
                                                                  @PathVariable UUID id, @RequestParam("createdBy") String email) {
         return ResponseEntity.ok(assembler.toModel(createRatingPoint.create(createRatingPointRequest.getRatingPoint(), id, email)));
     }
 
+    /**
+     * Handles GET requests for all Rating entities in the database.
+     *
+     * @return the list of all Rating entities
+     */
     @GetMapping(path = "/ratings")
     public ResponseEntity<CollectionModel<EntityModel<Rating>>> findAll() {
         return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findAll()));
     }
 
     /**
-     * Find every RatingPoint associated with a RatableObject.
+     * Handles GET requests for all Rating entities belonging to a RatableObject.
      * TODO: Should not search on store when ratableObject parameter is item, and vice versa
      *
-     * @return the list RatingPoint entities associated the RatableObject
+     * @param ratableObject the name of a RatableObject subclass
+     * @param id the id of the RatableObject of the same subclass
+     * @return the list of Rating entities belonging to the RatableObject
      */
     @GetMapping(path = "/{ratableObject}/{id}/ratings")
     public ResponseEntity<CollectionModel<EntityModel<Rating>>> findByRatableObject(@PathVariable String ratableObject, @PathVariable UUID id) {
@@ -76,9 +83,10 @@ public class RatingController {
     }
 
     /**
-     * Find every RatingPoint associated with a User.
+     * Handles GET requests for all Rating entities belonging to a User.
      *
-     * @return the list RatingPoint entities associated the User
+     * @param email the email of the User
+     * @return the list of Rating entities belonging to the User
      */
     @GetMapping(path = "/users/{email}/ratings")
     public ResponseEntity<CollectionModel<EntityModel<Rating>>> findByUser(@PathVariable String email) {
@@ -86,43 +94,37 @@ public class RatingController {
     }
 
     /**
-     * Find a RatingPoint entity by UUID.
+     * Handles GET requests for a Rating by its UUID.
      *
-     * @param id request class containing the UUID of the RatingPoint
-     * @return the RatingPoint with the UUID
+     * @param id the UUID of the Rating
+     * @return the Rating with the matching UUID
      */
     @GetMapping(path = "/ratings/{id}")
     public ResponseEntity<EntityModel<Rating>> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(assembler.toModel(findRatingPoint.findById(id)));
-
     }
 
     /**
-     * Remove a RatingPoint entity by UUID.
+     * Handles DELETE requests to remove Rating by its UUID.
      *
-     * @param id request class containing the UUID of the RatingPoint
-     * @return the RatingPoint removed
+     * @param id the UUID if the Rating to be removed from the database
+     * @return NO_CONTENT http status
      */
     @DeleteMapping(path = "/ratings/{id}")
     public ResponseEntity<?> removeById(@PathVariable UUID id) {
         removeRatingPoint.removeById(id);
         return ResponseEntity.noContent().build();
-
     }
 
     /**
-     * Update the rating of a RatingPoint.
+     * Handles PUT requests to update an existing Rating.
      *
-     * @param id request class containing the UUID of the RatingPoint and the new rating
-     * @return the updated RatingPoint
+     * @param id the UUID of the Rating to be updated
+     * @param rate the new value of the Rating
+     * @return the updated Rating
      */
-
     @PutMapping(path = "/ratings/{id}", params = "rate")
     public ResponseEntity<EntityModel<Rating>> updateRatingPointRating(@PathVariable UUID id, @RequestParam int rate) {
-        return ResponseEntity.ok(assembler.toModel(updateRatingPoint.updateRating(id,
-                rate)));
-
-
+        return ResponseEntity.ok(assembler.toModel(updateRatingPoint.updateRating(id, rate)));
     }
-
 }
