@@ -44,7 +44,7 @@ public class UpdateStore implements IUpdateStore {
     @Override
     public Store updateStore(Store storeToUpdate, Store storePatch) throws DifferentResourceException {
         if (Objects.equals(storeToUpdate, storePatch)) {
-            repo.save(storePatch);
+            return repo.save(storePatch);
         }
         throw new DifferentResourceException("Not the same store");
     }
