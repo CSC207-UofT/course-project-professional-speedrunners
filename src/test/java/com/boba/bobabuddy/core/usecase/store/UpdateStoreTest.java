@@ -69,10 +69,16 @@ public class UpdateStoreTest {
 
         when(repo.save(store2)).thenReturn(store2);
 
-        Store returnedStore = updateStore.addItem(store2, item);
+        boolean thrown = false;
+        try{
+            updateStore.addItem(store1, item);
+        } catch(DuplicateResourceException e){
+            thrown = true;
+        }
+        assertTrue(thrown);
 
-        assertTrue(returnedStore.getMenu().contains(item));
-        assertEquals(store2, item.getStore());
+        assertTrue(store1.getMenu().contains(item));
+        assertEquals(store1, item.getStore());
     }
 
     @Test
