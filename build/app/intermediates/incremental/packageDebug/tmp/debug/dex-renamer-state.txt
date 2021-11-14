@@ -1,0 +1,4 @@
+#Sun Nov 14 00:40:22 EST 2021
+base.0=/Users/mas/Documents/GitHub/BobaBuddyUI/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

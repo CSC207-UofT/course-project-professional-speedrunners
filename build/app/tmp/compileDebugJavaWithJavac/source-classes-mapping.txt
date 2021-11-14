@@ -1,0 +1,6 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/example/boba_buddy/BuildConfig.java
+ com.example.boba_buddy.BuildConfig
+com/example/boba_buddy/MainActivity.java
+ com.example.boba_buddy.MainActivity
