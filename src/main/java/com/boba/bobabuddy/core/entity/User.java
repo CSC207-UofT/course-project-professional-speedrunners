@@ -1,5 +1,6 @@
 package com.boba.bobabuddy.core.entity;
 
+import com.boba.bobabuddy.infrastructure.JpaEntityResolver;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -15,7 +16,8 @@ import java.util.Set;
  * Class that represents a User
  */
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email",
+        resolver = JpaEntityResolver.class, scope = User.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private @Id

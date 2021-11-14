@@ -9,6 +9,7 @@ import com.boba.bobabuddy.core.usecase.request.CreateItemRequest;
 import com.boba.bobabuddy.infrastructure.assembler.ItemResourceAssembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -140,7 +141,7 @@ public class ItemController {
      * @param id item resource to be updated
      * @return item resource after the modification
      */
-    @PutMapping(path = "/items/{id}")
+    @PutMapping(path = "/items/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityModel<Item>> updateItem(@RequestBody Item newItem, @PathVariable UUID id) {
 
         Item itemToUpdate = findItem.findById(id);
