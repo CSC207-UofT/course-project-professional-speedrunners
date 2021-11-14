@@ -146,7 +146,7 @@ public class StoreController {
      * @return the store resource after the modification
      */
     @PutMapping(path = "/stores/{id}")
-    public ResponseEntity<EntityModel<Store>> updateStore(@RequestParam Store storePatch, @PathVariable UUID id) {
+    public ResponseEntity<EntityModel<Store>> updateStore(@RequestBody Store storePatch, @PathVariable UUID id) {
         return ResponseEntity.ok(assembler.toModel(updateStore.updateStore(findStore.findById(id), storePatch)));
 
     }
