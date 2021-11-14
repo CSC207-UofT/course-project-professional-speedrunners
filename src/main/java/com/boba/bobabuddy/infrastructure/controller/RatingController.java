@@ -62,14 +62,16 @@ public class RatingController {
 
     /**
      * Find every RatingPoint associated with a RatableObject.
-     * TODO: Should not search on store when ratableObject parameter is item, and vice versa
      *
      * @return the list RatingPoint entities associated the RatableObject
      */
     @GetMapping(path = "/{ratableObject}/{id}/ratings")
     public ResponseEntity<CollectionModel<EntityModel<Rating>>> findByRatableObject(@PathVariable String ratableObject, @PathVariable UUID id) {
-        if (ratableObject.equals("items") || ratableObject.equals("stores")) {
-            return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findByRatableObject(id)));
+        if (ratableObject.equals("items")) {
+            return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findByItem(id)));
+        }
+        if(ratableObject.equals("stores")) {
+            return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findByStore(id)));
         }
         Exception e = new MalformedURLException("must be /item/ or /store/");
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);

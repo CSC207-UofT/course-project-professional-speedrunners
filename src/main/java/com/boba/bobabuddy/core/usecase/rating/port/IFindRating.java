@@ -8,7 +8,9 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface IFindRating {
-    Set<Rating> findByRatableObject(UUID id) throws ResourceNotFoundException;
+    Set<Rating> findByItem(UUID id) throws ResourceNotFoundException;
+
+    Set<Rating> findByStore(UUID id) throws ResourceNotFoundException;
 
     Set<Rating> findByUser(String email);
 
