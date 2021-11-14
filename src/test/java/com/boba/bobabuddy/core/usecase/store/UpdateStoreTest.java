@@ -112,5 +112,4 @@ public class UpdateStoreTest {
 //
 //        assertTrue(thrown);
     }
-
 }

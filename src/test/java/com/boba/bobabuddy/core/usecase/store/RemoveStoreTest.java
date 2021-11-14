@@ -49,6 +49,5 @@ public class RemoveStoreTest {
 
         removeStore.removeById(storeId1);
         verify(repo, Mockito.times(1)).delete(store1);
-
     }
 }
