@@ -98,6 +98,5 @@ public class UpdateStoreTest {
         assertFalse(returnedStore3.getMenu().contains(item1));
         assertTrue(returnedStore3.getMenu().contains(item2));
         assertEquals(1, returnedStore3.getMenu().size());
-
     }
 }
