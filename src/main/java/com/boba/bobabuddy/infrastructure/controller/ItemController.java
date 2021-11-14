@@ -12,6 +12,9 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+
 import java.util.UUID;
 
 /***
@@ -45,8 +48,7 @@ public class ItemController {
     public ResponseEntity<EntityModel<Item>> createItem(@RequestBody CreateItemRequest createItemRequest,
                                                         @PathVariable UUID storeId) {
         Item itemToPresent = createItem.create(createItemRequest.toItem(), storeId);
-        return ResponseEntity.ok(assembler.toModel(itemToPresent));
-
+        return ResponseEntity.created(linkTo(methodOn(ItemController.class).findById(itemToPresent.getId())).toUri()).body(assembler.toModel(itemToPresent));
     }
 
     /***
