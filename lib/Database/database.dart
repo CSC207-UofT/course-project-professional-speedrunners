@@ -70,7 +70,7 @@ class Database{
 
     //default sorted by cheapest first
 
-    var data = await http.get(Uri.parse(url + '/items/?name-contain=Milk'));
+    var data = await http.get(Uri.parse(url + '/items/?name-contain=$searchTerm'));
 
 
 
