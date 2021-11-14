@@ -28,7 +28,6 @@ public class UpdateUser implements IUpdateUser {
 
         if (Objects.equals(userToUpdate, newUser)) {
             userToUpdate.setName(newUser.getName());
-            userToUpdate.setEmail(newUser.getEmail());
             userToUpdate.setPassword(newUser.getPassword());
             userToUpdate.setRatings(newUser.getRatings());
             return repo.save(userToUpdate);

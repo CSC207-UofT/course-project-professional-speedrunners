@@ -1,5 +1,6 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
+import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
@@ -64,6 +65,11 @@ public class UserController {
     @PutMapping(path = "/users/{email}")
     public ResponseEntity<EntityModel<User>> updateUser(@PathVariable String email, @RequestBody User userPatch) {
         return ResponseEntity.ok(assembler.toModel(updateUser.updateUser(findUser.findByEmail(email), userPatch)));
+    }
+
+    @PutMapping(path = "/users/{email}")
+    public ResponseEntity<EntityModel<User>> addUserRating(@PathVariable String email, @RequestBody Rating rating) {
+        return ResponseEntity.ok(assembler.toModel(updateUser.addRating(findUser.findByEmail(email), rating)));
     }
 
 //    public ResponseEntity<EntityModel<User>> findByRating(UUID id) {
