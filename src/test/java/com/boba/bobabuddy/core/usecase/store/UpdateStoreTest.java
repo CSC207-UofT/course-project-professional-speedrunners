@@ -58,14 +58,12 @@ public class UpdateStoreTest {
 
     @Test
     void testAddItemToStore() throws DuplicateResourceException{
-        Store store1 = new Store("Shuyi", "75 Charles St, Toronto, Ontario M5S 1K9");
         Store store2 = new Store("Lebron's milk tea", "91 Charles St, Toronto, Ontario M5S 1K9");
-        Item item = new Item(5, store1, "milk tea");
-        UUID storeId1 = UUID.randomUUID();
+        Item item = new Item(5, store2, "milk tea");
+
         UUID storeId2 = UUID.randomUUID();
         UUID itemId = UUID.randomUUID();
 
-        store1.setId(storeId1);
         store2.setId(storeId2);
         item.setId(itemId);
 
@@ -100,16 +98,5 @@ public class UpdateStoreTest {
         assertFalse(returnedStore3.getMenu().contains(item1));
         assertTrue(returnedStore3.getMenu().contains(item2));
         assertEquals(1, returnedStore3.getMenu().size());
-
-        //check whether item1 has been removed from the database
-        //TODO: check this block & see how to fix this
-//        boolean thrown = false;
-//        try{
-//            findItem.findById(itemId1);
-//        } catch(ResourceNotFoundException e){
-//            thrown = true;
-//        }
-//
-//        assertTrue(thrown);
     }
 }
