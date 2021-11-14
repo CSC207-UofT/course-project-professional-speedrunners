@@ -46,7 +46,7 @@ public class UpdateRatingTest {
 
         Rating updatedRating = updateRating.updateRating(id, 0);
         verify(updateRatable, times(1)).updateRating(ratableObject, rating, 1, 0);
-        assertEquals(updatedRating.getRating(), 0);
-        assertEquals(updatedRating, rating);
+        assertEquals(0, updatedRating.getRating());
+        assertEquals(rating, updatedRating);
     }
 }
