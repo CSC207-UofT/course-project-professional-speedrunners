@@ -79,6 +79,6 @@ public class UpdateStoreTest {
 //    @Test
 //    void testRemoveItemFromStore() throws ResourceNotFoundException{
 //
-    }
+//    }
 
 }

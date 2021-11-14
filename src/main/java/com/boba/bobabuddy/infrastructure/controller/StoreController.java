@@ -139,7 +139,7 @@ public class StoreController {
 
     }
 
-    /***
+    /**
      * Handles PUT request to update an existing store resource
      * @param id store resource to be updated
      * @param storePatch the same store with updated fields.
@@ -151,7 +151,7 @@ public class StoreController {
 
     }
 
-    /***
+    /**
      * Handle DELETE request to delete a store resource from the system
      * @param id id of the resource to be deleted.
      * @return NO_CONTENT http status
