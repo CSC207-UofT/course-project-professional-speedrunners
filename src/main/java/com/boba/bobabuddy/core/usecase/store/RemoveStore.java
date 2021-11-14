@@ -30,6 +30,7 @@ public class RemoveStore implements IRemoveStore {
      */
 
     @Autowired
+    // used because we want to inject StoreJpaRepository here
     public RemoveStore(final StoreJpaRepository repo, IFindStore findStore) {
         this.repo = repo;
         this.findStore = findStore;

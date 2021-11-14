@@ -139,19 +139,19 @@ public class StoreController {
 
     }
 
-    /***
+    /**
      * Handles PUT request to update an existing store resource
      * @param id store resource to be updated
      * @param storePatch the same store with updated fields.
      * @return the store resource after the modification
      */
     @PutMapping(path = "/stores/{id}")
-    public ResponseEntity<EntityModel<Store>> updateStore(@RequestParam Store storePatch, @PathVariable UUID id) {
+    public ResponseEntity<EntityModel<Store>> updateStore(@RequestBody Store storePatch, @PathVariable UUID id) {
         return ResponseEntity.ok(assembler.toModel(updateStore.updateStore(findStore.findById(id), storePatch)));
 
     }
 
-    /***
+    /**
      * Handle DELETE request to delete a store resource from the system
      * @param id id of the resource to be deleted.
      * @return NO_CONTENT http status

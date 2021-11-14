@@ -46,31 +46,14 @@ public class UpdateRatable implements IUpdateRatable {
     /***
      * removing a rating from a ratable object
      * @param ratable the ratable object to be mutated
-     * @param rating the rating to be removed
+     * @param newRating the rating to be removed
      * @return the mutated ratable object
      * @throws ResourceNotFoundException thrown when the object does not contain the rating
      */
     @Override
-    public RatableObject removeRating(RatableObject ratable, Rating rating) throws ResourceNotFoundException {
-        if (ratable.removeRating(rating)) return repo.save(ratable);
+    public RatableObject removeRating(RatableObject ratable, Rating newRating) throws ResourceNotFoundException {
+        if (ratable.removeRating(newRating)) return repo.save(ratable);
         throw new ResourceNotFoundException("Specified ratable does not contain this rating", new Exception());
     }
-
-    /**
-     * update the avgRating of a ratable object
-     * @param ratable the ratable object to be mutated
-     * @param rating the updated rating
-     * @param oldRating the old rating value
-     * @param newRating the new rating value
-     * @return the mutated ratable object
-     * @throws ResourceNotFoundException thrown when the object does not contain the rating
-     */
-    @Override
-    public RatableObject updateRating(RatableObject ratable, Rating rating, int oldRating, int newRating)
-            throws ResourceNotFoundException {
-        if (ratable.updateRating(rating, oldRating, newRating)) return repo.save(ratable);
-        throw new ResourceNotFoundException("Specified ratable does not contain this rating", new Exception());
-    }
-
 
 }
