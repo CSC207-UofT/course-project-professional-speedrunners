@@ -2,8 +2,9 @@ package com.boba.bobabuddy.core.usecase.rating;
 
 import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.ratableobject.port.IFindRatable;
+import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
+import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
 import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,27 +21,40 @@ import java.util.UUID;
 public class FindRating implements IFindRating {
 
     private final RatingJpaRepository repo;
-    private final IFindRatable findRatable;
+    private final IFindItem findItem;
+    private final IFindStore findStore;
 
     /**
      * Constructor for the FindRating usecase.
      *
      * @param repo the RatingJpaRepository to be searched for Rating entities
      */
-    public FindRating(RatingJpaRepository repo, IFindRatable findRatable) {
+    public FindRating(RatingJpaRepository repo, IFindItem findItem, IFindStore findStore) {
         this.repo = repo;
-        this.findRatable = findRatable;
+        this.findItem = findItem;
+        this.findStore = findStore;
     }
 
     /**
-     * Find every Rating associated with a RatableObject by its UUID.
+     * Find every Rating associated with an Item by its UUID.
      *
-     * @param id the UUID of the RatableObject
-     * @return a list of every RatingPoi.nt associated with the RatableObject
+     * @param id the UUID of the Item
+     * @return a list of every RatingPoint associated with the Item
      */
     @Override
-    public Set<Rating> findByRatableObject(UUID id) throws ResourceNotFoundException {
-        return findRatable.findById(id).getRatings();
+    public Set<Rating> findByItem(UUID id) throws ResourceNotFoundException {
+        return findItem.findById(id).getRatings();
+    }
+
+    /**
+     * Find every Rating associated with a Store by its UUID.
+     *
+     * @param id the UUID of the Store
+     * @return a list of every RatingPoint associated with the Store
+     */
+    @Override
+    public Set<Rating> findByStore(UUID id) throws ResourceNotFoundException {
+        return findStore.findById(id).getRatings();
     }
 
     /**
