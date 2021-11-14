@@ -2,24 +2,20 @@ package com.boba.bobabuddy.core.usecase.store;
 
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.Store;
-import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
+import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,15 +28,13 @@ public class UpdateStoreTest {
     private StoreJpaRepository repo;
 
     @Mock
-    private Store store;
-
-    @Mock
-    private Rating rating;
+    private IFindItem findItem;
 
     @InjectMocks
     // creates an instance of the class and injects the mocks that are created
     // with the @Mock annotations into this instance.
     private UpdateStore updateStore;
+
 
     @Test
     // this is not working -,-
@@ -62,23 +56,61 @@ public class UpdateStoreTest {
         assertNotNull(returnedStore);
     }
 
-//    @Test
-//    void testAddItemToStore() throws DuplicateResourceException{
-//        Store store = new Store("Shuyi", "75 Charles St, Toronto, Ontario M5S 1K9");
-//        Item item = new Item(5, store, "milk tea");
-//        UUID storeID = UUID.randomUUID();
-//        UUID itemId = UUID.randomUUID();
+    @Test
+    void testAddItemToStore() throws DuplicateResourceException{
+        Store store1 = new Store("Shuyi", "75 Charles St, Toronto, Ontario M5S 1K9");
+        Store store2 = new Store("Lebron's milk tea", "91 Charles St, Toronto, Ontario M5S 1K9");
+        Item item = new Item(5, store1, "milk tea");
+        UUID storeId1 = UUID.randomUUID();
+        UUID storeId2 = UUID.randomUUID();
+        UUID itemId = UUID.randomUUID();
+
+        store1.setId(storeId1);
+        store2.setId(storeId2);
+        item.setId(itemId);
+
+        when(repo.save(store2)).thenReturn(store2);
+
+        Store returnedStore = updateStore.addItem(store2, item);
+
+        assertTrue(returnedStore.getMenu().contains(item));
+        assertEquals(store2, item.getStore());
+    }
+
+    @Test
+    void testRemoveItemFromStore() throws ResourceNotFoundException{
+        Store store1 = new Store("Shuyi", "75 Charles St, Toronto, Ontario M5S 1K9");
+        Item item1 = new Item(5, store1, "milk tea");
+        Item item2 = new Item(19, store1, "coconut milk tea");
+        UUID storeID = UUID.randomUUID();
+        UUID itemId1 = UUID.randomUUID();
+        UUID itemId2 = UUID.randomUUID();
+
+        store1.setId(storeID);
+        item1.setId(itemId1);
+        item2.setId(itemId2);
+
+        when(repo.save(store1)).thenReturn(store1);
+
+        Store returnedStore1 = updateStore.addItem(store1, item1);
+        Store returnedStore2 = updateStore.addItem(store1, item2);
+
+        Store returnedStore3 = updateStore.removeItem(store1, item1);
+
+        assertFalse(returnedStore3.getMenu().contains(item1));
+        assertTrue(returnedStore3.getMenu().contains(item2));
+        assertEquals(1, returnedStore3.getMenu().size());
+
+        //check whether item1 has been removed from the database
+        //TODO: check this block & see how to fix this
+//        boolean thrown = false;
+//        try{
+//            findItem.findById(itemId1);
+//        } catch(ResourceNotFoundException e){
+//            thrown = true;
+//        }
 //
-//        store.setId(storeID);
-//        item.setId(itemId);
-//
-//        when(repo.save(store)).thenReturn(store);
-//        when(store.addItem(item)).then
-//    }
-//
-//    @Test
-//    void testRemoveItemFromStore() throws ResourceNotFoundException{
-//
-//    }
+//        assertTrue(thrown);
+    }
 
 }
