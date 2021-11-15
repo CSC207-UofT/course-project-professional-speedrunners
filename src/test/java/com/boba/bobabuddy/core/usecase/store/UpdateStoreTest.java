@@ -77,7 +77,6 @@ public class UpdateStoreTest {
 
         when(repo.save(store2)).thenReturn(store2);
 
-        boolean thrown = false;
         updateStore.addItem(store2, item);
         assertTrue(store2.getMenu().contains(item));
         assertEquals(store2, item.getStore());
