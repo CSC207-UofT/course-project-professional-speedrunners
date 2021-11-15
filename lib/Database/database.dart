@@ -39,18 +39,23 @@ class Database{
     var cleanedData = convert.jsonDecode(data.body);
 
 
-    return cleanedData["content"];
+    return cleanedData["_embedded"]["items"];
 
   }
 
 
-  Future<List> getStoreNames() async {
+  Future getStoreNames() async {
     var data = await http.get(Uri.parse(url + '/stores'));
 
-    var fixed = convert.jsonDecode(data.body);
+    var fixed = json.decode(data.body);
 
-    print(fixed);
-    var stores = fixed["content"];
+    print("8888");
+    print(fixed['_embedded']['stores']);
+    return fixed['_embedded']['stores'];
+
+    // print("9090909");
+    // print(fixed["_embedded"]["storeDtoes"]);
+    //var stores = fixed["_embedded"]["itemDtoes"];
     //print(stores);
 
     // List<String> storeNames= [];
@@ -64,7 +69,8 @@ class Database{
     //print(stores[0]);
     // print(stores[0]["_links"]["items"]);
     // print(stores[3]["menu"]);
-    return stores;
+    // print(stores);
+    // return stores;
 
   }
 
@@ -83,14 +89,14 @@ class Database{
     print(fixed);
 
     try{
-      fixed["content"];
+      fixed["_embedded"]["items"];
     }catch(e){
       return [];
     }
 
     int counttt = 0;
 
-    for(var item in fixed["content"]){
+    for(var item in fixed["_embedded"]["items"]){
       try{
 
         item["store"]["name"];
@@ -115,7 +121,7 @@ class Database{
 
 
 
-        fixed["content"][counttt]["store"] = cleaned;
+        //fixed["content"][counttt]["store"] = cleaned;
        // print(0000000);
         //print(fixed);
 
@@ -125,7 +131,7 @@ class Database{
 
     //print("-------------------");
     //print(fixed['_embedded']["items"]);
-    return(_sortItems(fixed["content"]));
+    return(_sortItems(fixed["_embedded"]["items"]));
     // //fixed = _sortItems(fixed);
     // return fixed['_embedded']["items"];
 
@@ -265,13 +271,13 @@ class Database{
       print('cleaned');
       print(fixed["content"][0]["id"]);
 
-      fixed["content"][0];
+      fixed["_embedded"]["items"];
     }catch(e){
       return [];
     }
 
     //print(cleanedData);
-    return fixed["content"][0];
+    return fixed["_embedded"]["items"][0];
 
   }
 

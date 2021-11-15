@@ -22,9 +22,9 @@ class PopularShops extends StatefulWidget {
 
     //final List testData = [["Chatime", "667 some street"],["Some other resturaunt", "another address"],["another store","990 another street"]]; // This is used as example data. We will be using reading from a json for final implementation
 
-    var stores = db.getStoreNames();
-    //print('as');
-    print(stores);
+    //var stores = db.getStoreNames();
+    // print('as');
+    // print(stores);
 
     return Container(
       margin: const EdgeInsets.only(top: 16),
@@ -41,8 +41,12 @@ class PopularShops extends StatefulWidget {
                     future: db.getStoreNames(),
                     builder: (context, AsyncSnapshot snapshot) {
                       if (!snapshot.hasData) {
+                        print(snapshot.data);
                         return const Center(child: CircularProgressIndicator());
+
                       } else {
+                        print("9009090909");
+                        print(snapshot.data);
                         return ListView.builder(
                           shrinkWrap: true,
                             itemCount: snapshot.data.length >= 3? 3: snapshot.data.length,
@@ -51,8 +55,8 @@ class PopularShops extends StatefulWidget {
                               return singleShop(
                                                 context: context,
                                                 imageSrc: 'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg', //todo need image src implemented in entity classes
-                                                title: snapshot.data[index]["name"] ?? "",
-                                                address: snapshot.data[index]["location"] ?? "",
+                                                title: snapshot.data[index]["name"] ,
+                                                address: snapshot.data[index]["location"],
                                 storeId: snapshot.data[index]['id'],
                                 items: snapshot.data[index]['menu']
 
@@ -137,8 +141,8 @@ Widget singleShop({required String imageSrc, required String title, required Str
   if(items.length == 0){
     itemId = '';
   }else{
-    // itemId = items[0]["id"];
-    itemId = '';
+    itemId = items[0]["id"];
+    //itemId = '';
   }
 
   return InkWell(

@@ -79,19 +79,42 @@ class PriceUpdaterPage extends StatelessWidget {
 
       Positioned(width: deviceWidth -80, height: 100, top: 125,
         left: 43,
-        child: TextFormField(
-          enabled: false,
-          decoration: const InputDecoration(
-            prefixIcon: Icon(
-              Icons.attach_money_outlined,
-              color: Color.fromRGBO(86, 99, 255, 1.0),
-            ),
-              border: OutlineInputBorder(),
-              labelText: 'Current Price', //TODO: PlaceHolder for current price data
-              disabledBorder: InputBorder.none
+        child: FutureBuilder(
+            future: Database().getItemById(itemId),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+    if(!snapshot.hasData){
+    return const Center(child: CircularProgressIndicator());
+    }else{
+      return TextFormField(
+            enabled: false,
+            decoration: InputDecoration(
+              prefixIcon: const Icon(
+                Icons.attach_money_outlined,
+                color: Color.fromRGBO(86, 99, 255, 1.0),
+              ),
+                border: OutlineInputBorder(),
+                labelText: snapshot.data["price"].toString(), //TODO: PlaceHolder for current price data
+                disabledBorder: InputBorder.none
 
-          ),
+            ),
+          );
+    }
+        },
+
         ),
+        // child: TextFormField(
+        //   enabled: false,
+        //   decoration: InputDecoration(
+        //     prefixIcon: const Icon(
+        //       Icons.attach_money_outlined,
+        //       color: Color.fromRGBO(86, 99, 255, 1.0),
+        //     ),
+        //       border: OutlineInputBorder(),
+        //       labelText: "Current Price", //TODO: PlaceHolder for current price data
+        //       disabledBorder: InputBorder.none
+        //
+        //   ),
+       // ),
       ),
         Positioned(width: deviceWidth -80, height: 100, top: 225,
           left: 43,

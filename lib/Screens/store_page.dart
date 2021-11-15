@@ -353,7 +353,7 @@ class _StorePage extends State<StorePage> {
                        child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page
-                                builder: (context) => PriceUpdaterPage(itemId: widget.itemId.isEmpty ? snapshot.data["id"].toString() : widget.itemId, imageSrc: widget.imageSrc, storeId: widget.storeId, storeName: widget.storeName, address: widget.address,)));
+                                builder: (context) => PriceUpdaterPage(itemId: widget.itemId.isEmpty ? snapshot.data["id"].toString() : widget.itemId, imageSrc: widget.imageSrc, storeId: widget.storeId, storeName: widget.storeName, address: widget.address, )));
                           },
                           child: const Text(
                             'Wrong Price?',

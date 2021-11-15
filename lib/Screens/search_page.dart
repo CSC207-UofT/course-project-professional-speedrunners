@@ -172,7 +172,8 @@ Widget singleShop(
     required String address,
     required context,
     required String storeId,
-    required String itemId}) {
+    required String itemId,
+    }) {
   const double WIDGETWIDTH = 325;
   const double WIDGETHEIGHT = 220;
 
