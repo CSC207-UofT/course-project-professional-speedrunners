@@ -304,6 +304,7 @@ class _StorePage extends State<StorePage> {
             }
             else{
 
+              print(widget.itemId);
               return Stack(
                   children: [
                     SizedBox(width: deviceWidth, height: 300,),
@@ -352,7 +353,7 @@ class _StorePage extends State<StorePage> {
                        child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page
-                                builder: (context) => PriceUpdaterPage(itemId: widget.itemId,)));
+                                builder: (context) => PriceUpdaterPage(itemId: widget.itemId.isEmpty ? snapshot.data["id"].toString() : widget.itemId, imageSrc: widget.imageSrc, storeId: widget.storeId, storeName: widget.storeName, address: widget.address,)));
                           },
                           child: const Text(
                             'Wrong Price?',
@@ -443,8 +444,8 @@ Widget itemWidget({ required String imageSrc, required String itemId}){
               left: 230,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page
-                      builder: (context) => PriceUpdaterPage(itemId: itemId,)));
+                  // Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page
+                  //     builder: (context) => PriceUpdaterPage(itemId: itemId,)));
                 },
                 child: const Text(
                   'Wrong Price?',

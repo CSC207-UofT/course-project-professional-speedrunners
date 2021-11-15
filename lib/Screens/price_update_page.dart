@@ -1,18 +1,27 @@
+import 'dart:convert';
+
 import 'package:boba_buddy/Database/database.dart';
+import 'package:boba_buddy/Screens/store_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class PriceUpdaterPage extends StatelessWidget {
+  final String storeName;
+  final String address;
+  final String imageSrc;
+  final String storeId;
   final String itemId;
 
-  const PriceUpdaterPage({Key? key, required this.itemId}) : super(key: key);
+  const PriceUpdaterPage({Key? key, required this.itemId, required this.storeName, required this.address, required this.imageSrc, required this.storeId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
+    final newPriceController = TextEditingController();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
 
@@ -86,7 +95,9 @@ class PriceUpdaterPage extends StatelessWidget {
       ),
         Positioned(width: deviceWidth -80, height: 100, top: 225,
           left: 43,
-          child: TextFormField(
+          child: TextField(
+
+            controller: newPriceController,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
               labelStyle: TextStyle(
@@ -110,11 +121,8 @@ class PriceUpdaterPage extends StatelessWidget {
             onPressed: () async {
 
               Database db = Database();
-
-              var item = await db.getItemById(itemId);
-              item["price"] = 90.0;
-              item["avgRating"] = 0.0;
-              await db.updateItemPrice(itemId, item);
+                                              //TODO: double.parse(newPriceController.text)
+              await db.updateItemPrice(itemId, double.parse(newPriceController.text));
 
 
 
@@ -124,6 +132,9 @@ class PriceUpdaterPage extends StatelessWidget {
               );
 
               Navigator.pop(context);
+              Route route = MaterialPageRoute(builder: (context) => StorePage(storeName: storeName, address: address, storeId: storeId, itemId: itemId, imageSrc: imageSrc,));
+              Navigator.pushReplacement(context, route);
+
 
             },
             child: const Text(
