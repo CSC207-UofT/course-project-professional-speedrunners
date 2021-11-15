@@ -5,8 +5,11 @@ import com.boba.bobabuddy.core.usecase.item.port.ICreateItem;
 import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.item.port.IRemoveItem;
 import com.boba.bobabuddy.core.usecase.item.port.IUpdateItem;
-import com.boba.bobabuddy.core.usecase.request.CreateItemRequest;
 import com.boba.bobabuddy.infrastructure.assembler.ItemResourceAssembler;
+import com.boba.bobabuddy.infrastructure.dto.FullDtoConverter;
+import com.boba.bobabuddy.infrastructure.dto.ItemDto;
+import com.boba.bobabuddy.infrastructure.dto.SimpleItemDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
@@ -28,16 +31,20 @@ public class ItemController {
     private final IRemoveItem removeItem;
     private final IUpdateItem updateItem;
     private final IFindItem findItem;
+    private final FullDtoConverter<Item, SimpleItemDto, ItemDto> dtoConverter;
 
     // Put response entities into a wrapper that stores hypermedia links (HATEOAS)
     private final ItemResourceAssembler assembler;
 
-    public ItemController(ICreateItem createItem, IFindItem findItem, IRemoveItem removeItem, IUpdateItem updateItem, ItemResourceAssembler assembler) {
+    public ItemController(ICreateItem createItem, IFindItem findItem, IRemoveItem removeItem, IUpdateItem updateItem,
+                          ModelMapper mapper, ItemResourceAssembler assembler) {
         this.createItem = createItem;
         this.findItem = findItem;
         this.removeItem = removeItem;
         this.updateItem = updateItem;
         this.assembler = assembler;
+        this.dtoConverter = new FullDtoConverter<>(mapper, Item.class, SimpleItemDto.class, ItemDto.class);
+
     }
 
     /***
@@ -46,10 +53,10 @@ public class ItemController {
      * @return Item that was created, in JSON + HAL
      */
     @PostMapping(path = "/stores/{storeId}/items")
-    public ResponseEntity<EntityModel<Item>> createItem(@RequestBody CreateItemRequest createItemRequest,
+    public ResponseEntity<EntityModel<ItemDto>> createItem(@RequestBody SimpleItemDto createItemRequest,
                                                         @PathVariable UUID storeId) {
-        Item itemToPresent = createItem.create(createItemRequest.toItem(), storeId);
-        return ResponseEntity.created(linkTo(methodOn(ItemController.class).findById(itemToPresent.getId())).toUri()).body(assembler.toModel(itemToPresent));
+        Item itemToPresent = createItem.create(dtoConverter.convertToEntityFromSimple(createItemRequest), storeId);
+        return ResponseEntity.created(linkTo(methodOn(ItemController.class).findById(itemToPresent.getId())).toUri()).body(assembler.toModel(dtoConverter.convertToDto(itemToPresent)));
     }
 
     /***
@@ -57,8 +64,8 @@ public class ItemController {
      * @return list of Item resources exist in the database
      */
     @GetMapping(path = "/items")
-    public ResponseEntity<CollectionModel<EntityModel<Item>>> findAll() {
-        return ResponseEntity.ok(assembler.toCollectionModel(findItem.findAll()));
+    public ResponseEntity<CollectionModel<EntityModel<ItemDto>>> findAll() {
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findAll())));
     }
 
     /***
@@ -67,8 +74,8 @@ public class ItemController {
      * @return Item resource with matching UUID
      */
     @GetMapping(path = "/items/{id}")
-    public ResponseEntity<EntityModel<Item>> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(assembler.toModel(findItem.findById(id)));
+    public ResponseEntity<EntityModel<ItemDto>> findById(@PathVariable UUID id) {
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(findItem.findById(id))));
     }
 
     /***
@@ -77,8 +84,8 @@ public class ItemController {
      * @return collection of item resources that match the query
      */
     @GetMapping(path = "/items", params = "name")
-    public ResponseEntity<CollectionModel<EntityModel<Item>>> findByName(@RequestParam("name") String name) {
-        return ResponseEntity.ok(assembler.toCollectionModel(findItem.findByName(name)));
+    public ResponseEntity<CollectionModel<EntityModel<ItemDto>>> findByName(@RequestParam("name") String name) {
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findByName(name))));
     }
 
     /***
@@ -87,8 +94,8 @@ public class ItemController {
      * @return collection of item resources that match the query
      */
     @GetMapping(path = "/items", params = "name-contain")
-    public ResponseEntity<CollectionModel<EntityModel<Item>>> findByNameContaining(@RequestParam("name-contain") String name) {
-        return ResponseEntity.ok(assembler.toCollectionModel(findItem.findByNameContaining(name)));
+    public ResponseEntity<CollectionModel<EntityModel<ItemDto>>> findByNameContaining(@RequestParam("name-contain") String name) {
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findByNameContaining(name))));
     }
 
     /***
@@ -97,8 +104,8 @@ public class ItemController {
      * @return list of item resources that belong to the specified store
      */
     @GetMapping(path = "/stores/{id}/items")
-    public ResponseEntity<CollectionModel<EntityModel<Item>>> findByStore(@PathVariable UUID id) {
-        return ResponseEntity.ok(assembler.toCollectionModel(findItem.findByStore(id)));
+    public ResponseEntity<CollectionModel<EntityModel<ItemDto>>> findByStore(@PathVariable UUID id) {
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findByStore(id))));
     }
 
     /***
@@ -107,9 +114,9 @@ public class ItemController {
      * @return list of item resources that match the query.
      */
     @GetMapping(path = "/items", params = "price-leq")
-    public ResponseEntity<CollectionModel<EntityModel<Item>>> findByPriceLessThanEqual(@RequestParam("price-leq") float price,
+    public ResponseEntity<CollectionModel<EntityModel<ItemDto>>> findByPriceLessThanEqual(@RequestParam("price-leq") float price,
                                                                                        @RequestParam(defaultValue = "false") boolean sorted) {
-        return ResponseEntity.ok(assembler.toCollectionModel(findItem.findByPriceLessThanEqual(price, sorted)));
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findByPriceLessThanEqual(price, sorted))));
     }
 
     /***
@@ -118,9 +125,9 @@ public class ItemController {
      * @return list of item resources that match the query.
      */
     @GetMapping(path = "/items", params = "rating-geq")
-    public ResponseEntity<CollectionModel<EntityModel<Item>>> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
+    public ResponseEntity<CollectionModel<EntityModel<ItemDto>>> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
                                                                                               @RequestParam(defaultValue = "false") boolean sorted) {
-        return ResponseEntity.ok(assembler.toCollectionModel(findItem.findByAvgRatingGreaterThanEqual(rating, sorted)));
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findByAvgRatingGreaterThanEqual(rating, sorted))));
     }
 
     /***
@@ -129,9 +136,9 @@ public class ItemController {
      * @return item resource that match the query
      */
     @GetMapping(path = "/items", params = "ratingId")
-    public ResponseEntity<EntityModel<Item>> findByRating(@RequestParam("ratingId") UUID id) {
+    public ResponseEntity<EntityModel<ItemDto>> findByRating(@RequestParam("ratingId") UUID id) {
 
-        return ResponseEntity.ok(assembler.toModel(findItem.findByRating(id)));
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(findItem.findByRating(id))));
 
     }
 
@@ -142,10 +149,10 @@ public class ItemController {
      * @return item resource after the modification
      */
     @PutMapping(path = "/items/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityModel<Item>> updateItem(@RequestBody Item newItem, @PathVariable UUID id) {
+    public ResponseEntity<EntityModel<ItemDto>> updateItem(@RequestBody SimpleItemDto newItem, @PathVariable UUID id) {
 
         Item itemToUpdate = findItem.findById(id);
-        return ResponseEntity.ok(assembler.toModel(updateItem.updateItem(itemToUpdate, newItem)));
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateItem.updateItem(itemToUpdate, newItem))));
 
     }
 
@@ -160,4 +167,7 @@ public class ItemController {
         return ResponseEntity.noContent().build();
 
     }
+
+
+
 }

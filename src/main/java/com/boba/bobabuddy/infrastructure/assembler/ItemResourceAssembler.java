@@ -4,6 +4,7 @@ import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.infrastructure.controller.ItemController;
 import com.boba.bobabuddy.infrastructure.controller.RatingController;
 import com.boba.bobabuddy.infrastructure.controller.StoreController;
+import com.boba.bobabuddy.infrastructure.dto.ItemDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
@@ -13,19 +14,19 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class ItemResourceAssembler extends SimpleIdentifiableRepresentationModelAssembler<Item> {
+public class ItemResourceAssembler extends SimpleIdentifiableRepresentationModelAssembler<ItemDto> {
     ItemResourceAssembler() {
         super(ItemController.class);
     }
 
     @Override
-    public void addLinks(EntityModel<Item> resource) {
+    public void addLinks(EntityModel<ItemDto> resource) {
         /**
          * Retain default links.
          */
         super.addLinks(resource);
 
-        Item item = Objects.requireNonNull(resource.getContent());
+        ItemDto item = Objects.requireNonNull(resource.getContent());
         // Add custom link to find associated store
         resource.add(linkTo(methodOn(StoreController.class).findById(item.getStore().getId())).withRel("stores"));
         // Add custom link to find all ratings

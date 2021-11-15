@@ -12,6 +12,7 @@ import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 /**
@@ -60,6 +61,7 @@ public class CreateItem implements ICreateItem {
     public Item create(Item item, UUID storeId) throws DuplicateResourceException, ResourceNotFoundException {
         Store store = findStore.findById(storeId);
         item.setStore(store);
+        item.setRatings(new HashSet<>());
         item = repo.save(item);
         updateStore.addItem(store, item);
         return item;

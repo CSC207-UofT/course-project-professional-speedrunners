@@ -7,6 +7,7 @@ import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.store.port.IUpdateStore;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
+import com.boba.bobabuddy.infrastructure.dto.StoreDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,9 +43,11 @@ public class UpdateStore implements IUpdateStore {
      * @throws DifferentResourceException thrown when storePatch have a different id than the storeToUpdate
      */
     @Override
-    public Store updateStore(Store storeToUpdate, Store storePatch) throws DifferentResourceException {
-        if (Objects.equals(storeToUpdate, storePatch)) {
-            return repo.save(storePatch);
+    public Store updateStore(Store storeToUpdate, StoreDto storePatch) throws DifferentResourceException {
+        if (Objects.equals(storeToUpdate.getId(), storePatch.getId())) {
+            storeToUpdate.setLocation(storePatch.getLocation());
+            storeToUpdate.setName(storePatch.getName());
+            return repo.save(storeToUpdate);
         }
         throw new DifferentResourceException("Not the same store");
     }
