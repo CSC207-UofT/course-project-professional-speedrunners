@@ -1,19 +1,16 @@
 import 'dart:async';
 import 'dart:convert' as convert;
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class Database{
-
+class Database {
   final String url = "http://10.0.2.2:8080";
 
   Database();
 
-
-
   void run() async {
-
     var client = http.Client();
     //var url = Uri.http("127.0.0.1:8080", '/users');
     // print('asasas');
@@ -24,13 +21,11 @@ class Database{
     //       "name": "yeyasmassdsde",
     //       "password": "yeyeasmas123"});
 
-
     var data = await http.get(Uri.parse(url + '/users'));
 
     var fixed = convert.jsonDecode(data.body);
 
-  //getStoreNames();
-
+    //getStoreNames();
   }
 
   Future<List> getStoreItems({required String storeId}) async {
@@ -38,11 +33,8 @@ class Database{
 
     var cleanedData = convert.jsonDecode(data.body);
 
-
     return cleanedData["_embedded"]["items"];
-
   }
-
 
   Future getStoreNames() async {
     var data = await http.get(Uri.parse(url + '/stores'));
@@ -71,39 +63,34 @@ class Database{
     // print(stores[3]["menu"]);
     // print(stores);
     // return stores;
-
   }
 
   Future<List> itemSearch(String searchTerm) async {
-
-
     //default sorted by cheapest first
 
-    var data = await http.get(Uri.parse(url + '/items/?name-contain=$searchTerm'));
-
-
+    var data =
+        await http.get(Uri.parse(url + '/items/?name-contain=$searchTerm'));
 
     var fixed = convert.jsonDecode(data.body);
 
     print("0000000");
     print(fixed);
 
-    try{
+    try {
       fixed["_embedded"]["items"];
-    }catch(e){
+    } catch (e) {
       return [];
     }
 
     int counttt = 0;
 
-    for(var item in fixed["_embedded"]["items"]){
-      try{
-
+    for (var item in fixed["_embedded"]["items"]) {
+      try {
         item["store"]["name"];
-        counttt ++;
-      }catch(e){
-
-        var storeData = await http.get(Uri.parse(url + '/stores/${item['store']}'));
+        counttt++;
+      } catch (e) {
+        var storeData =
+            await http.get(Uri.parse(url + '/stores/${item['store']}'));
         var cleaned = convert.jsonDecode(storeData.body);
         // print("88888888");
         // print(fixed);
@@ -116,31 +103,22 @@ class Database{
         // print(99999);
         // print(cleaned);
 
-
-
-
-
-
         //fixed["content"][counttt]["store"] = cleaned;
-       // print(0000000);
+        // print(0000000);
         //print(fixed);
-
 
       }
     }
 
     //print("-------------------");
     //print(fixed['_embedded']["items"]);
-    return(_sortItems(fixed["_embedded"]["items"]));
+    return (_sortItems(fixed["_embedded"]["items"]));
     // //fixed = _sortItems(fixed);
     // return fixed['_embedded']["items"];
-
   }
 
   Future getItemById(String itemId) async {
     var data = await http.get(Uri.parse(url + '/items/$itemId'));
-
-
 
     print("909090");
     print(data.body);
@@ -156,14 +134,10 @@ class Database{
   }
 
   updateItemPrice(String itemId, double newPrice) async {
-
-
-    try{
-
+    try {
       var address = Uri.parse(url + '/items/$itemId');
 
       Map item = await getItemById(itemId);
-
 
       // Map data = {
       //   "id": "35fa9310-a72a-4573-bd0a-6760bd873d95",
@@ -210,22 +184,15 @@ class Database{
       //encode Map to JSON
       var body = json.encode(item);
 
-
       var response = await http.put(address,
-          headers: {"Content-Type": "application/json"},
-          body: body
-      );
+          headers: {"Content-Type": "application/json"}, body: body);
       print("${response.statusCode}");
       //print("${response.body}");
       //return response;
 
-
-    }catch(e){
-
+    } catch (e) {
       print(e);
     }
-
-
 
     // try {
     //   print("000000");
@@ -251,8 +218,6 @@ class Database{
     //   //return false;
     //
     // }
-
-
   }
 
   Future getOneItemFromStore(String storeId) async {
@@ -260,31 +225,25 @@ class Database{
 
     //Map cleanedData = json.decode(data.body);
 
-
-
     print("909090");
     print(data.body);
     var fixed = convert.jsonDecode(data.body);
 
-
-    try{
+    try {
       print('cleaned');
       print(fixed["content"][0]["id"]);
 
       fixed["content"][0];
-    }catch(e){
+    } catch (e) {
       return [];
     }
 
     //print(cleanedData);
     return fixed["content"][0];
-
   }
 
-  _sortItems(data){
-
+  _sortItems(data) {
     //sorts from lowest to highest price
-
 
     var copy = List.from(data);
     copy.sort((a, b) => a["price"].compareTo(b["price"]));
@@ -296,12 +255,5 @@ class Database{
     //   prices.add(item["price"]);
     // }
     // prices.sort()
-
-
-
-
   }
-
-
-
 }

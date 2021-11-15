@@ -5,11 +5,11 @@ import 'package:boba_buddy/Screens/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget{
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
   @override
   _HomeScreen createState() => _HomeScreen();
-
 }
 
 class _HomeScreen extends State<HomeScreen> {
@@ -24,31 +24,26 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-    body: IndexedStack(
-    index: _currentIndex,
-      children: _pageOptions
-    ),
-
-    bottomNavigationBar: BottomNavigationBar(fixedColor: Colors.black,
-    items: const [
-    BottomNavigationBarItem(
-    icon: Icon(Icons.house),
-    label: 'Home',
-    ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.person_outline),
-        label: 'Profile',
+      body: IndexedStack(index: _currentIndex, children: _pageOptions),
+      bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.black,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.house),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
       ),
-    ],
-
-      currentIndex: _currentIndex,
-      onTap: (index){
-        setState(() {
-          _currentIndex = index;
-        });
-      },
-    ),
     );
   }
 }

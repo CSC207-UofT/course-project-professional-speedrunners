@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.infrastructure.database;
+package com.boba.bobabuddy.infrastructure.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;

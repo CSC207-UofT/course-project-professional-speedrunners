@@ -85,7 +85,6 @@ class _SearchPage extends State<SearchPage> {
                             itemCount: snapshot.data.length,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (BuildContext context, int index) {
-
                               return singleShop(
                                   context: context,
                                   imageSrc:
@@ -166,14 +165,14 @@ class _SearchPage extends State<SearchPage> {
   }
 }
 
-Widget singleShop(
-    {required String imageSrc,
-    required String title,
-    required String address,
-    required context,
-    required String storeId,
-    required String itemId,
-    }) {
+Widget singleShop({
+  required String imageSrc,
+  required String title,
+  required String address,
+  required context,
+  required String storeId,
+  required String itemId,
+}) {
   const double WIDGETWIDTH = 325;
   const double WIDGETHEIGHT = 220;
 

@@ -13,41 +13,38 @@ class HomePage extends StatelessWidget {
     final controller = FloatingSearchBarController();
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-
-          children: const [
-
-
-            Positioned(left: 11, top: 135, child: Text("Popular Shops",
+      body: Stack(children: const [
+        Positioned(
+            left: 11,
+            top: 135,
+            child: Text(
+              "Popular Shops",
               style: TextStyle(
                   fontFamily: "Josefin Sans",
                   fontSize: 20,
                   color: Colors.black,
-                  fontWeight: FontWeight.bold),)),
-            Padding(padding: EdgeInsets.only(top: 150),
-                child: PopularShops()),
-
-            Positioned(left: 11, bottom: 280, child: Text("Category",
+                  fontWeight: FontWeight.bold),
+            )),
+        Padding(padding: EdgeInsets.only(top: 150), child: PopularShops()),
+        Positioned(
+            left: 11,
+            bottom: 280,
+            child: Text(
+              "Category",
               style: TextStyle(
                   fontFamily: "Josefin Sans",
                   fontSize: 20,
                   color: Colors.black,
-                  fontWeight: FontWeight.bold),)),
-
-            Positioned(width: 350,
-                height: 350,
-                bottom: -65,
-                right: 20,
-                child: CategoryWidget()),
-
-
-            SearchBar()
-
-
-          ]
-      ),
-
-
+                  fontWeight: FontWeight.bold),
+            )),
+        Positioned(
+            width: 350,
+            height: 350,
+            bottom: -65,
+            right: 20,
+            child: CategoryWidget()),
+        SearchBar()
+      ]),
     );
   }
 }

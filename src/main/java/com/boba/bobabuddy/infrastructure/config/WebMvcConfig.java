@@ -1,34 +1,16 @@
 package com.boba.bobabuddy.infrastructure.config;
 
-import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.infrastructure.TsqBeanHandlerInstantiator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.cfg.HandlerInstantiator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.hateoas.UriTemplate;
-import org.springframework.hateoas.config.EnableHypermediaSupport;
-import org.springframework.hateoas.mediatype.hal.CurieProvider;
-import org.springframework.hateoas.mediatype.hal.DefaultCurieProvider;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import java.util.logging.Handler;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
-    public ObjectMapper objectMapper(){
+    public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS);
         return objectMapper;

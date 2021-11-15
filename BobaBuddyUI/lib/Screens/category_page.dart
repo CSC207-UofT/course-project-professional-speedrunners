@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CategoryPage extends StatelessWidget{
+class CategoryPage extends StatelessWidget {
   const CategoryPage({Key? key, required this.category}) : super(key: key);
 
   final String category;
@@ -13,6 +13,4 @@ class CategoryPage extends StatelessWidget{
       body: Center(child: Text(category)),
     );
   }
-
-
 }

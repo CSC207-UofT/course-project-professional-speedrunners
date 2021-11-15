@@ -1,21 +1,18 @@
 package com.boba.bobabuddy.infrastructure.dto;
 
-import com.boba.bobabuddy.infrastructure.JpaEntityResolver;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.hateoas.server.core.Relation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 /**
- * Class that represents a Store in the domain layer
+ * Data Transfer Objects matching the corresponding entities in the domain layer
  */
-
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id",
         scope = StoreDto.class)
 @JsonIgnoreProperties(ignoreUnknown = true)

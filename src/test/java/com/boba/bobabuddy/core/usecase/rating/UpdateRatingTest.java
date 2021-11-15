@@ -5,7 +5,7 @@ import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.ratableobject.port.IUpdateRatable;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
-import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.RatingJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

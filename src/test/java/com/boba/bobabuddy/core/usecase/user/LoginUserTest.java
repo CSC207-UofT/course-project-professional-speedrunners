@@ -1,14 +1,15 @@
 package com.boba.bobabuddy.core.usecase.user;
 
 import com.boba.bobabuddy.core.entity.User;
-import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.UserJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 public class LoginUserTest {
@@ -19,7 +20,7 @@ public class LoginUserTest {
     private LoginUser loginUser;
 
     @Test
-    void setup(){
+    void setup() {
         String email = "name@gmail.com";
         String name = "name";
         String password = "password";

@@ -5,7 +5,9 @@ import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.infrastructure.dto.UserDto;
-
+/**
+ * Usecase Input Boundary
+ */
 public interface IUpdateUser {
     User updateUser(User userToUpdate, UserDto newUser) throws DifferentResourceException;
 

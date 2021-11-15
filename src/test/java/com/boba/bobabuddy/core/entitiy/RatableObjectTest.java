@@ -22,6 +22,7 @@ public class RatableObjectTest {
     private Rating rating1, rating2, rating3;
 
     private Set<Rating> ratings;
+
     @BeforeEach
     void setup() {
         ratableObject = Mockito.mock(RatableObject.class, Mockito.CALLS_REAL_METHODS);
@@ -41,7 +42,7 @@ public class RatableObjectTest {
         assertFalse(ratableObject.addRating(rating2));
         assertEquals(0.5, ratableObject.getAvgRating());
         assertTrue(ratableObject.addRating(rating3));
-        assertEquals(2/3f, ratableObject.getAvgRating());
+        assertEquals(2 / 3f, ratableObject.getAvgRating());
     }
 
     @Test

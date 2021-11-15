@@ -6,7 +6,7 @@ import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.item.FindItem;
-import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.StoreJpaRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,7 +81,7 @@ class FindStoreTest {
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         store = null;
         allStoreLst = null;
         storeLst = null;

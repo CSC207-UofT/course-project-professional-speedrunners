@@ -3,7 +3,7 @@ package com.boba.bobabuddy.core.usecase.user;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.user.port.IFindUser;
-import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.UserJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

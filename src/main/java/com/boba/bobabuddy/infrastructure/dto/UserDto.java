@@ -10,8 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-/***
- * Class that represents a User
+/**
+ * Data Transfer Objects matching the corresponding entities in the domain layer
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email", scope = UserDto.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -24,12 +24,7 @@ public class UserDto {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<UUID> ratings;
 
-    /***
-     * Constructs a user.
-     * @param name name of the user. can be duplicate
-     * @param email email of user, should not have duplicate in the database
-     * @param password password of the user. TODO: add encryption (low priority)
-     */
+
     public UserDto(final String name, final String email, final String password) {
         this.name = name;
         this.email = email;

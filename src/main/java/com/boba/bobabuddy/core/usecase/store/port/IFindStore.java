@@ -6,9 +6,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
-
+/**
+ * Usecase Input Boundary
+ */
 @Component
-
 public interface IFindStore {
     List<Store> findAll();
 

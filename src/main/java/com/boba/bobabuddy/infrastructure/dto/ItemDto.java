@@ -7,17 +7,16 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.hateoas.server.core.Relation;
 
 import java.util.Set;
-import java.util.UUID;
 
 /**
- * Class that represents an Item in the domain layer
+ * Data Transfer Objects matching the corresponding entities in the domain layer
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
         scope = ItemDto.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(collectionRelation = "items", itemRelation = "item")
-public class ItemDto extends SimpleItemDto implements RatableObjectDto{
+public class ItemDto extends SimpleItemDto implements RatableObjectDto {
 
     @JsonIdentityReference
     private

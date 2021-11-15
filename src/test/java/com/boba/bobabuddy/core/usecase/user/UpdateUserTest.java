@@ -3,7 +3,7 @@ package com.boba.bobabuddy.core.usecase.user;
 import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.user.port.IFindUser;
-import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.UserJpaRepository;
 import com.boba.bobabuddy.infrastructure.dto.UserDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,24 +21,20 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UpdateUserTest {
+    String email;
     @Mock
     private UserJpaRepository repo;
-
     @Mock
     private Rating rating;
-
     @Mock
     private IFindUser findUser;
-
     @InjectMocks
     private UpdateUser updateUser;
-
     private User user1, user2;
     private UserDto userDto;
-    String email;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         email = "name@gmail.com";
         String name1 = "name1";
         String password1 = "password1";
@@ -52,14 +48,14 @@ public class UpdateUserTest {
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         user1 = null;
         user2 = null;
         email = null;
     }
 
     @Test
-    void testUpdateUser(){
+    void testUpdateUser() {
         when(findUser.findByEmail(email)).thenReturn(user1);
         when(repo.save(user1)).thenReturn(user1);
         User returnedUser = updateUser.updateUser(findUser.findByEmail(email), userDto);
@@ -70,8 +66,9 @@ public class UpdateUserTest {
 
 
     }
+
     @Test
-    void testAddRating(){
+    void testAddRating() {
         when(findUser.findByEmail(email)).thenReturn(user2);
         when(repo.save(user2)).thenReturn(user2);
         Set<Rating> emptyRatingList = Collections.emptySet();

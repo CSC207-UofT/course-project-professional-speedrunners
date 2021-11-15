@@ -6,8 +6,8 @@ import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
 import com.boba.bobabuddy.core.usecase.store.port.IRemoveStore;
 import com.boba.bobabuddy.core.usecase.store.port.IUpdateStore;
 import com.boba.bobabuddy.infrastructure.assembler.StoreResourceAssembler;
-import com.boba.bobabuddy.infrastructure.dto.converter.DtoConverter;
 import com.boba.bobabuddy.infrastructure.dto.StoreDto;
+import com.boba.bobabuddy.infrastructure.dto.converter.DtoConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -16,12 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
-
 import java.util.UUID;
 
-/***
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+/**
  * REST controller for Store related api calls
  */
 
@@ -50,8 +50,9 @@ public class StoreController {
         this.dtoConverter = new DtoConverter<>(mapper, Store.class, StoreDto.class);
     }
 
-    /***
+    /**
      * Post HTTP requests for creating store resource
+     *
      * @param createStoreRequest Request class that contains data necessary to construct a Store entity.
      * @return Store that was constructed, which will be automatically converted to JSON and send it to the caller.
      */
@@ -61,8 +62,9 @@ public class StoreController {
         return ResponseEntity.created(linkTo(methodOn(StoreController.class).findById(storeToPresent.getId())).toUri()).body(assembler.toModel(storeToPresent));
     }
 
-    /***
+    /**
      * Root endpoint for store resources
+     *
      * @return collection of store resources exist in the database
      */
     @GetMapping(path = "/stores")
@@ -70,8 +72,9 @@ public class StoreController {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findStore.findAll())));
     }
 
-    /***
+    /**
      * Handles GET requests for a store resource with matching id.
+     *
      * @param id the primary uuid key of the resource
      * @return the store resource with matching UUID
      */
@@ -82,6 +85,7 @@ public class StoreController {
 
     /**
      * Handles GET requests for a store resource that has a certain item
+     *
      * @param id id of the item resource
      * @return the store resource that has the specified item
      */
@@ -91,8 +95,9 @@ public class StoreController {
 
     }
 
-    /***
+    /**
      * Handles GET requests for store resources that have matching location.
+     *
      * @param location location of required store
      * @return collection of store resources that match the query.
      */
@@ -101,8 +106,9 @@ public class StoreController {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findStore.findByLocation(location))));
     }
 
-    /***
+    /**
      * Handles GET requests for store resources that have matching name
+     *
      * @param name name of required store
      * @return collection of store resources that match the query.
      */
@@ -111,8 +117,9 @@ public class StoreController {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findStore.findByName(name))));
     }
 
-    /***
+    /**
      * Handles GET requests for store resources that partially matches the provided name
+     *
      * @param nameContain name to match for
      * @return collection of store resources that match the query.
      */
@@ -121,19 +128,21 @@ public class StoreController {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findStore.findByNameContaining(nameContain))));
     }
 
-    /***
+    /**
      * Handles GET requests for store resources that have rating greater than or equal to a given value
+     *
      * @param rating the rating used for comparison
      * @return collection of store resources that match the query.
      */
     @GetMapping(path = "/stores", params = "rating-geq")
     public ResponseEntity<CollectionModel<EntityModel<StoreDto>>> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
-                                                                                               @RequestParam(defaultValue = "false") boolean sorted) {
+                                                                                                  @RequestParam(defaultValue = "false") boolean sorted) {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findStore.findByAvgRatingGreaterThanEqual(rating, sorted))));
     }
 
     /**
      * Handle GET request to find a store resource that contains a particular rating
+     *
      * @param id id of the rating
      * @return a store resource that match teh query
      */
@@ -145,7 +154,8 @@ public class StoreController {
 
     /**
      * Handles PUT request to update an existing store resource
-     * @param id store resource to be updated
+     *
+     * @param id         store resource to be updated
      * @param storePatch the same store with updated fields.
      * @return the store resource after the modification
      */
@@ -157,6 +167,7 @@ public class StoreController {
 
     /**
      * Handle DELETE request to delete a store resource from the system
+     *
      * @param id id of the resource to be deleted.
      * @return NO_CONTENT http status
      */

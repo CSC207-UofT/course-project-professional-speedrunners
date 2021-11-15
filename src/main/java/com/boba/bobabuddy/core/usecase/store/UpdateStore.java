@@ -6,7 +6,7 @@ import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.store.port.IUpdateStore;
-import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.StoreJpaRepository;
 import com.boba.bobabuddy.infrastructure.dto.StoreDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

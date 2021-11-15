@@ -6,7 +6,8 @@ import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IRemoveRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IUpdateRating;
 import com.boba.bobabuddy.infrastructure.assembler.RatingResourceAssembler;
-import com.boba.bobabuddy.infrastructure.dto.*;
+import com.boba.bobabuddy.infrastructure.dto.RatingDto;
+import com.boba.bobabuddy.infrastructure.dto.SimpleRatingDto;
 import com.boba.bobabuddy.infrastructure.dto.converter.FullDtoConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
-
 import java.net.MalformedURLException;
 import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * Controller for RatingPoint related api calls.
@@ -30,7 +31,7 @@ import java.util.UUID;
 public class RatingController {
 
     // Input Boundary
-    private final ICreateRating createRatingPoint;
+    private final ICreateRating createRating;
     private final IFindRating findRatingPoint;
     private final IRemoveRating removeRatingPoint;
     private final IUpdateRating updateRatingPoint;
@@ -39,10 +40,10 @@ public class RatingController {
 
 
     @Autowired
-    public RatingController(ICreateRating createRatingPoint, IFindRating findRatingPoint,
+    public RatingController(ICreateRating createRating, IFindRating findRatingPoint,
                             IRemoveRating removeRatingPoint, IUpdateRating updateRatingPoint,
                             RatingResourceAssembler assembler, ModelMapper mapper) {
-        this.createRatingPoint = createRatingPoint;
+        this.createRating = createRating;
         this.findRatingPoint = findRatingPoint;
         this.removeRatingPoint = removeRatingPoint;
         this.updateRatingPoint = updateRatingPoint;
@@ -54,15 +55,16 @@ public class RatingController {
     /**
      * Handles POST requests to add a Rating to the database.
      *
-     * @param createRatingPointRequest request class containing the data to construct a new RatingPoint entity
-     * @param id the id of the rated RatableObject
-     * @param email the email of the user who made the rating
+     *
+     * @param createRatingRequest      DTO class containing the data to construct a new RatingPoint entity
+     * @param id                       the id of the rated RatableObject
+     * @param email                    the email of the user who made the rating
      * @return the constructed RatingPoint
      */
     @PostMapping(path = "/{ratableObject}/{id}/ratings", params = "createdBy")
-    public ResponseEntity<EntityModel<RatingDto>> createRatingPoint(@RequestBody SimpleRatingDto createRatingPointRequest,
-                                                                 @PathVariable UUID id, @RequestParam("createdBy") String email) {
-        Rating rating = createRatingPoint.create(fullDtoConverter.convertToEntityFromSimple(createRatingPointRequest), id, email);
+    public ResponseEntity<EntityModel<RatingDto>> createRating(@RequestBody SimpleRatingDto createRatingRequest,
+                                                               @PathVariable UUID id, @RequestParam("createdBy") String email) {
+        Rating rating = createRating.create(fullDtoConverter.convertToEntityFromSimple(createRatingRequest), id, email);
         RatingDto ratingToPresent = fullDtoConverter.convertToDto(rating);
         return ResponseEntity.created(linkTo(methodOn(RatingController.class).findById(ratingToPresent.getId())).toUri()).body(assembler.toModel(ratingToPresent));
     }
@@ -81,7 +83,7 @@ public class RatingController {
      * Handles GET requests for all Rating entities belonging to a RatableObject.
      *
      * @param ratableObject the name of a RatableObject subclass
-     * @param id the id of the RatableObject of the same subclass
+     * @param id            the id of the RatableObject of the same subclass
      * @return the list of Rating entities belonging to the RatableObject
      */
     @GetMapping(path = "/{ratableObject}/{id}/ratings")
@@ -89,7 +91,7 @@ public class RatingController {
         if (ratableObject.equals("items")) {
             return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRatingPoint.findByItem(id))));
         }
-        if(ratableObject.equals("stores")) {
+        if (ratableObject.equals("stores")) {
             return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRatingPoint.findByStore(id))));
         }
         Exception e = new MalformedURLException("must be /item/ or /store/");
@@ -133,7 +135,7 @@ public class RatingController {
     /**
      * Handles PUT requests to update an existing Rating.
      *
-     * @param id the UUID of the Rating to be updated
+     * @param id     the UUID of the Rating to be updated
      * @param rating the new value of the Rating
      * @return the updated Rating
      */

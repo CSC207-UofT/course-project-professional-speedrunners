@@ -6,9 +6,9 @@ import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.item.port.IRemoveItem;
 import com.boba.bobabuddy.core.usecase.item.port.IUpdateItem;
 import com.boba.bobabuddy.infrastructure.assembler.ItemResourceAssembler;
-import com.boba.bobabuddy.infrastructure.dto.converter.FullDtoConverter;
 import com.boba.bobabuddy.infrastructure.dto.ItemDto;
 import com.boba.bobabuddy.infrastructure.dto.SimpleItemDto;
+import com.boba.bobabuddy.infrastructure.dto.converter.FullDtoConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -16,12 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
-
 import java.util.UUID;
 
-/***
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+/**
  * REST controller for Item related api calls
  */
 @RestController
@@ -47,20 +47,22 @@ public class ItemController {
 
     }
 
-    /***
+    /**
      * POST HTTP requests for creating item resource
+     *
      * @param createItemRequest Request class that contains data necessary to construct an Item entity.
      * @return Item that was created, in JSON + HAL
      */
     @PostMapping(path = "/stores/{storeId}/items")
     public ResponseEntity<EntityModel<ItemDto>> createItem(@RequestBody SimpleItemDto createItemRequest,
-                                                        @PathVariable UUID storeId) {
+                                                           @PathVariable UUID storeId) {
         Item itemToPresent = createItem.create(dtoConverter.convertToEntityFromSimple(createItemRequest), storeId);
         return ResponseEntity.created(linkTo(methodOn(ItemController.class).findById(itemToPresent.getId())).toUri()).body(assembler.toModel(dtoConverter.convertToDto(itemToPresent)));
     }
 
-    /***
+    /**
      * Root endpoint for item resources
+     *
      * @return list of Item resources exist in the database
      */
     @GetMapping(path = "/items")
@@ -68,8 +70,9 @@ public class ItemController {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findAll())));
     }
 
-    /***
+    /**
      * Handles GET requests for an item resource with matching id.
+     *
      * @param id the primary uuid key of the resource
      * @return Item resource with matching UUID
      */
@@ -78,8 +81,9 @@ public class ItemController {
         return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(findItem.findById(id))));
     }
 
-    /***
+    /**
      * Handles GET requests for item resources that have matching name.
+     *
      * @param name name to match for
      * @return collection of item resources that match the query
      */
@@ -88,8 +92,9 @@ public class ItemController {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findByName(name))));
     }
 
-    /***
+    /**
      * Handles GET requests for item resource that partially matches the provided name
+     *
      * @param name name to match for
      * @return collection of item resources that match the query
      */
@@ -98,8 +103,9 @@ public class ItemController {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findByNameContaining(name))));
     }
 
-    /***
+    /**
      * Handles GET requests for an item resources that belongs to a store
+     *
      * @param id id of the store resource
      * @return list of item resources that belong to the specified store
      */
@@ -108,30 +114,33 @@ public class ItemController {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findByStore(id))));
     }
 
-    /***
+    /**
      * Handles GET requests for item resources that have price less than equal to a given value
+     *
      * @param price the price used for comparison
      * @return list of item resources that match the query.
      */
     @GetMapping(path = "/items", params = "price-leq")
     public ResponseEntity<CollectionModel<EntityModel<ItemDto>>> findByPriceLessThanEqual(@RequestParam("price-leq") float price,
-                                                                                       @RequestParam(defaultValue = "false") boolean sorted) {
+                                                                                          @RequestParam(defaultValue = "false") boolean sorted) {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findByPriceLessThanEqual(price, sorted))));
     }
 
-    /***
+    /**
      * Handles GET requests for item resources that have rating greater than or equal to a given value
+     *
      * @param rating the rating used for comparison
      * @return list of item resources that match the query.
      */
     @GetMapping(path = "/items", params = "rating-geq")
     public ResponseEntity<CollectionModel<EntityModel<ItemDto>>> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
-                                                                                              @RequestParam(defaultValue = "false") boolean sorted) {
+                                                                                                 @RequestParam(defaultValue = "false") boolean sorted) {
         return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findItem.findByAvgRatingGreaterThanEqual(rating, sorted))));
     }
 
-    /***
+    /**
      * Handle GET request to find an item resource that contains a particular rating
+     *
      * @param id id of the rating
      * @return item resource that match the query
      */
@@ -142,10 +151,11 @@ public class ItemController {
 
     }
 
-    /***
+    /**
      * Handles PUT request to update an existing item resource
+     *
      * @param newItem the new modified item
-     * @param id item resource to be updated
+     * @param id      item resource to be updated
      * @return item resource after the modification
      */
     @PutMapping(path = "/items/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -156,8 +166,9 @@ public class ItemController {
 
     }
 
-    /***
+    /**
      * Handle DELETE request to delete an item resource from the system
+     *
      * @param id id of the resource to be deleted
      * @return NO_CONTENT http status
      */
@@ -167,7 +178,6 @@ public class ItemController {
         return ResponseEntity.noContent().build();
 
     }
-
 
 
 }

@@ -1,10 +1,13 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.User;
-import com.boba.bobabuddy.core.usecase.user.port.*;
+import com.boba.bobabuddy.core.usecase.user.port.ICreateUser;
+import com.boba.bobabuddy.core.usecase.user.port.IFindUser;
+import com.boba.bobabuddy.core.usecase.user.port.IRemoveUser;
+import com.boba.bobabuddy.core.usecase.user.port.IUpdateUser;
 import com.boba.bobabuddy.infrastructure.assembler.UserResourceAssembler;
-import com.boba.bobabuddy.infrastructure.dto.converter.DtoConverter;
 import com.boba.bobabuddy.infrastructure.dto.UserDto;
+import com.boba.bobabuddy.infrastructure.dto.converter.DtoConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -12,7 +15,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /***
  * REST controller for User related api calls
@@ -98,7 +102,8 @@ public class UserController {
 
     /**
      * PUT request to update an existing User
-     * @param email email of the User we want to update.
+     *
+     * @param email     email of the User we want to update.
      * @param userPatch the same User with updated fields.
      * @return the User resource after the modification
      */

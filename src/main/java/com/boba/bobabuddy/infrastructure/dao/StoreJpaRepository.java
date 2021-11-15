@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.infrastructure.database;
+package com.boba.bobabuddy.infrastructure.dao;
 
 import com.boba.bobabuddy.core.entity.Store;
 import org.springframework.data.domain.Sort;

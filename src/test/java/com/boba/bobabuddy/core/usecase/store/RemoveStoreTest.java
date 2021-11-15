@@ -5,7 +5,7 @@ import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
-import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.StoreJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,7 +35,7 @@ public class RemoveStoreTest {
     private RemoveStore removeStore;
 
     @Test
-    void testRemove() throws DifferentResourceException, ResourceNotFoundException{
+    void testRemove() throws DifferentResourceException, ResourceNotFoundException {
         Store store1 = new Store("M.Jordan's fav milk tea", "75 Charles St, Toronto, Ontario M5S 1K9");
         Item item1 = new Item(5, store1, "milk tea");
 

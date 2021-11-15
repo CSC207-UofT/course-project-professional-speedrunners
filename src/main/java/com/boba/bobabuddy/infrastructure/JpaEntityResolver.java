@@ -3,18 +3,16 @@ package com.boba.bobabuddy.infrastructure;
 import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdResolver;
 import com.fasterxml.jackson.annotation.SimpleObjectIdResolver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.EntityType;
 import java.util.UUID;
 
 /**
  * @author fta on 20.12.15.
  */
+
+// not used
 public class JpaEntityResolver extends SimpleObjectIdResolver {
 
     private EntityManager em;

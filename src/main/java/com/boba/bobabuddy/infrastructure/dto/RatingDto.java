@@ -6,12 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.hateoas.server.core.Relation;
 
-import java.util.UUID;
-
-/***
- * Class that represents a singleton rating
+/**
+ * Data Transfer Objects matching the corresponding entities in the domain layer
  */
-
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
         scope = RatingDto.class)
@@ -25,12 +22,6 @@ public class RatingDto extends SimpleRatingDto {
     @JsonIdentityReference
     private RatableObjectDto ratableObject;
 
-    /***
-     * Constructor for a Rating point object
-     * @param rating the rating, either 0 or 1
-     * @param user the user that made this rating
-     * @param ratableObject the ratableObject that is being rated, either Item or Store
-     */
     public RatingDto(int rating, UserDto user, RatableObjectDto ratableObject) {
         this.rating = rating;
         this.userDto = user;

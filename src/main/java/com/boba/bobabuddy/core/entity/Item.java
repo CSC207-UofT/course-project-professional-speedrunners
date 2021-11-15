@@ -1,7 +1,10 @@
 package com.boba.bobabuddy.core.entity;
 
 import com.boba.bobabuddy.infrastructure.JpaEntityResolver;
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -15,7 +18,7 @@ import javax.persistence.ManyToOne;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
         resolver = JpaEntityResolver.class,
-        scope=Item.class)
+        scope = Item.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Item extends RatableObject {
 

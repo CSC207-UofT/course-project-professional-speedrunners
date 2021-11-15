@@ -1,6 +1,5 @@
 package com.boba.bobabuddy.infrastructure.assembler;
 
-import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.infrastructure.controller.RatingController;
 import com.boba.bobabuddy.infrastructure.controller.UserController;
 import com.boba.bobabuddy.infrastructure.dto.UserDto;
@@ -11,7 +10,9 @@ import java.util.Objects;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
+/**
+ * An assembler class to add relevant url link to the response
+ */
 @Component
 public class UserResourceAssembler extends SimpleIdentifiableRepresentationModelAssembler<UserDto> {
 
