@@ -4,6 +4,8 @@ import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.item.port.IUpdateItem;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
+import com.boba.bobabuddy.infrastructure.dto.ItemDto;
+import com.boba.bobabuddy.infrastructure.dto.SimpleItemDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,9 +40,11 @@ public class UpdateItem implements IUpdateItem {
      * @throws DifferentResourceException thrown when itemPatch have a different id than the itemToUpdate
      */
     @Override
-    public Item updateItem(Item itemToUpdate, Item itemPatch) throws DifferentResourceException {
-        if (Objects.equals(itemToUpdate, itemPatch)) {
-            return repo.save(itemPatch);
+    public Item updateItem(Item itemToUpdate, SimpleItemDto itemPatch) throws DifferentResourceException {
+        if (Objects.equals(itemToUpdate.getId(), itemPatch.getId())) {
+            itemToUpdate.setName(itemPatch.getName());
+            itemToUpdate.setPrice(itemPatch.getPrice());
+            return repo.save(itemToUpdate);
         }
         throw new DifferentResourceException("Not the same item", new Exception());
     }

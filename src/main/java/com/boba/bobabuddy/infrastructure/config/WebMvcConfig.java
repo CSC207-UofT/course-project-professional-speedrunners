@@ -2,6 +2,7 @@ package com.boba.bobabuddy.infrastructure.config;
 
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.infrastructure.TsqBeanHandlerInstantiator;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.cfg.HandlerInstantiator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +27,18 @@ import java.util.logging.Handler;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    private ObjectMapper tsqObjectMapper(TsqBeanHandlerInstantiator tsqBeanHandlerInstantiator){
-        ObjectMapper tsqObjectMapper = new ObjectMapper();
-        tsqObjectMapper.setHandlerInstantiator(tsqBeanHandlerInstantiator);
-        return tsqObjectMapper;
+    @Bean
+    public ObjectMapper objectMapper(){
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS);
+        return objectMapper;
     }
 
-    @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(@Autowired ObjectMapper objectMapper, @Autowired TsqBeanHandlerInstantiator tsqBeanHandlerInstantiator){
-        MappingJackson2HttpMessageConverter bean = new MappingJackson2HttpMessageConverter();
-        bean.setObjectMapper(objectMapper);
-        bean.registerObjectMappersForType(Object.class, m -> m.put(MediaType.APPLICATION_JSON, tsqObjectMapper(tsqBeanHandlerInstantiator)));
-        return bean;
-    }
+//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(@Autowired ObjectMapper objectMapper, @Autowired TsqBeanHandlerInstantiator tsqBeanHandlerInstantiator){
+//        MappingJackson2HttpMessageConverter bean = new MappingJackson2HttpMessageConverter();
+//        bean.setObjectMapper(objectMapper);
+//        bean.registerObjectMappersForType(Object.class, m -> m.put(MediaType.APPLICATION_JSON, tsqObjectMapper(tsqBeanHandlerInstantiator)));
+//        return bean;
+//    }
 
 }

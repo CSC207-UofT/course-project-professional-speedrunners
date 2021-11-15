@@ -75,6 +75,8 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
      */
     public void setRatings(Set<Rating> ratings) {
         this.ratings = ratings;
+        if(ratings == null) return;
+
         float counter = 0;
         for (Rating i : ratings) {
             counter += i.getRating();

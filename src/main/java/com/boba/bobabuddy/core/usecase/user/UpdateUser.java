@@ -6,6 +6,7 @@ import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.user.port.IUpdateUser;
 import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
+import com.boba.bobabuddy.infrastructure.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +25,11 @@ public class UpdateUser implements IUpdateUser {
     }
 
     @Override
-    public User updateUser(User userToUpdate, User newUser) throws DifferentResourceException {
+    public User updateUser(User userToUpdate, UserDto newUser) throws DifferentResourceException {
 
-        if (Objects.equals(userToUpdate, newUser)) {
+        if (Objects.equals(userToUpdate.getEmail(), newUser.getEmail())) {
             userToUpdate.setName(newUser.getName());
             userToUpdate.setPassword(newUser.getPassword());
-            userToUpdate.setRatings(newUser.getRatings());
             return repo.save(userToUpdate);
 
         }

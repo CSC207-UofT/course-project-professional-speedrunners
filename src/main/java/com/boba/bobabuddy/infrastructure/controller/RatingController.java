@@ -5,8 +5,10 @@ import com.boba.bobabuddy.core.usecase.rating.port.ICreateRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IRemoveRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IUpdateRating;
-import com.boba.bobabuddy.core.usecase.request.CreateRatingPointRequest;
 import com.boba.bobabuddy.infrastructure.assembler.RatingResourceAssembler;
+import com.boba.bobabuddy.infrastructure.dto.*;
+import com.boba.bobabuddy.infrastructure.dto.converter.FullDtoConverter;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -14,6 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 
 import java.net.MalformedURLException;
 import java.util.UUID;
@@ -30,15 +35,20 @@ public class RatingController {
     private final IRemoveRating removeRatingPoint;
     private final IUpdateRating updateRatingPoint;
     private final RatingResourceAssembler assembler;
+    private final FullDtoConverter<Rating, SimpleRatingDto, RatingDto> fullDtoConverter;
+
 
     @Autowired
     public RatingController(ICreateRating createRatingPoint, IFindRating findRatingPoint,
-                            IRemoveRating removeRatingPoint, IUpdateRating updateRatingPoint, RatingResourceAssembler assembler) {
+                            IRemoveRating removeRatingPoint, IUpdateRating updateRatingPoint,
+                            RatingResourceAssembler assembler, ModelMapper mapper) {
         this.createRatingPoint = createRatingPoint;
         this.findRatingPoint = findRatingPoint;
         this.removeRatingPoint = removeRatingPoint;
         this.updateRatingPoint = updateRatingPoint;
         this.assembler = assembler;
+
+        this.fullDtoConverter = new FullDtoConverter<>(mapper, Rating.class, SimpleRatingDto.class, RatingDto.class);
     }
 
     /**
@@ -50,9 +60,11 @@ public class RatingController {
      * @return the constructed RatingPoint
      */
     @PostMapping(path = "/{ratableObject}/{id}/ratings", params = "createdBy")
-    public ResponseEntity<EntityModel<Rating>> createRatingPoint(@RequestBody CreateRatingPointRequest createRatingPointRequest,
+    public ResponseEntity<EntityModel<RatingDto>> createRatingPoint(@RequestBody SimpleRatingDto createRatingPointRequest,
                                                                  @PathVariable UUID id, @RequestParam("createdBy") String email) {
-        return ResponseEntity.ok(assembler.toModel(createRatingPoint.create(createRatingPointRequest.getRatingPoint(), id, email)));
+        Rating rating = createRatingPoint.create(fullDtoConverter.convertToEntityFromSimple(createRatingPointRequest), id, email);
+        RatingDto ratingToPresent = fullDtoConverter.convertToDto(rating);
+        return ResponseEntity.created(linkTo(methodOn(RatingController.class).findById(ratingToPresent.getId())).toUri()).body(assembler.toModel(ratingToPresent));
     }
 
     /**
@@ -61,8 +73,8 @@ public class RatingController {
      * @return the list of all Rating entities
      */
     @GetMapping(path = "/ratings")
-    public ResponseEntity<CollectionModel<EntityModel<Rating>>> findAll() {
-        return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findAll()));
+    public ResponseEntity<CollectionModel<EntityModel<RatingDto>>> findAll() {
+        return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRatingPoint.findAll())));
     }
 
     /**
@@ -73,12 +85,12 @@ public class RatingController {
      * @return the list of Rating entities belonging to the RatableObject
      */
     @GetMapping(path = "/{ratableObject}/{id}/ratings")
-    public ResponseEntity<CollectionModel<EntityModel<Rating>>> findByRatableObject(@PathVariable String ratableObject, @PathVariable UUID id) {
+    public ResponseEntity<CollectionModel<EntityModel<RatingDto>>> findByRatableObject(@PathVariable String ratableObject, @PathVariable UUID id) {
         if (ratableObject.equals("items")) {
-            return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findByItem(id)));
+            return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRatingPoint.findByItem(id))));
         }
         if(ratableObject.equals("stores")) {
-            return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findByStore(id)));
+            return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRatingPoint.findByStore(id))));
         }
         Exception e = new MalformedURLException("must be /item/ or /store/");
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
@@ -91,8 +103,8 @@ public class RatingController {
      * @return the list of Rating entities belonging to the User
      */
     @GetMapping(path = "/users/{email}/ratings")
-    public ResponseEntity<CollectionModel<EntityModel<Rating>>> findByUser(@PathVariable String email) {
-        return ResponseEntity.ok(assembler.toCollectionModel(findRatingPoint.findByUser(email)));
+    public ResponseEntity<CollectionModel<EntityModel<RatingDto>>> findByUser(@PathVariable String email) {
+        return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRatingPoint.findByUser(email))));
     }
 
     /**
@@ -102,8 +114,8 @@ public class RatingController {
      * @return the Rating with the matching UUID
      */
     @GetMapping(path = "/ratings/{id}")
-    public ResponseEntity<EntityModel<Rating>> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(assembler.toModel(findRatingPoint.findById(id)));
+    public ResponseEntity<EntityModel<RatingDto>> findById(@PathVariable UUID id) {
+        return ResponseEntity.ok(assembler.toModel(fullDtoConverter.convertToDto(findRatingPoint.findById(id))));
     }
 
     /**
@@ -122,11 +134,12 @@ public class RatingController {
      * Handles PUT requests to update an existing Rating.
      *
      * @param id the UUID of the Rating to be updated
-     * @param rate the new value of the Rating
+     * @param rating the new value of the Rating
      * @return the updated Rating
      */
-    @PutMapping(path = "/ratings/{id}", params = "rate")
-    public ResponseEntity<EntityModel<Rating>> updateRatingPointRating(@PathVariable UUID id, @RequestParam int rate) {
-        return ResponseEntity.ok(assembler.toModel(updateRatingPoint.updateRating(id, rate)));
+
+    @PutMapping(path = "/ratings/{id}")
+    public ResponseEntity<EntityModel<RatingDto>> updateRating(@PathVariable UUID id, @RequestBody SimpleRatingDto rating) {
+        return ResponseEntity.ok(assembler.toModel(fullDtoConverter.convertToDto(updateRatingPoint.updateRating(id, rating.getRating()))));
     }
 }

@@ -4,6 +4,7 @@ import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.user.port.IFindUser;
 import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
+import com.boba.bobabuddy.infrastructure.dto.UserDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,7 @@ public class UpdateUserTest {
     private UpdateUser updateUser;
 
     private User user1, user2;
+    private UserDto userDto;
     String email;
 
     @BeforeEach
@@ -45,6 +47,7 @@ public class UpdateUserTest {
 
         user1 = new User(name1, email, password1);
         user2 = new User(name2, email, password2);
+        userDto = new UserDto(name2, email, password2);
         user1.addRating(rating);
     }
 
@@ -59,8 +62,13 @@ public class UpdateUserTest {
     void testUpdateUser(){
         when(findUser.findByEmail(email)).thenReturn(user1);
         when(repo.save(user1)).thenReturn(user1);
-        User returnedUser = updateUser.updateUser(findUser.findByEmail(email), user2);
-        assertEquals(returnedUser.toString(), user2.toString());
+        User returnedUser = updateUser.updateUser(findUser.findByEmail(email), userDto);
+        user2.addRating(rating);
+        assertEquals(user2.getName(), returnedUser.getName());
+        assertEquals(user2.getPassword(), returnedUser.getPassword());
+        assertEquals(user2.getRatings(), returnedUser.getRatings());
+
+
     }
     @Test
     void testAddRating(){

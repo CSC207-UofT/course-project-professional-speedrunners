@@ -1,22 +1,23 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Store;
-import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
-import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.request.CreateStoreRequest;
 import com.boba.bobabuddy.core.usecase.store.port.ICreateStore;
 import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
 import com.boba.bobabuddy.core.usecase.store.port.IRemoveStore;
 import com.boba.bobabuddy.core.usecase.store.port.IUpdateStore;
 import com.boba.bobabuddy.infrastructure.assembler.StoreResourceAssembler;
+import com.boba.bobabuddy.infrastructure.dto.converter.DtoConverter;
+import com.boba.bobabuddy.infrastructure.dto.StoreDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 
 import java.util.UUID;
 
@@ -32,18 +33,21 @@ public class StoreController {
     private final IRemoveStore removeStore;
     private final IUpdateStore updateStore;
     private final IFindStore findStore;
+    private final DtoConverter<Store, StoreDto> dtoConverter;
 
     // Put response entities into a wrapper that stores hypermedia links (HATEOAS)
     private final StoreResourceAssembler assembler;
 
     @Autowired
     public StoreController(ICreateStore createStore, IRemoveStore removeStore, IUpdateStore updateStore,
-                           IFindStore findStore, StoreResourceAssembler assembler) {
+                           IFindStore findStore, ModelMapper mapper, StoreResourceAssembler assembler) {
         this.createStore = createStore;
         this.findStore = findStore;
         this.removeStore = removeStore;
         this.updateStore = updateStore;
         this.assembler = assembler;
+
+        this.dtoConverter = new DtoConverter<>(mapper, Store.class, StoreDto.class);
     }
 
     /***
@@ -52,9 +56,9 @@ public class StoreController {
      * @return Store that was constructed, which will be automatically converted to JSON and send it to the caller.
      */
     @PostMapping(path = "/stores", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityModel<Store>> createStore(@RequestBody CreateStoreRequest createStoreRequest) {
-        Store storeToPresent = createStore.create(createStoreRequest.toStore());
-        return ResponseEntity.ok(assembler.toModel(storeToPresent));
+    public ResponseEntity<EntityModel<StoreDto>> createStore(@RequestBody StoreDto createStoreRequest) {
+        StoreDto storeToPresent = dtoConverter.convertToDto(createStore.create(dtoConverter.convertToEntity(createStoreRequest)));
+        return ResponseEntity.created(linkTo(methodOn(StoreController.class).findById(storeToPresent.getId())).toUri()).body(assembler.toModel(storeToPresent));
     }
 
     /***
@@ -62,8 +66,8 @@ public class StoreController {
      * @return collection of store resources exist in the database
      */
     @GetMapping(path = "/stores")
-    public ResponseEntity<CollectionModel<EntityModel<Store>>> findAll() {
-        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findAll()));
+    public ResponseEntity<CollectionModel<EntityModel<StoreDto>>> findAll() {
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findStore.findAll())));
     }
 
     /***
@@ -72,8 +76,8 @@ public class StoreController {
      * @return the store resource with matching UUID
      */
     @GetMapping(path = "/stores/{id}")
-    public ResponseEntity<EntityModel<Store>> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(assembler.toModel(findStore.findById(id)));
+    public ResponseEntity<EntityModel<StoreDto>> findById(@PathVariable UUID id) {
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(findStore.findById(id))));
     }
 
     /**
@@ -82,8 +86,8 @@ public class StoreController {
      * @return the store resource that has the specified item
      */
     @GetMapping(path = "/stores", params = "itemId")
-    public ResponseEntity<EntityModel<Store>> findByItem(@RequestParam("itemId") UUID id) {
-        return ResponseEntity.ok(assembler.toModel(findStore.findByItem(id)));
+    public ResponseEntity<EntityModel<StoreDto>> findByItem(@RequestParam("itemId") UUID id) {
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(findStore.findByItem(id))));
 
     }
 
@@ -93,8 +97,8 @@ public class StoreController {
      * @return collection of store resources that match the query.
      */
     @GetMapping(path = "/stores", params = "location")
-    public ResponseEntity<CollectionModel<EntityModel<Store>>> findByLocation(@RequestParam("location") String location) {
-        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findByLocation(location)));
+    public ResponseEntity<CollectionModel<EntityModel<StoreDto>>> findByLocation(@RequestParam("location") String location) {
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findStore.findByLocation(location))));
     }
 
     /***
@@ -103,8 +107,8 @@ public class StoreController {
      * @return collection of store resources that match the query.
      */
     @GetMapping(path = "/stores", params = "name")
-    public ResponseEntity<CollectionModel<EntityModel<Store>>> findByName(@RequestParam("name") String name) {
-        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findByName(name)));
+    public ResponseEntity<CollectionModel<EntityModel<StoreDto>>> findByName(@RequestParam("name") String name) {
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findStore.findByName(name))));
     }
 
     /***
@@ -113,8 +117,8 @@ public class StoreController {
      * @return collection of store resources that match the query.
      */
     @GetMapping(path = "/stores", params = "name-contain")
-    public ResponseEntity<CollectionModel<EntityModel<Store>>> findByNameContaining(@RequestParam("name-contain") String nameContain) {
-        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findByNameContaining(nameContain)));
+    public ResponseEntity<CollectionModel<EntityModel<StoreDto>>> findByNameContaining(@RequestParam("name-contain") String nameContain) {
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findStore.findByNameContaining(nameContain))));
     }
 
     /***
@@ -123,9 +127,9 @@ public class StoreController {
      * @return collection of store resources that match the query.
      */
     @GetMapping(path = "/stores", params = "rating-geq")
-    public ResponseEntity<CollectionModel<EntityModel<Store>>> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
+    public ResponseEntity<CollectionModel<EntityModel<StoreDto>>> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
                                                                                                @RequestParam(defaultValue = "false") boolean sorted) {
-        return ResponseEntity.ok(assembler.toCollectionModel(findStore.findByAvgRatingGreaterThanEqual(rating, sorted)));
+        return ResponseEntity.ok(assembler.toCollectionModel(dtoConverter.convertToDtoCollection(findStore.findByAvgRatingGreaterThanEqual(rating, sorted))));
     }
 
     /**
@@ -134,8 +138,8 @@ public class StoreController {
      * @return a store resource that match teh query
      */
     @GetMapping(path = "/stores", params = "ratingId")
-    public ResponseEntity<EntityModel<Store>> findByRating(@RequestParam("ratingId") UUID id) {
-        return ResponseEntity.ok(assembler.toModel(findStore.findByRating(id)));
+    public ResponseEntity<EntityModel<StoreDto>> findByRating(@RequestParam("ratingId") UUID id) {
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(findStore.findByRating(id))));
 
     }
 
@@ -146,8 +150,8 @@ public class StoreController {
      * @return the store resource after the modification
      */
     @PutMapping(path = "/stores/{id}")
-    public ResponseEntity<EntityModel<Store>> updateStore(@RequestBody Store storePatch, @PathVariable UUID id) {
-        return ResponseEntity.ok(assembler.toModel(updateStore.updateStore(findStore.findById(id), storePatch)));
+    public ResponseEntity<EntityModel<StoreDto>> updateStore(@RequestBody StoreDto storePatch, @PathVariable UUID id) {
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateStore.updateStore(findStore.findById(id), storePatch))));
 
     }
 

@@ -25,7 +25,6 @@ import javax.persistence.metamodel.EntityType;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class TsqBeanHandlerInstantiator extends SpringHandlerInstantiator {
 
     /** Logger. */

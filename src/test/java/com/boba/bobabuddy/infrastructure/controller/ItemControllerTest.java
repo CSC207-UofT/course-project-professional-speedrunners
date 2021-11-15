@@ -8,21 +8,31 @@ import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.item.port.IRemoveItem;
 import com.boba.bobabuddy.core.usecase.item.port.IUpdateItem;
 import com.boba.bobabuddy.core.usecase.request.CreateItemRequest;
+import com.boba.bobabuddy.infrastructure.TsqBeanHandlerInstantiator;
 import com.boba.bobabuddy.infrastructure.assembler.ItemResourceAssembler;
+import com.boba.bobabuddy.infrastructure.config.WebMvcConfig;
+import com.boba.bobabuddy.infrastructure.dto.ItemDto;
+import com.boba.bobabuddy.infrastructure.dto.SimpleItemDto;
+import com.boba.bobabuddy.infrastructure.dto.converter.FullDtoConverter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +40,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,10 +48,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = ItemController.class)
-@Import(ItemResourceAssembler.class)
+@Import({ItemResourceAssembler.class, ModelMapper.class})
 @AutoConfigureMockMvc
 public class ItemControllerTest {
-
     @MockBean
     private ICreateItem createItem;
     @MockBean
@@ -53,27 +62,31 @@ public class ItemControllerTest {
 
     @Autowired
     private ItemResourceAssembler assembler;
-
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private ModelMapper modelMapper;
+
+//    private FullDtoConverter<Item, SimpleItemDto, ItemDto> dtoConverter;
 
     private Store store1;
     private UUID storeId, id1, id2, id3, ratingId;
-    private CreateItemRequest createItemRequest;
+    private SimpleItemDto createItemRequest;
     private Item createdItem, item1, item2, item3;
     private List<Item> allItem, itemPrice, itemRating;
     private Rating rating;
 
     @BeforeEach
     void setup(){
+//        dtoConverter = new FullDtoConverter<>(modelMapper, Item.class, SimpleItemDto.class, ItemDto.class);
+
         store1 = new Store("bob", "queens");
         storeId = UUID.randomUUID();
         store1.setId(storeId);
 
-        createItemRequest = new CreateItemRequest();
+        createItemRequest = new SimpleItemDto();
         createItemRequest.setName("tea");
         createItemRequest.setPrice(1);
 
@@ -100,14 +113,17 @@ public class ItemControllerTest {
         itemPrice = Arrays.asList(item1, item2);
         itemRating = Arrays.asList(item2, item3);
 
-        createdItem = createItemRequest.toItem();
-        createdItem.setId(id1);
-        createdItem.setStore(store1);
     }
 
     @Test
     void testCreateItem() throws Exception {
-        when(createItem.create(any(), eq(storeId))).thenReturn(createdItem);
+
+        Item raw = new Item(1, null, "tea");
+        Item createdItem = new Item(1, null, "tea");
+        createdItem.setId(id1);
+        createdItem.setStore(store1);
+
+        when(createItem.create(ArgumentMatchers.isA(Item.class), eq(storeId))).thenReturn(createdItem);
 
         mockMvc.perform(post("/stores/{storeId}/items", storeId.toString())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -276,10 +292,11 @@ public class ItemControllerTest {
 
     @Test
     void testUpdateItem() throws Exception {
-        Item item4 = item2;
+        SimpleItemDto item4 = new ItemDto( "fruit tea", 7, 0);
+        item2.setId(id1);
         item4.setId(id1);
 
-        when(updateItem.updateItem(item1, item2)).thenReturn(item2);
+        when(updateItem.updateItem(eq(item1), isA(SimpleItemDto.class))).thenReturn(item2);
         when(findItem.findById(id1)).thenReturn(item1);
 
         mockMvc.perform(put("/items/{id}", id1.toString())
