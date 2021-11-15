@@ -5,6 +5,7 @@ import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
+import com.boba.bobabuddy.infrastructure.dto.ItemDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,17 +39,22 @@ public class UpdateItemTest {
     @Test
     void testUpdate() throws DifferentResourceException {
         Item item1 = new Item(5, store, "milk tea");
-        Item item2 = new Item(7, store, "fruit tea");
+        ItemDto item2 = new ItemDto();
+        Item item3 = new Item(7, store, "iced tea");
+        item2.setPrice(7);
+        item2.setName("iced tea");
         UUID itemId = UUID.randomUUID();
 
         item1.setId(itemId);
         item2.setId(itemId);
+        item3.setId(itemId);
 
-        when(repo.save(item2)).thenReturn(item2);
+        when(repo.save(item1)).thenReturn(item3);
 
         Item returnedItem = updateItem.updateItem(item1, item2);
 
-        assertEquals(item2, returnedItem);
+        assertEquals(item3, returnedItem);
+        assertEquals(item3.toString(), returnedItem.toString());
         assertNotNull(returnedItem);
 
     }

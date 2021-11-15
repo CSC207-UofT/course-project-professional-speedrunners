@@ -27,6 +27,7 @@ import java.util.logging.Handler;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    @Bean
     public ObjectMapper objectMapper(){
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS);

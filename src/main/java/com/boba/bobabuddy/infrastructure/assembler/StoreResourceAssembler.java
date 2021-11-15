@@ -25,9 +25,11 @@ public class StoreResourceAssembler extends SimpleIdentifiableRepresentationMode
         /**
          * Retain default links.
          */
-        super.addLinks(resource);
-
         UUID id = Objects.requireNonNull(resource.getContent()).getId();
+        resource.add(linkTo(methodOn(StoreController.class).findById(id)).withRel("self"));
+        resource.add(linkTo(methodOn(StoreController.class).findAll()).withRel("stores"));
+
+
         // Add custom link to find all menu items
         resource.add(linkTo(methodOn(ItemController.class).findByStore(id)).withRel("items"));
         // Add custom link to find all ratings

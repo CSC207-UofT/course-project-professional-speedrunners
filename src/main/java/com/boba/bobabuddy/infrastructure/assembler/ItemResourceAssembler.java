@@ -24,9 +24,11 @@ public class ItemResourceAssembler extends SimpleIdentifiableRepresentationModel
         /**
          * Retain default links.
          */
-        super.addLinks(resource);
-
         ItemDto item = Objects.requireNonNull(resource.getContent());
+
+        resource.add(linkTo(methodOn(ItemController.class).findById(item.getId())).withRel("self"));
+        resource.add(linkTo(methodOn(ItemController.class).findAll()).withRel("items"));
+
         // Add custom link to find associated store
         resource.add(linkTo(methodOn(StoreController.class).findById(item.getStore().getId())).withRel("stores"));
         // Add custom link to find all ratings

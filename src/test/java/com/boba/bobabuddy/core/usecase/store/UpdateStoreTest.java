@@ -7,6 +7,7 @@ import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
+import com.boba.bobabuddy.infrastructure.dto.StoreDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,19 +41,26 @@ public class UpdateStoreTest {
     // this is not working -,-
     void testUpdate() throws DifferentResourceException{
         Store store1 = new Store("Lebron's milk tea", "91 Charles St, Toronto, Ontario M5S 1K9");
+        StoreDto storeDto = new StoreDto();
+        storeDto.setName("Kuzma's milk tea");
+        storeDto.setLocation("89 Charles St, Toronto, Ontario M5S 1K9");
+
         Store store2 = new Store("Kuzma's milk tea", "89 Charles St, Toronto, Ontario M5S 1K9");
         UUID storeId = UUID.randomUUID();
 
         store1.setId(storeId);
         store2.setId(storeId);
+        storeDto.setId(storeId);
+
         assertEquals(store1, store2);
 
         when(repo.save(store2)).thenReturn(store2);
         // making sure that when we call updatestore we have a return value since the repo is mocked.
 
-        Store returnedStore = updateStore.updateStore(store1, store2);
+        Store returnedStore = updateStore.updateStore(store1, storeDto);
 
         assertEquals(store2, returnedStore);
+        assertEquals(store2.toString(), returnedStore.toString());
         assertNotNull(returnedStore);
     }
 
@@ -70,15 +78,9 @@ public class UpdateStoreTest {
         when(repo.save(store2)).thenReturn(store2);
 
         boolean thrown = false;
-        try{
-            updateStore.addItem(store1, item);
-        } catch(DuplicateResourceException e){
-            thrown = true;
-        }
-        assertTrue(thrown);
-
-        assertTrue(store1.getMenu().contains(item));
-        assertEquals(store1, item.getStore());
+        updateStore.addItem(store2, item);
+        assertTrue(store2.getMenu().contains(item));
+        assertEquals(store2, item.getStore());
     }
 
     @Test

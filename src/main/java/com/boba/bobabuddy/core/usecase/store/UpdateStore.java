@@ -62,6 +62,7 @@ public class UpdateStore implements IUpdateStore {
     @Override
     public Store addItem(Store store, Item item) throws DuplicateResourceException {
         if (store.addItem(item)) return repo.save(store);
+        // At the moment this will never be thrown since addItem will never fail.
         throw new DuplicateResourceException("Item already in store");
     }
 

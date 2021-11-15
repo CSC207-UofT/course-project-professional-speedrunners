@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
         property = "id",
         scope = RatingDto.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Relation(collectionRelation = "ratings", itemRelation = "rating")
 public class RatingDto extends SimpleRatingDto {
 
     @JsonIdentityReference
