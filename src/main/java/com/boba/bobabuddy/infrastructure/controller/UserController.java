@@ -67,11 +67,6 @@ public class UserController {
         return ResponseEntity.ok(assembler.toModel(updateUser.updateUser(findUser.findByEmail(email), userPatch)));
     }
 
-    @PutMapping(path = "/users/{email}")
-    public ResponseEntity<EntityModel<User>> addUserRating(@PathVariable String email, @RequestBody Rating rating) {
-        return ResponseEntity.ok(assembler.toModel(updateUser.addRating(findUser.findByEmail(email), rating)));
-    }
-
 //    public ResponseEntity<EntityModel<User>> findByRating(UUID id) {
 //       try {
 //           return ResponseEntity.ok(assembler.toModel(findUser.findByRating(id)));
