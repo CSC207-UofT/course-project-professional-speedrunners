@@ -40,15 +40,13 @@ public class UpdateItemTest {
         Item item1 = new Item(5, store, "milk tea");
         Item item2 = new Item(7, store, "fruit tea");
         UUID itemId = UUID.randomUUID();
-
         item1.setId(itemId);
         item2.setId(itemId);
-
         when(repo.save(item2)).thenReturn(item2);
 
         Item returnedItem = updateItem.updateItem(item1, item2);
 
-        assertEquals(item2, returnedItem);
+        assertEquals(item2.toString(), returnedItem.toString());
         assertNotNull(returnedItem);
 
     }

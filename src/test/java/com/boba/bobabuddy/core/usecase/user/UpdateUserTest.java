@@ -60,9 +60,7 @@ public class UpdateUserTest {
         when(findUser.findByEmail(email)).thenReturn(user1);
         when(repo.save(user1)).thenReturn(user1);
         User returnedUser = updateUser.updateUser(findUser.findByEmail(email), user2);
-        assertEquals(returnedUser.getName(), user2.getName());
-        assertEquals(returnedUser.getPassword(), user2.getPassword());
-        assertEquals(returnedUser.getRatings(), user2.getRatings());
+        assertEquals(returnedUser.toString(), user2.toString());
     }
     @Test
     void testAddRating(){
