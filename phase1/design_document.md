@@ -1,14 +1,19 @@
 # Specification: Product Comparison System
 
 Our application is a product comparison system that is designed for students from University of Toronto. The purpose of this program is to keep track of prices and ratings for bubble teas, sort them based on a user supplied parameter (price, distance or rating). The item list will then be displayed via each individual item’s store. With this, the user can find their desired bubble tea, along with its corresponding store location and pricing.
+
 Within the program, there are four main entity classes:  item, store, user, and rating. Each item in the program is associated with a name, an id, a price, the shop in which it is being sold,  a list of ratings of this item, and its average rating.  Each store is associated with a store name, an id, a list of items (a menu), a location, a list of ratings and a corresponding average rating. Each user is associated with a name, an id, an email, a password, and a set of ratings that the user has made.
+
 Apart from using the application for its intended purpose (sorting items), users accessing the program also have the ability to create items, stores, user accounts, and ratings. Users may also delete or modify these entities at will.
 
 ## From phase 0 -> phase 1
 
 In phase 0 we only implemented one entity class(Item) and its related use case.  The program allowed users to store a new item, update or delete an existing item. It also allowed the user to find all the items in the system or find the item using its unique ID. 
+
 In phase 1, we have fully implemented all the entity classes(Item, Store, User, Rating) along with their use cases and their controllers. Moreover we have implemented our database to hold the information of each entity class. Now with the program, the user can create a store, item, user or a rating. The entity that is created by the user of the program will be stored in the corresponding database of the program.  
+
 Moreover, we have implemented some part of our GUI, where the frontend GUI is able to interact with our backend. However, we have not yet finished the implementation, therefore we will continue to work on it for phase 2. 
+
 Lastly, we have implemented the sorting feature for finding items by price and average rating, and for finding stores with average rating. 
 
 # Design Decisions
