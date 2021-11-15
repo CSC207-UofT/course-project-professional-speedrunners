@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.infrastructure.dto;
+package com.boba.bobabuddy.infrastructure.dto.converter;
 
 import org.modelmapper.ModelMapper;
 

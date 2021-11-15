@@ -23,8 +23,11 @@ public class ItemDto extends SimpleItemDto implements RatableObjectDto{
     @JsonIdentityReference
     private Set<SimpleRatingDto> ratings;
 
-
     public ItemDto() {
+    }
+
+    public ItemDto(String name, float price, float avgRating) {
+        super(name, price, avgRating);
     }
 
     public Set<SimpleRatingDto> getRatings() {

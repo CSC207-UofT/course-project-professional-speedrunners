@@ -6,7 +6,7 @@ import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.item.port.IRemoveItem;
 import com.boba.bobabuddy.core.usecase.item.port.IUpdateItem;
 import com.boba.bobabuddy.infrastructure.assembler.ItemResourceAssembler;
-import com.boba.bobabuddy.infrastructure.dto.FullDtoConverter;
+import com.boba.bobabuddy.infrastructure.dto.converter.FullDtoConverter;
 import com.boba.bobabuddy.infrastructure.dto.ItemDto;
 import com.boba.bobabuddy.infrastructure.dto.SimpleItemDto;
 import org.modelmapper.ModelMapper;

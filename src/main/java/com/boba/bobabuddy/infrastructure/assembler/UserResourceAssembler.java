@@ -3,6 +3,7 @@ package com.boba.bobabuddy.infrastructure.assembler;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.infrastructure.controller.RatingController;
 import com.boba.bobabuddy.infrastructure.controller.UserController;
+import com.boba.bobabuddy.infrastructure.dto.UserDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
@@ -12,14 +13,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class UserResourceAssembler extends SimpleIdentifiableRepresentationModelAssembler<User> {
+public class UserResourceAssembler extends SimpleIdentifiableRepresentationModelAssembler<UserDto> {
 
     UserResourceAssembler() {
         super(UserController.class);
     }
 
     @Override
-    public void addLinks(EntityModel<User> resource) {
+    public void addLinks(EntityModel<UserDto> resource) {
         /**
          * Retain default links.
          */

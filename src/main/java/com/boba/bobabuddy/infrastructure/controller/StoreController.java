@@ -1,25 +1,20 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Store;
-import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
-import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.request.CreateStoreRequest;
 import com.boba.bobabuddy.core.usecase.store.port.ICreateStore;
 import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
 import com.boba.bobabuddy.core.usecase.store.port.IRemoveStore;
 import com.boba.bobabuddy.core.usecase.store.port.IUpdateStore;
 import com.boba.bobabuddy.infrastructure.assembler.StoreResourceAssembler;
-import com.boba.bobabuddy.infrastructure.dto.DtoConverter;
+import com.boba.bobabuddy.infrastructure.dto.converter.DtoConverter;
 import com.boba.bobabuddy.infrastructure.dto.StoreDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 

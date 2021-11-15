@@ -17,6 +17,12 @@ public class SimpleItemDto implements BaseRatableObjectDto {
     private UUID id;
     private float avgRating;
 
+    public SimpleItemDto(String name, float price, float avgRating) {
+        this.name = name;
+        this.price = price;
+        this.avgRating = avgRating;
+    }
+
     public SimpleItemDto() {
     }
 

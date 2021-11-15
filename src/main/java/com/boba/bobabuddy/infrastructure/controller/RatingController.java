@@ -1,14 +1,13 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
-import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.usecase.rating.port.ICreateRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IRemoveRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IUpdateRating;
-import com.boba.bobabuddy.core.usecase.request.CreateRatingPointRequest;
 import com.boba.bobabuddy.infrastructure.assembler.RatingResourceAssembler;
 import com.boba.bobabuddy.infrastructure.dto.*;
+import com.boba.bobabuddy.infrastructure.dto.converter.FullDtoConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;

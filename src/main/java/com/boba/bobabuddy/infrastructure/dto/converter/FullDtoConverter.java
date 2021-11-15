@@ -1,9 +1,8 @@
-package com.boba.bobabuddy.infrastructure.dto;
+package com.boba.bobabuddy.infrastructure.dto.converter;
 
 import org.modelmapper.ModelMapper;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class FullDtoConverter<T, S, D extends S> extends DtoConverter<T, D> {
