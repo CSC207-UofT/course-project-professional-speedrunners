@@ -4,9 +4,6 @@ import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.entity.Item;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StoreTest {
