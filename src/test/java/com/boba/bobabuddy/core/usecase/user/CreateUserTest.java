@@ -45,9 +45,7 @@ public class CreateUserTest {
         User returnedUser = createUser.create(user);
 
         assertNotNull(returnedUser);
-        assertEquals(name, returnedUser.getName());
-        assertEquals(email, returnedUser.getEmail());
-        assertEquals(password, returnedUser.getPassword());
+        assertEquals(user.toString(), returnedUser.toString());
         assertEquals(ratings, returnedUser.getRatings());
     }
 }

@@ -67,6 +67,8 @@ public class UpdateUserTest {
         assertEquals(user2.getName(), returnedUser.getName());
         assertEquals(user2.getPassword(), returnedUser.getPassword());
         assertEquals(user2.getRatings(), returnedUser.getRatings());
+
+
     }
     @Test
     void testAddRating(){
