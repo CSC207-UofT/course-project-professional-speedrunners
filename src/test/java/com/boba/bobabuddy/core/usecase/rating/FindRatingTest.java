@@ -3,7 +3,7 @@ package com.boba.bobabuddy.core.usecase.rating;
 import com.boba.bobabuddy.core.entity.*;
 import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
-import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.RatingJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,35 +13,28 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.when;
-
-import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
 public class FindRatingTest {
     @Mock
-    private RatingJpaRepository repo;
-
-    @Mock
-    private IFindItem findItem;
-
-    @Mock
-    private IFindStore findStore;
-
-    @Mock
-    private User user1, user2;
-
-    private RatableObject ratableObject1, ratableObject2;
-
-    @Mock
     Store store;
-
     @Mock
     Item item;
-
+    @Mock
+    private RatingJpaRepository repo;
+    @Mock
+    private IFindItem findItem;
+    @Mock
+    private IFindStore findStore;
+    @Mock
+    private User user1, user2;
+    private RatableObject ratableObject1, ratableObject2;
     @InjectMocks
     private FindRating findRating;
 
@@ -56,7 +49,7 @@ public class FindRatingTest {
     private String email;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         ratingId1 = UUID.randomUUID();
         itemId = UUID.randomUUID();
         storeId = UUID.randomUUID();
@@ -76,7 +69,7 @@ public class FindRatingTest {
 
 
     @Test
-    void testFindByItem(){
+    void testFindByItem() {
         when(findItem.findById(itemId)).thenReturn((Item) ratableObject1);
         when(ratableObject1.getRatings()).thenReturn(ratingSetItem);
 
@@ -87,7 +80,7 @@ public class FindRatingTest {
     }
 
     @Test
-    void testFindByStore(){
+    void testFindByStore() {
         when(findStore.findById(storeId)).thenReturn((Store) ratableObject2);
         when(ratableObject2.getRatings()).thenReturn(ratingSetStore);
 
@@ -98,7 +91,7 @@ public class FindRatingTest {
     }
 
     @Test
-    void testFindByUser(){
+    void testFindByUser() {
         when(repo.findByUser_email(email)).thenReturn(ratingSetUser);
 
         Set<Rating> returnedRating = findRating.findByUser(email);
@@ -108,7 +101,7 @@ public class FindRatingTest {
     }
 
     @Test
-    void testFindById(){
+    void testFindById() {
         when(repo.findById(ratingId1)).thenReturn(Optional.ofNullable(rating1));
 
         Rating returnedRating = findRating.findById(ratingId1);
@@ -118,7 +111,7 @@ public class FindRatingTest {
     }
 
     @Test
-    void testFindAll(){
+    void testFindAll() {
         when(repo.findAll()).thenReturn(ratingLst);
 
         List<Rating> returnedRating = findRating.findAll();

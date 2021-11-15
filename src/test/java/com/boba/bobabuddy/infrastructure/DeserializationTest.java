@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.infrastructure.controller;
+package com.boba.bobabuddy.infrastructure;
 
 import com.boba.bobabuddy.infrastructure.dto.ItemDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 @SpringBootTest
 public class DeserializationTest {

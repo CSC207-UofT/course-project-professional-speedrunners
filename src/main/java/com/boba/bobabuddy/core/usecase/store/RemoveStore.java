@@ -4,7 +4,7 @@ import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
 import com.boba.bobabuddy.core.usecase.store.port.IRemoveStore;
-import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.StoreJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,7 @@ public class RemoveStore implements IRemoveStore {
      * Initialize RemoveStore usecase by injecting dependencies
      *
      * @param repo      DAO for handling store data
-     * @param findStore
+     * @param findStore FindStore usecase
      */
 
     @Autowired

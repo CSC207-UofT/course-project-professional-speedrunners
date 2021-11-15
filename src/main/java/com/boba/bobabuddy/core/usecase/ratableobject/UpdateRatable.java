@@ -5,7 +5,7 @@ import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.ratableobject.port.IUpdateRatable;
-import com.boba.bobabuddy.infrastructure.database.RatableObjectJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.RatableObjectJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,8 +58,9 @@ public class UpdateRatable implements IUpdateRatable {
 
     /**
      * update the avgRating of a ratable object
-     * @param ratable the ratable object to be mutated
-     * @param rating the updated rating
+     *
+     * @param ratable   the ratable object to be mutated
+     * @param rating    the updated rating
      * @param oldRating the old rating value
      * @param newRating the new rating value
      * @return the mutated ratable object

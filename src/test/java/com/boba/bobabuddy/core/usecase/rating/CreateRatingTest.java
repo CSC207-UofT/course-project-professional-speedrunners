@@ -1,6 +1,5 @@
 package com.boba.bobabuddy.core.usecase.rating;
 
-import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.RatableObject;
 import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.entity.User;
@@ -8,7 +7,7 @@ import com.boba.bobabuddy.core.usecase.ratableobject.port.IFindRatable;
 import com.boba.bobabuddy.core.usecase.ratableobject.port.IUpdateRatable;
 import com.boba.bobabuddy.core.usecase.user.port.IFindUser;
 import com.boba.bobabuddy.core.usecase.user.port.IUpdateUser;
-import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.RatingJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -43,7 +42,7 @@ public class CreateRatingTest {
     private CreateRating createRating;
 
     @Test
-    void testCreate(){
+    void testCreate() {
         when(findUser.findByEmail(any())).thenReturn(user);
         when(findRatable.findById(any())).thenReturn(ratableObject);
 
@@ -57,9 +56,6 @@ public class CreateRatingTest {
         Rating returnedRating = createRating.create(rating, ratableObject.getId(), user.getEmail());
 
         assertEquals(rating, returnedRating);
-
-
-
 
 
     }

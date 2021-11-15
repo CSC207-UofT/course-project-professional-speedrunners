@@ -2,7 +2,7 @@ package com.boba.bobabuddy.core.usecase.user;
 
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.user.port.IFindUser;
-import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.UserJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,7 +25,7 @@ public class RemoveUserTest {
     private RemoveUser removeUser;
 
     @Test
-    void testRemove(){
+    void testRemove() {
         String name = "name";
         String email = "name@gmail.com";
         String password = "password";

@@ -5,7 +5,7 @@ import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
 import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
-import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.RatingJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

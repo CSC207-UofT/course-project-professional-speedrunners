@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.hateoas.server.core.Relation;
 
 import java.util.UUID;
+
+/**
+ * Simple Data Transfer Objects with no nested fields
+ */
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
         scope = SimpleRatingDto.class)

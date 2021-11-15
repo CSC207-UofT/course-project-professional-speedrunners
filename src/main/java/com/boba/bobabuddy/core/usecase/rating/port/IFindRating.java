@@ -6,7 +6,9 @@ import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
+/**
+ * Usecase Input Boundary
+ */
 public interface IFindRating {
     Set<Rating> findByItem(UUID id) throws ResourceNotFoundException;
 

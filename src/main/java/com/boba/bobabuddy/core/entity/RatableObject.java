@@ -75,7 +75,7 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
      */
     public void setRatings(Set<Rating> ratings) {
         this.ratings = ratings;
-        if(ratings == null) return;
+        if (ratings == null) return;
 
         float counter = 0;
         for (Rating i : ratings) {
@@ -114,7 +114,7 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
         if (ratings.contains(point)) {
             return false;
         }
-        setAvgRating((float)(Math.round(avgRating * ratings.size()) + point.getRating()) / (ratings.size() + 1));
+        setAvgRating((float) (Math.round(avgRating * ratings.size()) + point.getRating()) / (ratings.size() + 1));
         return ratings.add(point);
 
     }
@@ -131,7 +131,7 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
             if (size - 1 == 0) {
                 this.avgRating = 0;
             } else {
-                this.avgRating = (float)(Math.round(avgRating * size) - point.getRating()) / (size - 1);
+                this.avgRating = (float) (Math.round(avgRating * size) - point.getRating()) / (size - 1);
             }
         }
         return result;
@@ -139,15 +139,16 @@ public abstract class RatableObject extends RepresentationModel<RatableObject> {
 
     /**
      * Update avgRating when a Rating is updated
-     * @param point the updated Rating
+     *
+     * @param point     the updated Rating
      * @param oldRating the old Rating value
      * @param newRating the new Rating value
      * @return true if avgRating was updated
      */
-    public boolean updateRating(Rating point, int oldRating, int newRating){
-        if (ratings.contains(point)){
+    public boolean updateRating(Rating point, int oldRating, int newRating) {
+        if (ratings.contains(point)) {
             int size = ratings.size();
-            this.avgRating = (float)(Math.round(avgRating * size) - oldRating + newRating) / size;
+            this.avgRating = (float) (Math.round(avgRating * size) - oldRating + newRating) / size;
             return true;
         }
         return false;

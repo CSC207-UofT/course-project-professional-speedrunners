@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
+/**
+ * Root controller that presents available root resource endpoints to the API caller
+ */
 @RestController
 public class RootController {
 

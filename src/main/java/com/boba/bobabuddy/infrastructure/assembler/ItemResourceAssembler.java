@@ -1,6 +1,5 @@
 package com.boba.bobabuddy.infrastructure.assembler;
 
-import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.infrastructure.controller.ItemController;
 import com.boba.bobabuddy.infrastructure.controller.RatingController;
 import com.boba.bobabuddy.infrastructure.controller.StoreController;
@@ -12,7 +11,9 @@ import java.util.Objects;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
+/**
+ * An assembler class to add relevant url link to the response
+ */
 @Component
 public class ItemResourceAssembler extends SimpleIdentifiableRepresentationModelAssembler<ItemDto> {
     ItemResourceAssembler() {

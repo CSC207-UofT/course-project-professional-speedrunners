@@ -1,21 +1,18 @@
 package com.boba.bobabuddy.core.usecase.store;
 
-import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.Store;
-import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
-import org.junit.jupiter.api.*;
+import com.boba.bobabuddy.infrastructure.dao.StoreJpaRepository;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,7 +25,7 @@ public class CreateStoreTest {
     private CreateStore createStore;
 
     @Test
-    void testCreate(){
+    void testCreate() {
         String name = "Boba shop";
         String location = "123 street";
 

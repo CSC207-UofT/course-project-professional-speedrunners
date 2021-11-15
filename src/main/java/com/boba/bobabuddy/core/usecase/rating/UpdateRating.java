@@ -3,17 +3,14 @@ package com.boba.bobabuddy.core.usecase.rating;
 import com.boba.bobabuddy.core.entity.RatableObject;
 import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.ratableobject.UpdateRatable;
 import com.boba.bobabuddy.core.usecase.ratableobject.port.IUpdateRatable;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IUpdateRating;
-import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
-import org.hibernate.sql.Update;
+import com.boba.bobabuddy.infrastructure.dao.RatingJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -33,8 +30,8 @@ public class UpdateRating implements IUpdateRating {
     /**
      * Constructor for the UpdateRating usecase.
      *
-     * @param repo the RatingJpaRepository with Rating entities to be updated
-     * @param findRating FindRating usecase to find the rating to be updated
+     * @param repo          the RatingJpaRepository with Rating entities to be updated
+     * @param findRating    FindRating usecase to find the rating to be updated
      * @param updateRatable the usecase to update RatableObjects
      */
     @Autowired

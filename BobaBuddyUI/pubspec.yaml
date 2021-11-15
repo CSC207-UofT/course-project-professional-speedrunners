@@ -74,8 +74,8 @@ flutter:
   fonts:
     - family: Josefin Sans
       fonts:
-      - asset: assets/fonts/JosefinSans-Regular.ttf
-      - asset: assets/fonts/JosefinSans-Bold.ttf
+        - asset: assets/fonts/JosefinSans-Regular.ttf
+        - asset: assets/fonts/JosefinSans-Bold.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -2,27 +2,20 @@ package com.boba.bobabuddy.core.usecase.item;
 
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.Store;
-import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
-import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.item.CreateItem;
-import com.boba.bobabuddy.core.usecase.item.port.ICreateItem;
 import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
 import com.boba.bobabuddy.core.usecase.store.port.IUpdateStore;
-import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
-import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
-import org.junit.jupiter.api.*;
+import com.boba.bobabuddy.infrastructure.dao.ItemJpaRepository;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,7 +37,7 @@ public class CreateItemTest {
     private CreateItem createItem;
 
     @Test
-    void testCreate(){
+    void testCreate() {
         UUID storeId = UUID.randomUUID();
         //Set up return type for mock repo
         //Note that we are assuming store is returned with findStore.findById, regardless of the actual database status

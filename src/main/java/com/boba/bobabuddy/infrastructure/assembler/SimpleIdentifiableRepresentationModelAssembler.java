@@ -35,6 +35,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
  *
  * @author Greg Turnquist
  */
+// this code belongs to an experimental build of Spring Hateoas.
 public class SimpleIdentifiableRepresentationModelAssembler<T> implements SimpleRepresentationModelAssembler<T> {
 
     /**

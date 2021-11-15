@@ -6,7 +6,7 @@ import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.ratableobject.port.IUpdateRatable;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IRemoveRating;
-import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.RatingJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +30,8 @@ public class RemoveRating implements IRemoveRating {
     /**
      * Constructor for the RemoveRating usecase.
      *
-     * @param repo       the RatingJpaRepository to remove Rating entities from
-     * @param findRating FindRating usecase to find the rating to be removed
+     * @param repo          the RatingJpaRepository to remove Rating entities from
+     * @param findRating    FindRating usecase to find the rating to be removed
      * @param updateRatable usecase to update RatableObjects
      */
     @Autowired

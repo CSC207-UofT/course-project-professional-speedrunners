@@ -5,15 +5,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.hateoas.server.core.Relation;
 
-import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Simple Data Transfer Objects with no nested fields
+ */
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
         scope = SimpleItemDto.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(collectionRelation = "items", itemRelation = "item")
-
 public class SimpleItemDto implements BaseRatableObjectDto {
     private String name;
     private float price;

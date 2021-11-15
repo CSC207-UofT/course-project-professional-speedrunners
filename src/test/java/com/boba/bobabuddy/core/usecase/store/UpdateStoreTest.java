@@ -6,7 +6,7 @@ import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
-import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.StoreJpaRepository;
 import com.boba.bobabuddy.infrastructure.dto.StoreDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,8 +38,8 @@ public class UpdateStoreTest {
 
 
     @Test
-    // this is not working -,-
-    void testUpdate() throws DifferentResourceException{
+        // this is not working -,-
+    void testUpdate() throws DifferentResourceException {
         Store store1 = new Store("Lebron's milk tea", "91 Charles St, Toronto, Ontario M5S 1K9");
         StoreDto storeDto = new StoreDto();
         storeDto.setName("Kuzma's milk tea");
@@ -65,7 +65,7 @@ public class UpdateStoreTest {
     }
 
     @Test
-    void testAddItemToStore() throws DuplicateResourceException{
+    void testAddItemToStore() throws DuplicateResourceException {
         Store store2 = new Store("Lebron's milk tea", "91 Charles St, Toronto, Ontario M5S 1K9");
         Item item = new Item(5, store2, "milk tea");
 
@@ -84,7 +84,7 @@ public class UpdateStoreTest {
     }
 
     @Test
-    void testRemoveItemFromStore() throws ResourceNotFoundException{
+    void testRemoveItemFromStore() throws ResourceNotFoundException {
         Store store1 = new Store("Shuyi", "75 Charles St, Toronto, Ontario M5S 1K9");
         Item item1 = new Item(5, store1, "milk tea");
         Item item2 = new Item(19, store1, "coconut milk tea");

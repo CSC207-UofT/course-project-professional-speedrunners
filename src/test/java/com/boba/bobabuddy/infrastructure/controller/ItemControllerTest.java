@@ -7,15 +7,11 @@ import com.boba.bobabuddy.core.usecase.item.port.ICreateItem;
 import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.item.port.IRemoveItem;
 import com.boba.bobabuddy.core.usecase.item.port.IUpdateItem;
-import com.boba.bobabuddy.core.usecase.request.CreateItemRequest;
-import com.boba.bobabuddy.infrastructure.TsqBeanHandlerInstantiator;
 import com.boba.bobabuddy.infrastructure.assembler.ItemResourceAssembler;
-import com.boba.bobabuddy.infrastructure.config.WebMvcConfig;
 import com.boba.bobabuddy.infrastructure.dto.ItemDto;
 import com.boba.bobabuddy.infrastructure.dto.SimpleItemDto;
-import com.boba.bobabuddy.infrastructure.dto.converter.FullDtoConverter;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,25 +20,21 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.ui.Model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -69,18 +61,16 @@ public class ItemControllerTest {
     @Autowired
     private ModelMapper modelMapper;
 
-//    private FullDtoConverter<Item, SimpleItemDto, ItemDto> dtoConverter;
 
     private Store store1;
     private UUID storeId, id1, id2, id3, ratingId;
     private SimpleItemDto createItemRequest;
-    private Item createdItem, item1, item2, item3;
+    private Item item1, item2, item3;
     private List<Item> allItem, itemPrice, itemRating;
     private Rating rating;
 
     @BeforeEach
-    void setup(){
-//        dtoConverter = new FullDtoConverter<>(modelMapper, Item.class, SimpleItemDto.class, ItemDto.class);
+    void setup() {
 
         store1 = new Store("bob", "queens");
         storeId = UUID.randomUUID();
@@ -96,7 +86,7 @@ public class ItemControllerTest {
         ratingId = UUID.randomUUID();
 
 
-        rating = new Rating(1,null, item2);
+        rating = new Rating(1, null, item2);
         rating.setId(ratingId);
 
         item1 = new Item(5, store1, "milk tea");
@@ -115,6 +105,24 @@ public class ItemControllerTest {
 
     }
 
+    @AfterEach
+    void teardown() {
+
+        store1 = null;
+        storeId = null;
+
+        createItemRequest = null;
+
+        id1 = id2 = id3 = ratingId = null;
+
+        rating = null;
+
+        item1 = item2 = item3 =null;
+
+        allItem =itemPrice =itemRating = null;
+
+    }
+
     @Test
     void testCreateItem() throws Exception {
 
@@ -126,8 +134,8 @@ public class ItemControllerTest {
         when(createItem.create(ArgumentMatchers.isA(Item.class), eq(storeId))).thenReturn(createdItem);
 
         mockMvc.perform(post("/stores/{storeId}/items", storeId.toString())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(createItemRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(createItemRequest)))
 
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
@@ -292,7 +300,7 @@ public class ItemControllerTest {
 
     @Test
     void testUpdateItem() throws Exception {
-        SimpleItemDto item4 = new ItemDto( "fruit tea", 7, 0);
+        SimpleItemDto item4 = new ItemDto("fruit tea", 7, 0);
         item2.setId(id1);
         item4.setId(id1);
 
@@ -310,7 +318,6 @@ public class ItemControllerTest {
                 .andExpect(jsonPath("$.name", is("fruit tea")))
                 .andExpect(jsonPath("$.price", is(7.0)));
     }
-
 
 
 }

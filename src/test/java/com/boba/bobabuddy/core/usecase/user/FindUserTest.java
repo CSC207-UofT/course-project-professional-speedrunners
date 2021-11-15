@@ -2,7 +2,7 @@ package com.boba.bobabuddy.core.usecase.user;
 
 import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.entity.User;
-import com.boba.bobabuddy.infrastructure.database.UserJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.UserJpaRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ public class FindUserTest {
     private UUID ratingId;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         String email1 = "name@gmail.com";
         String email2 = "name@hotmail.com";
         String email3 = "name@mail.utoronto.ca";
@@ -51,7 +51,7 @@ public class FindUserTest {
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         userList = null;
         userNameList = null;
         user1 = null;
@@ -59,7 +59,7 @@ public class FindUserTest {
     }
 
     @Test
-    void testFindAll(){
+    void testFindAll() {
         when(repo.findAll()).thenReturn(userList);
         List<User> returnedUsers = findUser.findAll();
         assertIterableEquals(userList, returnedUsers);
@@ -73,14 +73,14 @@ public class FindUserTest {
     }
 
     @Test
-    void testFindByName(){
+    void testFindByName() {
         when(repo.findByName("name2")).thenReturn(userNameList);
         List<User> returnedUsers = findUser.findByName("name2");
         assertIterableEquals(userNameList, returnedUsers);
     }
 
     @Test
-    void testFindByRating(){
+    void testFindByRating() {
         when(rating.getId()).thenReturn(ratingId);
         when(repo.findByRatings_id(rating.getId())).thenReturn(Optional.ofNullable(user1));
 
@@ -89,7 +89,7 @@ public class FindUserTest {
     }
 
     @Test
-    void testUserExistenceCheck(){
+    void testUserExistenceCheck() {
         when(repo.findById("name@gmail.com")).thenReturn(Optional.ofNullable(user1));
         when(repo.findById("notinrepo@gmail.com")).thenReturn(Optional.empty());
         assertTrue(findUser.userExistenceCheck("name@gmail.com"));

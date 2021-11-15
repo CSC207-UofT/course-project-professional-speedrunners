@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'full_menu_page.dart';
 
 class StorePage extends StatefulWidget {
-  const StorePage(
-      {Key? key,
-      required this.storeName,
-      required this.address,
-      required this.imageSrc,
-      required this.storeId, required this.itemId,
-      })
-      : super(key: key);
+  const StorePage({
+    Key? key,
+    required this.storeName,
+    required this.address,
+    required this.imageSrc,
+    required this.storeId,
+    required this.itemId,
+  }) : super(key: key);
 
   final String storeName;
   final String address;
@@ -29,7 +29,6 @@ class StorePage extends StatefulWidget {
 }
 
 class _StorePage extends State<StorePage> {
-
   @override
   Widget build(BuildContext context) {
     // TODO: finish store page
@@ -246,7 +245,9 @@ class _StorePage extends State<StorePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FullMenuPage(storeId: widget.storeId,)));
+                            builder: (context) => FullMenuPage(
+                                  storeId: widget.storeId,
+                                )));
                   },
                   child: SizedBox(
                     height: 50,
@@ -286,104 +287,113 @@ class _StorePage extends State<StorePage> {
             //   ),
             // ),
 
-        Positioned(bottom: 200,
-          child: SizedBox(
-            child: FutureBuilder(
-              future: widget.itemId.isEmpty ?  db.getOneItemFromStore(widget.storeId) : db.getItemById(widget.itemId),
-      builder:(context, AsyncSnapshot snapshot) {
-            if(!snapshot.hasData){
-
-              return const Center(child: CircularProgressIndicator());
-            }
-            else if(snapshot.data.length == 0){
-              return const Padding(
-                  padding: EdgeInsets.only(bottom: 100),
-                  child: Text("no items available", style:
-                    TextStyle(fontSize: 30)
-                    ,));
-            }
-            else{
-
-              print(widget.itemId);
-              return Stack(
-                  children: [
-                    SizedBox(width: deviceWidth, height: 300,),
-
-                    Positioned(left: 25,
-                      bottom: 250,
-                      child: Text(
-                        snapshot.data["name"].toString(),
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Josefin Sans",
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 25, top: 65),
-                          width: 200,
-                          height: 200,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://theforkedspoon.com/wp-content/uploads/2019/03/How-to-make-Bubble-Tea-8.jpg"),
-                              fit: BoxFit.fitWidth,
-                            ),
-                            shape: BoxShape.rectangle,
-                          )),
-                    ),
-
-                    Positioned(left: 250, top: 125,
-                      child: Text(
-                        "\$${snapshot.data["price"].toString()}" ,
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Josefin Sans",
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-
-                     Positioned(left: 250, top: 175,
-                       child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page
-                                builder: (context) => PriceUpdaterPage(itemId: widget.itemId.isEmpty ? snapshot.data["id"].toString() : widget.itemId, imageSrc: widget.imageSrc, storeId: widget.storeId, storeName: widget.storeName, address: widget.address, )));
-                          },
-                          child: const Text(
-                            'Wrong Price?',
-                            style: TextStyle(
+            Positioned(
+              bottom: 200,
+              child: SizedBox(
+                child: FutureBuilder(
+                  future: widget.itemId.isEmpty
+                      ? db.getOneItemFromStore(widget.storeId)
+                      : db.getItemById(widget.itemId),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.data.length == 0) {
+                      return const Padding(
+                          padding: EdgeInsets.only(bottom: 100),
+                          child: Text(
+                            "no items available",
+                            style: TextStyle(fontSize: 30),
+                          ));
+                    } else {
+                      print(widget.itemId);
+                      return Stack(children: [
+                        SizedBox(
+                          width: deviceWidth,
+                          height: 300,
+                        ),
+                        Positioned(
+                          left: 25,
+                          bottom: 250,
+                          child: Text(
+                            snapshot.data["name"].toString(),
+                            style: const TextStyle(
+                                color: Colors.black,
                                 fontFamily: "Josefin Sans",
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8))),
-                            minimumSize: const Size(100, 40),
-                            primary: const Color.fromRGBO(132, 141, 255, 1),
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
-                     ),
-
-
-                  ]
-              );
-            }
-
-
-      },),
-          ),
-        )
+                        ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                          child: Container(
+                              margin: const EdgeInsets.only(left: 25, top: 65),
+                              width: 200,
+                              height: 200,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      "https://theforkedspoon.com/wp-content/uploads/2019/03/How-to-make-Bubble-Tea-8.jpg"),
+                                  fit: BoxFit.fitWidth,
+                                ),
+                                shape: BoxShape.rectangle,
+                              )),
+                        ),
+                        Positioned(
+                          left: 250,
+                          top: 125,
+                          child: Text(
+                            "\$${snapshot.data["price"].toString()}",
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Josefin Sans",
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Positioned(
+                          left: 250,
+                          top: 175,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  //TODO : send item id to updater page
+                                  builder: (context) => PriceUpdaterPage(
+                                        itemId: widget.itemId.isEmpty
+                                            ? snapshot.data["id"].toString()
+                                            : widget.itemId,
+                                        imageSrc: widget.imageSrc,
+                                        storeId: widget.storeId,
+                                        storeName: widget.storeName,
+                                        address: widget.address,
+                                      )));
+                            },
+                            child: const Text(
+                              'Wrong Price?',
+                              style: TextStyle(
+                                  fontFamily: "Josefin Sans",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              minimumSize: const Size(100, 40),
+                              primary: const Color.fromRGBO(132, 141, 255, 1),
+                            ),
+                          ),
+                        ),
+                      ]);
+                    }
+                  },
+                ),
+              ),
+            )
 
             // Positioned(bottom: 200,
             //     child: itemWidget(imageSrc: widget.imageSrc, itemId: widget.itemId))
-
           ],
         ),
       ),
@@ -391,30 +401,27 @@ class _StorePage extends State<StorePage> {
   }
 }
 
-Widget itemWidget({ required String imageSrc, required String itemId}){
-
+Widget itemWidget({required String imageSrc, required String itemId}) {
   Database db = Database();
   print("+++++++++++++++++++++++++");
   print(itemId);
 
   return FutureBuilder(
     future: db.getItemById(itemId),
-    builder:(BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-      if(!snapshot.hasData){
+    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+      if (!snapshot.hasData) {
         return const Center(child: CircularProgressIndicator());
-      }else{
-        return Stack(
-          children: [
-            Text(
-              snapshot.data["name"].toString(),
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: "Josefin Sans",
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-
-            ClipRRect(
+      } else {
+        return Stack(children: [
+          Text(
+            snapshot.data["name"].toString(),
+            style: TextStyle(
+                color: Colors.black,
+                fontFamily: "Josefin Sans",
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+          ),
+          ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             child: Container(
                 width: 200,
@@ -428,44 +435,40 @@ Widget itemWidget({ required String imageSrc, required String itemId}){
                   shape: BoxShape.rectangle,
                 )),
           ),
-
-             Text(
-               "\$${snapshot.data["price"].toString()}" ,
-               textAlign: TextAlign.start,
-               style: const TextStyle(
-                   color: Colors.black,
-                   fontFamily: "Josefin Sans",
-                   fontSize: 20,
-                   fontWeight: FontWeight.bold),
-             ),
-
-            Positioned(
-              top: 550,
-              left: 230,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page
-                  //     builder: (context) => PriceUpdaterPage(itemId: itemId,)));
-                },
-                child: const Text(
-                  'Wrong Price?',
-                  style: TextStyle(
-                      fontFamily: "Josefin Sans",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15),
-                ),
-                style: ElevatedButton.styleFrom(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  minimumSize: const Size(100, 40),
-                  primary: const Color.fromRGBO(132, 141, 255, 1),
-                ),
+          Text(
+            "\$${snapshot.data["price"].toString()}",
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+                color: Colors.black,
+                fontFamily: "Josefin Sans",
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+          ),
+          Positioned(
+            top: 550,
+            left: 230,
+            child: ElevatedButton(
+              onPressed: () {
+                // Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page
+                //     builder: (context) => PriceUpdaterPage(itemId: itemId,)));
+              },
+              child: const Text(
+                'Wrong Price?',
+                style: TextStyle(
+                    fontFamily: "Josefin Sans",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+              style: ElevatedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                minimumSize: const Size(100, 40),
+                primary: const Color.fromRGBO(132, 141, 255, 1),
               ),
             ),
-      ]
-        );
+          ),
+        ]);
       }
-
-
-  },);
+    },
+  );
 }

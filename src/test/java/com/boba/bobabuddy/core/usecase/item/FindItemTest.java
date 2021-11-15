@@ -4,8 +4,7 @@ import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.item.FindItem;
-import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.ItemJpaRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +46,7 @@ public class FindItemTest {
     private UUID itemId1;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         storeId = UUID.randomUUID();
         ratingId = UUID.randomUUID();
         itemId1 = UUID.randomUUID();
@@ -74,7 +73,7 @@ public class FindItemTest {
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         item1 = null;
         itemLst = null;
         itemLstRating = null;
@@ -85,7 +84,7 @@ public class FindItemTest {
     }
 
     @Test
-    void testFindByStore(){
+    void testFindByStore() {
         when(repo.findByStore_id(storeId)).thenReturn(itemLst);
         when(store.getId()).thenReturn(storeId);
 
@@ -97,7 +96,7 @@ public class FindItemTest {
     }
 
     @Test
-    void testFindAll(){
+    void testFindAll() {
         when(repo.findAll()).thenReturn(itemLst);
 
         List<Item> returnedItem = findItem.findAll();
@@ -106,7 +105,7 @@ public class FindItemTest {
     }
 
     @Test
-    void testFindByName(){
+    void testFindByName() {
         when(repo.findByName("milk tea")).thenReturn(itemLstName);
 
         List<Item> returnedItem = findItem.findByName("milk tea");
@@ -114,8 +113,9 @@ public class FindItemTest {
         assertNotNull(returnedItem);
 
     }
+
     @Test
-    void testFindByNameContaining(){
+    void testFindByNameContaining() {
         when(repo.findByNameContaining("tea")).thenReturn(itemLst);
 
         List<Item> returnedItem = findItem.findByNameContaining("tea");
@@ -147,7 +147,7 @@ public class FindItemTest {
     }
 
     @Test
-    void testFindByPriceLessThanEqual(){
+    void testFindByPriceLessThanEqual() {
         when(repo.findByPriceLessThanEqual(10, Sort.by("price").ascending())).thenReturn(itemLst);
 
         List<Item> returnedItem = findItem.findByPriceLessThanEqual(10, true);
@@ -156,7 +156,7 @@ public class FindItemTest {
     }
 
     @Test
-    void testFindBy(){
+    void testFindBy() {
         when(repo.findByAvgRatingGreaterThanEqual(0, Sort.by("avgRating").descending())).thenReturn(itemLstRating);
 
         List<Item> returnedItem = findItem.findByAvgRatingGreaterThanEqual(0, true);

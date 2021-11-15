@@ -31,8 +31,10 @@ class _SearchBar extends State<SearchBar> {
         );
         print('submitted');
 
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => SearchPage(searchTerm: query,)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => SearchPage(
+                  searchTerm: query,
+                )));
       },
 
       margins: EdgeInsets.only(top: 50),

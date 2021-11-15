@@ -7,7 +7,9 @@ import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.infrastructure.dto.StoreDto;
 import org.springframework.stereotype.Component;
-
+/**
+ * Usecase Input Boundary
+ */
 @Component
 public interface IUpdateStore {
     Store updateStore(Store storeToUpdate, StoreDto storePatch) throws DifferentResourceException;
