@@ -19,5 +19,4 @@ public interface RatingJpaRepository extends GenericResourceJpaRepository<Rating
     Set<Rating> findByRatableObject_id(UUID id);
 
     Set<Rating> findByUser_email(String email);
-
 }

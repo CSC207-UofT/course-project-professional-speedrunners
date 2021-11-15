@@ -37,9 +37,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.eq;
@@ -57,11 +55,11 @@ public class RatingControllerTest {
     @MockBean
     private ICreateRating createRating;
     @MockBean
-    private IFindRating findRatingPoint;
+    private IFindRating findRating;
     @MockBean
-    private IRemoveRating removeRatingPoint;
+    private IRemoveRating removeRating;
     @MockBean
-    private IUpdateRating updateRatingPoint;
+    private IUpdateRating updateRating;
 
     @Autowired
     private MockMvc mockMvc;
@@ -70,16 +68,18 @@ public class RatingControllerTest {
 
 
 
-    private Rating rating1;
+    private Rating rating1, rating2;
+    private Collection<Rating> ratings;
     private User user1;
     private Item item1;
     private Store store1;
-    private UUID id1;
+    private UUID id1, id2;
     private String email1;
 
     @BeforeEach
     void setup(){
         rating1 = new Rating(1, null, null);
+        rating2 = new Rating(0, null, null);
         email1 = "ye@gmail.com";
         user1 = new User("ye", email1, "123");
         store1 = new Store("bob's", "st george");
@@ -89,6 +89,7 @@ public class RatingControllerTest {
     @Test
     void testCreate() throws Exception {
         id1 = UUID.randomUUID();
+        id2 = UUID.randomUUID();
         store1.setId(id1);
 
         SimpleRatingDto rating = new SimpleRatingDto();
@@ -113,5 +114,32 @@ public class RatingControllerTest {
                 .andExpect(jsonPath("$.ratableObject.name", is("bob's")))
                 .andExpect(jsonPath("$.ratableObject.location", is("st george")));
     }
+
+    @Test
+    void testFindAll() throws Exception {
+        rating1.setRatableObject(item1);
+        rating1.setUser(user1);
+        rating1.setId(id1);
+        rating2.setRatableObject(item1);
+        rating2.setUser(user1);
+        rating2.setId(id2);
+
+
+
+        ratings = Arrays.asList(rating1, rating2);
+        when(findRating.findAll()).thenReturn((List<Rating>) ratings);
+
+        mockMvc.perform(get("/ratings"))
+
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaTypes.HAL_JSON))
+
+                .andExpect(jsonPath("$._embedded.ratings[0].rating", is(1)))
+                .andExpect(jsonPath("$._embedded.ratings[1].rating", is(0)));
+
+    }
+
+
+
 
 }
