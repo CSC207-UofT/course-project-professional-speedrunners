@@ -1,5 +1,6 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
+import com.boba.bobabuddy.core.entity.Rating;
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
