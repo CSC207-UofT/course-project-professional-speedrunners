@@ -22,7 +22,7 @@ public class UserDto {
     private String name;
     private String password;
     @JsonIdentityReference(alwaysAsId = true)
-    private Set<UUID> ratings;
+    private Set<SimpleRatingDto> ratings;
 
 
     public UserDto(final String name, final String email, final String password) {
@@ -59,11 +59,11 @@ public class UserDto {
         this.password = password;
     }
 
-    public Set<UUID> getRatings() {
+    public Set<SimpleRatingDto> getRatings() {
         return ratings;
     }
 
-    public void setRatings(Set<UUID> ratings) {
+    public void setRatings(Set<SimpleRatingDto> ratings) {
         this.ratings = ratings;
     }
 }

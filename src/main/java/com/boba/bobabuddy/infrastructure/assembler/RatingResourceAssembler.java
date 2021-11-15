@@ -32,7 +32,7 @@ public class RatingResourceAssembler extends SimpleIdentifiableRepresentationMod
         resource.add(linkTo(methodOn(RatingController.class).findById(rating.getId())).withRel("self"));
 
         // Add custom link to find associated user
-        resource.add(linkTo(methodOn(UserController.class).findByEmail(rating.getUserDto().getEmail())).withRel("users"));
+        resource.add(linkTo(methodOn(UserController.class).findByEmail(rating.getUser().getEmail())).withRel("users"));
 
         // Add custom link to find associated ratable object
         if (rating.getRatableObject() instanceof Item) {

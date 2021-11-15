@@ -17,26 +17,26 @@ import org.springframework.hateoas.server.core.Relation;
 public class RatingDto extends SimpleRatingDto {
 
     @JsonIdentityReference
-    private UserDto userDto;
+    private UserDto user;
 
     @JsonIdentityReference
     private RatableObjectDto ratableObject;
 
     public RatingDto(int rating, UserDto user, RatableObjectDto ratableObject) {
         this.rating = rating;
-        this.userDto = user;
+        this.user = user;
         this.ratableObject = ratableObject;
     }
 
     public RatingDto() {
     }
 
-    public UserDto getUserDto() {
-        return userDto;
+    public UserDto getUser() {
+        return user;
     }
 
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 
     public RatableObjectDto getRatableObject() {
