@@ -52,7 +52,7 @@ While developing the program, we found that the most efficient way to package ou
 
 # Progress Report
 ### Project Questions
-- 
+- Currently we do not have any questions. But we will ask for TA's help whenever it is needed. 
 
 ### What had worked well
 Throughout the process of developing our program there are two things that worked out well for us and they are listed below: 
