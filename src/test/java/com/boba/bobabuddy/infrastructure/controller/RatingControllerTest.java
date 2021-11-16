@@ -138,8 +138,4 @@ public class RatingControllerTest {
                 .andExpect(jsonPath("$._embedded.ratings[1].rating", is(0)));
 
     }
-
-
-
-
 }

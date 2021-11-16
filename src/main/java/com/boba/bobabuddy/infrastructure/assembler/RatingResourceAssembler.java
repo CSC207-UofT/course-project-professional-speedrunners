@@ -6,7 +6,9 @@ import com.boba.bobabuddy.infrastructure.controller.ItemController;
 import com.boba.bobabuddy.infrastructure.controller.RatingController;
 import com.boba.bobabuddy.infrastructure.controller.StoreController;
 import com.boba.bobabuddy.infrastructure.controller.UserController;
+import com.boba.bobabuddy.infrastructure.dto.ItemDto;
 import com.boba.bobabuddy.infrastructure.dto.RatingDto;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +32,7 @@ public class RatingResourceAssembler extends SimpleIdentifiableRepresentationMod
          */
         RatingDto rating = Objects.requireNonNull(resource.getContent());
         resource.add(linkTo(methodOn(RatingController.class).findById(rating.getId())).withRel("self"));
+        resource.add(linkTo(methodOn(RatingController.class).findAll()).withRel("ratings"));
 
         // Add custom link to find associated user
         resource.add(linkTo(methodOn(UserController.class).findByEmail(rating.getUser().getEmail())).withRel("users"));
@@ -40,5 +43,8 @@ public class RatingResourceAssembler extends SimpleIdentifiableRepresentationMod
         } else if (rating.getRatableObject() instanceof Store) {
             resource.add(linkTo(methodOn(StoreController.class).findById(rating.getRatableObject().getId())).withRel("stores"));
         }
+    }
+    public void addLinks(CollectionModel<EntityModel<RatingDto>> resources) {
+        resources.add(linkTo(methodOn(RatingController.class).findAll()).withRel("ratings"));
     }
 }

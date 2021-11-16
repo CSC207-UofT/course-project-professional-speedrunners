@@ -3,7 +3,9 @@ package com.boba.bobabuddy.infrastructure.assembler;
 import com.boba.bobabuddy.infrastructure.controller.ItemController;
 import com.boba.bobabuddy.infrastructure.controller.RatingController;
 import com.boba.bobabuddy.infrastructure.controller.StoreController;
+import com.boba.bobabuddy.infrastructure.dto.RatingDto;
 import com.boba.bobabuddy.infrastructure.dto.StoreDto;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
@@ -35,5 +37,8 @@ public class StoreResourceAssembler extends SimpleIdentifiableRepresentationMode
         resource.add(linkTo(methodOn(ItemController.class).findByStore(id)).withRel("items"));
         // Add custom link to find all ratings
         resource.add(linkTo(methodOn(RatingController.class).findByRatableObject("stores", id)).withRel("ratings"));
+    }
+    public void addLinks(CollectionModel<EntityModel<StoreDto>> resources) {
+        resources.add(linkTo(methodOn(StoreController.class).findAll()).withRel("stores"));
     }
 }

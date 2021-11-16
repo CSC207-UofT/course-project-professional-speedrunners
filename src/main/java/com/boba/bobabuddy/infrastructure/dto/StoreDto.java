@@ -32,7 +32,6 @@ public class StoreDto implements RatableObjectDto {
     public StoreDto() {
     }
 
-
     public UUID getId() {
         return id;
     }
