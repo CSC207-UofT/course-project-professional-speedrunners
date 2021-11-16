@@ -28,6 +28,8 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -126,7 +128,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    void createStore() throws Exception{
+    void testCreateStore() throws Exception{
         Store createdStore = new Store("mmm", "map");
         createdStore.setId(id1);
         when(createStore.create(ArgumentMatchers.isA(Store.class))).thenReturn(createdStore);
@@ -144,7 +146,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    void findAll() throws Exception {
+    void testFindAll() throws Exception {
         when(findStore.findAll()).thenReturn(allStoreLst);
 
         mockMvc.perform(get("/stores"))
@@ -163,7 +165,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    void findById() throws Exception {
+    void testFindById() throws Exception {
         when(findStore.findById(id1)).thenReturn(store1);
 
         mockMvc.perform(get("/stores/{id}", id1.toString()))
@@ -177,7 +179,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    void findByItem() throws Exception {
+    void testFindByItem() throws Exception {
         when(findStore.findByItem(eq(itemId))).thenReturn(store1);
 
         mockMvc.perform(get("/stores/?itemId={itemId}", itemId.toString()))
@@ -191,7 +193,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    void findByLocation() throws Exception {
+    void testFindByLocation() throws Exception {
         when(findStore.findByLocation("bloor")).thenReturn(ratingLst);
 
         mockMvc.perform(get("/stores/?location=bloor"))
@@ -208,7 +210,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    void findByName() throws Exception {
+    void testFindByName() throws Exception {
         when(findStore.findByName("Blobs")).thenReturn(nameLst);
 
         mockMvc.perform(get("/stores/?name=Blobs"))
@@ -221,7 +223,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    void findByNameContaining() throws Exception {
+    void testFindByNameContaining() throws Exception {
         when(findStore.findByNameContaining("s")).thenReturn(nameLst);
 
         mockMvc.perform(get("/stores/?name-contain=s"))
@@ -234,7 +236,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    void findByAvgRatingGreaterThanEqual() throws Exception {
+    void testFindByAvgRatingGreaterThanEqual() throws Exception {
         when(findStore.findByAvgRatingGreaterThanEqual(0.5f, true)).thenReturn(ratingLst);
 
         mockMvc.perform(get("/stores/?rating-geq=0.5&sorted=true"))
@@ -250,7 +252,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    void findByRating() throws Exception {
+    void testFindByRating() throws Exception {
         when(findStore.findByRating(ratingId)).thenReturn(store1);
 
         mockMvc.perform(get("/stores/?ratingId={ratingId}", ratingId.toString()))
@@ -265,12 +267,34 @@ public class StoreControllerTest {
     }
 
     @Test
-    void UpdateStore(){
+    void testUpdateStore() throws Exception{
+        StoreDto store4 = new StoreDto();
+        store4.setName("T");
+        store4.setLocation("bloor");
+
+        store2.setId(id1);
+        store4.setId(id1);
+
+        when(updateStore.updateStore(eq(store1), isA(StoreDto.class))).thenReturn(store2);
+        when(findStore.findById(id1)).thenReturn(store1);
+
+        mockMvc.perform(put("/stores/{id}", id1.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(store4)))
+
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaTypes.HAL_JSON))
+
+                .andExpect(jsonPath("$.id", is(id1.toString())))
+                .andExpect(jsonPath("$.name", is("T")))
+                .andExpect(jsonPath("$.location", is("bloor")));
 
     }
 
     @Test
-    void removeStore(){
+    void testRemoveStore(){
+        removeStore.removeById(id1);
 
+        verify(removeStore).removeById(id1);
     }
 }
