@@ -1,12 +1,6 @@
-# BobaBuddyUI
+# Getting The UI Running
 
-## Getting Started
+After you have started BobabuddyApplication in src/main/java you will need to install the APK to use our UI. Before following the steps below make sure you have installed and opened a Pixel 4 android emulator.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials, samples, guidance on mobile development, and a
-full API reference.
+To get the app running on your android emulator head to /BobaBuddyUI/build/app/outputs/apk/debug/ and drag and drop the app-debug.apk onto your open android emulator. This will automatically initiate an installation of the application on your emulator. After the installation completes, open the app and experience BobaBuddy!
