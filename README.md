@@ -80,3 +80,5 @@ GET http://localhost:8080/items/?price-leq=15&sorted=true
 
 For all available api methods, go to `http://localhost:8080/swagger-ui.html` when the program is running.
 
+To set up the flutter project refer to the README.md in BobaBuddyUI directory.
+
