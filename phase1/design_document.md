@@ -22,7 +22,7 @@ A big design decision we made for phase 1 is to implement our program as a web a
 # Clean Architecture Properties
 We believe that our project adheres well to the clean architecture design. To start, the classes in our entity layer do not depend on anything from the outer layer apart from the Java Persistence API. Our use cases also only depend on Entities and interfaces from the outer layer. The packaging of our project shows clear separation of layers and this can also be observed from the import statements from each of our classes.
 
-However there are some clean architecture violations we plan to fix in the future. One of which is that our controller classes use the entity classes directly as the Data Transfer Object. This is not desirable because entity classes are difficult to serialize and custom serialization parameters need to be set directly within the entity class. Further, this also exposes the entity classes directly to the outside world, which can be a security risk. 
+Moreover we have ensure that our controller classes are not direclty interacting with the entity classes. Instead, we have implemented Data Tranfer Object for each entity classes. With this implementation we made sure that the entity classes are not directly exposed to the outside worlds, thus we have decreased the security risk.  
 
 Not using DTO also forced us to write custom deserializers which required dependency from the persistence layer. This made us unable to test controller classes in isolation and increased code complexity.
 
