@@ -14,7 +14,6 @@ class CreateAccountPage extends StatelessWidget {
       ),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-//todo this is copied from login page. Make it a create account page
         //appBar: AppBar(title: Text("A Simple App Stateless Widget")),
         body: Stack(children: [
           Container(

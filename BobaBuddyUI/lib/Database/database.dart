@@ -9,7 +9,6 @@ class Database {
 
   Database();
 
-
   ///Queries databse for items contained in a provided store
   Future<List> getStoreItems({required String storeId}) async {
     var data = await http.get(Uri.parse(url + '/stores/$storeId/items'));
@@ -25,18 +24,15 @@ class Database {
 
     var fixed = json.decode(data.body);
 
-
     return fixed['_embedded']['stores'];
   }
 
   /// Queries the databse for [searchTerm] and returns a list of items sorted by price high to low
   Future<List> itemSearch(String searchTerm) async {
-
     var data =
         await http.get(Uri.parse(url + '/items/?name-contain=$searchTerm'));
 
     var cleanData = convert.jsonDecode(data.body);
-
 
     try {
       //checks to ensure items are present in the search results
@@ -76,7 +72,6 @@ class Database {
           headers: {"Content-Type": "application/json"}, body: body);
 
       print("${response.statusCode}");
-
     } catch (e) {
       print(e);
     }
@@ -91,7 +86,6 @@ class Database {
     try {
       //Ensures at least one item present in store
       cleanData["content"][0];
-
     } catch (e) {
       return [];
     }
@@ -101,10 +95,8 @@ class Database {
 
   ///Helper for sorting [items] by price low to high
   _sortItemsLowToHigh(items) {
-
     var copy = List.from(items);
     copy.sort((a, b) => a["price"].compareTo(b["price"]));
     return copy;
-
   }
 }

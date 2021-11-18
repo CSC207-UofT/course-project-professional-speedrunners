@@ -7,16 +7,16 @@ import 'package:flutter/material.dart';
 import 'create_account_page.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    //todo migrate this page to login page file
-    // todo set up proper navigator tree
-    // todo photoshop background instead of driwing filter as it has weird effect on top of image
+
+    //todo: Textfields need controllers for capturing text.
     return Scaffold(
       resizeToAvoidBottomInset: false,
-
-      //appBar: AppBar(title: Text("A Simple App Stateless Widget")),
       body: Stack(children: [
+        //Draws background image and sets stack parent
         Container(
           width: 400,
           height: 1000,
@@ -42,61 +42,18 @@ class LoginPage extends StatelessWidget {
           child: Center(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 35, right: 35),
-                  child: TextFormField(
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                        prefixIcon: const Icon(
+                _buildTextField(context, "Email", const Icon(
                           Icons.email_outlined,
                           color: Colors.white,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),
-                        ),
-                        filled: true,
-                        hintStyle: const TextStyle(
-                            fontFamily: "Josefin Sans",
-                            fontSize: 20,
+                        ),),
+
+                _buildTextField(context, "Password", const Icon(
+                            Icons.lock_outlined,
                             color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                        hintText: "Email",
-                        fillColor: Colors.grey.withOpacity(.4)),
-                  ),
-                ),
+                          ),),
+
                 Padding(
-                  padding: const EdgeInsets.only(left: 35, right: 35, top: 30),
-                  child: TextFormField(
-                    obscureText: true,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Icons.lock_outlined,
-                          color: Colors.white,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),
-                        ),
-                        filled: true,
-                        hintStyle: const TextStyle(
-                            fontFamily: "Josefin Sans",
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                        hintText: "Password",
-                        fillColor: Colors.grey.withOpacity(.4)),
-                  ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.only(top: 160),
+                    padding: const EdgeInsets.only(top: 120),
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
@@ -122,7 +79,7 @@ class LoginPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CreateAccountPage()));
-                    }, //todo add navigation to create account page
+                    },
                     style: ButtonStyle(
                       overlayColor: MaterialStateProperty.resolveWith<Color?>(
                           (Set<MaterialState> states) {
@@ -152,3 +109,30 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+///Builder for TextFeilds
+Widget _buildTextField(BuildContext context, String hintText, Icon icon) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 35, right: 35, top: 25),
+    child: TextFormField(
+      style: const TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+          prefixIcon: icon,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: const BorderSide(
+              width: 0,
+              style: BorderStyle.none,
+            ),
+          ),
+          filled: true,
+          hintStyle: const TextStyle(
+              fontFamily: "Josefin Sans",
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold),
+          hintText: hintText,
+          fillColor: Colors.grey.withOpacity(.4)),
+    ),
+  );
+}
+
