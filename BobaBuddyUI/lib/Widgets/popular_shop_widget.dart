@@ -2,6 +2,7 @@ import 'package:boba_buddy/Database/database.dart';
 import 'package:boba_buddy/Screens/store_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PopularShops extends StatefulWidget {
   const PopularShops({Key? key}) : super(key: key);
@@ -17,119 +18,62 @@ class _PopularShops extends State<PopularShops> {
 
     Database db = Database();
 
-    //final List testData = [["Chatime", "667 some street"],["Some other resturaunt", "another address"],["another store","990 another street"]]; // This is used as example data. We will be using reading from a json for final implementation
-
-    //var stores = db.getStoreNames();
-    // print('as');
-    // print(stores);
-
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: <Widget>[
-            Container(
-                height: 225,
-                margin: const EdgeInsets.only(left: SPACEBETWEEN),
-                child: FutureBuilder(
-                    future: db.getStoreNames(),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (!snapshot.hasData) {
-                        print(snapshot.data);
-                        return const Center(child: CircularProgressIndicator());
-                      } else {
-                        print("9009090909");
-                        print(snapshot.data);
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.length >= 3
-                                ? 3
-                                : snapshot.data.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context, int index) {
-                              return singleShop(
-                                  context: context,
-                                  imageSrc:
-                                      'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
-                                  //todo need image src implemented in entity classes
-                                  title: snapshot.data[index]["name"],
-                                  address: snapshot.data[index]["location"],
-                                  storeId: snapshot.data[index]['id'],
-                                  items: snapshot.data[index]['menu']);
-                            });
-                      }
-                    })
-
-                //         ListView.builder(
-                //         itemCount:testData.length, //todo set a limit for amount of popular shops to be displayed on homepage
-                //         shrinkWrap: true,scrollDirection: Axis.horizontal,itemBuilder: (context, index){
-                //     return singleShop(
-                //               context: context,
-                //               imageSrc: 'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg', //todo mock data
-                //               title: testData.elementAt(index).elementAt(0) ?? "",
-                //               address: testData.elementAt(index).elementAt(1) ?? ""
-                //             );
-                // })
-                )
-          ],
+    return ScreenUtilInit(
+      designSize: const Size(393,830),
+      builder:()=> Container(
+        width: 400.w,
+        height: 400.h,
+        margin: EdgeInsets.only(top: 16.h),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: <Widget>[
+              Container(
+                  height: 225,
+                  margin: EdgeInsets.only(left: SPACEBETWEEN.w),
+                  child: FutureBuilder(
+                      future: db.getStoreNames(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.length >= 3
+                                  ? 3
+                                  : snapshot.data.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                return _buildSingleShop(
+                                    context: context,
+                                    imageSrc:
+                                        'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
+                                    //todo need image src implemented in entity classes
+                                    title: snapshot.data[index]["name"],
+                                    address: snapshot.data[index]["location"],
+                                    storeId: snapshot.data[index]['id'],
+                                    items: snapshot.data[index]['menu']);
+                              });
+                        }
+                      }))
+            ],
+          ),
         ),
-
-        // children: <Widget>[
-        //
-        //   Container(
-        //     margin:
-        //     const EdgeInsets.only(left: SPACEBETWEEN),
-        //     child: singleCategory(
-        //       image: 'images/img_6.png',
-        //       title: 'Some Store',
-        //       address: 'some address'
-        //
-        //     ),
-        //   ),
-        //   Container(
-        //     margin:
-        //     EdgeInsets.only(left:SPACEBETWEEN ),
-        //     child: singleCategory(
-        //         image: 'images/img_7.png',
-        //         title: "Chatime",
-        //         address: 'some address'
-        //     ),
-        //   ),
-        //   Container(
-        //     margin:
-        //     EdgeInsets.only(left: SPACEBETWEEN),
-        //     child: singleCategory(
-        //         image: 'images/img_8.png',
-        //         title: "Another Store",
-        //         address: 'some address'
-        //     ),
-        //   ),
-        //   Container(
-        //     margin: EdgeInsets.only(
-        //         left: SPACEBETWEEN,
-        //         right: SPACEBETWEEN),
-        //     child: singleCategory(
-        //         image: 'images/img_9.png',
-        //         title: "Soda",
-        //         address: 'some address'
-        //     ),
-        //   ),
-        // ],
       ),
     );
   }
 }
 
-Widget singleShop(
+///Widget builder for a single shop widget
+Widget _buildSingleShop(
     {required String imageSrc,
     required String title,
     required String address,
     required context,
     required String storeId,
     required items}) {
-  const double WIDGETWIDTH = 325;
-  const double WIDGETHEIGHT = 100;
+   double WIDGETWIDTH = 325.w;
+   double WIDGETHEIGHT = 100.h;
 
   String itemId;
 
@@ -137,12 +81,10 @@ Widget singleShop(
     itemId = '';
   } else {
     itemId = items[0]["id"];
-    //itemId = '';
   }
 
   return InkWell(
     onTap: () {
-      print("Navigate to ${title} shop page");
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -187,12 +129,7 @@ Widget singleShop(
                     height: 100,
                     fit: BoxFit.fitWidth, errorBuilder: (BuildContext context,
                         Object exception, StackTrace? stackTrace) {
-                  // Appropriate logging or analytics, e.g.
-                  // myAnalytics.recordError(
-                  //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
-                  //   exception,
-                  //   stackTrace,
-                  // );
+                  //Error handling for image
                   return const Image(
                       image: AssetImage("assets/images/default-store.png"));
                 })),

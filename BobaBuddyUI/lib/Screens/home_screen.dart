@@ -1,6 +1,4 @@
-import 'package:boba_buddy/Screens/create_account_page.dart';
 import 'package:boba_buddy/Screens/home_page.dart';
-import 'package:boba_buddy/Screens/login_page.dart';
 import 'package:boba_buddy/Screens/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +12,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   int _currentIndex = 0;
-  final List<Widget> _pageOptions = [
-    //HomePage(),
-    const HomePage(),
-    const ProfilePage()
-    //CreateAccountPage()
-  ];
+  final List<Widget> _pageOptions = [const HomePage(), const ProfilePage()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //sets page being displayed using _currentIndex
       body: IndexedStack(index: _currentIndex, children: _pageOptions),
       bottomNavigationBar: BottomNavigationBar(
         fixedColor: Colors.black,

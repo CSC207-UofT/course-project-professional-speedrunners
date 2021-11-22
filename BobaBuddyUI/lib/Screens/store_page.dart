@@ -5,6 +5,7 @@ import 'package:boba_buddy/Screens/price_update_page.dart';
 import 'package:boba_buddy/Widgets/menu_prices_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 import 'full_menu_page.dart';
 
@@ -96,7 +97,7 @@ class _StorePage extends State<StorePage> {
                                   child: Row(children: [
                                     Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 20, top: 5),
+                                            left: 20, top: 3),
                                         child: RichText(
                                             text: const TextSpan(children: [
                                           WidgetSpan(
@@ -120,20 +121,29 @@ class _StorePage extends State<StorePage> {
                                                 .withOpacity(0.45))),
                                     Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 25, top: 5),
-                                        child: RichText(
-                                          text: const TextSpan(children: [
-                                            WidgetSpan(
-                                                child: Icon(
-                                              Icons.directions_outlined,
-                                              color: Colors.white,
-                                            )),
-                                            TextSpan(
-                                                text: "Directions",
-                                                style: TextStyle(
-                                                    fontFamily: "Josefin Sans",
-                                                    fontSize: 15))
-                                          ]),
+                                            left: 25, top: 13),
+                                        child: GestureDetector(
+                                          onTap: (){print("Open in maps");
+                                          MapsLauncher.launchQuery(widget.address);
+                                            },
+                                          child: SizedBox(
+                                            height: 50,
+                                            //width: deviceWidth / 1.25,
+                                            child: RichText(
+                                              text: const TextSpan(children: [
+                                                WidgetSpan(
+                                                    child: Icon(
+                                                  Icons.directions_outlined,
+                                                  color: Colors.white,
+                                                )),
+                                                TextSpan(
+                                                    text: "Directions",
+                                                    style: TextStyle(
+                                                        fontFamily: "Josefin Sans",
+                                                        fontSize: 15))
+                                              ]),
+                                            ),
+                                          ),
                                         )
 
                                         // Text(
