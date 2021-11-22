@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "74032230507",
+    "project_id": "boba-buddy-904b9",
+    "storage_bucket": "boba-buddy-904b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74032230507:android:b45768d1e5440ba120412e",
+        "android_client_info": {
+          "package_name": "com.example.boba_buddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "74032230507-tnajsnt01691b1edhntf1039kg5g03hs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfzmfqW-1dq4mB5VeHCO_mChdBBBQ_b20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "74032230507-tnajsnt01691b1edhntf1039kg5g03hs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

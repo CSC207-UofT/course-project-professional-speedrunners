@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatelessWidget {
-  static const double WIDTH = 60;
-  static const double HEIGHT = 60;
+  final double WIDTH = 60;
+  final double HEIGHT = 60;
 
   const CategoryWidget({Key? key}) : super(key: key);
 
@@ -40,8 +40,8 @@ Widget singleCategory(String image, String title, BoxFit fit, context) {
     height: 300,
     child: InkWell(
       onTap: () {
-        print('Category ${title} Selected');
-        Database().run();
+        // print('Category ${title} Selected');
+        // Database().run();
         Navigator.push(
             context,
             MaterialPageRoute(
