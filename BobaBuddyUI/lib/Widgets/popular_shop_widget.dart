@@ -2,6 +2,7 @@ import 'package:boba_buddy/Database/database.dart';
 import 'package:boba_buddy/Screens/store_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PopularShops extends StatefulWidget {
   const PopularShops({Key? key}) : super(key: key);
@@ -17,41 +18,46 @@ class _PopularShops extends State<PopularShops> {
 
     Database db = Database();
 
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: <Widget>[
-            Container(
-                height: 225,
-                margin: const EdgeInsets.only(left: SPACEBETWEEN),
-                child: FutureBuilder(
-                    future: db.getStoreNames(),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else {
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.length >= 3
-                                ? 3
-                                : snapshot.data.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context, int index) {
-                              return _buildSingleShop(
-                                  context: context,
-                                  imageSrc:
-                                      'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
-                                  //todo need image src implemented in entity classes
-                                  title: snapshot.data[index]["name"],
-                                  address: snapshot.data[index]["location"],
-                                  storeId: snapshot.data[index]['id'],
-                                  items: snapshot.data[index]['menu']);
-                            });
-                      }
-                    }))
-          ],
+    return ScreenUtilInit(
+      designSize: const Size(393,830),
+      builder:()=> Container(
+        width: 400.w,
+        height: 400.h,
+        margin: EdgeInsets.only(top: 16.h),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: <Widget>[
+              Container(
+                  height: 225,
+                  margin: EdgeInsets.only(left: SPACEBETWEEN.w),
+                  child: FutureBuilder(
+                      future: db.getStoreNames(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.length >= 3
+                                  ? 3
+                                  : snapshot.data.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                return _buildSingleShop(
+                                    context: context,
+                                    imageSrc:
+                                        'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
+                                    //todo need image src implemented in entity classes
+                                    title: snapshot.data[index]["name"],
+                                    address: snapshot.data[index]["location"],
+                                    storeId: snapshot.data[index]['id'],
+                                    items: snapshot.data[index]['menu']);
+                              });
+                        }
+                      }))
+            ],
+          ),
         ),
       ),
     );
@@ -66,8 +72,8 @@ Widget _buildSingleShop(
     required context,
     required String storeId,
     required items}) {
-  const double WIDGETWIDTH = 325;
-  const double WIDGETHEIGHT = 100;
+   double WIDGETWIDTH = 325.w;
+   double WIDGETHEIGHT = 100.h;
 
   String itemId;
 
