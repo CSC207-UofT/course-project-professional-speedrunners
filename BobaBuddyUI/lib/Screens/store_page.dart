@@ -84,7 +84,7 @@ class _StorePage extends State<StorePage> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(30)),
                           child: Container(
-                              width: deviceWidth / 1.25,
+                              width: deviceWidth / 3,
                               height: 50,
                               color: Colors.black.withOpacity(0.15),
                               child: BackdropFilter(
@@ -95,31 +95,7 @@ class _StorePage extends State<StorePage> {
                                   child: Row(children: [
                                     Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 20, top: 3),
-                                        child: RichText(
-                                            text: const TextSpan(children: [
-                                          WidgetSpan(
-                                              child: Icon(
-                                            Icons.call_outlined,
-                                            color: Colors.white,
-                                          )),
-                                          TextSpan(
-                                              text: "905-828-2234",
-                                              style: TextStyle(
-                                                  fontFamily: "Josefin Sans",
-                                                  fontSize: 15))
-                                        ]))),
-                                    Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 40),
-                                        child: VerticalDivider(
-                                            width: 0.7,
-                                            thickness: 0.7,
-                                            color: Colors.white
-                                                .withOpacity(0.45))),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 25, top: 13),
+                                            left: 20, top: 10),
                                         child: GestureDetector(
                                           onTap: () {
                                             print("Open in maps");
