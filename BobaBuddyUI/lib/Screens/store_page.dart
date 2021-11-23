@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:boba_buddy/Database/database.dart';
 import 'package:boba_buddy/Screens/price_update_page.dart';
-import 'package:boba_buddy/Widgets/menu_prices_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -32,7 +31,6 @@ class StorePage extends StatefulWidget {
 class _StorePage extends State<StorePage> {
   @override
   Widget build(BuildContext context) {
-    // TODO: finish store page
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     Database db = Database();
@@ -123,9 +121,11 @@ class _StorePage extends State<StorePage> {
                                         padding: const EdgeInsets.only(
                                             left: 25, top: 13),
                                         child: GestureDetector(
-                                          onTap: (){print("Open in maps");
-                                          MapsLauncher.launchQuery(widget.address);
-                                            },
+                                          onTap: () {
+                                            print("Open in maps");
+                                            MapsLauncher.launchQuery(
+                                                widget.address);
+                                          },
                                           child: SizedBox(
                                             height: 50,
                                             //width: deviceWidth / 1.25,
@@ -139,7 +139,8 @@ class _StorePage extends State<StorePage> {
                                                 TextSpan(
                                                     text: "Directions",
                                                     style: TextStyle(
-                                                        fontFamily: "Josefin Sans",
+                                                        fontFamily:
+                                                            "Josefin Sans",
                                                         fontSize: 15))
                                               ]),
                                             ),
@@ -179,74 +180,6 @@ class _StorePage extends State<StorePage> {
                       fontWeight: FontWeight.w600,
                       color: Colors.grey),
                 )),
-            // Positioned(
-            //     top: 400,
-            //     left: 25,
-            //     child: Text(
-            //       "Classic Milk Tea",
-            //       style: TextStyle(
-            //           color: Colors.black,
-            //           fontFamily: "Josefin Sans",
-            //           fontSize: 20,
-            //           fontWeight: FontWeight.bold),
-            //     )),
-            // Positioned(
-            //     top: 435,
-            //     left: 20,
-            //     child: ClipRRect(
-            //       borderRadius: BorderRadius.all(const Radius.circular(8)),
-            //       child: Container(
-            //           width: 200,
-            //           height: 200,
-            //           decoration: const BoxDecoration(
-            //             image: DecorationImage(
-            //               image: NetworkImage(
-            //                   "https://theforkedspoon.com/wp-content/uploads/2019/03/How-to-make-Bubble-Tea-8.jpg"),
-            //               fit: BoxFit.fitWidth,
-            //             ),
-            //             shape: BoxShape.rectangle,
-            //           )),
-            //     )),
-            //
-            // //TODO: Migrate wiget components to indivual components
-            //
-            // const Positioned(
-            //     top: 525,
-            //     left: 230,
-            //     child: Text(
-            //       "\$2.88",
-            //       textAlign: TextAlign.start,
-            //       style: TextStyle(
-            //           color: Colors.black,
-            //           fontFamily: "Josefin Sans",
-            //           fontSize: 20,
-            //           fontWeight: FontWeight.bold),
-            //     )),
-            //
-            // // Positioned( top: 550, left: 230,
-            // //   child: ElevatedButton(onPressed: () {
-            // //     print("pressed");
-            // //     Navigator.of(context).push(MaterialPageRoute(
-            // //         builder: (context) => PriceUpdaterPage()));
-            // //   },
-            // //
-            // //     child: const Text('Wrong Price?', style: TextStyle(
-            // //         fontFamily: "Josefin Sans", fontWeight:
-            // //     FontWeight.bold, fontSize: 15
-            // //
-            // //     ),
-            // //     ),
-            // //     style: ElevatedButton.styleFrom(
-            // //       shape: const RoundedRectangleBorder(
-            // //           borderRadius: BorderRadius.all(
-            // //               Radius.circular(8))),
-            // //       minimumSize: const Size(100, 40),
-            // //       primary: const Color.fromRGBO(132, 141, 255, 1),
-            // //     ),
-            // //
-            // //   ),
-            // // ),
-            //
             Positioned(
                 top: 680,
                 left: 25,
@@ -259,7 +192,7 @@ class _StorePage extends State<StorePage> {
                                   storeId: widget.storeId,
                                 )));
                   },
-                  child: SizedBox(
+                  child: const SizedBox(
                     height: 50,
                     child: Text('View All Menu Prices',
                         style: TextStyle(
@@ -270,32 +203,6 @@ class _StorePage extends State<StorePage> {
                         )),
                   ),
                 )),
-            //
-            // //Positioned(right: 0.0, left: 0.0, top: 0.0, bottom:-650, child: SizedBox(height: 200, child: MenuPricesWidget())),
-            //
-            // Positioned(
-            //   top: 550,
-            //   left: 230,
-            //   child: ElevatedButton(
-            //     onPressed: () {
-            //       Navigator.of(context).push(MaterialPageRoute(
-            //           builder: (context) => PriceUpdaterPage()));
-            //     },
-            //     child: const Text(
-            //       'Wrong Price?',
-            //       style: TextStyle(
-            //           fontFamily: "Josefin Sans",
-            //           fontWeight: FontWeight.bold,
-            //           fontSize: 15),
-            //     ),
-            //     style: ElevatedButton.styleFrom(
-            //       shape: const RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.all(Radius.circular(8))),
-            //       minimumSize: const Size(100, 40),
-            //       primary: const Color.fromRGBO(132, 141, 255, 1),
-            //     ),
-            //   ),
-            // ),
 
             Positioned(
               bottom: 200,
@@ -368,7 +275,6 @@ class _StorePage extends State<StorePage> {
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  //TODO : send item id to updater page
                                   builder: (context) => PriceUpdaterPage(
                                         itemId: widget.itemId.isEmpty
                                             ? snapshot.data["id"].toString()
@@ -413,8 +319,6 @@ class _StorePage extends State<StorePage> {
 
 Widget itemWidget({required String imageSrc, required String itemId}) {
   Database db = Database();
-  print("+++++++++++++++++++++++++");
-  print(itemId);
 
   return FutureBuilder(
     future: db.getItemById(itemId),
@@ -425,7 +329,7 @@ Widget itemWidget({required String imageSrc, required String itemId}) {
         return Stack(children: [
           Text(
             snapshot.data["name"].toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.black,
                 fontFamily: "Josefin Sans",
                 fontSize: 20,
@@ -459,8 +363,8 @@ Widget itemWidget({required String imageSrc, required String itemId}) {
             left: 230,
             child: ElevatedButton(
               onPressed: () {
-                // Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page
-                //     builder: (context) => PriceUpdaterPage(itemId: itemId,)));
+                // Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page but set default values on store page to optimize db calls when needing store information
+                //     builder: (context) => PriceUpdaterPage(itemId: itemId, storeName: , address: '', storeId: '', imageSrc: '',)));
               },
               child: const Text(
                 'Wrong Price?',
