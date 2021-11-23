@@ -50,7 +50,7 @@ class _PopularShops extends State<PopularShops> {
                                     imageSrc:
                                         'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
                                     //todo need image src implemented in entity classes
-                                    title: snapshot.data[index]["name"],
+                                    storeName: snapshot.data[index]["name"],
                                     address: snapshot.data[index]["location"],
                                     storeId: snapshot.data[index]['id'],
                                     items: snapshot.data[index]['menu']);
@@ -68,7 +68,7 @@ class _PopularShops extends State<PopularShops> {
 ///Widget builder for a single shop widget
 Widget _buildSingleShop(
     {required String imageSrc,
-    required String title,
+    required String storeName,
     required String address,
     required context,
     required String storeId,
@@ -90,7 +90,7 @@ Widget _buildSingleShop(
           context,
           MaterialPageRoute(
               builder: (context) => StorePage(
-                    storeName: title,
+                    storeName: storeName,
                     imageSrc: imageSrc,
                     address: address,
                     storeId: storeId,
@@ -146,7 +146,7 @@ Widget _buildSingleShop(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        title,
+                        storeName,
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         style: const TextStyle(

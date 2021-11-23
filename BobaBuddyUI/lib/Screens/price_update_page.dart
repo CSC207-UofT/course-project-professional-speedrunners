@@ -1,4 +1,3 @@
-
 import 'package:boba_buddy/Database/database.dart';
 import 'package:boba_buddy/Screens/store_page.dart';
 import 'package:flutter/cupertino.dart';

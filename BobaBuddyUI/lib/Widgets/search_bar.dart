@@ -1,7 +1,3 @@
-import 'dart:math';
-
-import 'package:boba_buddy/Screens/full_menu_page.dart';
-import 'package:boba_buddy/Screens/login_page.dart';
 import 'package:boba_buddy/Screens/search_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +28,6 @@ class _SearchBar extends State<SearchBar> {
           Container(
             color: Colors.blue,
           );
-          print('submitted');
 
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => SearchPage(
