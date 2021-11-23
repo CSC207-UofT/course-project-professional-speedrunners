@@ -100,68 +100,9 @@ class _SearchPage extends State<SearchPage> {
                                   itemId: snapshot.data[index]["id"]);
                             }));
                   }
-                })
-
-            //         ListView.builder(
-            //         itemCount:testData.length, //todo set a limit for amount of popular shops to be displayed on homepage
-            //         shrinkWrap: true,scrollDirection: Axis.horizontal,itemBuilder: (context, index){
-            //     return singleShop(
-            //               context: context,
-            //               imageSrc: 'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg', //todo mock data
-            //               title: testData.elementAt(index).elementAt(0) ?? "",
-            //               address: testData.elementAt(index).elementAt(1) ?? ""
-            //             );
-            // })
-            ),
+                })),
       ),
     );
-
-    // return Scaffold(
-    //   body: Stack(
-    //       children: [Container(
-    //         child: ListView.builder(
-    //             padding: const EdgeInsets.only(top: 100),
-    //             itemCount:30, //TODO: pull length from api call
-    //             shrinkWrap: true,scrollDirection: Axis.vertical,itemBuilder: (context, index){
-    //
-    //           return singleShop(
-    //               // price: 12.99,
-    //               // itemName: "Some Bubble Tea",
-    //
-    //
-    //               imageSrc: "https://chatime.com/wp-content/uploads/2020/10/Brown-Sugar-Pearls-with-Milk-Tea.png",
-    //
-    //               address: "some address", title: 'title', context: context, ID: '9e123115-9d23-4244-96f2-5cfca4ff6d6d'
-    //
-    //           );
-    //         }
-    //
-    //         ),
-    //       ),
-    //
-    //
-    //         Positioned(
-    //           top: 0.0,
-    //           left: 0.0,
-    //           right: 0.0,
-    //           child: AppBar(
-    //             centerTitle: true,
-    //             title: const Text('Store Results',style: TextStyle(color: Colors.black,
-    //                 fontFamily: "Josefin Sans", fontWeight: FontWeight.bold, fontSize: 22
-    //             ),),// You can add title here
-    //             leading: IconButton(
-    //               icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-    //               onPressed: () => Navigator.of(context).pop(),
-    //             ),
-    //             backgroundColor: Colors.white.withOpacity(1), //You can make this transparent
-    //             elevation: 0.0, //No shadow
-    //           ),),
-    //
-    //       ]
-    //
-    //
-    //   ),
-    // );
   }
 }
 

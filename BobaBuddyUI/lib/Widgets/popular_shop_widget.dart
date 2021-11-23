@@ -19,8 +19,8 @@ class _PopularShops extends State<PopularShops> {
     Database db = Database();
 
     return ScreenUtilInit(
-      designSize: const Size(393,830),
-      builder:()=> Container(
+      designSize: const Size(393, 830),
+      builder: () => Container(
         width: 400.w,
         height: 400.h,
         margin: EdgeInsets.only(top: 16.h),
@@ -35,7 +35,8 @@ class _PopularShops extends State<PopularShops> {
                       future: db.getStoreNames(),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (!snapshot.hasData) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         } else {
                           return ListView.builder(
                               shrinkWrap: true,
@@ -72,8 +73,8 @@ Widget _buildSingleShop(
     required context,
     required String storeId,
     required items}) {
-   double WIDGETWIDTH = 325.w;
-   double WIDGETHEIGHT = 100.h;
+  double WIDGETWIDTH = 325.w;
+  double WIDGETHEIGHT = 100.h;
 
   String itemId;
 

@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:boba_buddy/Database/database.dart';
 import 'package:boba_buddy/Screens/store_page.dart';
@@ -99,7 +98,6 @@ class PriceUpdaterPage extends StatelessWidget {
                           ),
                           border: OutlineInputBorder(),
                           labelText: snapshot.data["price"].toString(),
-                          //TODO: PlaceHolder for current price data
                           disabledBorder: InputBorder.none),
                     );
                   }
@@ -146,7 +144,6 @@ class PriceUpdaterPage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   Database db = Database();
-                  //TODO: double.parse(newPriceController.text)
                   await db.updateItemPrice(
                       itemId, double.parse(newPriceController.text));
 

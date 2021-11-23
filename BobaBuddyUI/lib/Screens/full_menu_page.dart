@@ -26,7 +26,6 @@ class FullMenuPage extends StatelessWidget {
               return ListView.builder(
                   padding: const EdgeInsets.only(top: 100),
                   itemCount: snapshot.data.length,
-                  //TODO: pull length from api call
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
@@ -39,20 +38,6 @@ class FullMenuPage extends StatelessWidget {
             }
           },
         ),
-
-        //   ListView.builder(
-        //   padding: const EdgeInsets.only(top: 100),
-        //   itemCount:30, //TODO: pull length from api call
-        //   shrinkWrap: true,scrollDirection: Axis.vertical,itemBuilder: (context, index){
-        //
-        //     return singleItem(
-        //         price: 12.99,
-        //         itemName: "Some Bubble Tea",
-        //         imageSrc: "https://chatime.com/wp-content/uploads/2020/10/Brown-Sugar-Pearls-with-Milk-Tea.png");
-        // }
-        //
-        // ),
-
         Positioned(
           top: 0.0,
           left: 0.0,

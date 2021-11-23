@@ -32,7 +32,6 @@ class StorePage extends StatefulWidget {
 class _StorePage extends State<StorePage> {
   @override
   Widget build(BuildContext context) {
-    // TODO: finish store page
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     Database db = Database();
@@ -123,9 +122,11 @@ class _StorePage extends State<StorePage> {
                                         padding: const EdgeInsets.only(
                                             left: 25, top: 13),
                                         child: GestureDetector(
-                                          onTap: (){print("Open in maps");
-                                          MapsLauncher.launchQuery(widget.address);
-                                            },
+                                          onTap: () {
+                                            print("Open in maps");
+                                            MapsLauncher.launchQuery(
+                                                widget.address);
+                                          },
                                           child: SizedBox(
                                             height: 50,
                                             //width: deviceWidth / 1.25,
@@ -139,7 +140,8 @@ class _StorePage extends State<StorePage> {
                                                 TextSpan(
                                                     text: "Directions",
                                                     style: TextStyle(
-                                                        fontFamily: "Josefin Sans",
+                                                        fontFamily:
+                                                            "Josefin Sans",
                                                         fontSize: 15))
                                               ]),
                                             ),
@@ -208,7 +210,7 @@ class _StorePage extends State<StorePage> {
             //           )),
             //     )),
             //
-            // //TODO: Migrate wiget components to indivual components
+            //
             //
             // const Positioned(
             //     top: 525,
@@ -368,7 +370,6 @@ class _StorePage extends State<StorePage> {
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  //TODO : send item id to updater page
                                   builder: (context) => PriceUpdaterPage(
                                         itemId: widget.itemId.isEmpty
                                             ? snapshot.data["id"].toString()
@@ -413,8 +414,6 @@ class _StorePage extends State<StorePage> {
 
 Widget itemWidget({required String imageSrc, required String itemId}) {
   Database db = Database();
-  print("+++++++++++++++++++++++++");
-  print(itemId);
 
   return FutureBuilder(
     future: db.getItemById(itemId),
@@ -459,8 +458,8 @@ Widget itemWidget({required String imageSrc, required String itemId}) {
             left: 230,
             child: ElevatedButton(
               onPressed: () {
-                // Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page
-                //     builder: (context) => PriceUpdaterPage(itemId: itemId,)));
+                // Navigator.of(context).push(MaterialPageRoute( //TODO : send item id to updater page but set default values on store page to optimize db calls when needing store information
+                //     builder: (context) => PriceUpdaterPage(itemId: itemId, storeName: , address: '', storeId: '', imageSrc: '',)));
               },
               child: const Text(
                 'Wrong Price?',

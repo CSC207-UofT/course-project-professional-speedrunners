@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = FloatingSearchBarController();
     return ScreenUtilInit(
-      designSize: const Size(393,830),
+      designSize: const Size(393, 830),
       builder: () => Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(children: [

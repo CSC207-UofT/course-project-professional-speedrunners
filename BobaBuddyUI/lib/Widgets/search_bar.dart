@@ -24,7 +24,7 @@ class _SearchBar extends State<SearchBar> {
         MediaQuery.of(context).orientation == Orientation.portrait;
 
     return ScreenUtilInit(
-      designSize: const Size(393,830),
+      designSize: const Size(393, 830),
       builder: () => FloatingSearchBar(
         //progress: model.isLoading,
 
@@ -60,7 +60,8 @@ class _SearchBar extends State<SearchBar> {
         // animating between opened and closed stated.
         transition: ExpandingFloatingSearchBarTransition(),
         leadingActions: const [
-          FloatingSearchBarAction(showIfOpened: false, child: Icon(Icons.search)),
+          FloatingSearchBarAction(
+              showIfOpened: false, child: Icon(Icons.search)),
         ],
         actions: [
           FloatingSearchBarAction(
