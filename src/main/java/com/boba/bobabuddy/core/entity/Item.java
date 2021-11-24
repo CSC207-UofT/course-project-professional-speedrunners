@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("Item")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
-        resolver = JpaEntityResolver.class,
         scope = Item.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Item extends RatableObject {

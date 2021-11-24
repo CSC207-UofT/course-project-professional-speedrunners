@@ -9,8 +9,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserJpaRepository extends JpaRepository<User, String> {
+public interface UserJpaRepository extends JpaRepository<User, UUID> {
     List<User> findByName(String name);
+
+    Optional<User> findByEmail(String email);
 
     Optional<User> findByRatings_id(UUID id);
 }

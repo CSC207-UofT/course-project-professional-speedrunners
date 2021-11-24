@@ -20,7 +20,6 @@ import java.util.UUID;
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
-        resolver = JpaEntityResolver.class,
         scope = Rating.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Rating {

@@ -28,6 +28,11 @@ public class FindUser implements IFindUser {
         this.repo = repo;
     }
 
+    @Override
+    public User findById(UUID id) throws ResourceNotFoundException {
+        return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user not found"));
+    }
+
     /***
      * Find user by its email
      * @param email email of the user
@@ -36,7 +41,7 @@ public class FindUser implements IFindUser {
      */
     @Override
     public User findByEmail(String email) throws ResourceNotFoundException {
-        return repo.findById(email).orElseThrow(() -> new ResourceNotFoundException("user not found"));
+        return repo.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("user not found"));
     }
 
     /***
@@ -65,7 +70,7 @@ public class FindUser implements IFindUser {
      */
     @Override
     public boolean userExistenceCheck(String email) {
-        return repo.findById(email).isPresent();
+        return repo.findByEmail(email).isPresent();
     }
 
     /***

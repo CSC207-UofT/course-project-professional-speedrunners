@@ -10,6 +10,8 @@ import java.util.UUID;
  */
 public interface IFindUser {
 
+    User findById(UUID id) throws ResourceNotFoundException;
+
     User findByEmail(String email) throws ResourceNotFoundException;
 
     List<User> findAll();

@@ -19,7 +19,6 @@ import java.util.Objects;
 @Entity
 @DiscriminatorValue("Store")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id",
-        resolver = JpaEntityResolver.class,
         scope = Store.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Store extends RatableObject {

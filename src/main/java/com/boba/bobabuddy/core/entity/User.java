@@ -1,6 +1,6 @@
 package com.boba.bobabuddy.core.entity;
 
-import com.boba.bobabuddy.infrastructure.JpaEntityResolver;
+import com.boba.bobabuddy.core.entity.role.Role;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -8,26 +8,34 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /***
  * Class that represents a User
  */
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email",
-        resolver = JpaEntityResolver.class, scope = User.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "email", scope = User.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User {
-    private @Id
-    String email;
+public class User{
+    private @Id @GeneratedValue
+    UUID id;
+    private String email;
     private String name;
     private String password;
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "user_email")
+    @JoinColumn(name = "user_id")
     @JsonIdentityReference(alwaysAsId = true)
     Set<Rating> ratings;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 
     /***
      * Constructs a user.
