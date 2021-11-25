@@ -1,4 +1,3 @@
-import 'package:boba_buddy/Database/database.dart';
 import 'package:boba_buddy/Screens/category_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +12,16 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(393,830),
-      builder:()=> GridView.count(
+      designSize: const Size(393, 830),
+      builder: () => GridView.count(
         physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: 3,
         crossAxisSpacing: 10.w,
         mainAxisSpacing: 10.w,
         shrinkWrap: true,
         children: <Widget>[
-          singleCategory(
-              "assets/images/milkTea.png", "Milk Tea", BoxFit.fitHeight, context),
+          singleCategory("assets/images/milkTea.png", "Milk Tea",
+              BoxFit.fitHeight, context),
           singleCategory(
               "assets/images/slush.png", "Slush", BoxFit.fitWidth, context),
           singleCategory(

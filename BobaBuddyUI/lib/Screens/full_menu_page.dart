@@ -1,4 +1,5 @@
 import 'package:boba_buddy/Database/database.dart';
+import 'package:boba_buddy/Screens/store_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,11 +27,12 @@ class FullMenuPage extends StatelessWidget {
               return ListView.builder(
                   padding: const EdgeInsets.only(top: 100),
                   itemCount: snapshot.data.length,
-                  //TODO: pull length from api call
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return singleItem(
+                        context: context,
+                        itemId: snapshot.data[index]["id"],
                         price: snapshot.data[index]["price"],
                         itemName: snapshot.data[index]["name"],
                         imageSrc:
@@ -39,20 +41,6 @@ class FullMenuPage extends StatelessWidget {
             }
           },
         ),
-
-        //   ListView.builder(
-        //   padding: const EdgeInsets.only(top: 100),
-        //   itemCount:30, //TODO: pull length from api call
-        //   shrinkWrap: true,scrollDirection: Axis.vertical,itemBuilder: (context, index){
-        //
-        //     return singleItem(
-        //         price: 12.99,
-        //         itemName: "Some Bubble Tea",
-        //         imageSrc: "https://chatime.com/wp-content/uploads/2020/10/Brown-Sugar-Pearls-with-Milk-Tea.png");
-        // }
-        //
-        // ),
-
         Positioned(
           top: 0.0,
           left: 0.0,
@@ -85,7 +73,9 @@ class FullMenuPage extends StatelessWidget {
 Widget singleItem(
     {required String imageSrc,
     required String itemName,
-    required double price}) {
+    required double price,
+    required String itemId,
+    required BuildContext context}) {
   return Container(
     margin: const EdgeInsets.only(bottom: 30, right: 30, left: 30),
     height: 125,
@@ -107,17 +97,17 @@ Widget singleItem(
           Align(
               alignment: Alignment.topCenter,
               child: Padding(
-                  padding: EdgeInsets.only(top: 15),
+                  padding: const EdgeInsets.only(top: 15),
                   child: Column(children: [
                     Text(
                       itemName,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w500,
                           fontFamily: "Josefin Sans"),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(right: 135),
+                        padding: const EdgeInsets.only(right: 135),
                         child: Text(
                           "\$" + price.toString(),
                           style: TextStyle(
@@ -131,8 +121,27 @@ Widget singleItem(
         right: 40,
         top: 70,
         child: ElevatedButton(
-          onPressed: () {},
-          child: Text(
+          onPressed: () async {
+            var itemData = await Database().getItemById(itemId);
+            print(itemData);
+
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => StorePage(
+                          storeName: itemData["store"]["name"],
+                          //TODO: need image in entity class
+                          imageSrc:
+                              'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
+                          address: itemData["store"]["location"],
+                          storeId: itemData["store"]["id"],
+                          itemId: itemId,
+                        )));
+          },
+          child: const Text(
             "View",
             style: TextStyle(
                 fontFamily: "Josefin Sans",

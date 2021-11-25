@@ -19,8 +19,8 @@ class _PopularShops extends State<PopularShops> {
     Database db = Database();
 
     return ScreenUtilInit(
-      designSize: const Size(393,830),
-      builder:()=> Container(
+      designSize: const Size(393, 830),
+      builder: () => Container(
         width: 400.w,
         height: 400.h,
         margin: EdgeInsets.only(top: 16.h),
@@ -35,7 +35,8 @@ class _PopularShops extends State<PopularShops> {
                       future: db.getStoreNames(),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (!snapshot.hasData) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         } else {
                           return ListView.builder(
                               shrinkWrap: true,
@@ -49,7 +50,7 @@ class _PopularShops extends State<PopularShops> {
                                     imageSrc:
                                         'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
                                     //todo need image src implemented in entity classes
-                                    title: snapshot.data[index]["name"],
+                                    storeName: snapshot.data[index]["name"],
                                     address: snapshot.data[index]["location"],
                                     storeId: snapshot.data[index]['id'],
                                     items: snapshot.data[index]['menu']);
@@ -67,13 +68,13 @@ class _PopularShops extends State<PopularShops> {
 ///Widget builder for a single shop widget
 Widget _buildSingleShop(
     {required String imageSrc,
-    required String title,
+    required String storeName,
     required String address,
     required context,
     required String storeId,
     required items}) {
-   double WIDGETWIDTH = 325.w;
-   double WIDGETHEIGHT = 100.h;
+  double WIDGETWIDTH = 325.w;
+  double WIDGETHEIGHT = 100.h;
 
   String itemId;
 
@@ -89,7 +90,7 @@ Widget _buildSingleShop(
           context,
           MaterialPageRoute(
               builder: (context) => StorePage(
-                    storeName: title,
+                    storeName: storeName,
                     imageSrc: imageSrc,
                     address: address,
                     storeId: storeId,
@@ -145,7 +146,7 @@ Widget _buildSingleShop(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        title,
+                        storeName,
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         style: const TextStyle(
