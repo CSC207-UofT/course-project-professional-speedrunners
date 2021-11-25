@@ -2,7 +2,9 @@ package com.boba.bobabuddy.infrastructure.config;
 
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.entity.RatableObject;
+import com.boba.bobabuddy.core.entity.Role;
 import com.boba.bobabuddy.core.entity.Store;
+import com.boba.bobabuddy.infrastructure.dao.RoleJpaRepository;
 import com.boba.bobabuddy.infrastructure.dto.BaseRatableObjectDto;
 import com.boba.bobabuddy.infrastructure.dto.ItemDto;
 import com.boba.bobabuddy.infrastructure.dto.RatableObjectDto;
@@ -13,6 +15,8 @@ import org.modelmapper.TypeMap;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 @Configuration
 public class SpringConfig {

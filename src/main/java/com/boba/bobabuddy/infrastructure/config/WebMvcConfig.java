@@ -15,12 +15,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
         objectMapper.enable(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS);
         return objectMapper;
     }
-
-//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(@Autowired ObjectMapper objectMapper, @Autowired TsqBeanHandlerInstantiator tsqBeanHandlerInstantiator){
-//        MappingJackson2HttpMessageConverter bean = new MappingJackson2HttpMessageConverter();
-//        bean.setObjectMapper(objectMapper);
-//        bean.registerObjectMappersForType(Object.class, m -> m.put(MediaType.APPLICATION_JSON, tsqObjectMapper(tsqBeanHandlerInstantiator)));
-//        return bean;
-//    }
-
 }

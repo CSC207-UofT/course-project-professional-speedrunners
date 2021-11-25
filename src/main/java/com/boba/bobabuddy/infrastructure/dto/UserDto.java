@@ -1,14 +1,11 @@
 package com.boba.bobabuddy.infrastructure.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import org.springframework.hateoas.server.core.Relation;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Data Transfer Objects matching the corresponding entities in the domain layer
@@ -17,13 +14,12 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(collectionRelation = "users", itemRelation = "user")
 public class UserDto {
-
     private String email;
     private String name;
     private String password;
     @JsonIdentityReference(alwaysAsId = true)
     private Set<SimpleRatingDto> ratings;
-
+    private Collection<RoleDto> roles;
 
     public UserDto(final String name, final String email, final String password) {
         this.name = name;
@@ -33,6 +29,14 @@ public class UserDto {
     }
 
     public UserDto() {
+    }
+
+    public Collection<RoleDto> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<RoleDto> roles) {
+        this.roles = roles;
     }
 
     public String getEmail() {
