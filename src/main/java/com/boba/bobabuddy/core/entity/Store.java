@@ -1,6 +1,5 @@
 package com.boba.bobabuddy.core.entity;
 
-import com.boba.bobabuddy.infrastructure.JpaEntityResolver;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,9 +17,6 @@ import java.util.Objects;
 
 @Entity
 @DiscriminatorValue("Store")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id",
-        scope = Store.class)
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Store extends RatableObject {
 
     private String location;
@@ -31,7 +27,6 @@ public class Store extends RatableObject {
      */
     private @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "store_id")
-    @JsonIdentityReference(alwaysAsId = true)
     List<Item> menu;
 
     // For JPA

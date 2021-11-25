@@ -21,8 +21,7 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public abstract class RatableObject extends RepresentationModel<RatableObject> {
 
     /***

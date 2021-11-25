@@ -1,6 +1,5 @@
 package com.boba.bobabuddy.core.entity;
 
-import com.boba.bobabuddy.infrastructure.JpaEntityResolver;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -15,14 +14,9 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @DiscriminatorValue("Item")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = Item.class)
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Item extends RatableObject {
 
     private float price;
-    @JsonIdentityReference
     private @ManyToOne
     Store store;
 
