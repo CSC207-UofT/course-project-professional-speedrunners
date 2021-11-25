@@ -1,8 +1,8 @@
 package com.boba.bobabuddy.infrastructure.config.auth.firebase;
 
-import com.boba.bobabuddy.core.usecase.exceptions.FirebaseUserNotExistsException;
+import com.boba.bobabuddy.core.usecase.auth.exceptions.FirebaseUserNotExistsException;
+import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -13,8 +13,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class FirebaseAuthenticationProvider implements AuthenticationProvider {
 
+    private final UserDetailsService userService;
+
     @Autowired
-    private UserDetailsService userService;
+    public FirebaseAuthenticationProvider(UserDetailsService userService) {
+        this.userService = userService;
+    }
 
     public boolean supports(Class<?> authentication) {
         return (FirebaseAuthenticationToken.class.isAssignableFrom(authentication));
@@ -26,15 +30,14 @@ public class FirebaseAuthenticationProvider implements AuthenticationProvider {
         }
 
         FirebaseAuthenticationToken authenticationToken = (FirebaseAuthenticationToken) authentication;
-        UserDetails details = userService.loadUserByUsername(authenticationToken.getName());
-        if (details == null) {
-            throw new FirebaseUserNotExistsException();
+        try {
+            UserDetails details = userService.loadUserByUsername(authenticationToken.getName());
+            authenticationToken = new FirebaseAuthenticationToken(details, authentication.getCredentials(),
+                    details.getAuthorities());
+            return authenticationToken;
+        } catch (ResourceNotFoundException e){
+            throw new FirebaseUserNotExistsException(e);
         }
-
-        authenticationToken = new FirebaseAuthenticationToken(details, authentication.getCredentials(),
-                details.getAuthorities());
-
-        return authenticationToken;
     }
 
 }

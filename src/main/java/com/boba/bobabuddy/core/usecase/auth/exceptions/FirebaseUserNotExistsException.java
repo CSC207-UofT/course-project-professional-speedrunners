@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.core.usecase.exceptions;
+package com.boba.bobabuddy.core.usecase.auth.exceptions;
 
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 
@@ -6,6 +6,9 @@ public class FirebaseUserNotExistsException extends AuthenticationCredentialsNot
 
 	public FirebaseUserNotExistsException() {
 		super("User Not Found");
+	}
+	public FirebaseUserNotExistsException(Exception e) {
+		super(e.getMessage(), e);
 	}
 
 }

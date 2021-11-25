@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.core.usecase.auth;
+package com.boba.bobabuddy.core.usecase.auth.port;
 
 import com.google.firebase.auth.FirebaseToken;
 

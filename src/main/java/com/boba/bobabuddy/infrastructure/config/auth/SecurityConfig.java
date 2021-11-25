@@ -1,10 +1,9 @@
 package com.boba.bobabuddy.infrastructure.config.auth;
 
-import com.boba.bobabuddy.core.usecase.auth.FirebaseService;
+import com.boba.bobabuddy.core.usecase.auth.port.FirebaseService;
 import com.boba.bobabuddy.infrastructure.config.auth.firebase.FirebaseAuthenticationProvider;
 import com.boba.bobabuddy.infrastructure.config.auth.firebase.FirebaseFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

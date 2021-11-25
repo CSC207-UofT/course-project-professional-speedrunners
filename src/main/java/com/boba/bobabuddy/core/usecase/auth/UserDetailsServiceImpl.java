@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.core.usecase.user;
+package com.boba.bobabuddy.core.usecase.auth;
 
 import com.boba.bobabuddy.core.entity.User;
 import com.boba.bobabuddy.core.entity.Role;

@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.core.usecase.exceptions;
+package com.boba.bobabuddy.core.usecase.auth.exceptions;
 
 import org.springframework.security.authentication.BadCredentialsException;
 

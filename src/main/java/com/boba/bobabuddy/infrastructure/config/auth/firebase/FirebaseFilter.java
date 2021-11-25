@@ -1,7 +1,7 @@
 package com.boba.bobabuddy.infrastructure.config.auth.firebase;
 
-import com.boba.bobabuddy.core.usecase.auth.FirebaseService;
-import com.boba.bobabuddy.core.usecase.exceptions.FirebaseTokenInvalidException;
+import com.boba.bobabuddy.core.usecase.auth.port.FirebaseService;
+import com.boba.bobabuddy.core.usecase.auth.exceptions.FirebaseTokenInvalidException;
 import com.google.firebase.auth.FirebaseToken;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
