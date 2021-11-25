@@ -123,23 +123,26 @@ Widget singleItem(
         child: ElevatedButton(
           onPressed: () async {
             var itemData = await Database().getItemById(itemId);
-            print(itemData);
 
             Navigator.of(context).pop();
-            Navigator.of(context).pop();
 
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => StorePage(
-                          storeName: itemData["store"]["name"],
-                          //TODO: need image in entity class
-                          imageSrc:
-                              'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
-                          address: itemData["store"]["location"],
-                          storeId: itemData["store"]["id"],
-                          itemId: itemId,
-                        )));
+            var storePage = StorePage(
+              storeName: itemData["store"]["name"],
+              //TODO: need image in entity class
+              imageSrc:
+                  'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
+              address: itemData["store"]["location"],
+              storeId: itemData["store"]["id"],
+              itemId: itemId,
+            );
+
+            var pageRoute = PageRouteBuilder(
+              pageBuilder: (c, a1, a2) => storePage,
+              transitionsBuilder: (c, anim, a2, child) =>
+                  FadeTransition(opacity: anim, child: child),
+              transitionDuration: const Duration(milliseconds: 100),
+            );
+            Navigator.pushReplacement(context, pageRoute);
           },
           child: const Text(
             "View",

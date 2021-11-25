@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 enum Response {
@@ -39,7 +40,6 @@ class Auth {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      //print(userCredential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -62,5 +62,25 @@ class Auth {
     final idToken = await user!.getIdToken();
 
     return idToken;
+  }
+
+  getUserID() {
+    final User? user = _auth.currentUser;
+    final uid = user!.uid;
+    return uid;
+  }
+
+  Future<bool> isAdmin() async {
+    List data = [];
+    await FirebaseFirestore.instance
+        .collection('User Info')
+        .doc("Admin Ids")
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      data = documentSnapshot.get("ids");
+      return data.contains(getUserID());
+    });
+
+    return data.contains(getUserID());
   }
 }
