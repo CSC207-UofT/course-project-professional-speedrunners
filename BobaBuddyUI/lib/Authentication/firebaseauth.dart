@@ -16,7 +16,9 @@ class Auth {
   Auth();
 
   Future<Enum> createAccount(
-      {required String email, required String password}) async {
+      {required String email,
+      required String password,
+      required String name}) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -33,7 +35,23 @@ class Auth {
       return (Response.error);
     }
 
+    ///adds user info to db
+    await _addUserInfo(email, name); //todo: implement
     return (Response.success);
+  }
+
+  Future<void> _addUserInfo(String email, String name) {
+    CollectionReference userInfo =
+        FirebaseFirestore.instance.collection('User Info');
+    return userInfo
+        .doc(email)
+        .set({
+          'name': name,
+        })
+
+        //todo: proper error handling
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 
   Future<Enum> login({required String email, required String password}) async {
@@ -82,5 +100,14 @@ class Auth {
     });
 
     return data.contains(getUserID());
+  }
+
+  getUserEmail() {
+    return _auth.currentUser!.email;
+  }
+
+  signOut() async {
+    //todo: implement
+    await _auth.signOut();
   }
 }
