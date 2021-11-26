@@ -12,7 +12,6 @@ class User {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       data = documentSnapshot.get("name");
-      print(data);
       return data;
     });
 
