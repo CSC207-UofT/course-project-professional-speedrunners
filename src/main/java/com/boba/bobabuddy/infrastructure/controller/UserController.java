@@ -6,14 +6,20 @@ import com.boba.bobabuddy.core.usecase.user.port.IFindUser;
 import com.boba.bobabuddy.core.usecase.user.port.IRemoveUser;
 import com.boba.bobabuddy.core.usecase.user.port.IUpdateUser;
 import com.boba.bobabuddy.infrastructure.assembler.UserResourceAssembler;
+import com.boba.bobabuddy.infrastructure.dto.RoleDto;
 import com.boba.bobabuddy.infrastructure.dto.UserDto;
 import com.boba.bobabuddy.infrastructure.dto.converter.DtoConverter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -51,6 +57,7 @@ public class UserController {
      */
     @PostMapping(path = "/users")
     public ResponseEntity<EntityModel<UserDto>> createUser(@RequestBody UserDto createUserRequest) {
+        createUserRequest.setRoles(List.of(new RoleDto("ROLE_USER")));
         UserDto userToPresent = dtoConverter.convertToDto(createUser.create(dtoConverter.convertToEntity(createUserRequest)));
         return ResponseEntity.created(linkTo(methodOn(UserController.class).findByEmail(userToPresent.getEmail())).toUri()).body(assembler.toModel(userToPresent));
     }
@@ -112,17 +119,10 @@ public class UserController {
         return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateUser.updateUser(findUser.findByEmail(email), userPatch))));
     }
 
-//    public ResponseEntity<EntityModel<User>> findByRating(UUID id) {
-//       try {
-//           return ResponseEntity.ok(assembler.toModel(findUser.findByRating(id)));
-//       } catch (ResourceNotFoundException e){
-//           throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-//       }
-//    }
-
-//    @GetMapping(path = "/user/{email}")
-//    public boolean loginUser(@RequestBody LoginUserRequest loginUserRequest, @PathVariable String email) throws ResourceNotFoundException {
-//        User user = findUser.findByEmail(email);
-//        return loginUser.logIn(user, loginUserRequest.getPassword());
-//    }
+    @GetMapping(path = "/admin/user/token")
+    public String loginUser(@RequestBody UserDto userDto) throws FirebaseAuthException {
+        FirebaseAuth admin = FirebaseAuth.getInstance();
+        UserRecord user = admin.getUserByEmail(userDto.getEmail());
+        return admin.createCustomToken(user.getUid());
+    }
 }

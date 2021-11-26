@@ -77,14 +77,14 @@ public class SecurityConfig {
         @Override
         public void configure(WebSecurity web) throws Exception {
             web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
-                    "/configuration/security", "/swagger-ui.html", "/webjars/**", "/v2/swagger.json", "/h2-console/**");
+                    "/configuration/security", "/swagger-ui.html", "/webjars/**", "/v2/swagger.json", "/h2-console/**",
+                    "/admin/user/token");
         }
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.addFilterBefore(tokenAuthorizationFilter(), BasicAuthenticationFilter.class).authorizeRequests()//
-
-                    .antMatchers(HttpMethod.GET, "/users**").hasAnyRole(Roles.ADMIN)
+                    .antMatchers(HttpMethod.GET, "/users/**").hasAnyRole(Roles.ADMIN)
                     .antMatchers(HttpMethod.GET, "/**").authenticated()//
                     .antMatchers(HttpMethod.PUT, "/**").authenticated()//
                     .antMatchers(HttpMethod.POST, "/**").hasAnyRole(Roles.ADMIN)
@@ -95,6 +95,5 @@ public class SecurityConfig {
         private FirebaseFilter tokenAuthorizationFilter() {
             return new FirebaseFilter(firebaseService);
         }
-
     }
 }
