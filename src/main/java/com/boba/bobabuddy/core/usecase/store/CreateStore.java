@@ -1,8 +1,10 @@
 package com.boba.bobabuddy.core.usecase.store;
 
 import com.boba.bobabuddy.core.entity.Store;
+import com.boba.bobabuddy.core.entity.builder.StoreBuilder;
 import com.boba.bobabuddy.core.usecase.store.port.ICreateStore;
 import com.boba.bobabuddy.infrastructure.dao.StoreJpaRepository;
+import com.boba.bobabuddy.infrastructure.dto.StoreDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +32,12 @@ public class CreateStore implements ICreateStore {
      * @return the Store object that was persisted in the database.
      */
     @Override
-    public Store create(Store store) {
-        return repo.save(store);
+    public Store create(StoreDto store) {
+        Store newStore = new StoreBuilder()
+                .setLocation(store.getLocation())
+                .setName(store.getName())
+                .setOwner(store.getOwner())
+                .createStore();
+        return repo.save(newStore);
     }
-
 }

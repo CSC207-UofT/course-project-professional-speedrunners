@@ -1,9 +1,5 @@
 package com.boba.bobabuddy.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -20,6 +16,7 @@ import java.util.Objects;
 public class Store extends RatableObject {
 
     private String location;
+    private String owner;
     /***
      * JPA annotation to indicate one-to-many relationship between Store and Item.
      * cascade parameter tells JPA that if a Store's menu field is mutated, those changes to the Item
@@ -33,9 +30,10 @@ public class Store extends RatableObject {
     protected Store() {
     }
 
-    public Store(String name, String location) {
+    public Store(String name, String location, String owner) {
         super(name);
         this.location = location;
+        this.owner = owner;
         this.menu = new ArrayList<>();
     }
 
@@ -52,9 +50,8 @@ public class Store extends RatableObject {
         return location;
     }
 
-    public boolean setLocation(String newLocation) {
-        this.location = newLocation;
-        return true;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public boolean addItem(Item item) {
@@ -65,6 +62,13 @@ public class Store extends RatableObject {
         return menu.remove(item);
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
     @Override
     public boolean equals(Object o) {
