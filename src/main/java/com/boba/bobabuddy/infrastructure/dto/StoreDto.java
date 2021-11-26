@@ -22,6 +22,7 @@ public class StoreDto implements RatableObjectDto {
     private UUID id;
     private String name;
     private String location;
+    private String owner;
 
     @JsonIdentityReference
     private List<SimpleItemDto> menu;
@@ -54,6 +55,14 @@ public class StoreDto implements RatableObjectDto {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public List<SimpleItemDto> getMenu() {

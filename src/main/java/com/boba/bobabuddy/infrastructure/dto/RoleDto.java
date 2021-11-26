@@ -5,6 +5,8 @@ public class RoleDto{
 
     public RoleDto(String name){this.name = name;}
 
+    public RoleDto(){}
+
     public String getName() {
         return name;
     }

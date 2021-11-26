@@ -47,6 +47,7 @@ public class UpdateStore implements IUpdateStore {
         if (Objects.equals(storeToUpdate.getId(), storePatch.getId())) {
             storeToUpdate.setLocation(storePatch.getLocation());
             storeToUpdate.setName(storePatch.getName());
+            storeToUpdate.setOwner(storePatch.getOwner());
             return repo.save(storeToUpdate);
         }
         throw new DifferentResourceException("Not the same store");
