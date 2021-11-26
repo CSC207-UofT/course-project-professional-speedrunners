@@ -25,6 +25,7 @@ import java.util.Objects;
 public class Store extends RatableObject {
 
     private String location;
+    private String image;
     /***
      * JPA annotation to indicate one-to-many relationship between Store and Item.
      * cascade parameter tells JPA that if a Store's menu field is mutated, those changes to the Item
@@ -43,7 +44,13 @@ public class Store extends RatableObject {
         super(name);
         this.location = location;
         this.menu = new ArrayList<>();
+        this.image = "";
     }
+
+    // Getter and setters for image
+
+    public String getImage(){return image;}
+    public void setImage(String imageUrl){this.image = imageUrl;}
 
     // Getters and Setters
     public List<Item> getMenu() {

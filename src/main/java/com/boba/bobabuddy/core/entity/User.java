@@ -24,6 +24,7 @@ public class User {
     String email;
     private String name;
     private String password;
+    private String image;
     private @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_email")
     @JsonIdentityReference(alwaysAsId = true)
@@ -40,12 +41,17 @@ public class User {
         this.email = email;
         this.password = password;
         this.ratings = new HashSet<>();
+        this.image = "";
     }
 
     // For JPA
     public User() {
 
     }
+
+    //Getters and setter for image
+    public String getImage(){return image;}
+    public void setImage(String imageUrl){this.image = imageUrl;}
 
     public Set<Rating> getRatings() {
         return ratings;

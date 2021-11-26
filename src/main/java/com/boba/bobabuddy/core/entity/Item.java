@@ -22,6 +22,7 @@ import javax.persistence.ManyToOne;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Item extends RatableObject {
 
+    private String image;
     private float price;
     @JsonIdentityReference
     private @ManyToOne
@@ -38,6 +39,7 @@ public class Item extends RatableObject {
         super(name);
         this.price = price;
         this.store = store;
+        this.image = "";
     }
 
     // For JPA
@@ -51,6 +53,15 @@ public class Item extends RatableObject {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    //Getters and Setters for image
+    public String getImage(){
+        return image;
+    }
+
+    public void setImage(String imageURL){
+        this.image = imageURL;
     }
 
 
