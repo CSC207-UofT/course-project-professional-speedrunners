@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Store;
+import com.boba.bobabuddy.core.usecase.auth.GetAuthorities;
 import com.boba.bobabuddy.core.usecase.store.port.ICreateStore;
 import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
 import com.boba.bobabuddy.core.usecase.store.port.IRemoveStore;
@@ -56,9 +57,9 @@ public class StoreController {
      * @param createStoreRequest Request class that contains data necessary to construct a Store entity.
      * @return Store that was constructed, which will be automatically converted to JSON and send it to the caller.
      */
-    @PostMapping(path = "/stores", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/admin/stores", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityModel<StoreDto>> createStore(@RequestBody StoreDto createStoreRequest) {
-        StoreDto storeToPresent = dtoConverter.convertToDto(createStore.create(dtoConverter.convertToEntity(createStoreRequest)));
+        StoreDto storeToPresent = dtoConverter.convertToDto(createStore.create(createStoreRequest));
         return ResponseEntity.created(linkTo(methodOn(StoreController.class).findById(storeToPresent.getId())).toUri()).body(assembler.toModel(storeToPresent));
     }
 
@@ -159,10 +160,16 @@ public class StoreController {
      * @param storePatch the same store with updated fields.
      * @return the store resource after the modification
      */
-    @PutMapping(path = "/stores/{id}")
+    @PutMapping(path = "/user/stores/{id}")
     public ResponseEntity<EntityModel<StoreDto>> updateStore(@RequestBody StoreDto storePatch, @PathVariable UUID id) {
-        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateStore.updateStore(findStore.findById(id), storePatch))));
-
+        Store storeToUpdate = findStore.findById(id);
+        String storeOwner = storeToUpdate.getOwner();
+        String currentUser = GetAuthorities.getCurrentUser();
+        if (storeOwner.equals(currentUser) || GetAuthorities.isAdmin()){
+            return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateStore.updateStore(storeToUpdate, storePatch))));
+        } else { //TODO: make it do something else
+            return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(storeToUpdate)));
+        }
     }
 
     /**
@@ -171,7 +178,7 @@ public class StoreController {
      * @param id id of the resource to be deleted.
      * @return NO_CONTENT http status
      */
-    @DeleteMapping(path = "/stores/{id}")
+    @DeleteMapping(path = "/admin/stores/{id}")
     public ResponseEntity<?> removeStore(@PathVariable UUID id) {
         removeStore.removeById(id);
         return ResponseEntity.noContent().build();

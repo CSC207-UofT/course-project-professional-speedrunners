@@ -1,10 +1,12 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Item;
+import com.boba.bobabuddy.core.usecase.auth.GetAuthorities;
 import com.boba.bobabuddy.core.usecase.item.port.ICreateItem;
 import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.item.port.IRemoveItem;
 import com.boba.bobabuddy.core.usecase.item.port.IUpdateItem;
+import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
 import com.boba.bobabuddy.infrastructure.assembler.ItemResourceAssembler;
 import com.boba.bobabuddy.infrastructure.dto.ItemDto;
 import com.boba.bobabuddy.infrastructure.dto.SimpleItemDto;
@@ -31,33 +33,41 @@ public class ItemController {
     private final IRemoveItem removeItem;
     private final IUpdateItem updateItem;
     private final IFindItem findItem;
+    private final IFindStore findStore;
     private final FullDtoConverter<Item, SimpleItemDto, ItemDto> dtoConverter;
 
     // Put response entities into a wrapper that stores hypermedia links (HATEOAS)
     private final ItemResourceAssembler assembler;
 
     public ItemController(ICreateItem createItem, IFindItem findItem, IRemoveItem removeItem, IUpdateItem updateItem,
-                          ModelMapper mapper, ItemResourceAssembler assembler) {
+                          IFindStore findStore, ModelMapper mapper, ItemResourceAssembler assembler) {
         this.createItem = createItem;
         this.findItem = findItem;
         this.removeItem = removeItem;
         this.updateItem = updateItem;
+        this.findStore = findStore;
         this.assembler = assembler;
         this.dtoConverter = new FullDtoConverter<>(mapper, Item.class, SimpleItemDto.class, ItemDto.class);
 
     }
 
     /**
-     * POST HTTP requests for creating item resource
+     * POST HTTP requests for creating item resource by store owners
      *
      * @param createItemRequest Request class that contains data necessary to construct an Item entity.
      * @return Item that was created, in JSON + HAL
      */
-    @PostMapping(path = "/stores/{storeId}/items")
+    @PostMapping(path = "/user/stores/{storeId}/items")
     public ResponseEntity<EntityModel<ItemDto>> createItem(@RequestBody SimpleItemDto createItemRequest,
                                                            @PathVariable UUID storeId) {
-        Item itemToPresent = createItem.create(dtoConverter.convertToEntityFromSimple(createItemRequest), storeId);
-        return ResponseEntity.created(linkTo(methodOn(ItemController.class).findById(itemToPresent.getId())).toUri()).body(assembler.toModel(dtoConverter.convertToDto(itemToPresent)));
+        String currentUser = GetAuthorities.getCurrentUser();
+        String storeOwner = findStore.findById(storeId).getOwner();
+        if (GetAuthorities.isAdmin() || storeOwner.equals(currentUser)){
+            Item itemToPresent = createItem.create(dtoConverter.convertToEntityFromSimple(createItemRequest), storeId);
+            return ResponseEntity.created(linkTo(methodOn(ItemController.class).findById(itemToPresent.getId())).toUri()).body(assembler.toModel(dtoConverter.convertToDto(itemToPresent)));
+        } else { // TODO: do something else
+            return ResponseEntity.ok(assembler.toModel(new ItemDto()));
+        }
     }
 
     /**
@@ -153,7 +163,7 @@ public class ItemController {
 
     /**
      * Handles PUT request to update an existing item resource
-     *
+     * TODO: separate update item price and rating from other details so basic user can update rating and price and owner/admin can update anything
      * @param newItem the new modified item
      * @param id      item resource to be updated
      * @return item resource after the modification
@@ -174,10 +184,13 @@ public class ItemController {
      */
     @DeleteMapping(path = "/items/{id}")
     public ResponseEntity<?> removeItem(@PathVariable UUID id) {
-        removeItem.removeById(id);
-        return ResponseEntity.noContent().build();
-
+        String currentUser = GetAuthorities.getCurrentUser();
+        String storeOwner = findItem.findById(id).getStore().getOwner();
+        if (GetAuthorities.isAdmin() || storeOwner.equals(currentUser)) {
+            removeItem.removeById(id);
+            return ResponseEntity.noContent().build();
+        } else { // TODO: do something else
+            return ResponseEntity.noContent().build();
+        }
     }
-
-
 }

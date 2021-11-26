@@ -84,10 +84,9 @@ public class SecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.addFilterBefore(tokenAuthorizationFilter(), BasicAuthenticationFilter.class).authorizeRequests()//
-                    .antMatchers(HttpMethod.GET, "/users/**").hasAnyRole(Roles.ADMIN)
-                    .antMatchers(HttpMethod.GET, "/**").authenticated()//
-                    .antMatchers(HttpMethod.PUT, "/**").authenticated()//
-                    .antMatchers(HttpMethod.POST, "/**").hasAnyRole(Roles.ADMIN)
+                    .antMatchers("/admin/**").hasAnyRole(Roles.ADMIN)
+                    .antMatchers("/user/**").authenticated()
+                    .antMatchers("/**").permitAll()
                     .and().csrf().disable()//
                     .anonymous().authorities(Roles.ROLE_ANONYMOUS);//
         }

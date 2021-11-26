@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Rating;
+import com.boba.bobabuddy.core.usecase.auth.GetAuthorities;
 import com.boba.bobabuddy.core.usecase.rating.port.ICreateRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IRemoveRating;
@@ -55,13 +56,12 @@ public class RatingController {
     /**
      * Handles POST requests to add a Rating to the database.
      *
-     *
      * @param createRatingRequest      DTO class containing the data to construct a new RatingPoint entity
      * @param id                       the id of the rated RatableObject
      * @param email                    the email of the user who made the rating
      * @return the constructed RatingPoint
      */
-    @PostMapping(path = "/{ratableObject}/{id}/ratings", params = "createdBy")
+    @PostMapping(path = "/user/{ratableObject}/{id}/ratings", params = "createdBy")
     public ResponseEntity<EntityModel<RatingDto>> createRating(@RequestBody SimpleRatingDto createRatingRequest,
                                                                @PathVariable UUID id, @RequestParam("createdBy") String email) {
         Rating rating = createRating.create(fullDtoConverter.convertToEntityFromSimple(createRatingRequest), id, email);
@@ -128,8 +128,14 @@ public class RatingController {
      */
     @DeleteMapping(path = "/ratings/{id}")
     public ResponseEntity<?> removeById(@PathVariable UUID id) {
-        removeRatingPoint.removeById(id);
-        return ResponseEntity.noContent().build();
+        String currentUser = GetAuthorities.getCurrentUser();
+        String ratingCreator = findRatingPoint.findById(id).getUser().getEmail();
+        if (GetAuthorities.isAdmin() || ratingCreator.equals(currentUser)) {
+            removeRatingPoint.removeById(id);
+            return ResponseEntity.noContent().build();
+        } else { //TODO: do something else
+            return ResponseEntity.noContent().build();
+        }
     }
 
     /**
@@ -142,6 +148,12 @@ public class RatingController {
 
     @PutMapping(path = "/ratings/{id}")
     public ResponseEntity<EntityModel<RatingDto>> updateRating(@PathVariable UUID id, @RequestBody SimpleRatingDto rating) {
-        return ResponseEntity.ok(assembler.toModel(fullDtoConverter.convertToDto(updateRatingPoint.updateRating(id, rating.getRating()))));
+        String currentUser = GetAuthorities.getCurrentUser();
+        String ratingCreator = findRatingPoint.findById(id).getUser().getEmail();
+        if (GetAuthorities.isAdmin() || ratingCreator.equals(currentUser)) {
+            return ResponseEntity.ok(assembler.toModel(fullDtoConverter.convertToDto(updateRatingPoint.updateRating(id, rating.getRating()))));
+        } else { //TODO: do something else
+            return ResponseEntity.ok(assembler.toModel(new RatingDto()));
+        }
     }
 }
