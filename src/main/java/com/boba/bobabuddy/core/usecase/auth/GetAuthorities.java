@@ -7,32 +7,52 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
-public class GetAuthorities{
+/**
+ *  Class for checking authentication.
+ *  TODO: check if each method works properly
+ */
+
+public class GetAuthorities {
 
 
     /**
-     * Get the email of the currently authenticated user
-     * TODO: handle when there is no currently authenticated user (should never happen anyways due to security filters not allowing anon to access /user methods)
+     * Get the email of the currently authenticated user.
      * @return the email of the currently authenticated user
      */
     public static String getCurrentUser() {
-        return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        if (isAuthenticated()) {
+            return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        }
+        return null;
     }
 
     /**
-     * Get the email of the currently authenticated user
-     * TODO: handle when there is no currently authenticated user (should never happen anyways due to security filters)
+     * Check if the the currently authenticated user is an admin.
      *
      * @return whether the currently authenticated user is an admin
      */
     public static boolean isAdmin() {
-        Collection<GrantedAuthority> authorities = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities();
-        for (GrantedAuthority g: authorities) {
-            String stringAuthority = g.getAuthority();
-            if (SecurityConfig.Roles.ROLE_ADMIN.equals(stringAuthority)) {
-               return true;
+        if (isAuthenticated()) {
+            Collection<GrantedAuthority> authorities = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities();
+            for (GrantedAuthority g: authorities) {
+                String stringAuthority = g.getAuthority();
+                if (SecurityConfig.Roles.ROLE_ADMIN.equals(stringAuthority)) {
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    /**
+     * Check if there is an authentication and if the identity is a user.
+     *
+     * @return if there is an authentication and if the authentication has principal user
+     */
+    private static boolean isAuthenticated() {
+        if (SecurityContextHolder.getContext().getAuthentication() == null) {
+            return false;
+        }
+        return SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User;
     }
 }
