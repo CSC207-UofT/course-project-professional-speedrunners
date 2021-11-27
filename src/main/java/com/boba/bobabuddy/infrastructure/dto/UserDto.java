@@ -1,8 +1,12 @@
 package com.boba.bobabuddy.infrastructure.dto;
 
+import com.boba.bobabuddy.infrastructure.validator.ValidEmail;
+import com.boba.bobabuddy.infrastructure.validator.ValidPassword;
 import com.fasterxml.jackson.annotation.*;
 import org.springframework.hateoas.server.core.Relation;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,8 +18,16 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(collectionRelation = "users", itemRelation = "user")
 public class UserDto {
+    @ValidEmail
+    @NotNull
+    @NotEmpty
     private String email;
+    @NotNull
+    @NotEmpty
     private String name;
+    @ValidPassword
+    @NotNull
+    @NotEmpty
     private String password;
     @JsonIdentityReference(alwaysAsId = true)
     private Set<SimpleRatingDto> ratings;

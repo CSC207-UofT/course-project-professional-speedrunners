@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -57,7 +58,7 @@ public class UserController {
      * @return User resource that was created
      */
     @PostMapping(path = "/users")
-    public ResponseEntity<EntityModel<UserDto>> createUser(@RequestBody UserDto createUserRequest) {
+    public ResponseEntity<EntityModel<UserDto>> createUser(@RequestBody @Valid UserDto createUserRequest) {
         createUserRequest.setRoles(List.of(new RoleDto("ROLE_USER")));
         UserDto userToPresent = dtoConverter.convertToDto(createUser.create(dtoConverter.convertToEntity(createUserRequest)));
         return ResponseEntity.created(linkTo(methodOn(UserController.class).findByEmail(userToPresent.getEmail())).toUri()).body(assembler.toModel(userToPresent));
@@ -130,7 +131,7 @@ public class UserController {
      */
     @PutMapping(path = "/user/users/{email}")
     @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<EntityModel<UserDto>> updateUser(@PathVariable String email, @RequestBody UserDto userPatch) {
+    public ResponseEntity<EntityModel<UserDto>> updateUser(@PathVariable String email, @RequestBody @Valid UserDto userPatch) {
         return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateUser.updateUser(findUser.findByEmail(email), userPatch))));
     }
 
