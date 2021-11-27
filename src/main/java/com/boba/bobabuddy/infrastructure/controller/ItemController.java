@@ -160,17 +160,31 @@ public class ItemController {
 
     /**
      * Handles PUT request to update an existing item resource
-     * TODO: separate update item price and rating from other details so basic user can update price (rating is updated through submitting ratings) and owner/admin can update anything
+     *
      * @param newItem the new modified item
      * @param id      item resource to be updated
      * @return item resource after the modification
      */
-    @PutMapping(path = "/items/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/user/items/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("@ItemController.getFindItem().findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<EntityModel<ItemDto>> updateItem(@RequestBody SimpleItemDto newItem, @PathVariable UUID id) {
 
         Item itemToUpdate = findItem.findById(id);
         return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateItem.updateItem(itemToUpdate, newItem))));
 
+    }
+
+    /**
+     * Handles PUT request to update the price of an existing item resource
+     *
+     * @param price the new price
+     * @param id the UUID of the Item to be updated
+     * @return the updated item
+     */
+    @PutMapping(path = "/user/items/{id}", params = "price")
+    public ResponseEntity<EntityModel<ItemDto>> updateItemPrice(@RequestParam float price, @PathVariable UUID id) {
+        Item itemToUpdate = findItem.findById(id);
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateItem.updateItemPrice(itemToUpdate, price))));
     }
 
     /**

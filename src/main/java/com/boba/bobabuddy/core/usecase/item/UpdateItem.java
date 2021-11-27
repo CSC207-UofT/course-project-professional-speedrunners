@@ -47,5 +47,20 @@ public class UpdateItem implements IUpdateItem {
         throw new DifferentResourceException("Not the same item", new Exception());
     }
 
-
+    /**
+     * Update an item but just its price.
+     *
+     * @param itemToUpdate the Item to update
+     * @param price the new price
+     * @return the updated Item
+     * @throws IllegalArgumentException if the new price is less than 0
+     */
+    @Override
+    public Item updateItemPrice(Item itemToUpdate, float price) throws IllegalArgumentException{
+        if (price < 0) {
+            throw new IllegalArgumentException("Price less than 0.");
+        }
+        itemToUpdate.setPrice(price);
+        return repo.save(itemToUpdate);
+    }
 }

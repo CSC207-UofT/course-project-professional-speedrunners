@@ -124,7 +124,7 @@ public class UserController {
 
     /**
      * PUT request to update an existing User
-     * TODO: make sure the request is ok (does not change email to existing/invalid, does not change role, etc.)
+     *
      * @param email     email of the User we want to update.
      * @param userPatch the same User with updated fields.
      * @return the User resource after the modification

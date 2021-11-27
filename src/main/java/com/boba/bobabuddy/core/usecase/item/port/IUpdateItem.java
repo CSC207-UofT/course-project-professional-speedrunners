@@ -10,4 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface IUpdateItem {
     Item updateItem(Item itemToUpdate, SimpleItemDto newItem) throws DifferentResourceException;
+
+    Item updateItemPrice(Item itemToUpdate, float Price);
 }
