@@ -6,9 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Class that represents an Item in the domain layer
@@ -27,6 +26,21 @@ public class Item extends RatableObject {
     @JsonIdentityReference
     private @ManyToOne
     Store store;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "item_categories",
+            joinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id",
+            referencedColumnName = "id"))
+    private List<Category> categories;
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 
     /**
      * Creates an Item with relevant parameters
@@ -81,7 +95,6 @@ public class Item extends RatableObject {
                 "price = " + getPrice() + ", " +
                 "store = " + getStore() + ", " +
                 "avgRating = " + getAvgRating() + ", " +
-                "name = " + getName() + ", " +
-                "links = " + getLinks() + ")";
+                "name = " + getName() + ")";
     }
 }
