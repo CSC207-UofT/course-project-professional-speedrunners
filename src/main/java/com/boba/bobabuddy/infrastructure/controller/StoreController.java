@@ -1,7 +1,6 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Store;
-import com.boba.bobabuddy.core.usecase.auth.GetAuthorities;
 import com.boba.bobabuddy.core.usecase.store.port.ICreateStore;
 import com.boba.bobabuddy.core.usecase.store.port.IFindStore;
 import com.boba.bobabuddy.core.usecase.store.port.IRemoveStore;
@@ -15,6 +14,8 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -27,6 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  */
 
 @RestController
+@Component("StoreController")
 public class StoreController {
 
     //fields for all Store usecase, with interface
@@ -161,15 +163,9 @@ public class StoreController {
      * @return the store resource after the modification
      */
     @PutMapping(path = "/user/stores/{id}")
+    @PreAuthorize("@StoreController.getFindStore().findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<EntityModel<StoreDto>> updateStore(@RequestBody StoreDto storePatch, @PathVariable UUID id) {
-        Store storeToUpdate = findStore.findById(id);
-        String storeOwner = storeToUpdate.getOwner();
-        String currentUser = GetAuthorities.getCurrentUser();
-        if (storeOwner.equals(currentUser) || GetAuthorities.isAdmin()){
-            return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateStore.updateStore(storeToUpdate, storePatch))));
-        } else { //TODO: make it do something else
-            return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(storeToUpdate)));
-        }
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateStore.updateStore(findStore.findById(id), storePatch))));
     }
 
     /**
@@ -182,5 +178,9 @@ public class StoreController {
     public ResponseEntity<?> removeStore(@PathVariable UUID id) {
         removeStore.removeById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    public IFindStore getFindStore() {
+        return findStore;
     }
 }

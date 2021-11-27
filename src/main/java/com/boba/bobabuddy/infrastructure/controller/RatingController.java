@@ -1,7 +1,6 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Rating;
-import com.boba.bobabuddy.core.usecase.auth.GetAuthorities;
 import com.boba.bobabuddy.core.usecase.rating.port.ICreateRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IFindRating;
 import com.boba.bobabuddy.core.usecase.rating.port.IRemoveRating;
@@ -16,6 +15,8 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,11 +30,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * Controller for RatingPoint related api calls.
  */
 @RestController
+@Component("RatingController")
 public class RatingController {
 
     // Input Boundary
     private final ICreateRating createRating;
-    private final IFindRating findRatingPoint;
+    private final IFindRating findRating;
     private final IRemoveRating removeRatingPoint;
     private final IUpdateRating updateRatingPoint;
     private final RatingResourceAssembler assembler;
@@ -41,11 +43,11 @@ public class RatingController {
 
 
     @Autowired
-    public RatingController(ICreateRating createRating, IFindRating findRatingPoint,
+    public RatingController(ICreateRating createRating, IFindRating findRating,
                             IRemoveRating removeRatingPoint, IUpdateRating updateRatingPoint,
                             RatingResourceAssembler assembler, ModelMapper mapper) {
         this.createRating = createRating;
-        this.findRatingPoint = findRatingPoint;
+        this.findRating = findRating;
         this.removeRatingPoint = removeRatingPoint;
         this.updateRatingPoint = updateRatingPoint;
         this.assembler = assembler;
@@ -62,6 +64,7 @@ public class RatingController {
      * @return the constructed RatingPoint
      */
     @PostMapping(path = "/user/{ratableObject}/{id}/ratings", params = "createdBy")
+    @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<EntityModel<RatingDto>> createRating(@RequestBody SimpleRatingDto createRatingRequest,
                                                                @PathVariable UUID id, @RequestParam("createdBy") String email) {
         Rating rating = createRating.create(fullDtoConverter.convertToEntityFromSimple(createRatingRequest), id, email);
@@ -76,7 +79,7 @@ public class RatingController {
      */
     @GetMapping(path = "/ratings")
     public ResponseEntity<CollectionModel<EntityModel<RatingDto>>> findAll() {
-        return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRatingPoint.findAll())));
+        return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRating.findAll())));
     }
 
     /**
@@ -89,10 +92,10 @@ public class RatingController {
     @GetMapping(path = "/{ratableObject}/{id}/ratings")
     public ResponseEntity<CollectionModel<EntityModel<RatingDto>>> findByRatableObject(@PathVariable String ratableObject, @PathVariable UUID id) {
         if (ratableObject.equals("items")) {
-            return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRatingPoint.findByItem(id))));
+            return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRating.findByItem(id))));
         }
         if (ratableObject.equals("stores")) {
-            return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRatingPoint.findByStore(id))));
+            return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRating.findByStore(id))));
         }
         Exception e = new MalformedURLException("must be /item/ or /store/");
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
@@ -106,7 +109,7 @@ public class RatingController {
      */
     @GetMapping(path = "/users/{email}/ratings")
     public ResponseEntity<CollectionModel<EntityModel<RatingDto>>> findByUser(@PathVariable String email) {
-        return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRatingPoint.findByUser(email))));
+        return ResponseEntity.ok(assembler.toCollectionModel(fullDtoConverter.convertToDtoCollection(findRating.findByUser(email))));
     }
 
     /**
@@ -117,7 +120,7 @@ public class RatingController {
      */
     @GetMapping(path = "/ratings/{id}")
     public ResponseEntity<EntityModel<RatingDto>> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(assembler.toModel(fullDtoConverter.convertToDto(findRatingPoint.findById(id))));
+        return ResponseEntity.ok(assembler.toModel(fullDtoConverter.convertToDto(findRating.findById(id))));
     }
 
     /**
@@ -127,15 +130,10 @@ public class RatingController {
      * @return NO_CONTENT http status
      */
     @DeleteMapping(path = "/ratings/{id}")
+    @PreAuthorize("@RatingController.getFindRating().findById(id).getUser().getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> removeById(@PathVariable UUID id) {
-        String currentUser = GetAuthorities.getCurrentUser();
-        String ratingCreator = findRatingPoint.findById(id).getUser().getEmail();
-        if (GetAuthorities.isAdmin() || ratingCreator.equals(currentUser)) {
-            removeRatingPoint.removeById(id);
-            return ResponseEntity.noContent().build();
-        } else { //TODO: do something else
-            return ResponseEntity.noContent().build();
-        }
+        removeRatingPoint.removeById(id);
+        return ResponseEntity.noContent().build();
     }
 
     /**
@@ -145,15 +143,14 @@ public class RatingController {
      * @param rating the new value of the Rating
      * @return the updated Rating
      */
-
     @PutMapping(path = "/ratings/{id}")
+    @PreAuthorize("@RatingController.getFindRating().findById(id).getUser().getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<EntityModel<RatingDto>> updateRating(@PathVariable UUID id, @RequestBody SimpleRatingDto rating) {
-        String currentUser = GetAuthorities.getCurrentUser();
-        String ratingCreator = findRatingPoint.findById(id).getUser().getEmail();
-        if (GetAuthorities.isAdmin() || ratingCreator.equals(currentUser)) {
-            return ResponseEntity.ok(assembler.toModel(fullDtoConverter.convertToDto(updateRatingPoint.updateRating(id, rating.getRating()))));
-        } else { //TODO: do something else
-            return ResponseEntity.ok(assembler.toModel(new RatingDto()));
-        }
+        return ResponseEntity.ok(assembler.toModel(fullDtoConverter.convertToDto(updateRatingPoint.updateRating(id, rating.getRating()))));
+    }
+
+    // TODO: consider moving get methods to a common component?
+    public IFindRating getFindRating() {
+        return findRating;
     }
 }

@@ -1,7 +1,6 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.User;
-import com.boba.bobabuddy.core.usecase.auth.GetAuthorities;
 import com.boba.bobabuddy.core.usecase.user.port.ICreateUser;
 import com.boba.bobabuddy.core.usecase.user.port.IFindUser;
 import com.boba.bobabuddy.core.usecase.user.port.IRemoveUser;
@@ -18,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -82,13 +82,9 @@ public class UserController {
      * @return the User resource with matching email
      */
     @GetMapping(path = "/user/users/{email}")
+    @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<EntityModel<UserDto>> findByEmail(@PathVariable String email) {
-        String currentUser = GetAuthorities.getCurrentUser();
-        if (currentUser.equals(email) || GetAuthorities.isAdmin()) {
-            return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(findUser.findByEmail(email))));
-        } else { // TODO: do something else
-            return ResponseEntity.ok(assembler.toModel(new UserDto()));
-        }
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(findUser.findByEmail(email))));
     }
 
     /**
@@ -119,14 +115,10 @@ public class UserController {
      * @return NO_CONTENT http status
      */
     @DeleteMapping(path = "/user/users/{email}")
+    @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> removeUserByEmail(@PathVariable String email) {
-        String currentUser = GetAuthorities.getCurrentUser();
-        if (currentUser.equals(email) || GetAuthorities.isAdmin()) {
-            removeUser.removeByEmail(email);
-            return ResponseEntity.noContent().build();
-        } else { //TODO: do something else
-            return ResponseEntity.noContent().build();
-        }
+        removeUser.removeByEmail(email);
+        return ResponseEntity.noContent().build();
     }
 
     /**
@@ -137,13 +129,9 @@ public class UserController {
      * @return the User resource after the modification
      */
     @PutMapping(path = "/user/users/{email}")
+    @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<EntityModel<UserDto>> updateUser(@PathVariable String email, @RequestBody UserDto userPatch) {
-        String currentUser = GetAuthorities.getCurrentUser();
-        if (currentUser.equals(email) || GetAuthorities.isAdmin()) {
-            return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateUser.updateUser(findUser.findByEmail(email), userPatch))));
-        } else { // TODO: do something else
-            return ResponseEntity.ok(assembler.toModel(new UserDto()));
-        }
+        return ResponseEntity.ok(assembler.toModel(dtoConverter.convertToDto(updateUser.updateUser(findUser.findByEmail(email), userPatch))));
     }
 
     @GetMapping(path = "/admin/user/token")

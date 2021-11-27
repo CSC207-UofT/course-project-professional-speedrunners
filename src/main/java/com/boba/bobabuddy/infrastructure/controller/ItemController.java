@@ -1,7 +1,6 @@
 package com.boba.bobabuddy.infrastructure.controller;
 
 import com.boba.bobabuddy.core.entity.Item;
-import com.boba.bobabuddy.core.usecase.auth.GetAuthorities;
 import com.boba.bobabuddy.core.usecase.item.port.ICreateItem;
 import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
 import com.boba.bobabuddy.core.usecase.item.port.IRemoveItem;
@@ -16,6 +15,8 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -27,6 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * REST controller for Item related api calls
  */
 @RestController
+@Component("ItemController")
 public class ItemController {
 
     private final ICreateItem createItem;
@@ -58,16 +60,11 @@ public class ItemController {
      * @return Item that was created, in JSON + HAL
      */
     @PostMapping(path = "/user/stores/{storeId}/items")
+    @PreAuthorize("@ItemController.getFindStore().findById(#storeId).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<EntityModel<ItemDto>> createItem(@RequestBody SimpleItemDto createItemRequest,
                                                            @PathVariable UUID storeId) {
-        String currentUser = GetAuthorities.getCurrentUser();
-        String storeOwner = findStore.findById(storeId).getOwner();
-        if (GetAuthorities.isAdmin() || storeOwner.equals(currentUser)){
-            Item itemToPresent = createItem.create(dtoConverter.convertToEntityFromSimple(createItemRequest), storeId);
-            return ResponseEntity.created(linkTo(methodOn(ItemController.class).findById(itemToPresent.getId())).toUri()).body(assembler.toModel(dtoConverter.convertToDto(itemToPresent)));
-        } else { // TODO: do something else
-            return ResponseEntity.ok(assembler.toModel(new ItemDto()));
-        }
+        Item itemToPresent = createItem.create(dtoConverter.convertToEntityFromSimple(createItemRequest), storeId);
+        return ResponseEntity.created(linkTo(methodOn(ItemController.class).findById(itemToPresent.getId())).toUri()).body(assembler.toModel(dtoConverter.convertToDto(itemToPresent)));
     }
 
     /**
@@ -163,7 +160,7 @@ public class ItemController {
 
     /**
      * Handles PUT request to update an existing item resource
-     * TODO: separate update item price and rating from other details so basic user can update rating and price and owner/admin can update anything
+     * TODO: separate update item price and rating from other details so basic user can update price (rating is updated through submitting ratings) and owner/admin can update anything
      * @param newItem the new modified item
      * @param id      item resource to be updated
      * @return item resource after the modification
@@ -183,14 +180,17 @@ public class ItemController {
      * @return NO_CONTENT http status
      */
     @DeleteMapping(path = "/items/{id}")
+    @PreAuthorize("@ItemController.getFindItem().findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> removeItem(@PathVariable UUID id) {
-        String currentUser = GetAuthorities.getCurrentUser();
-        String storeOwner = findItem.findById(id).getStore().getOwner();
-        if (GetAuthorities.isAdmin() || storeOwner.equals(currentUser)) {
-            removeItem.removeById(id);
-            return ResponseEntity.noContent().build();
-        } else { // TODO: do something else
-            return ResponseEntity.noContent().build();
-        }
+        removeItem.removeById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    public IFindStore getFindStore() {
+        return findStore;
+    }
+
+    public IFindItem getFindItem() {
+        return findItem;
     }
 }
