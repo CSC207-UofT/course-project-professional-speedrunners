@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Class that represents an Item in the domain layer
@@ -31,16 +32,8 @@ public class Item extends RatableObject {
     @JoinTable(name = "item_categories",
             joinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "category_id",
-            referencedColumnName = "id"))
-    private List<Category> categories;
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
+                    referencedColumnName = "id"))
+    private Set<Category> categories;
 
     /**
      * Creates an Item with relevant parameters
@@ -86,6 +79,14 @@ public class Item extends RatableObject {
 
     public void setStore(Store store) {
         this.store = store;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 
     @Override
