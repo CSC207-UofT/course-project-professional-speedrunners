@@ -86,6 +86,7 @@ class LoginPage extends StatelessWidget {
                             Enum response = await _auth.login(
                                 email: emailController.text,
                                 password: passwordController.text);
+                            var token = _auth.getUserToken();
 
                             switch (response) {
                               case Response.success:
