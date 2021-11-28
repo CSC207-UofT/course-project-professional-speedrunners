@@ -40,4 +40,13 @@ public class UpdateItemServiceImpl implements UpdateItemService {
 
         return repo.save(itemToUpdate);
     }
+
+    @Override
+    public Item updateItemPrice(Item itemToUpdate, double price) {
+        if (price < 0) {
+            throw new IllegalArgumentException("Price must be greater than 0.");
+        }
+        itemToUpdate.setPrice(price);
+        return repo.save(itemToUpdate);
+    }
 }

@@ -50,12 +50,12 @@ public class FindStoreServiceImpl implements FindStoreService {
 
     @Override
     public List<Store> findByName(String name, Sort sort) {
-        return repo.findByName(name, sort);
+        return repo.findByNameIgnoreCase(name, sort);
     }
 
     @Override
     public List<Store> findByNameContaining(String name, Sort sort) {
-        return repo.findByNameContaining(name, sort);
+        return repo.findByNameContainingIgnoreCase(name, sort);
     }
 
     @Override

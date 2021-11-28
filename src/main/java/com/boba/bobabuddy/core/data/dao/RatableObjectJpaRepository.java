@@ -12,9 +12,9 @@ import java.util.UUID;
 @Repository
 public interface RatableObjectJpaRepository<T extends RatableObject> extends GenericResourceJpaRepository<T, UUID> {
 
-    List<T> findByName(String name, Sort sort);
+    List<T> findByNameIgnoreCase(String name, Sort sort);
 
-    List<T> findByNameContaining(String name, Sort sort);
+    List<T> findByNameContainingIgnoreCase(String name, Sort sort);
 
     // Note that using native query is a workaround since the custom query must follow the SQL flavor of the database
     // implementation (H2 in our case), instead of having the query language translated dynamically by spring data jpa

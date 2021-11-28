@@ -22,4 +22,6 @@ public interface UpdateItemService {
      * @throws DifferentResourceException thrown when itemPatch have a different id than the itemToUpdate
      */
     Item updateItem(UUID itemId, ItemDto newItem) throws DifferentResourceException;
+
+    Item updateItemPrice(Item itemToUpdate, double price);
 }

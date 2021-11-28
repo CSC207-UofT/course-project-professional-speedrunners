@@ -107,7 +107,7 @@ public class FindItemImplTest {
 
     @Test
     void testFindByName() {
-        when(repo.findByName("milk tea", )).thenReturn(itemLstName);
+        when(repo.findByNameIgnoreCase("milk tea", )).thenReturn(itemLstName);
 
         List<Item> returnedItem = findItemImpl.findByName("milk tea", );
         assertIterableEquals(itemLstName, returnedItem);
@@ -117,7 +117,7 @@ public class FindItemImplTest {
 
     @Test
     void testFindByNameContaining() {
-        when(repo.findByNameContaining("tea")).thenReturn(itemLst);
+        when(repo.findByNameContainingIgnoreCase("tea")).thenReturn(itemLst);
 
         List<Item> returnedItem = findItemImpl.findByNameContaining("tea", );
         assertIterableEquals(itemLst, returnedItem);
