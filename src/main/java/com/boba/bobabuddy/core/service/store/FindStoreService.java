@@ -2,6 +2,7 @@ package com.boba.bobabuddy.core.service.store;
 
 import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,24 +15,27 @@ public interface FindStoreService {
      * Find all stores that exist in the database
      *
      * @return list of all stores in the database, or an empty list if the database is empty
+     * @param sort
      */
-    List<Store> findAll();
+    List<Store> findAll(Sort sort);
 
     /**
      * Find Store by its location
      *
      * @param location location of the store
+     * @param sort
      * @return the Store if it was found. Otherwise, return null.
      */
-    List<Store> findByLocation(String location);
+    List<Store> findByLocation(String location, Sort sort);
 
     /**
      * Find Store by its name. Also do partial match.
      *
      * @param name name to be matched
+     * @param sort
      * @return Store that partially matches the name, or an empty list if no such Store exist
      */
-    List<Store> findByNameContaining(String name);
+    List<Store> findByNameContaining(String name, Sort sort);
 
     /**
      * Find Store by its uuid
@@ -45,18 +49,20 @@ public interface FindStoreService {
     /***
      * Find Store by its name. Have to be fully matching.
      * @param name name to be matched
+     * @param sort
      * @return Store with matching name. Or an empty list if no such Store exist
      */
-    List<Store> findByName(String name);
+    List<Store> findByName(String name, Sort sort);
 
     /**
      * Find all Store that have avgRating greater than or equal to param rating
      *
      * @param avgRating avgRating to be compared with
+     * @param sort
      * @return Store that has avgRating greater than or equal to param rating, or an empty list if no such Store exist
      * @throws IllegalArgumentException when avgRating is out of bound
      */
-    List<Store> findByAvgRatingGreaterThanEqual(float avgRating, boolean sorted);
+    List<Store> findByAvgRatingGreaterThanEqual(float avgRating, Sort sort);
 
     /**
      * Find store that contains the specified Item

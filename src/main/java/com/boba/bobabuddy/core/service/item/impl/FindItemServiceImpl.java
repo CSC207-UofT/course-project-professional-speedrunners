@@ -32,8 +32,8 @@ public class FindItemServiceImpl implements FindItemService {
 
 
     @Override
-    public List<Item> findByStore(UUID id) {
-        return repo.findByStore_id(id);
+    public List<Item> findByStore(UUID id, Sort sort) {
+        return repo.findByStore_id(id, sort);
     }
 
 
@@ -49,35 +49,33 @@ public class FindItemServiceImpl implements FindItemService {
      *  Refer to Spring Data JPA for detail
      */
     @Override
-    public List<Item> findAll() {
-        return repo.findAll();
+    public List<Item> findAll(Sort sort) {
+        return repo.findAll(sort);
     }
 
 
     @Override
-    public List<Item> findByName(String name) {
-        return repo.findByName(name);
+    public List<Item> findByName(String name, Sort sort) {
+        return repo.findByName(name, sort);
     }
 
 
     @Override
-    public List<Item> findByNameContaining(String name) {
-        return repo.findByNameContaining(name);
+    public List<Item> findByNameContaining(String name, Sort sort) {
+        return repo.findByNameContaining(name, sort);
     }
 
 
     @Override
-    public List<Item> findByPriceLessThanEqual(float price, boolean sorted) {
-        Sort sorter = ((sorted) ? Sort.by("price").ascending() : Sort.unsorted());
-        return repo.findByPriceLessThanEqual(price, sorter);
+    public List<Item> findByPriceLessThanEqual(float price, Sort sort) {
+        return repo.findByPriceLessThanEqual(price, sort);
     }
 
 
     @Override
-    public List<Item> findByAvgRatingGreaterThanEqual(float avgRating, boolean sorted) throws IllegalArgumentException {
+    public List<Item> findByAvgRatingGreaterThanEqual(float avgRating, Sort sort) throws IllegalArgumentException {
         if (avgRating > 1 || avgRating < 0) throw new IllegalArgumentException("avgRating must be between 0 and 1");
-        Sort sorter = ((sorted) ? Sort.by("avgRating").descending() : Sort.unsorted());
-        return repo.findByAvgRatingGreaterThanEqual(avgRating, sorter);
+        return repo.findByAvgRatingGreaterThanEqual(avgRating, sort);
     }
 
 

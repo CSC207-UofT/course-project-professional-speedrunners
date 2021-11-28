@@ -194,7 +194,7 @@ public class StoreControllerTest {
 
     @Test
     void testFindByLocation() throws Exception {
-        when(findStore.findByLocation("bloor")).thenReturn(ratingLst);
+        when(findStore.findByLocation("bloor", )).thenReturn(ratingLst);
 
         mockMvc.perform(get("/stores/?location=bloor"))
                 .andExpect(status().isOk())
@@ -211,7 +211,7 @@ public class StoreControllerTest {
 
     @Test
     void testFindByName() throws Exception {
-        when(findStore.findByName("Blobs")).thenReturn(nameLst);
+        when(findStore.findByName("Blobs", )).thenReturn(nameLst);
 
         mockMvc.perform(get("/stores/?name=Blobs"))
                 .andExpect(status().isOk())
@@ -224,7 +224,7 @@ public class StoreControllerTest {
 
     @Test
     void testFindByNameContaining() throws Exception {
-        when(findStore.findByNameContaining("s")).thenReturn(nameLst);
+        when(findStore.findByNameContaining("s", )).thenReturn(nameLst);
 
         mockMvc.perform(get("/stores/?name-contain=s"))
                 .andExpect(status().isOk())
@@ -237,7 +237,7 @@ public class StoreControllerTest {
 
     @Test
     void testFindByAvgRatingGreaterThanEqual() throws Exception {
-        when(findStore.findByAvgRatingGreaterThanEqual(0.5f, true)).thenReturn(ratingLst);
+        when(findStore.findByAvgRatingGreaterThanEqual(0.5f, , true)).thenReturn(ratingLst);
 
         mockMvc.perform(get("/stores/?rating-geq=0.5&sorted=true"))
                 .andExpect(status().isOk())

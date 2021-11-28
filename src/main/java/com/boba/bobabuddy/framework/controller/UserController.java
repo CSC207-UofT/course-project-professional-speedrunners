@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,7 @@ public class UserController {
      * @param createUserRequest Request class that contains data necessary to construct an User entity.
      * @return User resource that was created
      */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/users")
     public UserDto createUser(@RequestBody UserDto createUserRequest) {
         createUserRequest.setRoles(List.of(new RoleDto("ROLE_USER")));
@@ -50,6 +52,7 @@ public class UserController {
      * @param email the email of the User
      * @return the User resource with matching email
      */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/users/{email}")
     public UserDto findByEmail(@PathVariable String email) {
         return converter.convertToDto(findUser.findByEmail(email));
@@ -62,6 +65,7 @@ public class UserController {
      * @param name the email of the User
      * @return the list of User resources with names matching the requested name
      */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/users", params = "name")
     public List<UserDto> findByName(@RequestParam("name") String name) {
         return converter.convertToDtoList(findUser.findByName(name));
@@ -72,6 +76,7 @@ public class UserController {
      *
      * @return list of all User resources in the database
      */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/users")
     public List<UserDto> findAll() {
         return converter.convertToDtoList(findUser.findAll());
@@ -83,6 +88,7 @@ public class UserController {
      * @param email the email of the User to be removed from the database
      * @return NO_CONTENT http status
      */
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/users/{email}")
     public ResponseEntity<?> removeUserByEmail(@PathVariable String email) {
         removeUser.removeByEmail(email);
@@ -96,11 +102,13 @@ public class UserController {
      * @param userPatch the same User with updated fields.
      * @return the User resource after the modification
      */
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/users/{email}")
     public UserDto updateUser(@PathVariable String email, @RequestBody UserDto userPatch) {
         return converter.convertToDto(updateUser.updateUser(findUser.findByEmail(email), userPatch));
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/admin/user/token")
     public String loginUser(@RequestBody UserDto userDto) throws FirebaseAuthException {
         FirebaseAuth admin = FirebaseAuth.getInstance();

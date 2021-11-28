@@ -103,7 +103,7 @@ class FindStoreTest {
     void findByLocation() {
         when(repo.findByLocation("123 street")).thenReturn(storeLst);
 
-        List<Store> returnedStores = findStore.findByLocation("123 street");
+        List<Store> returnedStores = findStore.findByLocation("123 street", );
         assertIterableEquals(storeLst, returnedStores);
         assertNotNull(returnedStores);
     }
@@ -119,9 +119,9 @@ class FindStoreTest {
 
     @Test
     void findByName() {
-        when(repo.findByName("Boba shop")).thenReturn(storeLst);
+        when(repo.findByName("Boba shop", )).thenReturn(storeLst);
 
-        List<Store> returnedStores = findStore.findByName("Boba shop");
+        List<Store> returnedStores = findStore.findByName("Boba shop", );
         assertIterableEquals(storeLst, returnedStores);
         assertNotNull(returnedStores);
     }
@@ -130,7 +130,7 @@ class FindStoreTest {
     void findByNameContaining() {
         when(repo.findByNameContaining("Boba")).thenReturn(storeLst);
 
-        List<Store> returnedStores = findStore.findByNameContaining("Boba");
+        List<Store> returnedStores = findStore.findByNameContaining("Boba", );
         assertIterableEquals(storeLst, returnedStores);
         assertNotNull(returnedStores);
     }
@@ -139,7 +139,7 @@ class FindStoreTest {
     void findByAvgRatingGreaterThanEqual() {
         when(repo.findByAvgRatingGreaterThanEqual(1, Sort.by("avgRating").descending())).thenReturn(storeLst);
 
-        List<Store> returnedStores = findStore.findByAvgRatingGreaterThanEqual(1, true);
+        List<Store> returnedStores = findStore.findByAvgRatingGreaterThanEqual(1, , true);
         assertIterableEquals(storeLst, returnedStores);
         assertNotNull(returnedStores);
     }

@@ -16,8 +16,8 @@ import java.util.UUID;
  */
 @Repository
 public interface ItemJpaRepository extends RatableObjectJpaRepository<Item> {
-    List<Item> findByStore_id(UUID id);
+    List<Item> findByStore_id(UUID id, Sort sort);
 
-    List<Item> findByPriceLessThanEqual(float price, Sort sort);
+    List<Item> findByPriceLessThanEqual(double price, Sort sort);
 
 }

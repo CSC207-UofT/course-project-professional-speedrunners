@@ -90,7 +90,7 @@ public class FindItemImplTest {
         when(store.getId()).thenReturn(storeId);
 
 
-        List<Item> returnedItem = findItemImpl.findByStore(store.getId());
+        List<Item> returnedItem = findItemImpl.findByStore(store.getId(), );
         assertIterableEquals(itemLst, returnedItem);
         assertNotNull(returnedItem);
 
@@ -107,9 +107,9 @@ public class FindItemImplTest {
 
     @Test
     void testFindByName() {
-        when(repo.findByName("milk tea")).thenReturn(itemLstName);
+        when(repo.findByName("milk tea", )).thenReturn(itemLstName);
 
-        List<Item> returnedItem = findItemImpl.findByName("milk tea");
+        List<Item> returnedItem = findItemImpl.findByName("milk tea", );
         assertIterableEquals(itemLstName, returnedItem);
         assertNotNull(returnedItem);
 
@@ -119,7 +119,7 @@ public class FindItemImplTest {
     void testFindByNameContaining() {
         when(repo.findByNameContaining("tea")).thenReturn(itemLst);
 
-        List<Item> returnedItem = findItemImpl.findByNameContaining("tea");
+        List<Item> returnedItem = findItemImpl.findByNameContaining("tea", );
         assertIterableEquals(itemLst, returnedItem);
         assertNotNull(returnedItem);
 
@@ -151,7 +151,7 @@ public class FindItemImplTest {
     void testFindByPriceLessThanEqual() {
         when(repo.findByPriceLessThanEqual(10, Sort.by("price").ascending())).thenReturn(itemLst);
 
-        List<Item> returnedItem = findItemImpl.findByPriceLessThanEqual(10, true);
+        List<Item> returnedItem = findItemImpl.findByPriceLessThanEqual(10, , true);
         assertIterableEquals(itemLst, returnedItem);
         assertNotNull(returnedItem);
     }
@@ -160,7 +160,7 @@ public class FindItemImplTest {
     void testFindBy() {
         when(repo.findByAvgRatingGreaterThanEqual(0, Sort.by("avgRating").descending())).thenReturn(itemLstRating);
 
-        List<Item> returnedItem = findItemImpl.findByAvgRatingGreaterThanEqual(0, true);
+        List<Item> returnedItem = findItemImpl.findByAvgRatingGreaterThanEqual(0, , true);
         assertIterableEquals(itemLstRating, returnedItem);
         assertNotNull(returnedItem);
     }

@@ -33,38 +33,37 @@ public class FindStoreServiceImpl implements FindStoreService {
     }
 
     @Override
-    public List<Store> findAll() {
-        return repo.findAll();
+    public List<Store> findAll(Sort sort) {
+        return repo.findAll(sort);
     }
 
 
     @Override
-    public List<Store> findByLocation(String location) {
-        return repo.findByLocation(location);
+    public List<Store> findByLocation(String location, Sort sort) {
+        return repo.findByLocation(location, sort);
     }
 
     @Override
     public Store findById(UUID id) throws ResourceNotFoundException {
-        return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("No such store", new Exception()));
+        return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("No such store"));
     }
 
     @Override
-    public List<Store> findByName(String name) {
-        return repo.findByName(name);
+    public List<Store> findByName(String name, Sort sort) {
+        return repo.findByName(name, sort);
     }
 
     @Override
-    public List<Store> findByNameContaining(String name) {
-        return repo.findByNameContaining(name);
+    public List<Store> findByNameContaining(String name, Sort sort) {
+        return repo.findByNameContaining(name, sort);
     }
 
     @Override
-    public List<Store> findByAvgRatingGreaterThanEqual(float avgRating, boolean sorted) {
-        if (0 <= avgRating && avgRating <= 1) {
-            Sort sorter = ((sorted) ? Sort.by("avgRating").descending() : Sort.unsorted());
-            return repo.findByAvgRatingGreaterThanEqual(avgRating, sorter);
+    public List<Store> findByAvgRatingGreaterThanEqual(float avgRating, Sort sort) {
+        if (avgRating < 0 || avgRating > 1) {
+            throw new IllegalArgumentException("avgRating must be between 0 and 1");
         }
-        throw new IllegalArgumentException("avgRating must be between 0 and 1");
+        return repo.findByAvgRatingGreaterThanEqual(avgRating, sort);
     }
 
     @Override

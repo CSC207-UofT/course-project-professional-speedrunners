@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface StoreJpaRepository extends RatableObjectJpaRepository<Store> {
-    List<Store> findByLocation(String location);
+    List<Store> findByLocation(String location, Sort sort);
 
     List<Store> findByAvgRatingGreaterThanEqual(@Min(value = 0) @Max(value = 1) double avgRating, Sort sort);
 }

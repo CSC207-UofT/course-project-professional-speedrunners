@@ -47,9 +47,9 @@ public class ItemController {
      * @return list of Item resources exist in the database
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/items")
-    public List<ItemDto> findAll() {
-        return converter.convertToDtoList(findItem.findAll());
+    @GetMapping(path = "/items", params = "sortBy")
+    public List<ItemDto> findAll(@RequestParam(defaultValue = "price") String sortBy) {
+        return converter.convertToDtoList(findItem.findAll(SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**
@@ -71,9 +71,9 @@ public class ItemController {
      * @return collection of item resources that match the query
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/items", params = "name")
-    public List<ItemDto> findByName(@RequestParam("name") String name) {
-        return converter.convertToDtoList(findItem.findByName(name));
+    @GetMapping(path = "/items", params = {"name", "sortBy"})
+    public List<ItemDto> findByName(@RequestParam("name") String name, @RequestParam(defaultValue = "price") String sortBy) {
+        return converter.convertToDtoList(findItem.findByName(name, SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**
@@ -83,9 +83,10 @@ public class ItemController {
      * @return collection of item resources that match the query
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/items", params = "name-contain")
-    public List<ItemDto> findByNameContaining(@RequestParam("name-contain") String name) {
-        return converter.convertToDtoList(findItem.findByNameContaining(name));
+    @GetMapping(path = "/items", params = {"name-contain", "sortBy"})
+    public List<ItemDto> findByNameContaining(@RequestParam("name-contain") String name,
+                                              @RequestParam(defaultValue = "price") String sortBy) {
+        return converter.convertToDtoList(findItem.findByNameContaining(name, SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**
@@ -95,9 +96,10 @@ public class ItemController {
      * @return list of item resources that belong to the specified store
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/stores/{id}/items")
-    public List<ItemDto> findByStore(@PathVariable UUID id) {
-        return converter.convertToDtoList(findItem.findByStore(id));
+    @GetMapping(path = "/stores/{id}/items", params = "sortBy")
+    public List<ItemDto> findByStore(@PathVariable UUID id,
+                                     @RequestParam(defaultValue = "price") String sortBy) {
+        return converter.convertToDtoList(findItem.findByStore(id, SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**
@@ -107,10 +109,11 @@ public class ItemController {
      * @return list of item resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/items", params = "price-leq")
+    @GetMapping(path = "/items", params = {"price-leq","sortBy"})
     public List<ItemDto> findByPriceLessThanEqual(@RequestParam("price-leq") float price,
-                                                  @RequestParam(defaultValue = "false") boolean sorted) {
-        return converter.convertToDtoList(findItem.findByPriceLessThanEqual(price, sorted));
+                                                  @RequestParam(defaultValue = "price") String sortBy) {
+        return converter.convertToDtoList(
+                findItem.findByPriceLessThanEqual(price, SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**
@@ -120,10 +123,11 @@ public class ItemController {
      * @return list of item resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/items", params = "rating-geq")
+    @GetMapping(path = "/items", params = {"rating-geq", "sortBy"})
     public List<ItemDto> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
-                                                         @RequestParam(defaultValue = "false") boolean sorted) {
-        return converter.convertToDtoList(findItem.findByAvgRatingGreaterThanEqual(rating, sorted));
+                                                         @RequestParam(defaultValue = "price") String sortBy) {
+        return converter.convertToDtoList(
+                findItem.findByAvgRatingGreaterThanEqual(rating, SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**
@@ -135,9 +139,7 @@ public class ItemController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/items", params = "ratingId")
     public ItemDto findByRating(@RequestParam("ratingId") UUID id) {
-
         return converter.convertToDto(findItem.findByRating(id));
-
     }
 
     /**
@@ -165,6 +167,5 @@ public class ItemController {
     public void removeItem(@PathVariable UUID id) {
         removeItem.removeById(id);
     }
-
 
 }

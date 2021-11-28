@@ -185,7 +185,7 @@ public class ItemControllerTest {
     @Test
     void testFindByName() throws Exception {
 
-        when(findItem.findByName("milk tea")).thenReturn(List.of(item1));
+        when(findItem.findByName("milk tea", )).thenReturn(List.of(item1));
 
         mockMvc.perform(get("/items/?name=milk tea"))
 
@@ -203,7 +203,7 @@ public class ItemControllerTest {
 
     @Test
     void testFindByNameContaining() throws Exception {
-        when(findItem.findByNameContaining("tea")).thenReturn(allItem);
+        when(findItem.findByNameContaining("tea", )).thenReturn(allItem);
 
         mockMvc.perform(get("/items/?name-contain=tea"))
 
@@ -224,7 +224,7 @@ public class ItemControllerTest {
     @Test
     void testFindByStore() throws Exception {
 
-        when(findItem.findByStore(eq(storeId))).thenReturn(allItem);
+        when(findItem.findByStore(eq(storeId), )).thenReturn(allItem);
 
         mockMvc.perform(get("/stores/{storeId}/items", storeId.toString()))
 
@@ -245,7 +245,7 @@ public class ItemControllerTest {
 
     @Test
     void testFindByPriceLessThanEqual() throws Exception {
-        when(findItem.findByPriceLessThanEqual(8, true)).thenReturn(itemPrice);
+        when(findItem.findByPriceLessThanEqual(8, , true)).thenReturn(itemPrice);
 
         mockMvc.perform(get("/items/?price-leq=8&sorted=true", storeId.toString()))
 
@@ -263,7 +263,7 @@ public class ItemControllerTest {
 
     @Test
     void testFindByAvgRatingGreaterThanEqual() throws Exception {
-        when(findItem.findByAvgRatingGreaterThanEqual(0.3f, true)).thenReturn(itemRating);
+        when(findItem.findByAvgRatingGreaterThanEqual(0.3f, , true)).thenReturn(itemRating);
 
         mockMvc.perform(get("/items/?rating-geq=0.3&sorted=true", storeId.toString()))
 
