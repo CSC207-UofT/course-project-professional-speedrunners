@@ -119,7 +119,8 @@ public class UserController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/user/users/{email}")
-    @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")  public UserDto updateUser(@PathVariable String email, @RequestBody UserDto userPatch) {
+    @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    public UserDto updateUser(@PathVariable String email, @RequestBody UserDto userPatch) {
         return converter.convertToDto(updateUser.updateUser(findUser.findByEmail(email), userPatch));
     }
 
