@@ -14,7 +14,7 @@ import java.util.UUID;
 /**
  * This class handle the usecase of updating items in the system.
  */
-@Service
+@Service("UpdateItemService")
 @Transactional
 public class UpdateItemServiceImpl implements UpdateItemService {
     private final ItemJpaRepository repo;

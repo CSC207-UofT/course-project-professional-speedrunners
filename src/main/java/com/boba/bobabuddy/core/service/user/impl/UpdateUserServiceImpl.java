@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * This class handle the usecase of updating user info to the database
  */
-@Service
+@Service("UpdateUserService")
 @Transactional
 public class UpdateUserServiceImpl implements UpdateUserService {
 
@@ -45,7 +45,6 @@ public class UpdateUserServiceImpl implements UpdateUserService {
 
         }
         throw new DifferentResourceException("Not the same user");
-        //throw new DifferentResourceException("Not the same user", new Exception()); TODO
     }
 
     /**

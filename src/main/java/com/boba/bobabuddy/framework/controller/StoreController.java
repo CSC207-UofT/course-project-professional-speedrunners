@@ -24,7 +24,6 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@Component("StoreController")
 public class StoreController {
 
     //fields for all Store usecase, with interface
@@ -164,7 +163,7 @@ public class StoreController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/user/stores/{id}")
-    @PreAuthorize("@StoreController.getFindStore().findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("@FindStoreService.findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public StoreDto updateStore(@RequestBody StoreDto storePatch, @PathVariable UUID id) {
         return converter.convertToDto(updateStore.updateStore(findStore.findById(id), storePatch));
     }
@@ -178,9 +177,5 @@ public class StoreController {
     @DeleteMapping(path = "/stores/{id}")
     public void removeStore(@PathVariable UUID id) {
         removeStore.removeById(id);
-    }
-
-    public FindStoreService getFindStore() {
-        return findStore;
     }
 }

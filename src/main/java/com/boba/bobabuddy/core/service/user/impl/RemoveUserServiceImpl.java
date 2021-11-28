@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class handle the usecase of removing users from the database.
  */
-@Service
+@Service("RemoveUserService")
 @Transactional
 public class RemoveUserServiceImpl implements RemoveUserService {
 

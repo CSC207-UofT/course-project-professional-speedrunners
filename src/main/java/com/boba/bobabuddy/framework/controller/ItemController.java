@@ -24,14 +24,12 @@ import java.util.UUID;
  */
 @RestController
 @RequiredArgsConstructor
-@Component("ItemController")
 public class ItemController {
 
     private final CreateItemService createItem;
     private final RemoveItemService removeItem;
     private final UpdateItemService updateItem;
     private final FindItemService findItem;
-    private final FindStoreService findStore;
     private final DtoConverter<Item, ItemDto> converter;
 
 
@@ -43,7 +41,7 @@ public class ItemController {
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/user/stores/{storeId}/items")
-    @PreAuthorize("@ItemController.getFindStore().findById(#storeId).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("@FindStoreService.findById(#storeId).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ItemDto createItem(@RequestBody ItemDto createItemRequest, @PathVariable UUID storeId) {
         return converter.convertToDto(createItem.create(createItemRequest, storeId));
     }
@@ -158,7 +156,7 @@ public class ItemController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/user/items/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("@ItemController.getFindItem().findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ItemDto updateItem(@RequestBody ItemDto newItem, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.updateItem(id, newItem));
 
@@ -184,16 +182,8 @@ public class ItemController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/user/items/{id}")
-    @PreAuthorize("@ItemController.getFindItem().findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public void removeItem(@PathVariable UUID id) {
         removeItem.removeById(id);
-    }
-
-    public FindStoreService getFindStore() {
-        return findStore;
-    }
-
-    public FindItemService getFindItem() {
-        return findItem;
     }
 }

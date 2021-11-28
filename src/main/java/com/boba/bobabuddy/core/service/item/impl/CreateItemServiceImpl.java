@@ -19,7 +19,7 @@ import java.util.UUID;
 /**
  * This class handle the usecase of creating item and adding it into the system.
  */
-@Service
+@Service("CreateItemService")
 @Transactional
 public class CreateItemServiceImpl implements CreateItemService {
 

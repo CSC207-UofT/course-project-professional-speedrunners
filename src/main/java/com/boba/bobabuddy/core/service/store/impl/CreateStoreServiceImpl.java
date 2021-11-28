@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  * This class handle the usecase of creating store and adding it into the system.
  */
 
-@Service
+@Service("CreateStoreService")
 @Transactional
 @RequiredArgsConstructor
 public class CreateStoreServiceImpl implements CreateStoreService {

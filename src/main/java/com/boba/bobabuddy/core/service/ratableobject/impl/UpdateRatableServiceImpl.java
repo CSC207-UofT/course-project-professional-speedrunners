@@ -5,6 +5,7 @@ import com.boba.bobabuddy.core.domain.RatableObject;
 import com.boba.bobabuddy.core.domain.Rating;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
+import com.boba.bobabuddy.core.service.ratableobject.UpdateRatableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
  * Usecase for updating ratable objects in the database
  * Only handles requests related to rating objects.
  */
-@Service
+@Service("UpdateRatableService")
 @Transactional
-public class UpdateRatableServiceImpl implements com.boba.bobabuddy.core.service.ratableobject.UpdateRatableService {
+public class UpdateRatableServiceImpl implements UpdateRatableService {
     private final RatableObjectJpaRepository<RatableObject> repo;
 
     /***

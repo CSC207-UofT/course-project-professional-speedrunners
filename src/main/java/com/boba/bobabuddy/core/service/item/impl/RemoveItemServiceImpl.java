@@ -14,7 +14,7 @@ import java.util.UUID;
 /**
  * This class handle the usecase of removing items in the system.
  */
-@Service
+@Service("RemoveItemService")
 @Transactional
 public class RemoveItemServiceImpl implements RemoveItemService {
 

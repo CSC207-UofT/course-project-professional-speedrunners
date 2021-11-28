@@ -13,7 +13,7 @@ import java.util.UUID;
 /***
  * This class handles the usecase of query on user entity.
  */
-@Service
+@Service("FindUserService")
 @Transactional
 public class FindUserServiceImpl implements FindUserService {
 

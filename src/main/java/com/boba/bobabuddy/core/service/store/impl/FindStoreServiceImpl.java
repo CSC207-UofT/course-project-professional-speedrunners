@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * This class handle the usecase of finding stores in the system.
  */
-@Service
+@Service("FindStoreService")
 @Transactional
 public class FindStoreServiceImpl implements FindStoreService {
     private final StoreJpaRepository repo;

@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * This is the usecase responsible for updating existing Rating entities in the system.
  */
-@Service
+@Service("UpdateRatingService")
 @Transactional
 public class UpdateRatingServiceImpl implements UpdateRatingService {
     /**

@@ -13,7 +13,7 @@ import java.util.UUID;
 /***
  * Usecase for finding ratable objects in the database
  */
-@Service
+@Service("FindRatableService")
 @Transactional
 @RequiredArgsConstructor
 public class FindRatableServiceImpl implements FindRatableService {

@@ -28,7 +28,6 @@ import java.util.UUID;
  */
 @RestController
 @RequiredArgsConstructor
-@Component("RatingController")
 public class RatingController {
 
     // Input Boundary
@@ -123,7 +122,7 @@ public class RatingController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/ratings/{id}")
-    @PreAuthorize("@RatingController.getFindRating().findById(id).getUser().getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public void removeById(@PathVariable UUID id) {
         removeRating.removeById(id);
     }
@@ -137,12 +136,8 @@ public class RatingController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/ratings/{id}")
-    @PreAuthorize("@RatingController.getFindRating().findById(id).getUser().getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public RatingDto updateRating(@PathVariable UUID id, @RequestBody RatingDto rating) {
         return converter.convertToDto(updateRating.updateRating(id, rating.getRating()));
-    }
-
-    public FindRatingService getFindRating() {
-        return findRating;
     }
 }

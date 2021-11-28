@@ -24,7 +24,6 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@ControllerAdvice("UserController")
 public class UserController {
 
     // Interfaces of User usecases and user DTO converter

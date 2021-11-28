@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 /***
  * This class handles the persisting of a new user to the database.
  */
-@Service
+@Service("CreateUserService")
 @Transactional
 public class CreateUserServiceImpl implements CreateUserService {
     private final UserJpaRepository repo;

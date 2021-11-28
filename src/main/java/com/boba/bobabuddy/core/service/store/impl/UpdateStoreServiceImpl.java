@@ -18,7 +18,7 @@ import java.util.Objects;
  * This class handle the usecase of updating stores in the system.
  */
 
-@Service
+@Service("UpdateStoreService")
 @Transactional
 public class UpdateStoreServiceImpl implements UpdateStoreService {
     private final StoreJpaRepository repo;
@@ -57,6 +57,5 @@ public class UpdateStoreServiceImpl implements UpdateStoreService {
     public Store removeItem(Store store, Item item) throws ResourceNotFoundException {
         if (store.removeItem(item)) return repo.save(store);
         throw new ResourceNotFoundException("No such Item");
-        //throw new ResourceNotFoundException("No such Item", new Exception()); TODO
     }
 }
