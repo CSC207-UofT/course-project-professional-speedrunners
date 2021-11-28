@@ -1,8 +1,8 @@
 package com.boba.bobabuddy.core.entitiy;
 
-import com.boba.bobabuddy.core.entity.RatableObject;
-import com.boba.bobabuddy.core.entity.Rating;
-import com.boba.bobabuddy.core.entity.User;
+import com.boba.bobabuddy.core.domain.RatableObject;
+import com.boba.bobabuddy.core.domain.Rating;
+import com.boba.bobabuddy.core.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
