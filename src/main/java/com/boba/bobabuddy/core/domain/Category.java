@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.core.entity;
+package com.boba.bobabuddy.core.domain;
 
 import lombok.*;
 import org.hibernate.Hibernate;

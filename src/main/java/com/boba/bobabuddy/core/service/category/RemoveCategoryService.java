@@ -1,6 +1,6 @@
-package com.boba.bobabuddy.core.usecase.category;
+package com.boba.bobabuddy.core.service.category;
 
-import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
+import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 
 import java.util.UUID;
 

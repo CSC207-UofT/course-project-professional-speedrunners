@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.infrastructure.dto;
+package com.boba.bobabuddy.core.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

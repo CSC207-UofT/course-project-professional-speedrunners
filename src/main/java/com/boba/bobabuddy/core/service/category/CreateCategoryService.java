@@ -1,7 +1,7 @@
-package com.boba.bobabuddy.core.usecase.category;
+package com.boba.bobabuddy.core.service.category;
 
-import com.boba.bobabuddy.core.entity.Category;
-import com.boba.bobabuddy.infrastructure.dto.CategoryDto;
+import com.boba.bobabuddy.core.domain.Category;
+import com.boba.bobabuddy.core.data.dto.CategoryDto;
 
 
 public interface CreateCategoryService {

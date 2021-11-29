@@ -1,9 +1,9 @@
-package com.boba.bobabuddy.core.usecase.category.impl;
+package com.boba.bobabuddy.core.service.category.impl;
 
-import com.boba.bobabuddy.core.usecase.category.CreateCategoryService;
-import com.boba.bobabuddy.infrastructure.dao.CategoryJpaRepository;
-import com.boba.bobabuddy.infrastructure.dto.CategoryDto;
-import com.boba.bobabuddy.core.entity.Category;
+import com.boba.bobabuddy.core.domain.Category;
+import com.boba.bobabuddy.core.service.category.CreateCategoryService;
+import com.boba.bobabuddy.core.data.dao.CategoryJpaRepository;
+import com.boba.bobabuddy.core.data.dto.CategoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
