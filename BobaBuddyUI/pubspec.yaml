@@ -34,6 +34,15 @@ dependencies:
   http: ^0.13.0-nullsafety.0
   flutter_screenutil: ^5.0.0+2
   maps_launcher: ^2.0.1
+  firebase_core: ^1.10.0
+
+  # Add the dependency for the FlutterFire plugin for Google Analytics
+  firebase_analytics: ^5.0.2
+
+  # Add the dependencies for any other Firebase products you want to use in your app
+  # For example, to use Firebase Authentication and Cloud Firestore
+  firebase_auth: ^3.2.0
+  cloud_firestore: ^2.1.0
 
 
 
@@ -44,12 +53,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  # Add the dependency for the FlutterFire plugin for Google Analytics
-  firebase_analytics: ^5.0.2
 
-  # Add the dependencies for any other Firebase products you want to use in your app
-  # For example, to use Firebase Authentication and Cloud Firestore
-  firebase_auth: ^3.2.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

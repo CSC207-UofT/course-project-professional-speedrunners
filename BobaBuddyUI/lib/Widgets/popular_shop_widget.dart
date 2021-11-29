@@ -32,7 +32,7 @@ class _PopularShops extends State<PopularShops> {
                   height: 225,
                   margin: EdgeInsets.only(left: SPACEBETWEEN.w),
                   child: FutureBuilder(
-                      future: db.getStoreNames(),
+                      future: db.getStores(),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (!snapshot.hasData) {
                           return const Center(

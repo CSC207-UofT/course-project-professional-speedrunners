@@ -5,7 +5,7 @@
 - run BobabuddyApplication in src/main/java
 - Spring boot will initialize a web server on localhost, which you can access with curl through
   url: http://127.0.0.1:8080/<api endpoints>
-- Alternatively, make api calls by opening the ItemController class in com.boba.bobabuddy.infrastructure.controller in
+- Alternatively, make api calls by opening the ItemController class in com.boba.bobabuddy.framework.controller in
   intellij and click on the green icons on the left side of each method definitions.
 - some sample api calls:
 

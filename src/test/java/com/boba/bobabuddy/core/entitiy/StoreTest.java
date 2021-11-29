@@ -1,7 +1,7 @@
 package com.boba.bobabuddy.core.entitiy;
 
-import com.boba.bobabuddy.core.entity.Store;
-import com.boba.bobabuddy.core.entity.Item;
+import com.boba.bobabuddy.core.domain.Store;
+import com.boba.bobabuddy.core.domain.Item;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
