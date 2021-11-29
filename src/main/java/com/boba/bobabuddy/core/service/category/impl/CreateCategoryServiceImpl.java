@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  * This class handle the usecase of creating category and adding it into the system
  */
 
-@Service
+@Service("CreateCategoryService")
 @Transactional
 @RequiredArgsConstructor
 public class CreateCategoryServiceImpl implements CreateCategoryService{

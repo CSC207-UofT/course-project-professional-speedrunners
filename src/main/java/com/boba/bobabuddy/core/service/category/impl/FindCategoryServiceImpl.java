@@ -17,7 +17,7 @@ import java.util.UUID;
  * This class handle the usecase of finding categories in the system.
  */
 
-@Service
+@Service("FindCategoryService")
 @Transactional
 public class FindCategoryServiceImpl implements FindCategoryService {
     final private CategoryJpaRepository repo;

@@ -13,7 +13,7 @@ import java.util.UUID;
 /**
  * This class handle the usecase of removing categories in the system.
  */
-@Service
+@Service("RemoveCategoryService")
 @Transactional
 public class RemoveCategoryServiceImpl implements RemoveCategoryService{
 
