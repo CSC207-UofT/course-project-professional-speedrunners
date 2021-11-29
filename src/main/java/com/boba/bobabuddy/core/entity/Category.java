@@ -10,6 +10,7 @@ import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Class that represents a Category
@@ -23,7 +24,7 @@ import java.util.Set;
 public class Category {
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
     private String name;
 
     @ManyToMany(mappedBy = "categories")
