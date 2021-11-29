@@ -1,12 +1,12 @@
-package com.boba.bobabuddy.infrastructure.dao;
+package com.boba.bobabuddy.core.data.dao;
 
-import com.boba.bobabuddy.core.entity.Category;
+import com.boba.bobabuddy.core.domain.Category;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface CategoryJpaRepository extends GenericResourceJpaRepository<Category, Long>{
-    Category findByName(String name);
-
+public interface CategoryJpaRepository extends GenericResourceJpaRepository<Category, UUID>{
+    Category findByName(String name, Sort sort);
 }

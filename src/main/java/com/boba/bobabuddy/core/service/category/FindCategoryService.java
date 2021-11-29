@@ -1,11 +1,10 @@
-package com.boba.bobabuddy.core.usecase.category;
+package com.boba.bobabuddy.core.service.category;
 
-import com.boba.bobabuddy.core.entity.Category;
-import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
+import com.boba.bobabuddy.core.domain.Category;
+import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,7 +19,7 @@ public interface FindCategoryService {
      * @return Category with matching name.
      * @throws ResourceNotFoundException thrown when no such category exist.
      */
-    Category findByName(String name) throws ResourceNotFoundException;
+    Category findByName(String name, Sort sort) throws ResourceNotFoundException;
 
     /**
      * Find categories that contain the specified item.
@@ -28,7 +27,7 @@ public interface FindCategoryService {
      * @return a set of categories that have the specifies item
      * @throws ResourceNotFoundException thrown when no such category exist.
      */
-    Set<Category> findByItem(UUID id);
+    Set<Category> findByItem(UUID id) throws ResourceNotFoundException;
 
     /**
      * Find all categories that exists in the database

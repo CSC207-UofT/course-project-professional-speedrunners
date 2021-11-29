@@ -1,11 +1,10 @@
-package com.boba.bobabuddy.core.usecase.category.impl;
+package com.boba.bobabuddy.core.service.category.impl;
 
-import com.boba.bobabuddy.infrastructure.dao.CategoryJpaRepository;
-import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.usecase.category.FindCategoryService;
-import com.boba.bobabuddy.core.usecase.category.RemoveCategoryService;
-import com.boba.bobabuddy.core.entity.Category;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.boba.bobabuddy.core.data.dao.CategoryJpaRepository;
+import com.boba.bobabuddy.core.domain.Category;
+import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
+import com.boba.bobabuddy.core.service.category.FindCategoryService;
+import com.boba.bobabuddy.core.service.category.RemoveCategoryService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +32,7 @@ public class RemoveCategoryServiceImpl implements RemoveCategoryService{
         this.findCategory = findCategory;
     }
 
-    public void removeById(UUID id) throws ResourceNotFoundException{
+    public void removeById(UUID id) throws ResourceNotFoundException {
         Category category = findCategory.findById(id);
         repo.delete(category);
     }
