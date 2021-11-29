@@ -21,12 +21,11 @@ public class RemoveCategoryServiceImpl implements RemoveCategoryService{
     private final FindCategoryService findCategory;
 
     /**
-     * Initialize RemoveCategory usecase by injecting dependecncies
+     * Initialize RemoveCategory usecase by injecting dependencies
      *
      * @param repo DAO for handling category data
      * @param findCategory FindCategory usecase
      */
-    //TODO: do i really need autowired here? constructor injection should also work (what i have here)
     public RemoveCategoryServiceImpl(final CategoryJpaRepository repo, FindCategoryService findCategory){
         this.repo = repo;
         this.findCategory = findCategory;
