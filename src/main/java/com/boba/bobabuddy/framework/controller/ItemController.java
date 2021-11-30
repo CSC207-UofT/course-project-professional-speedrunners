@@ -116,9 +116,9 @@ public class ItemController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/category", params = "name, sortBy")
-    public Set<ItemDto> findByCategory(@RequestParam("name") String name,
+    public List<ItemDto> findByCategory(@RequestParam("name") String name,
                                        @RequestParam(defaultValue = "price") String sortBy){
-        return converter.convertToDtoSet(findItem.findByCategory(name, SortQueryBuilder.buildSort(sortBy)));
+        return converter.convertToDtoList(findItem.findByCategory(name, SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**
