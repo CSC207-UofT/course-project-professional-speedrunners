@@ -10,7 +10,6 @@ import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.category.CreateCategoryService;
 import com.boba.bobabuddy.core.service.category.FindCategoryService;
-import com.boba.bobabuddy.core.service.item.CreateItemService;
 import com.boba.bobabuddy.core.service.item.FindItemService;
 import com.boba.bobabuddy.core.service.item.UpdateItemService;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,6 @@ public class UpdateItemServiceImpl implements UpdateItemService {
         this.createCategoryService = createCategoryService;
     }
 
-
     @Override
     public Item updateItem(UUID itemId, ItemDto itemPatch) throws DifferentResourceException {
         Item itemToUpdate = findItemService.findById(itemId);
@@ -53,7 +51,6 @@ public class UpdateItemServiceImpl implements UpdateItemService {
 
         return repo.save(itemToUpdate);
     }
-
 
     @Override
     public Item updateItemPrice(UUID itemId, float price) throws IllegalArgumentException{
@@ -73,15 +70,13 @@ public class UpdateItemServiceImpl implements UpdateItemService {
         try{
             categoryToAdd = findCategoryService.findByName(categoryName);
         }
-        //TODO: Fix this :/
         catch (ResourceNotFoundException e){
-            CategoryDto newCategory = new CategoryDto();
-            categoryToAdd = createCategoryService.create(newCategory);
+            categoryToAdd = createCategoryService.create(new CategoryDto());
             categoryToAdd.setName(categoryName);
-            categoryToAdd.addItem(itemToUpdate);
         }
 
         if (itemToUpdate.addCategory(categoryToAdd)){
+            categoryToAdd.addItem(itemToUpdate);
             return repo.save(itemToUpdate);
         }
         throw new DuplicateResourceException("This item already contains this category");
