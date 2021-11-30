@@ -116,9 +116,9 @@ public class ItemController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/category", params = "name, sortBy")
-    public Set<ItemDto> findByCategory(@RequestParam("name") String name,
+    public List<ItemDto> findByCategory(@RequestParam("name") String name,
                                        @RequestParam(defaultValue = "price") String sortBy){
-        return converter.convertToDtoSet(findItem.findByCategory(name, SortQueryBuilder.buildSort(sortBy)));
+        return converter.convertToDtoList(findItem.findByCategory(name, SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**
@@ -195,6 +195,8 @@ public class ItemController {
      * @param id the UUID of the Item to be updated
      * @return the updated item
      */
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     @PutMapping(path = "/user/items/{id}", params = "categoryName")
     public ItemDto  addCategory(@RequestParam String categoryName, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.addCategory(id, categoryName));

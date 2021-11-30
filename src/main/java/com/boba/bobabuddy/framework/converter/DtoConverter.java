@@ -9,7 +9,5 @@ public interface DtoConverter<T, S> {
 
     List<S> convertToDtoList(Collection<T> entities);
 
-    Set<S> convertToDtoSet(Collection<T> entities);
-
     T convertToEntity(S dto);
 }

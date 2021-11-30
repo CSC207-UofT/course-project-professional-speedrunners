@@ -26,7 +26,6 @@ public class DtoConverterImpl<T, S> implements DtoConverter<T, S> {
         this.dtoType = dtoType;
     }
 
-
     @Override
     public S convertToDto(T entity) {
         return modelMapper.map(entity, dtoType);
@@ -37,13 +36,6 @@ public class DtoConverterImpl<T, S> implements DtoConverter<T, S> {
         return entities.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public Set<S> convertToDtoSet(Collection<T> entities){
-        return entities.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toSet());
     }
 
     @Override
