@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -105,6 +106,19 @@ public class ItemController {
     public List<ItemDto> findByStore(@PathVariable UUID id,
                                      @RequestParam(defaultValue = "price") String sortBy) {
         return converter.convertToDtoList(findItem.findByStore(id, SortQueryBuilder.buildSort(sortBy)));
+    }
+
+    /**
+     * Handles GET requests for an item resources that belongs to a category
+     *
+     * @param name name of the category
+     * @return list of item resources that belong to the specified store
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(path = "/category", params = "name, sortBy")
+    public Set<ItemDto> findByCategory(@RequestParam("name") String name,
+                                       @RequestParam(defaultValue = "price") String sortBy){
+        return converter.convertToDtoSet(findItem.findByCategory(name, SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**
