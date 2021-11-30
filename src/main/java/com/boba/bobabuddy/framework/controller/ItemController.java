@@ -195,6 +195,8 @@ public class ItemController {
      * @param id the UUID of the Item to be updated
      * @return the updated item
      */
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     @PutMapping(path = "/user/items/{id}", params = "categoryName")
     public ItemDto  addCategory(@RequestParam String categoryName, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.addCategory(id, categoryName));

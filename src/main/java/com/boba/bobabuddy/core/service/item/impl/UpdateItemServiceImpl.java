@@ -80,7 +80,6 @@ public class UpdateItemServiceImpl implements UpdateItemService {
             return repo.save(itemToUpdate);
         }
         throw new DuplicateResourceException("This item already contains this category");
-
     }
 
 }
