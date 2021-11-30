@@ -44,7 +44,6 @@ public class FindCategoryServiceImpl implements FindCategoryService {
 
     @Override
     public Category findById(UUID id) throws ResourceNotFoundException{
-        //TODO: figure this thing out
         return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("No such Category"));
     }
 }
