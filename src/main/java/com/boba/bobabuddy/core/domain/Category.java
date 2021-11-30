@@ -32,7 +32,11 @@ public class Category {
     private Set<Item> items = new HashSet<>();
 
     public boolean addItem(Item item){
-        return this.items.add(item);
+        return items.add(item);
+    }
+
+    public boolean removeItem(Item item){
+        return items.remove(item);
     }
 
     @Override
