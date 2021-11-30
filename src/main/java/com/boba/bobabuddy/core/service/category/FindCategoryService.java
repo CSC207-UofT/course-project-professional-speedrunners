@@ -19,7 +19,7 @@ public interface FindCategoryService {
      * @return Category with matching name.
      * @throws ResourceNotFoundException thrown when no such category exist.
      */
-    Category findByName(String name, Sort sort) throws ResourceNotFoundException;
+    Category findByName(String name) throws ResourceNotFoundException;
 
     /**
      * Find categories that contain the specified item.

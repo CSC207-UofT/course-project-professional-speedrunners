@@ -4,9 +4,11 @@ import com.boba.bobabuddy.core.domain.Category;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface CategoryJpaRepository extends GenericResourceJpaRepository<Category, UUID>{
-    Category findByName(String name, Sort sort);
+    Category findByName(String name);
+
 }

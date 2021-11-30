@@ -175,6 +175,18 @@ public class ItemController {
     }
 
     /**
+     * Handles PUT request to add a cateogry to an existing item resource
+     *
+     * @param categoryName name of category to be added
+     * @param id the UUID of the Item to be updated
+     * @return the updated item
+     */
+    @PutMapping(path = "/user/items/{id}", params = "categoryName")
+    public ItemDto  addCategory(@RequestParam String categoryName, @PathVariable UUID id) {
+        return converter.convertToDto(updateItem.addCategory(id, categoryName));
+    }
+
+    /**
      * Handle DELETE request to delete an item resource from the system
      * Respond with 204 NO CONTENT
      *

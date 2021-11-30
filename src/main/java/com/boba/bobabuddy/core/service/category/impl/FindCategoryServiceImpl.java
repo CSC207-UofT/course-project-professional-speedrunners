@@ -29,8 +29,8 @@ public class FindCategoryServiceImpl implements FindCategoryService {
     }
 
     @Override
-    public Category findByName(String name, Sort sort) throws ResourceNotFoundException {
-        return repo.findByName(name, sort);
+    public Category findByName(String name) throws ResourceNotFoundException {
+        return repo.findByName(name);
     }
     @Override
     public Set<Category> findByItem(UUID id) throws ResourceNotFoundException{
