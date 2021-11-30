@@ -31,6 +31,10 @@ public class Category {
     @Builder.Default
     private Set<Item> items = new HashSet<>();
 
+    public boolean addItem(Item item){
+        return this.items.add(item);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
