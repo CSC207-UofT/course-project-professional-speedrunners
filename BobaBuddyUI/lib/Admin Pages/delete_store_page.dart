@@ -41,10 +41,10 @@ class DeleteStorePage extends StatelessWidget {
                         imageSrc:
                             'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
                         //todo need image src implemented in entity classes
-                        title: snapshot.data[index]["name"] ?? "",
-                        address: snapshot.data[index]["location"] ?? "",
-                        storeId: snapshot.data[index]['id'],
-                        itemId: snapshot.data[index]["id"]);
+                        title: snapshot.data[index].name ?? "",
+                        address: snapshot.data[index].location ?? "",
+                        storeId: snapshot.data[index].id,
+                        itemId: snapshot.data[index].id);
                   },
                 ));
               }
