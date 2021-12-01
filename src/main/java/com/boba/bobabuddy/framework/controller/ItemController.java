@@ -173,7 +173,6 @@ public class ItemController {
     @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ItemDto updateItem(@RequestBody ItemDto newItem, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.updateItem(id, newItem));
-
     }
 
     /**
@@ -184,12 +183,12 @@ public class ItemController {
      * @return the updated item
      */
     @PutMapping(path = "/user/items/{id}", params = "price")
-    public ItemDto  updateItemPrice(@RequestParam float price, @PathVariable UUID id) {
+    public ItemDto updateItemPrice(@RequestParam float price, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.updateItemPrice(id, price));
     }
 
     /**
-     * Handles PUT request to add a cateogry to an existing item resource
+     * Handles PUT request to add a category to an existing item resource
      *
      * @param categoryName name of category to be added
      * @param id the UUID of the Item to be updated
@@ -198,8 +197,22 @@ public class ItemController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     @PutMapping(path = "/user/items/{id}", params = "categoryName")
-    public ItemDto  addCategory(@RequestParam String categoryName, @PathVariable UUID id) {
+    public ItemDto addCategory(@RequestParam String categoryName, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.addCategory(id, categoryName));
+    }
+
+    /**
+     * Handles PUT request to remove a category from an existing item resource
+     *
+     * @param categoryName name of category to be removed
+     * @param id the UUID of the Item to be updated
+     * @return the updated item
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PutMapping(path = "/user/items/{id}", params = "categoryName")
+    public ItemDto removeCategory(@RequestParam String categoryName, @PathVariable UUID id) {
+        return converter.convertToDto(updateItem.removeCategory(id, categoryName));
     }
 
     /**

@@ -53,4 +53,5 @@ public class Category {
                 "id = " + id + ", " +
                 "name = " + name + ")";
     }
+
 }

@@ -102,7 +102,6 @@ public class UpdateItemServiceImpl implements UpdateItemService {
             return repo.save(itemToUpdate);
         }
         throw new ResourceNotFoundException("This item does not contain this category");
-
     }
 
 

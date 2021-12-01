@@ -55,4 +55,5 @@ public interface UpdateItemService {
      * @throws ResourceNotFoundException if item does not contain this category
      */
     Item removeCategory(UUID itemId, String categoryName) throws ResourceNotFoundException;
+
 }
