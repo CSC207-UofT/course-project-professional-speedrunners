@@ -7,10 +7,10 @@ import com.boba.bobabuddy.core.service.item.FindItemService;
 import com.boba.bobabuddy.core.service.item.RemoveItemService;
 import com.boba.bobabuddy.core.service.item.UpdateItemService;
 import com.boba.bobabuddy.framework.converter.DtoConverter;
+import com.boba.bobabuddy.framework.converter.SortQueryBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
