@@ -68,7 +68,7 @@ public interface FindItemService {
     /**
      * Find all items that have avgRating greater than or equal to param rating
      *
-     * @param avgRating avgRating to be compared with
+     * @param rating avgRating to be compared with
      * @param sort
      * @return Items that has avgRating greater than or equal to param rating, or an empty list if no such Item exist
      * @throws IllegalArgumentException when avgRating is out of bound

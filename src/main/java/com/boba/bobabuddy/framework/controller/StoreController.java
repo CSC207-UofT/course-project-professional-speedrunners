@@ -10,6 +10,9 @@ import com.boba.bobabuddy.framework.converter.DtoConverter;
 import com.boba.bobabuddy.framework.converter.SortQueryBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,7 +43,7 @@ public class StoreController {
      * @return Store that was constructed, which will be automatically converted to JSON and send it to the caller.
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/stores")
+    @PostMapping(path = "/admin/stores")
     public StoreDto createStore(@RequestBody StoreDto createStoreRequest) {
         return converter.convertToDto(createStore.create(createStoreRequest));
 
@@ -160,7 +163,8 @@ public class StoreController {
      * @return the store resource after the modification
      */
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/stores/{id}")
+    @PutMapping(path = "/user/stores/{id}")
+    @PreAuthorize("@FindStoreService.findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public StoreDto updateStore(@RequestBody StoreDto storePatch, @PathVariable UUID id) {
         return converter.convertToDto(updateStore.updateStore(findStore.findById(id), storePatch));
     }

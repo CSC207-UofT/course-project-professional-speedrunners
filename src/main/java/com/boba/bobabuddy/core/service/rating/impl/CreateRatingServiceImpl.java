@@ -19,7 +19,7 @@ import java.util.UUID;
 /**
  * This is the usecase responsible for creating new Rating entities and adding them to the system.
  */
-@Service
+@Service("CreateRatingService")
 @Transactional
 public class CreateRatingServiceImpl implements CreateRatingService {
 

@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * This class handle the usecase of finding items in the system.
  */
-@Service
+@Service("FindItemService")
 @Transactional
 public class FindItemServiceImpl implements FindItemService {
 

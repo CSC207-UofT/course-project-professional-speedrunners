@@ -12,6 +12,9 @@ import com.boba.bobabuddy.core.service.rating.UpdateRatingService;
 import com.boba.bobabuddy.framework.converter.DtoConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
@@ -44,7 +47,8 @@ public class RatingController {
      * @return the constructed RatingPoint
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/{ratableType}/{id}/ratings", params = "createdBy")
+    @PostMapping(path = "/user/{ratableObject}/{id}/ratings", params = "createdBy")
+    @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public RatingDto createRating(@RequestBody RatingDto createRatingRequest, @PathVariable String ratableType,
                                   @PathVariable UUID id, @RequestParam("createdBy") String email) throws MalformedURLException {
 
@@ -118,6 +122,7 @@ public class RatingController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/ratings/{id}")
+    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public void removeById(@PathVariable UUID id) {
         removeRating.removeById(id);
     }
@@ -131,6 +136,7 @@ public class RatingController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/ratings/{id}")
+    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public RatingDto updateRating(@PathVariable UUID id, @RequestBody RatingDto rating) {
         return converter.convertToDto(updateRating.updateRating(id, rating.getRating()));
     }

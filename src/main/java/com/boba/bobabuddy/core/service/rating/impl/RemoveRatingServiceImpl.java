@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * This is the usecase responsible for removing Rating entities from the system.
  */
-@Service
+@Service("RemoveRatingService")
 @Transactional
 public class RemoveRatingServiceImpl implements RemoveRatingService {
     /**

@@ -14,9 +14,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
-
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
     @Configuration
@@ -73,22 +74,20 @@ public class SecurityConfig {
 
         @Override
         public void configure(WebSecurity web) throws Exception {
-//            web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
-//                    "/configuration/security", "/swagger-ui.html", "/webjars/**", "/v2/swagger.json", "/h2-console/**",
-//                    "/admin/user/token", "/**");
-            web.ignoring().antMatchers("/**");
+            web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
+                    "/configuration/security", "/swagger-ui.html", "/webjars/**", "/v2/swagger.json", "/h2-console/**",
+                    "/admin/user/token");
         }
 
-//        @Override
-//        protected void configure(HttpSecurity http) throws Exception {
-//            http.addFilterBefore(tokenAuthorizationFilter(), BasicAuthenticationFilter.class).authorizeRequests()//
-//                    .antMatchers(HttpMethod.GET, "/users/**").hasAnyRole(Roles.ADMIN)
-//                    .antMatchers(HttpMethod.GET, "/**").authenticated()//
-//                    .antMatchers(HttpMethod.PUT, "/**").authenticated()//
-//                    .antMatchers(HttpMethod.POST, "/**").hasAnyRole(Roles.ADMIN)
-//                    .and().csrf().disable()//
-//                    .anonymous().authorities(Roles.ROLE_ANONYMOUS);//
-//        }
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.addFilterBefore(tokenAuthorizationFilter(), BasicAuthenticationFilter.class).authorizeRequests()//
+                    .antMatchers("/admin/**").hasAnyRole(Roles.ADMIN)
+                    .antMatchers("/user/**").authenticated()
+                    .antMatchers("/**").permitAll()
+                    .and().csrf().disable()//
+                    .anonymous().authorities(Roles.ROLE_ANONYMOUS);//
+        }
 
         private FirebaseFilter tokenAuthorizationFilter() {
             return new FirebaseFilter(firebaseService);

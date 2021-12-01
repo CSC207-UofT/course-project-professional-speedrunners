@@ -26,7 +26,7 @@ public class StoreDto {
     private String name;
     private String location;
     private List<ItemDto> menu;
-
+    private String owner;
     private Set<RatingDto> ratings;
     private float avgRating;
 }

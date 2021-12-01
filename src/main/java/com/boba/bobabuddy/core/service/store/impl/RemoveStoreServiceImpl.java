@@ -15,7 +15,7 @@ import java.util.UUID;
  * This class handle the usecase fo removing stores in the system.
  */
 
-@Service
+@Service("RemoveStoreService")
 @Transactional
 public class RemoveStoreServiceImpl implements RemoveStoreService {
 

@@ -14,7 +14,7 @@ import java.util.UUID;
 /**
  * This class handle the usecase of updating items in the system.
  */
-@Service
+@Service("UpdateItemService")
 @Transactional
 public class UpdateItemServiceImpl implements UpdateItemService {
     private final ItemJpaRepository repo;
@@ -41,11 +41,13 @@ public class UpdateItemServiceImpl implements UpdateItemService {
         return repo.save(itemToUpdate);
     }
 
+
     @Override
-    public Item updateItemPrice(Item itemToUpdate, double price) {
+    public Item updateItemPrice(UUID itemId, float price) throws IllegalArgumentException{
         if (price < 0) {
-            throw new IllegalArgumentException("Price must be greater than 0.");
+            throw new IllegalArgumentException("Price less than 0.");
         }
+        Item itemToUpdate = findItemService.findById(itemId);
         itemToUpdate.setPrice(price);
         return repo.save(itemToUpdate);
     }

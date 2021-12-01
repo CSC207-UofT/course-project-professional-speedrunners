@@ -21,6 +21,7 @@ import java.util.List;
 public class Store extends RatableObject {
 
     private String location;
+    private String owner;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "store_id")
     @Builder.Default
@@ -40,6 +41,7 @@ public class Store extends RatableObject {
                 "id = " + getId() + ", " +
                 "avgRating = " + getAvgRating() + ", " +
                 "name = " + getName() + ", " +
-                "location = " + getLocation();
+                "location = " + getLocation() + ", " +
+                "owner" + getOwner();
     }
 }

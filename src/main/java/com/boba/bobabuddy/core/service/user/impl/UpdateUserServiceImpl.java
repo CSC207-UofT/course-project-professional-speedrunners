@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * This class handle the usecase of updating user info to the database
  */
-@Service
+@Service("UpdateUserService")
 @Transactional
 public class UpdateUserServiceImpl implements UpdateUserService {
 

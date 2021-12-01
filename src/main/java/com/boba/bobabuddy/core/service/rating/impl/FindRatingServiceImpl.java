@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * This is the usecase responsible for finding existing Rating entities in the system.
  */
-@Service
+@Service("FindRatingService")
 @Transactional
 public class FindRatingServiceImpl implements FindRatingService {
 

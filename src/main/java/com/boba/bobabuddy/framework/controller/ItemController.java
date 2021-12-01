@@ -6,11 +6,15 @@ import com.boba.bobabuddy.core.service.item.CreateItemService;
 import com.boba.bobabuddy.core.service.item.FindItemService;
 import com.boba.bobabuddy.core.service.item.RemoveItemService;
 import com.boba.bobabuddy.core.service.item.UpdateItemService;
+import com.boba.bobabuddy.core.service.store.FindStoreService;
 import com.boba.bobabuddy.framework.converter.DtoConverter;
 import com.boba.bobabuddy.framework.converter.SortQueryBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +41,8 @@ public class ItemController {
      * @return Item that was created, in JSON + HAL
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/stores/{storeId}/items")
+    @PostMapping(path = "/user/stores/{storeId}/items")
+    @PreAuthorize("@FindStoreService.findById(#storeId).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ItemDto createItem(@RequestBody ItemDto createItemRequest, @PathVariable UUID storeId) {
         return converter.convertToDto(createItem.create(createItemRequest, storeId));
     }
@@ -151,7 +156,8 @@ public class ItemController {
      * @return item resource after the modification
      */
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/items/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/user/items/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ItemDto updateItem(@RequestBody ItemDto newItem, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.updateItem(id, newItem));
 
@@ -165,10 +171,9 @@ public class ItemController {
      * @return the updated item
      */
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/items/{id}", params = "price")
-    public ItemDto updateItemPrice(@RequestParam double price, @PathVariable UUID id) {
-        Item itemToUpdate = findItem.findById(id);
-        return converter.convertToDto(updateItem.updateItemPrice(itemToUpdate, price));
+    @PutMapping(path = "/user/items/{id}", params = "price")
+    public ItemDto  updateItemPrice(@RequestParam float price, @PathVariable UUID id) {
+        return converter.convertToDto(updateItem.updateItemPrice(id, price));
     }
 
     /**
@@ -178,9 +183,9 @@ public class ItemController {
      * @param id id of the resource to be deleted
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping(path = "/items/{id}")
+    @DeleteMapping(path = "/user/items/{id}")
+    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public void removeItem(@PathVariable UUID id) {
         removeItem.removeById(id);
     }
-
 }

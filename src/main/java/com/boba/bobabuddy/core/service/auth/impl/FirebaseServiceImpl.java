@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 
-@Service
+@Service("FirebaseService")
 public class FirebaseServiceImpl implements FirebaseService {
     @Override
     public FirebaseToken parseToken(String idToken) {
