@@ -10,6 +10,7 @@ import lombok.extern.jackson.Jacksonized;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Data Transfer Objects matching the corresponding entities in the domain layer
@@ -20,6 +21,7 @@ import java.util.Set;
 @AllArgsConstructor @NoArgsConstructor
 @Jacksonized @Builder
 public class UserDto {
+    private UUID id;
     private String email;
     private String name;
     private String password;

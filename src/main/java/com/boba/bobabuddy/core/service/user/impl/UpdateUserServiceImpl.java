@@ -44,7 +44,7 @@ public class UpdateUserServiceImpl implements UpdateUserService {
             return repo.save(userToUpdate);
 
         }
-        throw new DifferentResourceException("Not the same user", new Exception());
+        throw new DifferentResourceException("Not the same user");
     }
 
     /**
