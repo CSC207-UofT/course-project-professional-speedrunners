@@ -19,7 +19,7 @@ class Database {
     return cleanedData["_embedded"]["items"];
   }
 
-  Future getStoreNames() async {
+  Future<List> getStores() async {
     var data = await http.get(Uri.parse(url + '/stores'));
 
     var fixed = json.decode(data.body);
@@ -98,5 +98,13 @@ class Database {
     var copy = List.from(items);
     copy.sort((a, b) => a["price"].compareTo(b["price"]));
     return copy;
+  }
+
+///Deletes store from db
+  deleteStore({required String storeId}) async {
+
+    //todo: add success and failure returns
+    var resp = await http.delete(Uri.parse(url + '/stores/$storeId'));
+
   }
 }

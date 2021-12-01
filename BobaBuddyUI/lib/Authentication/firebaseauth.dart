@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 enum Response {
@@ -15,7 +16,9 @@ class Auth {
   Auth();
 
   Future<Enum> createAccount(
-      {required String email, required String password}) async {
+      {required String email,
+      required String password,
+      required String name}) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -32,14 +35,29 @@ class Auth {
       return (Response.error);
     }
 
+    ///adds user info to db
+    await _addUserInfo(email, name); //todo: implement
     return (Response.success);
+  }
+
+  Future<void> _addUserInfo(String email, String name) {
+    CollectionReference userInfo =
+        FirebaseFirestore.instance.collection('User Info');
+    return userInfo
+        .doc(email)
+        .set({
+          'name': name,
+        })
+
+        //todo: proper error handling
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 
   Future<Enum> login({required String email, required String password}) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      //print(userCredential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -62,5 +80,34 @@ class Auth {
     final idToken = await user!.getIdToken();
 
     return idToken;
+  }
+
+  getUserID() {
+    final User? user = _auth.currentUser;
+    final uid = user!.uid;
+    return uid;
+  }
+
+  Future<bool> isAdmin() async {
+    List data = [];
+    await FirebaseFirestore.instance
+        .collection('User Info')
+        .doc("Admin Ids")
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      data = documentSnapshot.get("ids");
+      return data.contains(getUserID());
+    });
+
+    return data.contains(getUserID());
+  }
+
+  getUserEmail() {
+    return _auth.currentUser!.email;
+  }
+
+  signOut() async {
+    //todo: implement
+    await _auth.signOut();
   }
 }

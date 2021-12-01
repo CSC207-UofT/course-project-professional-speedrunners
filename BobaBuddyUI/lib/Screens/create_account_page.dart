@@ -111,7 +111,8 @@ class CreateAccountPage extends StatelessWidget {
 
                               Enum response = await _auth.createAccount(
                                   email: emailController.text,
-                                  password: passwordController.text);
+                                  password: passwordController.text,
+                                  name: nameController.text);
 
                               switch (response) {
                                 case Response.weakPassword:
