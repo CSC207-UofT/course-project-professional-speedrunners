@@ -126,8 +126,9 @@ Widget singleItem(
                   FadeTransition(opacity: anim, child: child),
               transitionDuration: const Duration(milliseconds: 100),
             );
-            Navigator.pushReplacement(context, pageRoute);
             Navigator.of(context).pop();
+            Navigator.pushReplacement(context, pageRoute);
+
 
           },
           child: const Text(
