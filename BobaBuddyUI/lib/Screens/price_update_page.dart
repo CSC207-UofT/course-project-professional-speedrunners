@@ -1,10 +1,12 @@
-import 'package:boba_buddy/Database/database.dart';
-import 'package:boba_buddy/Model/item.dart';
+
 import 'package:boba_buddy/Screens/store_page.dart';
+import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/item_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/src/provider.dart';
 
 class PriceUpdaterPage extends StatelessWidget {
   final String imageSrc;
@@ -18,6 +20,7 @@ class PriceUpdaterPage extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     final newPriceController = TextEditingController();
+    ItemRepository itemRepository = context.read<ItemRepository>();
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -75,7 +78,7 @@ class PriceUpdaterPage extends StatelessWidget {
               left: 43,
               //TODO: is this manual refresh done purposefully to keep price up to date?
               child: FutureBuilder(
-                future: Database().getItemById(item.id),
+                future: itemRepository.getItemById(item.id),
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (!snapshot.hasData) {
@@ -135,8 +138,7 @@ class PriceUpdaterPage extends StatelessWidget {
               left: 50,
               child: ElevatedButton(
                 onPressed: () async {
-                  Database db = Database();
-                  Item refreshedItem = await db.updateItemPrice(item.id, double.parse(newPriceController.text));
+                  Item refreshedItem = await itemRepository.updateItemPrice(item.id, double.parse(newPriceController.text));
 
                   Fluttertoast.showToast(
                     msg: "Price Updated Successfully",

@@ -1,9 +1,10 @@
-import 'package:boba_buddy/Database/database.dart';
-import 'package:boba_buddy/Model/item.dart';
-import 'package:boba_buddy/Model/store.dart';
+
 import 'package:boba_buddy/Screens/store_page.dart';
+import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/item_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 class SearchPage extends StatefulWidget {
   final String searchTerm;
@@ -20,7 +21,7 @@ class _SearchPage extends State<SearchPage> {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
 
-    Database db = Database();
+    ItemRepository db = context.read<ItemRepository>();
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +41,7 @@ class _SearchPage extends State<SearchPage> {
         child: Container(
             margin: const EdgeInsets.only(left: 10.0),
             child: FutureBuilder(
-                future: db.itemSearch(widget.searchTerm),
+                future: db.findByNameContain(widget.searchTerm),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());

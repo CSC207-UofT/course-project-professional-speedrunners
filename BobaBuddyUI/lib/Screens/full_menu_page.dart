@@ -1,19 +1,20 @@
-import 'package:boba_buddy/Database/database.dart';
-import 'package:boba_buddy/Model/item.dart';
-import 'package:boba_buddy/Model/store.dart';
+
 import 'package:boba_buddy/Screens/store_page.dart';
+import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/item_repository.dart';
+import 'package:boba_buddy/core/repository/store_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FullMenuPage extends StatelessWidget {
   final Store store;
+  final StoreRepository db = StoreRepository();
 
-  const FullMenuPage({Key? key, required this.store}) : super(key: key);
+
+  FullMenuPage({Key? key, required this.store}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var db = Database();
-
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -63,6 +64,7 @@ Widget singleItem(
     {required String imageSrc,
     required Item item,
     required BuildContext context}) {
+  ItemRepository db = ItemRepository();
   return Container(
     margin: const EdgeInsets.only(bottom: 30, right: 30, left: 30),
     height: 125,
@@ -109,13 +111,12 @@ Widget singleItem(
         top: 70,
         child: ElevatedButton(
           onPressed: () async {
-            Item refreshedItem = await Database().getItemById(item.id);
-            Navigator.of(context).pop();
+            Item refreshedItem = await db.getItemById(item.id);
 
             StorePage storePage = StorePage(
               store: refreshedItem.store!,
               //TODO: need image in entity class
-              imageSrc: imageSrc,
+              imageSrc:  'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
               item: item,
             );
 
@@ -126,6 +127,8 @@ Widget singleItem(
               transitionDuration: const Duration(milliseconds: 100),
             );
             Navigator.pushReplacement(context, pageRoute);
+            Navigator.of(context).pop();
+
           },
           child: const Text(
             "View",

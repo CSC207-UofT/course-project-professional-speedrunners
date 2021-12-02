@@ -1,10 +1,11 @@
-import 'package:boba_buddy/Database/database.dart';
-import 'package:boba_buddy/Model/item.dart';
-import 'package:boba_buddy/Model/store.dart';
+
 import 'package:boba_buddy/Screens/store_page.dart';
+import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/src/provider.dart';
 
 class PopularShops extends StatefulWidget {
   const PopularShops({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _PopularShops extends State<PopularShops> {
   Widget build(BuildContext context) {
     const double SPACEBETWEEN = 10.00;
 
-    Database db = Database();
+    StoreRepository db = context.read<StoreRepository>();
 
     return ScreenUtilInit(
       designSize: const Size(393, 830),

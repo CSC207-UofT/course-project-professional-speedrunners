@@ -1,14 +1,14 @@
-import 'package:boba_buddy/Authentication/firebaseauth.dart';
-import 'package:boba_buddy/Database/database.dart';
 import 'package:boba_buddy/Screens/login_page.dart';
+import 'package:boba_buddy/core/repository/repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/src/provider.dart';
 
 class DeleteStorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    StoreRepository storeRepository = context.read<StoreRepository>();
     return ScreenUtilInit(
       designSize: const Size(393, 830),
       builder: () => Scaffold(
@@ -26,7 +26,7 @@ class DeleteStorePage extends StatelessWidget {
         ),
         body: Center(
           child: FutureBuilder(
-            future: Database().getStores(),
+            future: storeRepository.getStores(),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if (!snapshot.hasData) {
                 return const CircularProgressIndicator();
@@ -196,11 +196,11 @@ void _showDialog(BuildContext context, String storeId) {
           FlatButton(
             child: Text("Yes"),
             onPressed: () async {
-              await Database().deleteStore(storeId: storeId);
+              await context.read<StoreRepository>().deleteStore(storeId);
               Navigator.of(context).pop();
               Navigator.of(context).pop();
 
-              Auth().signOut();
+              context.read<AuthenticationRepository>().logOut();
 
               var pageRoute = PageRouteBuilder(
                 pageBuilder: (c, a1, a2) => LoginPage(),

@@ -1,9 +1,11 @@
 import 'package:boba_buddy/Admin%20Pages/create_store_page.dart';
 import 'package:boba_buddy/Admin%20Pages/delete_store_page.dart';
-import 'package:boba_buddy/User%20Data/user_data.dart';
+import 'package:boba_buddy/core/model/user_detail.dart';
+import 'package:boba_buddy/core/repository/authentication_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/src/provider.dart';
 
 class AdminPage extends StatelessWidget {
   List<String> optionNames = ["Create Store", "Delete Store", "Modify Store"];
@@ -12,23 +14,15 @@ class AdminPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement AdminPage
+    AuthenticationRepository authenticationRepository = context.read<AuthenticationRepository>();
     return ScreenUtilInit(
       designSize: const Size(393, 830),
       builder: () => Scaffold(
-          body: FutureBuilder(
-        future: User().getUserName(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (!snapshot.hasData) {
-            return const CircularProgressIndicator();
-          } else {
-            return _buildPage(optionNames, snapshot.data, pageOptions);
+          body: _buildPage(optionNames, authenticationRepository.currentUser.name??
+        authenticationRepository.currentUser.email, pageOptions)));
           }
-        },
-      )),
-    );
-  }
-}
+        }
+
 
 _buildPage(List<String> optionNames, String name, List pageOptions) {
   return SafeArea(

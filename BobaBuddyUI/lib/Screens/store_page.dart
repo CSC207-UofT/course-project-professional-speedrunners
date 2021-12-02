@@ -1,12 +1,13 @@
 import 'dart:ui';
 
-import 'package:boba_buddy/Database/database.dart';
-import 'package:boba_buddy/Model/item.dart';
-import 'package:boba_buddy/Model/store.dart';
+
 import 'package:boba_buddy/Screens/price_update_page.dart';
+import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:provider/src/provider.dart';
 
 import 'full_menu_page.dart';
 
@@ -32,7 +33,7 @@ class _StorePage extends State<StorePage> {
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
-    Database db = Database();
+    ItemRepository db = context.read<ItemRepository>();
 
     print(widget.item.id);
     print("item id ^^^^^");
@@ -183,9 +184,9 @@ class _StorePage extends State<StorePage> {
               bottom: 200,
               child: SizedBox(
                 child: FutureBuilder(
-                  future: widget.item.id!.isEmpty
+                  future: widget.item.id.isEmpty
                       ? db.getOneItemFromStore(widget.store.id)
-                      : db.getItemById(widget.item.id!),
+                      : db.getItemById(widget.item.id),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (!snapshot.hasData) {
                       return const Center(child: CircularProgressIndicator());
@@ -200,7 +201,7 @@ class _StorePage extends State<StorePage> {
                     //       ));
                     // }
                     else {
-                      print(widget.item.id!);
+                      print(widget.item.id);
                       return Stack(children: [
                         SizedBox(
                           width: deviceWidth,
@@ -290,11 +291,10 @@ class _StorePage extends State<StorePage> {
   }
 }
 
-Widget itemWidget({required String imageSrc, required String itemId}) {
-  Database db = Database();
+Widget itemWidget({required String imageSrc, required String itemId, required BuildContext context}) {
 
   return FutureBuilder(
-    future: db.getItemById(itemId),
+    future: context.read<ItemRepository>().getItemById(itemId),
     builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
       if (!snapshot.hasData) {
         return const Center(child: CircularProgressIndicator());
