@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert' as convert;
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
 class Database {
@@ -106,5 +108,63 @@ class Database {
     //todo: add success and failure returns
     var resp = await http.delete(Uri.parse(url + '/stores/$storeId'));
 
+  }
+
+  Future getUser(String email) async {
+    var data = await http.get(Uri.parse(url + '/users/$email'));
+    var cleanData = convert.jsonDecode(data.body);
+    return cleanData;
+  }
+
+  addRating(int rating, String userEmail, String itemID) async {
+    var uuid = const Uuid().v4();
+    var body = json.encode({'rating': '$rating', 'id': uuid});
+    var response = await http.post(Uri.parse(url + '/items/$itemID/ratings?createdBy=$userEmail'), headers: {HttpHeaders.CONTENT_TYPE: "application/json"},
+        body: body);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+  }
+
+  deleteRating({required String ratingID}) async {
+    var resp = await http.delete(Uri.parse(url + '/ratings/$ratingID'));
+    print("${resp.statusCode}");
+  }
+
+  changeUserRating(String ratingID, int rating) async{
+    var body = json.encode({'rating': '$rating', 'id': ratingID});
+
+    var response = await http.put(Uri.parse(url + '/ratings/$ratingID'),
+        headers: {"Content-Type": "application/json"}, body: body);
+
+    print("${response.statusCode}");
+  }
+
+  getUserRating (String email, String itemID) async {
+    Map user = await getUser(email);
+    //List<String>? ratings = user['ratings'].length != 0 ? List.from(user['ratings']) : null;
+    //if (ratings == null){
+    //  return null;
+    //}
+    for (int i = 0; i < user['ratings'].length; i++){
+      Map rating = await getRating(user['ratings'][i]['id']);
+      if (rating['ratableObject']['id'] == itemID){
+        return Future.value(user['ratings'][i]);
+      }
+    }
+    return Future.value(null);
+  }
+
+  Future getRating (String ratingID) async {
+    var data = await http.get(Uri.parse(url + '/ratings/$ratingID'));
+    var cleanData = convert.jsonDecode(data.body);
+    return cleanData;
+  }
+
+  addUser (String email, String password, String name) async {
+    var body = json.encode({'email': email,  'name': name,
+      'password': password});
+    var response = await http.post(Uri.parse(url + '/users'), headers: {HttpHeaders.CONTENT_TYPE: "application/json"}, body: body);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
   }
 }
