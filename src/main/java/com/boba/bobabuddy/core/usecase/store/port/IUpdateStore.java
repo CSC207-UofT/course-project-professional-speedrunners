@@ -5,11 +5,14 @@ import com.boba.bobabuddy.core.entity.Store;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
+import com.boba.bobabuddy.infrastructure.dto.StoreDto;
 import org.springframework.stereotype.Component;
-
+/**
+ * Usecase Input Boundary
+ */
 @Component
 public interface IUpdateStore {
-    Store updateStore(Store storeToUpdate, Store storePatch) throws DifferentResourceException;
+    Store updateStore(Store storeToUpdate, StoreDto storePatch) throws DifferentResourceException;
 
     Store addItem(Store store, Item item) throws DuplicateResourceException;
 

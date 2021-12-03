@@ -6,7 +6,9 @@ import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
-
+/**
+ * Usecase Input Boundary
+ */
 @Component
 public interface ICreateItem {
 

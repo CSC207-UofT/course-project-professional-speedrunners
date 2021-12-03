@@ -5,7 +5,9 @@ import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.UUID;
-
+/**
+ * Usecase Input Boundary
+ */
 public interface IFindUser {
 
     User findByEmail(String email) throws ResourceNotFoundException;

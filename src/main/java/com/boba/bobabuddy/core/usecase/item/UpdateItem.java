@@ -3,7 +3,8 @@ package com.boba.bobabuddy.core.usecase.item;
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.item.port.IUpdateItem;
-import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.ItemJpaRepository;
+import com.boba.bobabuddy.infrastructure.dto.SimpleItemDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,6 @@ public class UpdateItem implements IUpdateItem {
 
     /***
      * Update an Item by overwriting it.
-     * The api request is responsible for sending in an Item representation that was modified.
      * If there exists an Item entity within the database that has the same uuid, data will be overwritten and thus
      * updated.
      * However, if no Item with the same uuid exist an exception will be thrown.
@@ -38,9 +38,11 @@ public class UpdateItem implements IUpdateItem {
      * @throws DifferentResourceException thrown when itemPatch have a different id than the itemToUpdate
      */
     @Override
-    public Item updateItem(Item itemToUpdate, Item itemPatch) throws DifferentResourceException {
-        if (Objects.equals(itemToUpdate, itemPatch)) {
-            repo.save(itemPatch);
+    public Item updateItem(Item itemToUpdate, SimpleItemDto itemPatch) throws DifferentResourceException {
+        if (Objects.equals(itemToUpdate.getId(), itemPatch.getId())) {
+            itemToUpdate.setName(itemPatch.getName());
+            itemToUpdate.setPrice(itemPatch.getPrice());
+            return repo.save(itemToUpdate);
         }
         throw new DifferentResourceException("Not the same item", new Exception());
     }

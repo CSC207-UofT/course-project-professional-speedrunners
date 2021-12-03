@@ -35,6 +35,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
  *
  * @author Greg Turnquist
  */
+// this code belongs to an experimental build of Spring Hateoas.
 public class SimpleIdentifiableRepresentationModelAssembler<T> implements SimpleRepresentationModelAssembler<T> {
 
     /**
@@ -119,6 +120,7 @@ public class SimpleIdentifiableRepresentationModelAssembler<T> implements Simple
     private Object getId(EntityModel<T> resource) {
 
         Field id = ReflectionUtils.findField(this.resourceType, "id");
+        assert id != null;
         ReflectionUtils.makeAccessible(id);
 
         return ReflectionUtils.getField(id, resource.getContent());

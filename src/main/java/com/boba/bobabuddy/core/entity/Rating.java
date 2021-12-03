@@ -1,6 +1,8 @@
 package com.boba.bobabuddy.core.entity;
 
+import com.boba.bobabuddy.infrastructure.JpaEntityResolver;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.Hibernate;
@@ -16,13 +18,19 @@ import java.util.UUID;
  * Class that represents a singleton rating
  */
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id",
+        resolver = JpaEntityResolver.class,
+        scope = Rating.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Rating {
-
     private int rating;
+
+    @JsonIdentityReference
     private @ManyToOne
     User user;
+
+    @JsonIdentityReference
     private @ManyToOne
     RatableObject ratableObject;
     private @Id
@@ -59,7 +67,6 @@ public class Rating {
         return rating;
     }
 
-    //TODO: might need a exception for input that are not 0 or 1, should exist in usecase layer
     public void setRating(int rating) {
         this.rating = rating;
     }

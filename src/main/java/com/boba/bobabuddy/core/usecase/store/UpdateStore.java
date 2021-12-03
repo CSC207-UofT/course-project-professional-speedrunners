@@ -6,7 +6,8 @@ import com.boba.bobabuddy.core.usecase.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.store.port.IUpdateStore;
-import com.boba.bobabuddy.infrastructure.database.StoreJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.StoreJpaRepository;
+import com.boba.bobabuddy.infrastructure.dto.StoreDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,9 +43,11 @@ public class UpdateStore implements IUpdateStore {
      * @throws DifferentResourceException thrown when storePatch have a different id than the storeToUpdate
      */
     @Override
-    public Store updateStore(Store storeToUpdate, Store storePatch) throws DifferentResourceException {
-        if (Objects.equals(storeToUpdate, storePatch)) {
-            repo.save(storePatch);
+    public Store updateStore(Store storeToUpdate, StoreDto storePatch) throws DifferentResourceException {
+        if (Objects.equals(storeToUpdate.getId(), storePatch.getId())) {
+            storeToUpdate.setLocation(storePatch.getLocation());
+            storeToUpdate.setName(storePatch.getName());
+            return repo.save(storeToUpdate);
         }
         throw new DifferentResourceException("Not the same store");
     }
@@ -59,6 +62,7 @@ public class UpdateStore implements IUpdateStore {
     @Override
     public Store addItem(Store store, Item item) throws DuplicateResourceException {
         if (store.addItem(item)) return repo.save(store);
+        // At the moment this will never be thrown since addItem will never fail.
         throw new DuplicateResourceException("Item already in store");
     }
 

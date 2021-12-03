@@ -3,7 +3,7 @@ package com.boba.bobabuddy.core.usecase.ratableobject;
 import com.boba.bobabuddy.core.entity.RatableObject;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.ratableobject.port.IFindRatable;
-import com.boba.bobabuddy.infrastructure.database.RatableObjectJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.RatableObjectJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

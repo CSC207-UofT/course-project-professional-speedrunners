@@ -10,7 +10,7 @@ import com.boba.bobabuddy.core.usecase.ratableobject.port.IUpdateRatable;
 import com.boba.bobabuddy.core.usecase.rating.port.ICreateRating;
 import com.boba.bobabuddy.core.usecase.user.port.IFindUser;
 import com.boba.bobabuddy.core.usecase.user.port.IUpdateUser;
-import com.boba.bobabuddy.infrastructure.database.RatingJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.RatingJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,10 +55,14 @@ public class CreateRating implements ICreateRating {
      * @return the persisted rating entity
      * @throws ResourceNotFoundException Thrown when either the ratable object or the user was not found
      * @throws DuplicateResourceException Thrown when this rating already exist in either the user or the ratable object
+     * @throws IllegalArgumentException Thrown when the rating is not 0 or 1
      */
     @Override
     public Rating create(Rating rating, UUID ratableId, String email)
-            throws ResourceNotFoundException, DuplicateResourceException {
+            throws ResourceNotFoundException, DuplicateResourceException, IllegalArgumentException {
+        if (rating.getRating() != 0 && rating.getRating() != 1) {
+            throw new IllegalArgumentException("Rating must be 0 or 1");
+        }
 
         RatableObject ratableToUpdate = findRatable.findById(ratableId);
         User userToUpdate = findUser.findByEmail(email);

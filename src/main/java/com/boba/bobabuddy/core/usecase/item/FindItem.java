@@ -4,7 +4,7 @@ package com.boba.bobabuddy.core.usecase.item;
 import com.boba.bobabuddy.core.entity.Item;
 import com.boba.bobabuddy.core.usecase.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.usecase.item.port.IFindItem;
-import com.boba.bobabuddy.infrastructure.database.ItemJpaRepository;
+import com.boba.bobabuddy.infrastructure.dao.ItemJpaRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

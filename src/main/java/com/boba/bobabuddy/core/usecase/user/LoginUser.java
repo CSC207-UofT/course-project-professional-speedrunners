@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+// not used
 public class LoginUser implements ILoginUser {
 
     public boolean logIn(User user, String password) {
