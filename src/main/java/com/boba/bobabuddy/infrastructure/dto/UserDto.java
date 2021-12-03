@@ -21,7 +21,7 @@ public class UserDto {
     private String email;
     private String name;
     private String password;
-    @JsonIdentityReference(alwaysAsId = true)
+    @JsonIdentityReference
     private Set<SimpleRatingDto> ratings;
 
 
