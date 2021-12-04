@@ -13,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Data Transfer Objects matching the corresponding entities in the domain layer
@@ -26,6 +27,7 @@ public class UserDto {
     @ValidEmail
     @NotNull
     @NotEmpty
+    private UUID id;
     private String email;
     @NotNull
     @NotEmpty

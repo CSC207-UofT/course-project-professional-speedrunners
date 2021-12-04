@@ -8,6 +8,7 @@ import com.boba.bobabuddy.core.service.item.RemoveItemService;
 import com.boba.bobabuddy.core.service.item.UpdateItemService;
 import com.boba.bobabuddy.core.service.store.FindStoreService;
 import com.boba.bobabuddy.framework.converter.DtoConverter;
+import com.boba.bobabuddy.framework.converter.SortQueryBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,7 +54,7 @@ public class ItemController {
      * @return list of Item resources exist in the database
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/items", params = "sortBy")
+    @GetMapping(path = "/items")
     public List<ItemDto> findAll(@RequestParam(defaultValue = "price") String sortBy) {
         return converter.convertToDtoList(findItem.findAll(SortQueryBuilder.buildSort(sortBy)));
     }
@@ -77,7 +78,7 @@ public class ItemController {
      * @return collection of item resources that match the query
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/items", params = {"name", "sortBy"})
+    @GetMapping(path = "/items", params = "name")
     public List<ItemDto> findByName(@RequestParam("name") String name, @RequestParam(defaultValue = "price") String sortBy) {
         return converter.convertToDtoList(findItem.findByName(name, SortQueryBuilder.buildSort(sortBy)));
     }
@@ -89,7 +90,7 @@ public class ItemController {
      * @return collection of item resources that match the query
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/items", params = {"name-contain", "sortBy"})
+    @GetMapping(path = "/items", params = "name-contain")
     public List<ItemDto> findByNameContaining(@RequestParam("name-contain") String name,
                                               @RequestParam(defaultValue = "price") String sortBy) {
         return converter.convertToDtoList(findItem.findByNameContaining(name, SortQueryBuilder.buildSort(sortBy)));
@@ -102,7 +103,7 @@ public class ItemController {
      * @return list of item resources that belong to the specified store
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/stores/{id}/items", params = "sortBy")
+    @GetMapping(path = "/stores/{id}/items")
     public List<ItemDto> findByStore(@PathVariable UUID id,
                                      @RequestParam(defaultValue = "price") String sortBy) {
         return converter.convertToDtoList(findItem.findByStore(id, SortQueryBuilder.buildSort(sortBy)));
@@ -128,7 +129,7 @@ public class ItemController {
      * @return list of item resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/items", params = {"price-leq","sortBy"})
+    @GetMapping(path = "/items", params = {"price-leq"})
     public List<ItemDto> findByPriceLessThanEqual(@RequestParam("price-leq") float price,
                                                   @RequestParam(defaultValue = "price") String sortBy) {
         return converter.convertToDtoList(
@@ -142,7 +143,7 @@ public class ItemController {
      * @return list of item resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/items", params = {"rating-geq", "sortBy"})
+    @GetMapping(path = "/items", params = {"rating-geq"})
     public List<ItemDto> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
                                                          @RequestParam(defaultValue = "price") String sortBy) {
         return converter.convertToDtoList(
@@ -182,6 +183,7 @@ public class ItemController {
      * @param id the UUID of the Item to be updated
      * @return the updated item
      */
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/user/items/{id}", params = "price")
     public ItemDto updateItemPrice(@RequestParam float price, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.updateItemPrice(id, price));

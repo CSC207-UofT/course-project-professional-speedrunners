@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.framework.controller;
+package com.boba.bobabuddy.framework.converter;
 
 import com.boba.bobabuddy.framework.config.GeneralConfig.SortParam;
 import org.springframework.data.domain.Sort;

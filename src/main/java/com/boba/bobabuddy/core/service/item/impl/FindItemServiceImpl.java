@@ -67,13 +67,13 @@ public class FindItemServiceImpl implements FindItemService {
 
     @Override
     public List<Item> findByName(String name, Sort sort) {
-        return repo.findByName(name, sort);
+        return repo.findByNameIgnoreCase(name, sort);
     }
 
 
     @Override
     public List<Item> findByNameContaining(String name, Sort sort) {
-        return repo.findByNameContaining(name, sort);
+        return repo.findByNameContainingIgnoreCase(name, sort);
     }
 
 

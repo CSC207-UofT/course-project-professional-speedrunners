@@ -119,7 +119,7 @@ class FindStoreTest {
 
     @Test
     void findByName() {
-        when(repo.findByName("Boba shop", )).thenReturn(storeLst);
+        when(repo.findByNameIgnoreCase("Boba shop", )).thenReturn(storeLst);
 
         List<Store> returnedStores = findStore.findByName("Boba shop", );
         assertIterableEquals(storeLst, returnedStores);
@@ -128,7 +128,7 @@ class FindStoreTest {
 
     @Test
     void findByNameContaining() {
-        when(repo.findByNameContaining("Boba")).thenReturn(storeLst);
+        when(repo.findByNameContainingIgnoreCase("Boba")).thenReturn(storeLst);
 
         List<Store> returnedStores = findStore.findByNameContaining("Boba", );
         assertIterableEquals(storeLst, returnedStores);

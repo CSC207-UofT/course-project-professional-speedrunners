@@ -7,6 +7,7 @@ import com.boba.bobabuddy.core.service.store.FindStoreService;
 import com.boba.bobabuddy.core.service.store.RemoveStoreService;
 import com.boba.bobabuddy.core.service.store.UpdateStoreService;
 import com.boba.bobabuddy.framework.converter.DtoConverter;
+import com.boba.bobabuddy.framework.converter.SortQueryBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
