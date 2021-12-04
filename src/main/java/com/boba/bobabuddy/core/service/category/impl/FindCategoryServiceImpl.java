@@ -39,11 +39,7 @@ public class FindCategoryServiceImpl implements FindCategoryService {
     @Override
     public List<Category> findByItem(UUID id) throws ResourceNotFoundException{
         Set<String> categoryNames = findItem.findById(id).getCategories();
-        List<Category> categories = new ArrayList<>();
-        for (String category : categoryNames){
-            categories.add(findCategory.findByName(category));
-        }
-        return categories;
+        return repo.findByNameIsIn(categoryNames);
     }
 
     @Override
