@@ -72,17 +72,9 @@ public class UpdateItemServiceImpl implements UpdateItemService {
     @Override
     public Item addCategory(UUID itemId, String categoryName) throws DuplicateResourceException{
         Item itemToUpdate = findItemService.findById(itemId);
-        Category categoryToAdd;
+        Category categoryToAdd = findCategoryService.findByName(categoryName);
 
-        try{
-            categoryToAdd = findCategoryService.findByName(categoryName);
-        }
-        catch (ResourceNotFoundException e){
-            categoryToAdd = createCategoryService.create(new CategoryDto());
-            categoryToAdd.setName(categoryName);
-        }
-
-        if (itemToUpdate.addCategory(categoryToAdd)){
+        if (itemToUpdate.addCategory(categoryName)){
             categoryToAdd.addItem(itemToUpdate);
             return repo.save(itemToUpdate);
         }
@@ -92,13 +84,8 @@ public class UpdateItemServiceImpl implements UpdateItemService {
     @Override
     public Item removeCategory(UUID itemId, String categoryName) throws ResourceNotFoundException{
         Item itemToUpdate = findItemService.findById(itemId);
-        Category categoryToRemove = findCategoryService.findByName(categoryName);
 
-        if (itemToUpdate.removeCategory(categoryToRemove)){
-            categoryToRemove.removeItem(itemToUpdate);
-            if (categoryToRemove.getItems().isEmpty()){
-                removeCategoryService.removeById(categoryToRemove.getId());
-            }
+        if (itemToUpdate.removeCategory(categoryName)){
             return repo.save(itemToUpdate);
         }
         throw new ResourceNotFoundException("This item does not contain this category");

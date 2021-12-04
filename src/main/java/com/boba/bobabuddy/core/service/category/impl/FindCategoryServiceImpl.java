@@ -3,12 +3,14 @@ package com.boba.bobabuddy.core.service.category.impl;
 import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.category.FindCategoryService;
+import com.boba.bobabuddy.core.service.item.FindItemService;
 import com.boba.bobabuddy.core.service.item.impl.FindItemServiceImpl;
 import com.boba.bobabuddy.core.data.dao.CategoryJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -21,11 +23,13 @@ import java.util.UUID;
 @Transactional
 public class FindCategoryServiceImpl implements FindCategoryService {
     final private CategoryJpaRepository repo;
-    final private FindItemServiceImpl findItem;
+    final private FindItemService findItem;
+    final private FindCategoryService findCategory;
 
-    public FindCategoryServiceImpl(CategoryJpaRepository repo, FindItemServiceImpl findItem){
+    public FindCategoryServiceImpl(CategoryJpaRepository repo, FindItemServiceImpl findItem, FindCategoryService findCategory){
         this.repo = repo;
         this.findItem = findItem;
+        this.findCategory = findCategory;
     }
 
     @Override
@@ -33,8 +37,13 @@ public class FindCategoryServiceImpl implements FindCategoryService {
         return repo.findByNameIgnoringCase(name);
     }
     @Override
-    public Set<Category> findByItem(UUID id) throws ResourceNotFoundException{
-        return findItem.findById(id).getCategories();
+    public List<Category> findByItem(UUID id) throws ResourceNotFoundException{
+        Set<String> categoryNames = findItem.findById(id).getCategories();
+        List<Category> categories = new ArrayList<>();
+        for (String category : categoryNames){
+            categories.add(findCategory.findByName(category));
+        }
+        return categories;
     }
 
     @Override

@@ -27,18 +27,14 @@ public class Item extends RatableObject {
     @ManyToOne
     private Store store;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "items_categories",
-            joinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id",
-                    referencedColumnName = "id"))
-    private Set<Category> categories;
+    @ElementCollection
+    private Set<String> categories;
 
-    public boolean addCategory(Category category){
+    public boolean addCategory(String category){
         return this.categories.add(category);
     }
 
-    public boolean removeCategory(Category category){
+    public boolean removeCategory(String category){
         return this.categories.remove(category);
     }
 
