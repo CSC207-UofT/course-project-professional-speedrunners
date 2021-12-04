@@ -24,8 +24,8 @@ public class Category {
     private UUID id;
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "category_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_name")
     @Builder.Default
     private Set<Item> items = new HashSet<>();
 
