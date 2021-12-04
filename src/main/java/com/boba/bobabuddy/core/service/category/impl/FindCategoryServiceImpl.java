@@ -30,7 +30,7 @@ public class FindCategoryServiceImpl implements FindCategoryService {
 
     @Override
     public Category findByName(String name) throws ResourceNotFoundException {
-        return repo.findByName(name);
+        return repo.findByNameIgnoringCase(name);
     }
     @Override
     public Set<Category> findByItem(UUID id) throws ResourceNotFoundException{

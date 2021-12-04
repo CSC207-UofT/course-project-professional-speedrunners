@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface CategoryJpaRepository extends GenericResourceJpaRepository<Category, UUID>{
-    Category findByName(String name);
+    Category findByNameIgnoringCase(String name);
 
 }
