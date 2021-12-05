@@ -180,7 +180,7 @@ public class StoreController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/user/stores/{id}", params = "imageUrl")
-    public StoreDto updateItemImage(@RequestParam String imageUrl, @PathVariable UUID id) throws IOException {
+    public StoreDto updateStoreImage(@RequestParam String imageUrl, @PathVariable UUID id) {
         return converter.convertToDto(updateStore.updateStoreImage(id, imageUrl));
     }
 
