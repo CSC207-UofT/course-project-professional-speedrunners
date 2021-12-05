@@ -14,4 +14,8 @@ class StoreRepository {
   deleteStore(String storeId) {
     _storeApiClient.deleteStore(storeId: storeId);
   }
+
+  createStore(String storeName, String address, List items){
+    _storeApiClient.createStore(storeName: storeName, storeAddress: address, storeItems: items);
+  }
 }

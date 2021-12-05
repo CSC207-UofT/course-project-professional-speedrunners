@@ -25,7 +25,8 @@ class ItemApiClient {
   /// Queries the databse for [searchTerm] and returns a list of items sorted by price high to low
   Future<List<Item>> itemSearch(String searchTerm) async {
     final response = await http
-        .get(Uri.parse(url + '/items/?name-contain=$searchTerm'));
+        .get(Uri.parse(url + '/items/?name-contain=$searchTerm&sortBy=price'));
+
 
     if(response.statusCode == 200) {
       Iterable itemsMap = convert.jsonDecode(response.body);

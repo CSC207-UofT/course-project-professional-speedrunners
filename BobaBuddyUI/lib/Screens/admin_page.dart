@@ -1,5 +1,6 @@
 import 'package:boba_buddy/Admin%20Pages/create_store_page.dart';
 import 'package:boba_buddy/Admin%20Pages/delete_store_page.dart';
+import 'package:boba_buddy/Admin%20Pages/modify_store_page.dart';
 import 'package:boba_buddy/core/model/user_detail.dart';
 import 'package:boba_buddy/core/repository/authentication_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +11,7 @@ import 'package:provider/src/provider.dart';
 class AdminPage extends StatelessWidget {
   List<String> optionNames = ["Create Store", "Delete Store", "Modify Store"];
 
-  List pageOptions = [CreateStorePage(), DeleteStorePage(), DeleteStorePage()];
+  List pageOptions = [CreateStorePage(), DeleteStorePage(), ModifyStorePage()];
 
   @override
   Widget build(BuildContext context) {
