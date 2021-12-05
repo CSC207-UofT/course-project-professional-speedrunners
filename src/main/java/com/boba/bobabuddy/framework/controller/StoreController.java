@@ -89,7 +89,7 @@ public class StoreController {
      * Handles GET requests for store resources that have matching location.
      *
      * @param location location of required store
-     * @param sortBy
+     * @param sortBy sort the returned list
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -103,7 +103,7 @@ public class StoreController {
      * Handles GET requests for store resources that have matching name
      *
      * @param name name of required store
-     * @param sortBy
+     * @param sortBy sort the returned list
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -117,7 +117,7 @@ public class StoreController {
      * Handles GET requests for store resources that partially matches the provided name
      *
      * @param nameContain name to match for
-     * @param sortBy
+     * @param sortBy sort the returned list
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -131,7 +131,7 @@ public class StoreController {
      * Handles GET requests for store resources that have rating greater than or equal to a given value
      *
      * @param rating the rating used for comparison
-     * @param sortBy
+     * @param sortBy sort the returned list
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
