@@ -23,7 +23,6 @@ public interface UpdateUserService {
      * @param id id of the user
      * @param imageURL URL of the image
      * @return updated user
-     * @throws IOException is thrown when user's image cannot be updated
      */
-    User updateUserImage(UUID id, String imageURL) throws IOException;
+    User updateUserImage(UUID id, String imageURL);
 }

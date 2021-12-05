@@ -39,7 +39,6 @@ public interface UpdateItemService {
      * @param id id of the item
      * @param imageURL URL of the image
      * @return updated item
-     * @throws IOException is thrown when item's image cannot be updated
      */
-    Item updateItemImage(UUID id, String imageURL) throws IOException;
+    Item updateItemImage(UUID id, String imageURL);
 }

@@ -51,7 +51,6 @@ public interface UpdateStoreService {
      * @param id id of the store
      * @param imageURL URL of the image
      * @return updated store
-     * @throws IOException is thrown when store's image cannot be updated
      */
-    Store updateStoreImage(UUID id, String imageURL) throws IOException;
+    Store updateStoreImage(UUID id, String imageURL);
 }

@@ -7,7 +7,6 @@ import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.service.firebaseImage.IImageService;
 import com.boba.bobabuddy.core.service.store.FindStoreService;
 import com.boba.bobabuddy.core.service.store.UpdateStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +27,15 @@ import java.util.UUID;
 public class UpdateStoreServiceImpl implements UpdateStoreService {
     private final StoreJpaRepository repo;
     private final FindStoreService findStoreService;
-    private final IImageService imageService;
 
     /***
      Construct the usecase class
      @param repo DAO for Store entity.
      */
     @Autowired
-    public UpdateStoreServiceImpl(final StoreJpaRepository repo, FindStoreService findStoreService,
-                                  IImageService imageService) {
+    public UpdateStoreServiceImpl(final StoreJpaRepository repo, FindStoreService findStoreService) {
         this.repo = repo;
         this.findStoreService = findStoreService;
-        this.imageService = imageService;
     }
 
 
@@ -68,13 +64,10 @@ public class UpdateStoreServiceImpl implements UpdateStoreService {
     }
 
     @Override
-    public Store updateStoreImage(UUID storeId, String imageUrl) throws IOException{
+    public Store updateStoreImage(UUID storeId, String imageUrl){
         Store storeToUpdate = findStoreService.findById(storeId);
 
-        String fileName = imageService.save(imageUrl, StringUtils.getFilename(imageUrl));
-        String fbImageUrl = imageService.getImageUrl(fileName);
-
-        storeToUpdate.setImageUrl(fbImageUrl);
+        storeToUpdate.setImageUrl(imageUrl);
 
         return repo.save(storeToUpdate);
     }
