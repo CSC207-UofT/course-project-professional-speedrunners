@@ -25,7 +25,7 @@ public class Category {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_name")
+    @JoinColumn(name = "category_id")
     @Builder.Default
     private Set<Item> items = new HashSet<>();
 

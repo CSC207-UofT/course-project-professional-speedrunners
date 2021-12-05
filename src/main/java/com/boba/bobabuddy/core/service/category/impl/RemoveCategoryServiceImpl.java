@@ -31,7 +31,7 @@ public class RemoveCategoryServiceImpl implements RemoveCategoryService{
         this.findCategory = findCategory;
     }
 
-    public void removeById(UUID id) throws ResourceNotFoundException {
+    public void removeById(UUID id, UUID userId) throws ResourceNotFoundException {
         Category category = findCategory.findById(id);
         repo.delete(category);
     }

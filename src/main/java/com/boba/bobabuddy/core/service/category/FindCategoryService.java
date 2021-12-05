@@ -24,7 +24,7 @@ public interface FindCategoryService {
     /**
      * Find categories that contain the specified item.
      * @param id id of the item entity
-     * @return a set of categories that have the specifies item
+     * @return a list of categories that have the specifies item
      * @throws ResourceNotFoundException thrown when no such category exist.
      */
     List<Category> findByItem(UUID id) throws ResourceNotFoundException;

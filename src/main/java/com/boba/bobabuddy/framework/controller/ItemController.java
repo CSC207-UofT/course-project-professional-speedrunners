@@ -197,7 +197,7 @@ public class ItemController {
      * @return the updated item
      */
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     @PutMapping(path = "/user/items/{id}", params = "categoryName")
     public ItemDto addCategory(@RequestParam String categoryName, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.addCategory(id, categoryName));
@@ -211,7 +211,7 @@ public class ItemController {
      * @return the updated item
      */
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     @PutMapping(path = "/user/items/{id}", params = "categoryName")
     public ItemDto removeCategory(@RequestParam String categoryName, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.removeCategory(id, categoryName));

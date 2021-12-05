@@ -170,7 +170,7 @@ public class StoreController {
     }
 
     /**
-     * Handle DELETE request to delete a store resource from the system
+     * Handles DELETE request to delete a store resource from the system
      *
      * @param id id of the resource to be deleted.
      */

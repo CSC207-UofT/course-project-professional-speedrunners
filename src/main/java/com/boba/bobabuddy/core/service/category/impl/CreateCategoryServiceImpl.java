@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 /**
  * This class handle the usecase of creating category and adding it into the system
  */
@@ -19,7 +21,7 @@ public class CreateCategoryServiceImpl implements CreateCategoryService{
     private final CategoryJpaRepository repo;
 
     @Override
-    public Category create(CategoryDto category){
+    public Category create(CategoryDto category, UUID userid){
         Category createdCategory = Category.builder()
                 .name(category.getName())
                 .build();
