@@ -17,6 +17,7 @@ import java.io.*;
 public class FirebaseImageServiceImpl implements IImageService {
     private final String imageUrl = "https://firebasestorage.googleapis.com/v0/b/boba-buddy-904b9.appspot.com/o/%s?alt=media";
 
+    //TODO: Delete and add bucket config to auth firebase config
     @EventListener
     public void init(ApplicationReadyEvent event) throws IOException {
         FileInputStream serviceAccount = new FileInputStream("src/main/resources/firebase_config.json");
