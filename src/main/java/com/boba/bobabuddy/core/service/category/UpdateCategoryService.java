@@ -7,7 +7,7 @@ import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 
 public interface UpdateCategoryService {
     /**
-     * Adds category to item
+     * Adds item to category
      *
      * @param categoryToUpdate category to update
      * @param itemToAdd item to add
@@ -17,7 +17,7 @@ public interface UpdateCategoryService {
     Category addItemToCategory(Category categoryToUpdate, Item itemToAdd) throws DuplicateResourceException;
 
     /**
-     * Removes a category from item
+     * Removes an item from category
      *
      * @param categoryToUpdate category to update
      * @param itemToRemove item to remove
