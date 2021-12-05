@@ -176,6 +176,7 @@ public class StoreController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/stores/{id}")
+    @PreAuthorize("@FindStoreService.findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public void removeStore(@PathVariable UUID id) {
         removeStore.removeById(id);
     }
