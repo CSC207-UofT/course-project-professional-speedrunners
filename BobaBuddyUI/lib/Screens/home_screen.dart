@@ -1,9 +1,11 @@
-import 'package:boba_buddy/Authentication/firebaseauth.dart';
 import 'package:boba_buddy/Screens/admin_page.dart';
 import 'package:boba_buddy/Screens/home_page.dart';
 import 'package:boba_buddy/Screens/profile_page.dart';
+import 'package:boba_buddy/core/model/user_detail.dart';
+import 'package:boba_buddy/core/repository/authentication_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,16 +27,8 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
 //Decides which layout will be shown to user based on the user privilege
-    return FutureBuilder(
-      future: Auth().isAdmin(),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (!snapshot.hasData) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        } else if (snapshot.data == true) {
+    UserDetail user = context.read<AuthenticationRepository>().currentUser;
+        if (user.isAdmin) {
           return (Scaffold(
             body:
                 IndexedStack(index: _currentIndex, children: _adminPageOptions),
@@ -65,8 +59,6 @@ class _HomeScreen extends State<HomeScreen> {
             ),
           ));
         }
-      },
-    );
   }
 }
 

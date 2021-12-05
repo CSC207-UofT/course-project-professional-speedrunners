@@ -2,7 +2,10 @@ import 'package:boba_buddy/Screens/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'core/repository/repository.dart';
 
 // void main() => runApp(MyApp());
 
@@ -19,8 +22,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       //used for universal scaling across devices
-      builder: () =>
-          MaterialApp(debugShowCheckedModeBanner: false, home: LoginPage()),
+      builder: () => MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<AuthenticationRepository>(
+            create: (context) => AuthenticationRepository(),
+          ),
+          RepositoryProvider<UserRepository>(
+            create: (context) => UserRepository(),
+          ),
+          RepositoryProvider<StoreRepository>(
+            create: (context) => StoreRepository(),
+          ),
+          RepositoryProvider<ItemRepository>(
+            create: (context) => ItemRepository(),
+          ),
+        ],
+        child:
+            MaterialApp(debugShowCheckedModeBanner: false, home: LoginPage()),
+      ),
       designSize: const Size(
           393, 830), //The size of the device screen in the design draft, in dp
     );

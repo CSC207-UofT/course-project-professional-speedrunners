@@ -1,21 +1,22 @@
 import 'dart:ui';
 
-import 'package:boba_buddy/Authentication/firebaseauth.dart';
+import 'package:boba_buddy/core/repository/authentication_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/src/provider.dart';
 
 class CreateAccountPage extends StatelessWidget {
   CreateAccountPage({Key? key}) : super(key: key);
-  final Auth _auth = Auth();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final AuthenticationRepository _auth = context.read<AuthenticationRepository>();
     return ScreenUtilInit(
       designSize: const Size(393, 830),
       builder: () => MaterialApp(
@@ -108,42 +109,19 @@ class CreateAccountPage extends StatelessWidget {
                                 confirmPasswordController.clear();
                                 return;
                               }
-
-                              Enum response = await _auth.createAccount(
-                                  email: emailController.text,
+                              try{
+                                await _auth.signUp(
+                                email: emailController.text,
                                   password: passwordController.text,
                                   name: nameController.text);
-
-                              switch (response) {
-                                case Response.weakPassword:
-                                  {
-                                    _buildErrorToast(
-                                        "Password Too weak. Please try again");
-                                    passwordController.clear();
-                                  }
-                                  break;
-                                case Response.emailInUse:
-                                  {
-                                    _buildErrorToast(
-                                        "Email already in use. Please try again with another email");
-                                    emailController.clear();
-                                  }
-                                  break;
-                                case Response.error:
-                                  {
-                                    _buildErrorToast(
-                                        "Hmm something went wrong. Please try again");
-                                  }
-                                  break;
-                                case Response.success:
-                                  {
-                                    _buildErrorToast(
-                                        "Account created. Please sign in");
-                                    Navigator.pop(context);
-                                  }
-                                  break;
+                              } on Exception catch (e){
+                                _buildErrorToast(e.toString());
+                                return;
                               }
-                            },
+                              _buildErrorToast(
+                              "Account created. Please sign in");
+                              Navigator.pop(context);
+                              },
                             child: const Text(
                               'Create Account',
                               style: TextStyle(
