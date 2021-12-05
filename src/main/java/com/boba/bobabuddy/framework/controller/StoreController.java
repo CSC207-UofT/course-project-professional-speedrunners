@@ -179,4 +179,5 @@ public class StoreController {
     public void removeStore(@PathVariable UUID id) {
         removeStore.removeById(id);
     }
+
 }

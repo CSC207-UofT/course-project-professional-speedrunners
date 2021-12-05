@@ -15,4 +15,5 @@ public interface CreateCategoryService {
      */
 
     Category create(CategoryDto category, UUID userId);
+
 }

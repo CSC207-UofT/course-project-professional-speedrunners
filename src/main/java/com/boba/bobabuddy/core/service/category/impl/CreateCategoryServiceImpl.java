@@ -27,5 +27,4 @@ public class CreateCategoryServiceImpl implements CreateCategoryService{
                 .build();
         return repo.save(createdCategory);
     }
-
 }

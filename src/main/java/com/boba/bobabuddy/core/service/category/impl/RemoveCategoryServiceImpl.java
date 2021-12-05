@@ -35,4 +35,5 @@ public class RemoveCategoryServiceImpl implements RemoveCategoryService{
         Category category = findCategory.findById(id);
         repo.delete(category);
     }
+
 }

@@ -17,4 +17,5 @@ public interface RemoveCategoryService {
      */
 
     void removeById(UUID id, UUID userId) throws ResourceNotFoundException;
+
 }
