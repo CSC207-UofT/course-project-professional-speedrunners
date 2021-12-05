@@ -3,6 +3,7 @@ package com.boba.bobabuddy.core.service.firebaseImage.impl;
 import com.boba.bobabuddy.core.service.firebaseImage.IImageService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.*;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.StorageClient;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -23,6 +24,8 @@ public class FirebaseImageServiceImpl implements IImageService {
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setStorageBucket("boba-buddy-904b9.appspot.com")
                 .build();
+
+        FirebaseApp.initializeApp(options);
     }
 
     public String save(String imageUrl, String originalImageName) throws IOException {
