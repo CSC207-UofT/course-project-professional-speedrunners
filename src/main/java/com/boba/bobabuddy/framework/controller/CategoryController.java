@@ -1,7 +1,6 @@
 package com.boba.bobabuddy.framework.controller;
 
 import com.boba.bobabuddy.core.data.dto.CategoryDto;
-import com.boba.bobabuddy.core.data.dto.StoreDto;
 import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.service.category.CreateCategoryService;
 import com.boba.bobabuddy.core.service.category.RemoveCategoryService;
@@ -36,7 +35,7 @@ public class CategoryController {
      * @return Category that was constructed, which will be automatically converted to JSON and send it to the caller.
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/categories")
+    @PostMapping(path = "/categories", params = "userId")
     @PreAuthorize("@FindUserService.findById(#userId).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public CategoryDto createCategory(@RequestBody CategoryDto createCategoryRequest, @RequestParam("userId") UUID userId){
         return converter.convertToDto(createCategory.create(createCategoryRequest));
