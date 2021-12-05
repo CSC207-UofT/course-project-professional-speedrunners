@@ -1,16 +1,14 @@
 package com.boba.bobabuddy.core.service.item.impl;
 
 import com.boba.bobabuddy.core.data.dao.ItemJpaRepository;
-import com.boba.bobabuddy.core.data.dto.CategoryDto;
 import com.boba.bobabuddy.core.data.dto.ItemDto;
 import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.service.category.CreateCategoryService;
 import com.boba.bobabuddy.core.service.category.FindCategoryService;
-import com.boba.bobabuddy.core.service.category.RemoveCategoryService;
+import com.boba.bobabuddy.core.service.category.UpdateCategoryService;
 import com.boba.bobabuddy.core.service.item.FindItemService;
 import com.boba.bobabuddy.core.service.item.UpdateItemService;
 import org.springframework.stereotype.Service;
@@ -27,26 +25,21 @@ public class UpdateItemServiceImpl implements UpdateItemService {
     private final ItemJpaRepository repo;
     private final FindItemService findItemService;
     private final FindCategoryService findCategoryService;
-    private final CreateCategoryService createCategoryService;
-    private final RemoveCategoryService removeCategoryService;
+    private final UpdateCategoryService updateCategoryService;
 
     /***
      * Construct the usecase class
      * @param repo the repository that hosts the Item entity.
      * @param findItemService Find item service to look for the item to update
      * @param findCategoryService Finds category to add to item
-     * @param createCategoryService Creates new category
-     * @param removeCategoryService Remove the category
+     * @param updateCategoryService Updates category (adds/removes items)
      */
     public UpdateItemServiceImpl(final ItemJpaRepository repo, FindItemService findItemService,
-                                 FindCategoryService findCategoryService,
-                                 CreateCategoryService createCategoryService,
-                                 RemoveCategoryService removeCategoryService) {
+                                 FindCategoryService findCategoryService, UpdateCategoryService updateCategoryService) {
         this.repo = repo;
         this.findItemService = findItemService;
         this.findCategoryService = findCategoryService;
-        this.createCategoryService = createCategoryService;
-        this.removeCategoryService = removeCategoryService;
+        this.updateCategoryService = updateCategoryService;
     }
 
     @Override
@@ -73,9 +66,8 @@ public class UpdateItemServiceImpl implements UpdateItemService {
     public Item addCategory(UUID itemId, String categoryName) throws DuplicateResourceException{
         Item itemToUpdate = findItemService.findById(itemId);
         Category categoryToAdd = findCategoryService.findByName(categoryName);
-
         if (itemToUpdate.addCategory(categoryName)){
-            categoryToAdd.addItem(itemToUpdate);
+            updateCategoryService.addItemToCategory(categoryToAdd, itemToUpdate);
             return repo.save(itemToUpdate);
         }
         throw new DuplicateResourceException("This item already contains this category");
@@ -87,7 +79,7 @@ public class UpdateItemServiceImpl implements UpdateItemService {
         Category categoryToRemove = findCategoryService.findByName(categoryName);
 
         if (itemToUpdate.removeCategory(categoryName)){
-            categoryToRemove.removeItem(itemToUpdate);
+            updateCategoryService.removeItemFromCategory(categoryToRemove, itemToUpdate);
             return repo.save(itemToUpdate);
         }
         throw new ResourceNotFoundException("This item does not contain this category");
