@@ -22,6 +22,7 @@ public class Store extends RatableObject {
 
     private String location;
     private String owner;
+    private String imageUrl;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "store_id")
     @Builder.Default

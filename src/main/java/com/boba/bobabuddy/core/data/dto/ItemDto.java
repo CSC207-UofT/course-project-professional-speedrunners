@@ -25,6 +25,7 @@ public class ItemDto {
     private StoreDto store;
     private Set<RatingDto> ratings;
     private String name;
+    private String imageUrl;
     private double price;
     private UUID id;
     private double avgRating;
