@@ -1,8 +1,11 @@
-import 'package:boba_buddy/Database/database.dart';
+
 import 'package:boba_buddy/Screens/store_page.dart';
+import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/src/provider.dart';
 
 class PopularShops extends StatefulWidget {
   const PopularShops({Key? key}) : super(key: key);
@@ -16,7 +19,7 @@ class _PopularShops extends State<PopularShops> {
   Widget build(BuildContext context) {
     const double SPACEBETWEEN = 10.00;
 
-    Database db = Database();
+    StoreRepository db = context.read<StoreRepository>();
 
     return ScreenUtilInit(
       designSize: const Size(393, 830),
@@ -50,10 +53,8 @@ class _PopularShops extends State<PopularShops> {
                                     imageSrc:
                                         'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
                                     //todo need image src implemented in entity classes
-                                    storeName: snapshot.data[index]["name"],
-                                    address: snapshot.data[index]["location"],
-                                    storeId: snapshot.data[index]['id'],
-                                    items: snapshot.data[index]['menu']);
+                                    store: snapshot.data[index],
+                                    items: snapshot.data[index].menu);
                               });
                         }
                       }))
@@ -68,21 +69,15 @@ class _PopularShops extends State<PopularShops> {
 ///Widget builder for a single shop widget
 Widget _buildSingleShop(
     {required String imageSrc,
-    required String storeName,
-    required String address,
     required context,
-    required String storeId,
-    required items}) {
+    required Store store,
+    required List<Item> items}) {
   double WIDGETWIDTH = 325.w;
   double WIDGETHEIGHT = 100.h;
 
-  String itemId;
-
-  if (items.length == 0) {
-    itemId = '';
-  } else {
-    itemId = items[0]["id"];
-  }
+  // TODO: this is hacky. need to look into better structure
+  // Also could create a widget for displaying no item status
+  Item? item = items.isEmpty ? null : items[0];
 
   return InkWell(
     onTap: () {
@@ -90,11 +85,9 @@ Widget _buildSingleShop(
           context,
           MaterialPageRoute(
               builder: (context) => StorePage(
-                    storeName: storeName,
+                    store: store,
                     imageSrc: imageSrc,
-                    address: address,
-                    storeId: storeId,
-                    itemId: itemId,
+                    item: item!,
                   )));
     },
     child: Container(
@@ -132,7 +125,8 @@ Widget _buildSingleShop(
                         Object exception, StackTrace? stackTrace) {
                   //Error handling for image
                   return const Image(
-                      image: AssetImage("assets/images/default-store.png"));
+                      image:
+                          AssetImage("assets/images/default-store.dart.png"));
                 })),
             Positioned(
               bottom: -15,
@@ -146,7 +140,7 @@ Widget _buildSingleShop(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        storeName,
+                        store.name,
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         style: const TextStyle(
@@ -174,7 +168,7 @@ Widget _buildSingleShop(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 23),
                       child: Text(
-                        address,
+                        store.location,
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         style: TextStyle(

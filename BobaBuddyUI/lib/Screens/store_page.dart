@@ -1,28 +1,28 @@
 import 'dart:ui';
 
-import 'package:boba_buddy/Database/database.dart';
+
 import 'package:boba_buddy/Screens/price_update_page.dart';
+import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:provider/src/provider.dart';
 
 import 'full_menu_page.dart';
 
 class StorePage extends StatefulWidget {
   const StorePage({
     Key? key,
-    required this.storeName,
-    required this.address,
     required this.imageSrc,
-    required this.storeId,
-    required this.itemId,
+    required this.store,
+    required this.item,
   }) : super(key: key);
 
-  final String storeName;
-  final String address;
+
   final String imageSrc;
-  final String storeId;
-  final String itemId;
+  final Store store;
+  final Item item;
 
   @override
   _StorePage createState() => _StorePage();
@@ -33,9 +33,9 @@ class _StorePage extends State<StorePage> {
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
-    Database db = Database();
+    ItemRepository db = context.read<ItemRepository>();
 
-    print(widget.itemId);
+    print(widget.item.id);
     print("item id ^^^^^");
 
     return Scaffold(
@@ -100,7 +100,7 @@ class _StorePage extends State<StorePage> {
                                           onTap: () {
                                             print("Open in maps");
                                             MapsLauncher.launchQuery(
-                                                widget.address);
+                                                widget.store.location);
                                           },
                                           child: SizedBox(
                                             height: 50,
@@ -137,7 +137,7 @@ class _StorePage extends State<StorePage> {
                 top: 325,
                 left: 25,
                 child: Text(
-                  widget.storeName,
+                  widget.store.name,
                   textAlign: TextAlign.start,
                   style: const TextStyle(
                       fontFamily: "Josefin Sans",
@@ -148,7 +148,7 @@ class _StorePage extends State<StorePage> {
                 top: 370,
                 left: 25,
                 child: Text(
-                  widget.address,
+                  widget.store.location,
                   textAlign: TextAlign.start,
                   style: const TextStyle(
                       fontFamily: "Josefin Sans",
@@ -165,7 +165,7 @@ class _StorePage extends State<StorePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => FullMenuPage(
-                                  storeId: widget.storeId,
+                                  store: widget.store,
                                 )));
                   },
                   child: const SizedBox(
@@ -184,21 +184,24 @@ class _StorePage extends State<StorePage> {
               bottom: 200,
               child: SizedBox(
                 child: FutureBuilder(
-                  future: widget.itemId.isEmpty
-                      ? db.getOneItemFromStore(widget.storeId)
-                      : db.getItemById(widget.itemId),
+                  future: widget.item.id.isEmpty
+                      ? db.getOneItemFromStore(widget.store.id)
+                      : db.getItemById(widget.item.id),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (!snapshot.hasData) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.data.length == 0) {
-                      return const Padding(
-                          padding: EdgeInsets.only(bottom: 100),
-                          child: Text(
-                            "no items available",
-                            style: TextStyle(fontSize: 30),
-                          ));
-                    } else {
-                      print(widget.itemId);
+                    }
+                    // TODO: properly handle empty response
+                    // else if (snapshot.data.length == 0) {
+                    //   return const Padding(
+                    //       padding: EdgeInsets.only(bottom: 100),
+                    //       child: Text(
+                    //         "no items available",
+                    //         style: TextStyle(fontSize: 30),
+                    //       ));
+                    // }
+                    else {
+                      print(widget.item.id);
                       return Stack(children: [
                         SizedBox(
                           width: deviceWidth,
@@ -208,7 +211,7 @@ class _StorePage extends State<StorePage> {
                           left: 25,
                           bottom: 250,
                           child: Text(
-                            snapshot.data["name"].toString(),
+                            snapshot.data.name.toString(),
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontFamily: "Josefin Sans",
@@ -236,7 +239,7 @@ class _StorePage extends State<StorePage> {
                           left: 250,
                           top: 125,
                           child: Text(
-                            "\$${snapshot.data["price"].toString()}",
+                            "\$${snapshot.data.price.toString()}",
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                                 color: Colors.black,
@@ -252,13 +255,8 @@ class _StorePage extends State<StorePage> {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PriceUpdaterPage(
-                                        itemId: widget.itemId.isEmpty
-                                            ? snapshot.data["id"].toString()
-                                            : widget.itemId,
+                                        item: widget.item,
                                         imageSrc: widget.imageSrc,
-                                        storeId: widget.storeId,
-                                        storeName: widget.storeName,
-                                        address: widget.address,
                                       )));
                             },
                             child: const Text(
@@ -293,18 +291,17 @@ class _StorePage extends State<StorePage> {
   }
 }
 
-Widget itemWidget({required String imageSrc, required String itemId}) {
-  Database db = Database();
+Widget itemWidget({required String imageSrc, required String itemId, required BuildContext context}) {
 
   return FutureBuilder(
-    future: db.getItemById(itemId),
+    future: context.read<ItemRepository>().getItemById(itemId),
     builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
       if (!snapshot.hasData) {
         return const Center(child: CircularProgressIndicator());
       } else {
         return Stack(children: [
           Text(
-            snapshot.data["name"].toString(),
+            snapshot.data.name.toString(),
             style: const TextStyle(
                 color: Colors.black,
                 fontFamily: "Josefin Sans",
@@ -326,7 +323,7 @@ Widget itemWidget({required String imageSrc, required String itemId}) {
                 )),
           ),
           Text(
-            "\$${snapshot.data["price"].toString()}",
+            "\$${snapshot.data.price.toString()}",
             textAlign: TextAlign.start,
             style: const TextStyle(
                 color: Colors.black,

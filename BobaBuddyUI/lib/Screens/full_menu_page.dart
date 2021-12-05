@@ -1,46 +1,36 @@
-import 'package:boba_buddy/Database/database.dart';
+
 import 'package:boba_buddy/Screens/store_page.dart';
+import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/item_repository.dart';
+import 'package:boba_buddy/core/repository/store_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FullMenuPage extends StatelessWidget {
-  final String storeId;
+  final Store store;
+  final StoreRepository db = StoreRepository();
 
-  const FullMenuPage({Key? key, required this.storeId}) : super(key: key);
+
+  FullMenuPage({Key? key, required this.store}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var db = Database();
-
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(children: [
-        FutureBuilder(
-          future: db.getStoreItems(storeId: storeId),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return ListView.builder(
-                  padding: const EdgeInsets.only(top: 100),
-                  itemCount: snapshot.data.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    return singleItem(
-                        context: context,
-                        itemId: snapshot.data[index]["id"],
-                        price: snapshot.data[index]["price"],
-                        itemName: snapshot.data[index]["name"],
-                        imageSrc:
-                            "https://chatime.com/wp-content/uploads/2020/10/Brown-Sugar-Pearls-with-Milk-Tea.png");
-                  });
-            }
-          },
-        ),
+        ListView.builder(
+        padding: const EdgeInsets.only(top: 100),
+        itemCount: store.menu!.length,
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, index) {
+          return singleItem(
+              context: context,
+              item: store.menu![index],
+              imageSrc:
+              "https://chatime.com/wp-content/uploads/2020/10/Brown-Sugar-Pearls-with-Milk-Tea.png");
+        }),
         Positioned(
           top: 0.0,
           left: 0.0,
@@ -72,10 +62,9 @@ class FullMenuPage extends StatelessWidget {
 
 Widget singleItem(
     {required String imageSrc,
-    required String itemName,
-    required double price,
-    required String itemId,
+    required Item item,
     required BuildContext context}) {
+  ItemRepository db = ItemRepository();
   return Container(
     margin: const EdgeInsets.only(bottom: 30, right: 30, left: 30),
     height: 125,
@@ -100,16 +89,16 @@ Widget singleItem(
                   padding: const EdgeInsets.only(top: 15),
                   child: Column(children: [
                     Text(
-                      itemName,
+                      item.name,
                       style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 19,
                           fontWeight: FontWeight.w500,
                           fontFamily: "Josefin Sans"),
                     ),
                     Padding(
                         padding: const EdgeInsets.only(right: 135),
                         child: Text(
-                          "\$" + price.toString(),
+                          "\$" + item.price.toString(),
                           style: TextStyle(
                               color: Colors.grey.shade500,
                               fontWeight: FontWeight.bold),
@@ -122,18 +111,13 @@ Widget singleItem(
         top: 70,
         child: ElevatedButton(
           onPressed: () async {
-            var itemData = await Database().getItemById(itemId);
+            Item refreshedItem = await db.getItemById(item.id);
 
-            Navigator.of(context).pop();
-
-            var storePage = StorePage(
-              storeName: itemData["store"]["name"],
+            StorePage storePage = StorePage(
+              store: refreshedItem.store!,
               //TODO: need image in entity class
-              imageSrc:
-                  'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
-              address: itemData["store"]["location"],
-              storeId: itemData["store"]["id"],
-              itemId: itemId,
+              imageSrc:  'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
+              item: item,
             );
 
             var pageRoute = PageRouteBuilder(
@@ -142,7 +126,10 @@ Widget singleItem(
                   FadeTransition(opacity: anim, child: child),
               transitionDuration: const Duration(milliseconds: 100),
             );
+            Navigator.of(context).pop();
             Navigator.pushReplacement(context, pageRoute);
+
+
           },
           child: const Text(
             "View",
