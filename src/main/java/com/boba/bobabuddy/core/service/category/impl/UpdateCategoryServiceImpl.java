@@ -9,11 +9,18 @@ import com.boba.bobabuddy.core.service.category.UpdateCategoryService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class handle the usecase of updating categories in the system.
+ */
 @Service("UpdateCategoryService")
 @Transactional
 public class UpdateCategoryServiceImpl implements UpdateCategoryService {
     private final CategoryJpaRepository repo;
 
+    /***
+     * Construct the usecase class
+     * @param repo the repository that hosts the Category entity.
+     */
     public UpdateCategoryServiceImpl(CategoryJpaRepository repo) {
         this.repo = repo;
     }
