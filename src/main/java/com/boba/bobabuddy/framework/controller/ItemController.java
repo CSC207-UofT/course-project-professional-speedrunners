@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -172,9 +173,23 @@ public class ItemController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/user/items/{id}", params = "price")
-    public ItemDto  updateItemPrice(@RequestParam float price, @PathVariable UUID id) {
+    public ItemDto updateItemPrice(@RequestParam float price, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.updateItemPrice(id, price));
     }
+
+    /**
+     * Handles PUT request to update the image of an existing item resource
+     *
+     * @param imageUrl URL of the image
+     * @param id the UUID of the Item to be updated
+     * @return the updated item
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(path = "/user/items/{id}", params = "imageUrl")
+    public ItemDto updateItemImage(@RequestParam String imageUrl, @PathVariable UUID id) throws IOException {
+        return converter.convertToDto(updateItem.updateItemImage(id, imageUrl));
+    }
+
 
     /**
      * Handle DELETE request to delete an item resource from the system

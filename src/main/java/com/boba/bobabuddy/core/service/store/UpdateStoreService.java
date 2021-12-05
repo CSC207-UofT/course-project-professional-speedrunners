@@ -7,6 +7,9 @@ import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 
+import java.io.IOException;
+import java.util.UUID;
+
 /**
  * Usecase Input Boundary
  */
@@ -42,4 +45,13 @@ public interface UpdateStoreService {
      * @throws ResourceNotFoundException thrown when the store does not contain the item
      */
     Store removeItem(Store store, Item item) throws ResourceNotFoundException;
+
+    /**
+     * Update a store's image
+     * @param id id of the store
+     * @param imageURL URL of the image
+     * @return updated store
+     * @throws IOException is thrown when store's image cannot be updated
+     */
+    Store updateStoreImage(UUID id, String imageURL) throws IOException;
 }
