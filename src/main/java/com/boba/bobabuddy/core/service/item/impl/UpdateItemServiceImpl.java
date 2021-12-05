@@ -84,8 +84,10 @@ public class UpdateItemServiceImpl implements UpdateItemService {
     @Override
     public Item removeCategory(UUID itemId, String categoryName) throws ResourceNotFoundException{
         Item itemToUpdate = findItemService.findById(itemId);
+        Category categoryToRemove = findCategoryService.findByName(categoryName);
 
         if (itemToUpdate.removeCategory(categoryName)){
+            categoryToRemove.removeItem(itemToUpdate);
             return repo.save(itemToUpdate);
         }
         throw new ResourceNotFoundException("This item does not contain this category");
