@@ -71,7 +71,6 @@ public class UpdateUserServiceImpl implements UpdateUserService {
     @Override
     public User updateUserImage(UUID userId, String imageUrl){
         User userToUpdate = findUserService.findById(userId);
-
         userToUpdate.setImageUrl(imageUrl);
         return repo.save(userToUpdate);
     }

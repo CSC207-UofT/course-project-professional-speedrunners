@@ -66,9 +66,7 @@ public class UpdateStoreServiceImpl implements UpdateStoreService {
     @Override
     public Store updateStoreImage(UUID storeId, String imageUrl){
         Store storeToUpdate = findStoreService.findById(storeId);
-
         storeToUpdate.setImageUrl(imageUrl);
-
         return repo.save(storeToUpdate);
     }
 }
