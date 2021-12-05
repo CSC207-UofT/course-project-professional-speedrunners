@@ -1,6 +1,7 @@
 package com.boba.bobabuddy.framework.controller;
 
 import com.boba.bobabuddy.core.data.dto.CategoryDto;
+import com.boba.bobabuddy.core.data.dto.StoreDto;
 import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.service.category.CreateCategoryService;
 import com.boba.bobabuddy.core.service.category.RemoveCategoryService;
@@ -87,6 +88,20 @@ public class CategoryController {
     @GetMapping(path = "/categories", params = "name")
     public CategoryDto findByName(@RequestParam("name") String name){
         return converter.convertToDto(findCategory.findByName(name));
+    }
+
+    /**
+     * Handles GET requests for category resources that partially matches the provided name
+     *
+     * @param nameContain name to match for
+     * @param sortBy sort the returned list
+     * @return collection of store resources that match the query.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(path = "/categories", params = "name-contain")
+    public List<CategoryDto> findByNameContaining(@RequestParam("name-contain") String nameContain,
+                                               @RequestParam(defaultValue = "unsorted") String sortBy) {
+        return converter.convertToDtoList(findCategory.findByNameContaining(nameContain, SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**

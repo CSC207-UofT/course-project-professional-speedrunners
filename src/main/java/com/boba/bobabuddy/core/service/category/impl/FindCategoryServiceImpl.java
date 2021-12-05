@@ -36,6 +36,12 @@ public class FindCategoryServiceImpl implements FindCategoryService {
     public Category findByName(String name) throws ResourceNotFoundException {
         return repo.findByNameIgnoringCase(name);
     }
+
+    @Override
+    public List<Category> findByNameContaining(String name, Sort sort){
+        return repo.findByNameContainingIgnoreCase(name, sort);
+    }
+
     @Override
     public List<Category> findByItem(UUID id, Sort sort) throws ResourceNotFoundException{
         Set<String> categoryNames = findItem.findById(id).getCategories();

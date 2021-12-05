@@ -14,4 +14,5 @@ public interface CategoryJpaRepository extends GenericResourceJpaRepository<Cate
 
     List<Category> findByNameIsIn(Set<String> categoryNames, Sort sort);
 
+    List<Category> findByNameContainingIgnoreCase(String name, Sort sort);
 }
