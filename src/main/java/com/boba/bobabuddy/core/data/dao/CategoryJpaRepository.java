@@ -12,6 +12,6 @@ import java.util.UUID;
 public interface CategoryJpaRepository extends GenericResourceJpaRepository<Category, UUID>{
     Category findByNameIgnoringCase(String name);
 
-    List<Category> findByNameIsIn(Set<String> categoryNames);
+    List<Category> findByNameIsIn(Set<String> categoryNames, Sort sort);
 
 }

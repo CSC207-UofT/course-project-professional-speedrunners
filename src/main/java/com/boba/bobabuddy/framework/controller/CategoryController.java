@@ -68,12 +68,13 @@ public class CategoryController {
      * Handles GET request for a category resources that have a certain item
      *
      * @param id id of the item resource
+     * @param sortBy sort the returned list
      * @return a list of category resources that have the specified item
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/categories", params = "itemId")
-    public List<CategoryDto> findByItem(@RequestParam("itemId") UUID id){
-        return converter.convertToDtoList(findCategory.findByItem(id));
+    public List<CategoryDto> findByItem(@RequestParam("itemId") UUID id, @RequestParam(defaultValue = "unsorted")String sortBy){
+        return converter.convertToDtoList(findCategory.findByItem(id, SortQueryBuilder.buildSort(sortBy)));
     }
 
     /**

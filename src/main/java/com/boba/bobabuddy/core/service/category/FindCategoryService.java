@@ -24,10 +24,11 @@ public interface FindCategoryService {
     /**
      * Find categories that contain the specified item.
      * @param id id of the item entity
+     * @param sort sort the categories
      * @return a list of categories that have the specifies item
      * @throws ResourceNotFoundException thrown when no such category exist.
      */
-    List<Category> findByItem(UUID id) throws ResourceNotFoundException;
+    List<Category> findByItem(UUID id, Sort sort) throws ResourceNotFoundException;
 
     /**
      * Find all categories that exists in the database
