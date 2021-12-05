@@ -21,7 +21,7 @@ public class CreateCategoryServiceImpl implements CreateCategoryService{
     private final CategoryJpaRepository repo;
 
     @Override
-    public Category create(CategoryDto category, UUID userid){
+    public Category create(CategoryDto category){
         Category createdCategory = Category.builder()
                 .name(category.getName())
                 .build();

@@ -14,6 +14,6 @@ public interface CreateCategoryService {
      * @return the Category object that was persisted into the database.
      */
 
-    Category create(CategoryDto category, UUID userId);
+    Category create(CategoryDto category);
 
 }

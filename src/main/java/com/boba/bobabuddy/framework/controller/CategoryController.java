@@ -39,7 +39,7 @@ public class CategoryController {
     @PostMapping(path = "/categories")
     @PreAuthorize("@FindUserService.findById(#userId).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public CategoryDto createCategory(@RequestBody CategoryDto createCategoryRequest, @RequestParam("userId") UUID userId){
-        return converter.convertToDto(createCategory.create(createCategoryRequest, userId));
+        return converter.convertToDto(createCategory.create(createCategoryRequest));
     }
 
     /**
@@ -114,7 +114,7 @@ public class CategoryController {
     @DeleteMapping(path = "/categories/{id}")
     @PreAuthorize("@FindUserService.findById(#userId).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public void removeCategory(@PathVariable UUID id, @RequestParam("userId") UUID userId){
-        removeCategory.removeById(id, userId);
+        removeCategory.removeById(id);
     }
 
 }

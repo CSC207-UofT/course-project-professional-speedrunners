@@ -16,6 +16,6 @@ public interface RemoveCategoryService {
      * @throws ResourceNotFoundException thrown when category was not found
      */
 
-    void removeById(UUID id, UUID userId) throws ResourceNotFoundException;
+    void removeById(UUID id) throws ResourceNotFoundException;
 
 }
