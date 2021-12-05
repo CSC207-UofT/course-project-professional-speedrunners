@@ -136,7 +136,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/user/users/{id}", params = "imageUrl")
     @PreAuthorize("FindUserService.findById(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
-    public UserDto updateUserImage(@RequestParam String imageUrl, @PathVariable UUID id) throws IOException {
+    public UserDto updateUserImage(@RequestParam String imageUrl, @PathVariable UUID id) {
         return converter.convertToDto(updateUser.updateUserImage(id, imageUrl));
     }
 

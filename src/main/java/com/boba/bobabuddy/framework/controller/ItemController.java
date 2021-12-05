@@ -186,7 +186,7 @@ public class ItemController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/user/items/{id}", params = "imageUrl")
-    public ItemDto updateItemImage(@RequestParam String imageUrl, @PathVariable UUID id) throws IOException {
+    public ItemDto updateItemImage(@RequestParam String imageUrl, @PathVariable UUID id){
         return converter.convertToDto(updateItem.updateItemImage(id, imageUrl));
     }
 
