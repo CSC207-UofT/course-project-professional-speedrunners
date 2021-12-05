@@ -1,7 +1,10 @@
-import 'package:boba_buddy/Database/database.dart';
+
 import 'package:boba_buddy/Screens/store_page.dart';
+import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/item_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 class SearchPage extends StatefulWidget {
   final String searchTerm;
@@ -18,7 +21,7 @@ class _SearchPage extends State<SearchPage> {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
 
-    Database db = Database();
+    ItemRepository db = context.read<ItemRepository>();
 
     return Scaffold(
       appBar: AppBar(
@@ -38,7 +41,7 @@ class _SearchPage extends State<SearchPage> {
         child: Container(
             margin: const EdgeInsets.only(left: 10.0),
             child: FutureBuilder(
-                future: db.itemSearch(widget.searchTerm),
+                future: db.findByNameContain(widget.searchTerm),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
@@ -79,26 +82,19 @@ class _SearchPage extends State<SearchPage> {
                   } else {
                     print("___________");
                     print(snapshot.data);
-                    return Container(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.length,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              return singleShop(
-                                  context: context,
-                                  imageSrc:
-                                      'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
-                                  //todo need image src implemented in entity classes
-                                  title: snapshot.data[index]["store"]
-                                          ["name"] ??
-                                      "",
-                                  address: snapshot.data[index]["store"]
-                                          ["location"] ??
-                                      "",
-                                  storeId: snapshot.data[index]["store"]['id'],
-                                  itemId: snapshot.data[index]["id"]);
-                            }));
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (BuildContext context, int index) {
+                          return singleShop(
+                              context: context,
+                              imageSrc:
+                                  'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
+                              //todo need image src implemented in entity classes
+                              store: snapshot.data[index].store,
+                              item: snapshot.data[index]);
+                        });
                   }
                 })),
       ),
@@ -106,29 +102,24 @@ class _SearchPage extends State<SearchPage> {
   }
 }
 
-Widget singleShop({
-  required String imageSrc,
-  required String title,
-  required String address,
-  required context,
-  required String storeId,
-  required String itemId,
-}) {
+Widget singleShop(
+    {required String imageSrc,
+    required context,
+    required Store store,
+    required Item item}) {
   const double WIDGETWIDTH = 325;
   const double WIDGETHEIGHT = 220;
 
   return InkWell(
     onTap: () {
-      print("Navigate to ${title} shop page");
+      print("Navigate to ${store.name} shop page");
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => StorePage(
-                    storeName: title,
+                    store: store,
+                    item: item,
                     imageSrc: imageSrc,
-                    address: address,
-                    storeId: storeId,
-                    itemId: itemId,
                   )));
     },
     child: Container(
@@ -172,7 +163,8 @@ Widget singleShop({
                   // );
                   return const Image(
                       //fit: BoxFit.fitWidth,
-                      image: AssetImage("assets/images/default-store.png"));
+                      image:
+                          AssetImage("assets/images/default-store.dart.png"));
                 })),
             Positioned(
               bottom: -15,
@@ -186,7 +178,7 @@ Widget singleShop({
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        title,
+                        store.name,
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         style: const TextStyle(
@@ -214,7 +206,7 @@ Widget singleShop({
                     child: Padding(
                       padding: const EdgeInsets.only(left: 23),
                       child: Text(
-                        address,
+                        store.location,
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         style: TextStyle(

@@ -1,24 +1,25 @@
 import 'dart:ui';
 
-import 'package:boba_buddy/Authentication/firebaseauth.dart';
 import 'package:boba_buddy/Screens/home_screen.dart';
+import 'package:boba_buddy/core/repository/authentication_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/src/provider.dart';
 
 import 'create_account_page.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
-  final Auth _auth = Auth();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final AuthenticationRepository _auth = context.read<AuthenticationRepository>();
     return ScreenUtilInit(
       designSize: const Size(393, 830),
       builder: () => Scaffold(
@@ -82,42 +83,19 @@ class LoginPage extends StatelessWidget {
                               _buildErrorToast("Please fill in all fields");
                               return;
                             }
-
-                            Enum response = await _auth.login(
-                                email: emailController.text,
-                                password: passwordController.text);
-
-                            switch (response) {
-                              case Response.success:
-                                {
-                                  _buildErrorToast("Login Successful");
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const HomeScreen()));
-                                }
-                                break;
-
-                              case Response.incorrectUserOrPass:
-                                {
-                                  _buildErrorToast(
-                                      "Incorrect email or password");
-                                }
-                                break;
-
-                              case Response.userNotFound:
-                                {
-                                  _buildErrorToast("User not found");
-                                }
-                                break;
-
-                              case Response.error:
-                                {
-                                  _buildErrorToast(
-                                      "Oops something went wrong please try again");
-                                }
-                                break;
+                            try{
+                              await _auth.logInWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text);
+                              var token = _auth.currentUser.idToken;
+                           }on Exception catch(e){
+                              _buildErrorToast(e.toString());
                             }
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => const HomeScreen(),
+                                    )
+                                );
                           },
                           child: const Text(
                             'Login',

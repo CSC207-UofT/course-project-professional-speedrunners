@@ -1,24 +1,18 @@
-import 'package:boba_buddy/Database/database.dart';
+
 import 'package:boba_buddy/Screens/store_page.dart';
+import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/item_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/src/provider.dart';
 
 class PriceUpdaterPage extends StatelessWidget {
-  final String storeName;
-  final String address;
   final String imageSrc;
-  final String storeId;
-  final String itemId;
+  final Item item;
 
-  const PriceUpdaterPage(
-      {Key? key,
-      required this.itemId,
-      required this.storeName,
-      required this.address,
-      required this.imageSrc,
-      required this.storeId})
+  const PriceUpdaterPage({Key? key, required this.imageSrc, required this.item})
       : super(key: key);
 
   @override
@@ -26,6 +20,7 @@ class PriceUpdaterPage extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     final newPriceController = TextEditingController();
+    ItemRepository itemRepository = context.read<ItemRepository>();
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -61,7 +56,7 @@ class PriceUpdaterPage extends StatelessWidget {
             Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 59, right: 20),
+                  padding: const EdgeInsets.only(top: 59, right: 20),
                   child: RichText(
                     text: TextSpan(
                         style: TextStyle(
@@ -81,8 +76,9 @@ class PriceUpdaterPage extends StatelessWidget {
               height: 100,
               top: 125,
               left: 43,
+              //TODO: is this manual refresh done purposefully to keep price up to date?
               child: FutureBuilder(
-                future: Database().getItemById(itemId),
+                future: itemRepository.getItemById(item.id),
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (!snapshot.hasData) {
@@ -95,8 +91,8 @@ class PriceUpdaterPage extends StatelessWidget {
                             Icons.attach_money_outlined,
                             color: Color.fromRGBO(86, 99, 255, 1.0),
                           ),
-                          border: OutlineInputBorder(),
-                          labelText: snapshot.data["price"].toString(),
+                          border: const OutlineInputBorder(),
+                          labelText: snapshot.data.price.toString(),
                           disabledBorder: InputBorder.none),
                     );
                   }
@@ -142,9 +138,7 @@ class PriceUpdaterPage extends StatelessWidget {
               left: 50,
               child: ElevatedButton(
                 onPressed: () async {
-                  Database db = Database();
-                  await db.updateItemPrice(
-                      itemId, double.parse(newPriceController.text));
+                  Item refreshedItem = await itemRepository.updateItemPrice(item.id, double.parse(newPriceController.text));
 
                   Fluttertoast.showToast(
                     msg: "Price Updated Successfully",
@@ -155,10 +149,8 @@ class PriceUpdaterPage extends StatelessWidget {
                   Navigator.pop(context);
                   Route route = MaterialPageRoute(
                       builder: (context) => StorePage(
-                            storeName: storeName,
-                            address: address,
-                            storeId: storeId,
-                            itemId: itemId,
+                            item: refreshedItem,
+                            store: refreshedItem.store!,
                             imageSrc: imageSrc,
                           ));
                   Navigator.pushReplacement(context, route);
