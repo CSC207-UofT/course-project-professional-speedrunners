@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -24,7 +25,6 @@ public class DtoConverterImpl<T, S> implements DtoConverter<T, S> {
         this.entityType = entityType;
         this.dtoType = dtoType;
     }
-
 
     @Override
     public S convertToDto(T entity) {

@@ -91,7 +91,7 @@ public class StoreController {
      * Handles GET requests for store resources that have matching location.
      *
      * @param location location of required store
-     * @param sortBy
+     * @param sortBy sort the returned list
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -105,7 +105,7 @@ public class StoreController {
      * Handles GET requests for store resources that have matching name
      *
      * @param name name of required store
-     * @param sortBy
+     * @param sortBy sort the returned list
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -119,7 +119,7 @@ public class StoreController {
      * Handles GET requests for store resources that partially matches the provided name
      *
      * @param nameContain name to match for
-     * @param sortBy
+     * @param sortBy sort the returned list
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -133,7 +133,7 @@ public class StoreController {
      * Handles GET requests for store resources that have rating greater than or equal to a given value
      *
      * @param rating the rating used for comparison
-     * @param sortBy
+     * @param sortBy sort the returned list
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -185,13 +185,15 @@ public class StoreController {
     }
 
     /**
-     * Handle DELETE request to delete a store resource from the system
+     * Handles DELETE request to delete a store resource from the system
      *
      * @param id id of the resource to be deleted.
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/stores/{id}")
+    @PreAuthorize("@FindStoreService.findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public void removeStore(@PathVariable UUID id) {
         removeStore.removeById(id);
     }
+
 }

@@ -2,6 +2,7 @@ package com.boba.bobabuddy.framework.converter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface DtoConverter<T, S> {
     S convertToDto(T entity);

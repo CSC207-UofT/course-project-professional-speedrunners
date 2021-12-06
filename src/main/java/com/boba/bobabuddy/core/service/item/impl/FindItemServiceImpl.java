@@ -5,11 +5,14 @@ import com.boba.bobabuddy.core.data.dao.ItemJpaRepository;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.item.FindItemService;
+import com.boba.bobabuddy.core.domain.Category;
+import com.boba.bobabuddy.core.service.category.FindCategoryService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -20,20 +23,28 @@ import java.util.UUID;
 public class FindItemServiceImpl implements FindItemService {
 
     private final ItemJpaRepository repo;
+    private final FindCategoryService findCategoryService;
 
     /**
      * Initialize FindItem usecase by injecting dependencies
      *
      * @param repo data access object for handling item data
+     * @param findCategoryService finds category that has the item in it
      */
-    public FindItemServiceImpl(final ItemJpaRepository repo) {
+    public FindItemServiceImpl(final ItemJpaRepository repo, FindCategoryService findCategoryService) {
         this.repo = repo;
+        this.findCategoryService = findCategoryService;
     }
-
 
     @Override
     public List<Item> findByStore(UUID id, Sort sort) {
         return repo.findByStore_id(id, sort);
+    }
+
+    @Override
+    public Set<Item> findByCategory(String name, Sort sort){
+        Category foundCategory = findCategoryService.findByName(name);
+        return foundCategory.getItems();
     }
 
 

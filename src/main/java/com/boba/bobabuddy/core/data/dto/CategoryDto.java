@@ -12,21 +12,15 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Data Transfer Objects matching the corresponding entities in the domain layer
+ * Data Transfer Objects matching corresponding entities in the domain layer
  */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @AllArgsConstructor @NoArgsConstructor
 @Jacksonized @Builder
-public class ItemDto {
-    private StoreDto store;
-    private Set<RatingDto> ratings;
-    private String name;
-    private String imageUrl;
-    private double price;
+public class CategoryDto {
     private UUID id;
-    private double avgRating;
-    private Set<String> categories;
+    private String name;
+    private Set<ItemDto> items;
 }
