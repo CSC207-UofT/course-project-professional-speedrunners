@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,7 +25,6 @@ public class ItemDto {
     private StoreDto store;
     private Set<RatingDto> ratings;
     private String name;
-    private String imageUrl;
     private double price;
     private UUID id;
     private double avgRating;

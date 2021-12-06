@@ -38,5 +38,4 @@ public class UserDto {
     private String password;
     private Set<RatingDto> ratings;
     private Collection<RoleDto> roles;
-    private String imageUrl;
 }

@@ -1,6 +1,5 @@
 package com.boba.bobabuddy.framework.controller;
 
-import com.boba.bobabuddy.core.data.dto.ItemDto;
 import com.boba.bobabuddy.core.data.dto.StoreDto;
 import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.service.store.CreateStoreService;
@@ -16,7 +15,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -169,19 +167,6 @@ public class StoreController {
     @PreAuthorize("@FindStoreService.findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public StoreDto updateStore(@RequestBody StoreDto storePatch, @PathVariable UUID id) {
         return converter.convertToDto(updateStore.updateStore(findStore.findById(id), storePatch));
-    }
-
-    /**
-     * Handles PUT request to update the image of an existing store resource
-     *
-     * @param imageUrl URL of the image
-     * @param id the UUID of the Store to be updated
-     * @return the updated Store
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/user/stores/{id}", params = "imageUrl")
-    public StoreDto updateStoreImage(@RequestParam String imageUrl, @PathVariable UUID id) {
-        return converter.convertToDto(updateStore.updateStoreImage(id, imageUrl));
     }
 
     /**

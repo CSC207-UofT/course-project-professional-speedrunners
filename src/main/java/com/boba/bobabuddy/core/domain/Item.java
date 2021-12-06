@@ -22,8 +22,6 @@ import javax.validation.constraints.Min;
 @AllArgsConstructor
 @SuperBuilder
 public class Item extends RatableObject {
-    private String imageUrl;
-
     @Min(value = 0)
     private double price;
 
