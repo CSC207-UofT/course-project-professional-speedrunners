@@ -12,10 +12,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       password: json['password'] as String?,
       ratings: (json['ratings'] as List<dynamic>?)
           ?.map((e) => Rating.fromJson(e as Map<String, dynamic>))
-          .toSet(),
+          .toList(),
       roles: (json['roles'] as List<dynamic>?)
-          ?.map((e) =>
-              e == null ? null : Role.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => Role.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String?,
     );
@@ -26,5 +25,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'name': instance.name,
       'password': instance.password,
       'ratings': instance.ratings?.map((e) => e.toJson()).toList(),
-      'roles': instance.roles?.map((e) => e?.toJson()).toList(),
+      'roles': instance.roles?.map((e) => e.toJson()).toList(),
     };

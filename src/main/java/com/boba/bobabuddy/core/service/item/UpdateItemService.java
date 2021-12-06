@@ -34,7 +34,7 @@ public interface UpdateItemService {
      * @return the updated Item
      * @throws IllegalArgumentException if the new price is less than 0
      */
-    Item updateItemPrice(UUID itemId, float price) throws IllegalArgumentException;
+    Item updateItemPrice(UUID itemId, double price) throws IllegalArgumentException;
 
     /**
      * Adds category to item
@@ -56,4 +56,12 @@ public interface UpdateItemService {
      */
     Item removeCategory(UUID itemId, String categoryName) throws ResourceNotFoundException;
 
+
+    /**
+     * Update an item's image
+     * @param id id of the item
+     * @param imageURL URL of the image
+     * @return updated item
+     */
+    Item updateItemImage(UUID id, String imageURL);
 }

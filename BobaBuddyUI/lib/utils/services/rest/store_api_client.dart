@@ -8,12 +8,14 @@ import 'package:http/http.dart' as http;
 class StoreApiClient {
   static const url = 'http://10.0.2.2:8080';
   final http.Client _httpClient;
+  final String authHeader = "X-Authorization-Firebase";
+
 
   StoreApiClient({http.Client? httpClient})
       : _httpClient = httpClient ?? http.Client();
 
-  Future<List<Store>> getStores() async {
-    final response = await _httpClient.get(Uri.parse(url + '/stores'));
+  Future<List<Store>> getStores(String idToken) async {
+    final response = await _httpClient.get(Uri.parse(url + '/stores'),headers: {authHeader: idToken});
     if (response.statusCode == 200) {
       Iterable storesMap = convert.jsonDecode(response.body);
       return storesMap.map((e) => Store.fromJson(e)).toList();
@@ -22,9 +24,9 @@ class StoreApiClient {
   }
 
   ///Deletes store from db
-  deleteStore({required String storeId}) async {
+  deleteStore({required String storeId, required String idToken}) async {
     http.Response response =
-        await _httpClient.delete(Uri.parse(url + '/stores/$storeId'));
+        await _httpClient.delete(Uri.parse(url + '/stores/$storeId'),headers: {authHeader: idToken});
     if (response.statusCode == 204) {
       // TODO: do sth to tell user operation was successful (fluttertoast?)
       return;
@@ -35,25 +37,27 @@ class StoreApiClient {
   createStore(
       {required String storeName,
       required String storeAddress,
-      required List storeItems}) async {
+      required List storeItems, required String idToken, required String email}) async {
     var bodyJson =
-        convert.jsonEncode({"name": storeName, "location": storeAddress});
+        convert.jsonEncode({"name": storeName, "location": storeAddress, "owner": email});
 
     http.Response storeCreateResp = await _httpClient.post(
-        Uri.parse(url + '/stores'),
-        headers: {"Content-Type": "application/json"},
+        Uri.parse(url + '/admin/stores'),
+        headers: {"Content-Type": "application/json", authHeader: idToken},
         body: bodyJson);
 
-    var getStoreIdResp =
-        await _httpClient.get(Uri.parse(url + '/stores/?name=$storeName'));
-    String storeId = convert.jsonDecode(getStoreIdResp.body)[0]["id"];
-
-    if (storeCreateResp.statusCode == 201 && getStoreIdResp.statusCode == 200) {
+    if (storeCreateResp.statusCode == 201) {
+      String storeId = Store.fromJson(convert.jsonDecode(storeCreateResp.body)).id;
       for (var item in storeItems) {
-        await _httpClient.post(Uri.parse(url + '/stores/$storeId/items'),
-            headers: {"Content-Type": "application/json"},
+        var itemResponse = await _httpClient.post(Uri.parse(url + '/stores/$storeId/items'),
+            headers: {"Content-Type": "application/json", authHeader: idToken},
             body: json.encode(item));
+        var itemBody = itemResponse.body;
+        print(itemBody);
       }
+      return;
     }
+    String msg = storeCreateResp.body;
+    throw Exception("Something went wrong. Error: $msg");
   }
 }

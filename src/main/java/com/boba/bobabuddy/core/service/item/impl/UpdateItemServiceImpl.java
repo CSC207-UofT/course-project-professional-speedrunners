@@ -53,7 +53,7 @@ public class UpdateItemServiceImpl implements UpdateItemService {
     }
 
     @Override
-    public Item updateItemPrice(UUID itemId, float price) throws IllegalArgumentException{
+    public Item updateItemPrice(UUID itemId, double price) throws IllegalArgumentException{
         if (price < 0) {
             throw new IllegalArgumentException("Price less than 0.");
         }
@@ -87,4 +87,12 @@ public class UpdateItemServiceImpl implements UpdateItemService {
 
 
 
+
+
+    @Override
+    public Item updateItemImage(UUID itemId, String imageUrl){
+        Item itemToUpdate = findItemService.findById(itemId);
+        itemToUpdate.setImageUrl(imageUrl);
+        return repo.save(itemToUpdate);
+    }
 }

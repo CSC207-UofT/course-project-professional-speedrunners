@@ -1,10 +1,12 @@
 import 'package:boba_buddy/Screens/login_page.dart';
+import 'package:cache/cache.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'core/repository/rating_repository.dart';
 import 'core/repository/repository.dart';
 
 // void main() => runApp(MyApp());
@@ -20,22 +22,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _cacheClient = CacheClient();
+    final _authenticationRepository = AuthenticationRepository(cache: _cacheClient);
+    final _userRepository = UserRepository(cache: _cacheClient, authenticationRepository: _authenticationRepository);
+    final _storeRepository = StoreRepository(authenticationRepository: _authenticationRepository);
+    final _itemRepository = ItemRepository(authenticationRepository: _authenticationRepository);
+    final _ratingRepository = RatingRepository(authenticationRepository: _authenticationRepository);
     return ScreenUtilInit(
       //used for universal scaling across devices
       builder: () => MultiRepositoryProvider(
         providers: [
           RepositoryProvider<AuthenticationRepository>(
-            create: (context) => AuthenticationRepository(),
+            create: (context) => _authenticationRepository,
           ),
           RepositoryProvider<UserRepository>(
-            create: (context) => UserRepository(),
+            create: (context) => _userRepository,
           ),
           RepositoryProvider<StoreRepository>(
-            create: (context) => StoreRepository(),
+            create: (context) => _storeRepository,
           ),
           RepositoryProvider<ItemRepository>(
-            create: (context) => ItemRepository(),
+            create: (context) => _itemRepository,
           ),
+          RepositoryProvider<RatingRepository>(
+            create: (context) => _ratingRepository,
+          )
         ],
         child:
             MaterialApp(debugShowCheckedModeBanner: false, home: LoginPage()),

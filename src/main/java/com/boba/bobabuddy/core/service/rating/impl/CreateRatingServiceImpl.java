@@ -54,16 +54,13 @@ public class CreateRatingServiceImpl implements CreateRatingService {
             throw new IllegalArgumentException("Rating must be 0 or 1");
         }
 
-
-
-
         RatableObject ratableToUpdate = findRatable.findByTypeAndId(ratableType, ratableId);
         User userToUpdate = findUser.findByEmail(email);
 
         Rating createdRating = Rating.builder()
                 .rating(rating.getRating())
                 .build();
-
+        repo.save(createdRating);
         updateUser.addRating(userToUpdate, createdRating);
         updateRatable.addRating(ratableToUpdate, createdRating);
 

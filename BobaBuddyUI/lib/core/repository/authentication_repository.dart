@@ -44,14 +44,14 @@ class AuthenticationRepository {
   /// User cache key.
   /// Should only be used for testing purposes.
   @visibleForTesting
-  static const userCacheKey = '__user_cache_key__';
+  static const userCacheKey = '__user_detail_cache_key__';
 
   /// Stream of [UserDetail] which will emit the current user when
   /// the authentication state changes.
   ///
   /// Emits [UserDetail.empty] if the user is not authenticated.
   Stream<UserDetail> get user {
-    return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) {
+    return _firebaseAuth.idTokenChanges().asyncMap((firebaseUser) {
       if(firebaseUser == null || firebaseUser.email == null) return UserDetail.empty;
       final user = _toUserDetail(firebaseUser);
       return user;
@@ -63,7 +63,7 @@ class AuthenticationRepository {
   Future<UserDetail> _toUserDetail(firebase.User firebaseUser) async{
     //TODO: add idToken to get user call. this only works when spring security is disabled in the backend
     final idToken = await firebaseUser.getIdToken();
-    final user = await _userApiClient.getUser(firebaseUser.email!);
+    final user = await _userApiClient.getUser(firebaseUser.email!, idToken);
     return UserDetail(id: user.id, email: user.email, roles: user.roles?.map((e) => e?.name).toList(), name: user.name, idToken: idToken);
   }
 
@@ -81,7 +81,8 @@ class AuthenticationRepository {
     try {
       await _userApiClient.createUser(
           email: email,
-          name: name
+          name: name,
+          idToken: currentUser.idToken ?? ""
       );
       await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,

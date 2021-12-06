@@ -12,8 +12,8 @@ class User extends Equatable{
   final String email;
   final String? name;
   final String? password;
-  final Set<Rating>? ratings;
-  final List<Role?>? roles;
+  final List<Rating>? ratings;
+  final List<Role>? roles;
 
   const User({required this.email, this.name, this.password, this.ratings, this.roles, this.id});
 
