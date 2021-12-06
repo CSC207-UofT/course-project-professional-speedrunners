@@ -3,6 +3,7 @@ import 'package:boba_buddy/core/repository/authentication_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/src/provider.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -12,7 +13,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthenticationRepository auth = context.read<AuthenticationRepository>();
     double deviceWidth = MediaQuery.of(context).size.width;
-    List fields = ["Change Password", "Change Email", "Change Username"];
+    List fields = ["Change Email", "Change Username"];
     //TODO: finish settings page -- functionality isn't crucial
     return ScreenUtilInit(
         designSize: const Size(393, 830),
@@ -73,7 +74,7 @@ class ProfilePage extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
-                            return _buildField(fields[index]);
+                            return _buildField(fields[index], context);
                           },
                         ),
                       ),
@@ -115,10 +116,10 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-Widget _buildField(String fieldString) {
+Widget _buildField(String fieldString, BuildContext context) {
   return InkWell(
     onTap: () {
-      print("tapped");
+      _openDialog(context, fieldString);
     },
     child: Container(
       height: 80.h,
@@ -131,4 +132,45 @@ Widget _buildField(String fieldString) {
           )),
     ),
   );
+}
+
+_openDialog(BuildContext context, String field) {
+  List<String> action = field.split(" ");
+  TextEditingController fieldController = TextEditingController();
+
+  showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text(field),
+            content: TextField(
+              autofocus: true,
+              controller: fieldController,
+              decoration: InputDecoration(
+                  hintText: "Enter new ${action[action.length - 1]}"),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Cancel")),
+              TextButton(
+                  onPressed: () {
+                    if (fieldController.text.trim().isNotEmpty) {
+                      //TODO: add required method call for updating user profile
+                      //use fieldController.text to access input
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Please Fill In Required Fields",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+                  },
+                  child: const Text("Submit")),
+            ],
+          ));
 }

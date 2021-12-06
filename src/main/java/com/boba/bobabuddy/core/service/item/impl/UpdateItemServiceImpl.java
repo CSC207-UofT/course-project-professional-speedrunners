@@ -87,4 +87,11 @@ public class UpdateItemServiceImpl implements UpdateItemService {
 
 
 
+
+    @Override
+    public Item updateItemImage(UUID itemId, String imageUrl){
+        Item itemToUpdate = findItemService.findById(itemId);
+        itemToUpdate.setImageUrl(imageUrl);
+        return repo.save(itemToUpdate);
+    }
 }

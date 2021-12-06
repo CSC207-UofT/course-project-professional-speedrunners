@@ -17,8 +17,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -190,32 +190,18 @@ public class ItemController {
     }
 
     /**
-     * Handles PUT request to add a category to an existing item resource
+     * Handles PUT request to update the image of an existing item resource
      *
-     * @param categoryName name of category to be added
+     * @param imageUrl URL of the image
      * @param id the UUID of the Item to be updated
      * @return the updated item
      */
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
-    @PutMapping(path = "/user/items/{id}", params = "categoryName")
-    public ItemDto addCategory(@RequestParam String categoryName, @PathVariable UUID id) {
-        return converter.convertToDto(updateItem.addCategory(id, categoryName));
+    @PutMapping(path = "/user/items/{id}", params = "imageUrl")
+    public ItemDto updateItemImage(@RequestParam String imageUrl, @PathVariable UUID id){
+        return converter.convertToDto(updateItem.updateItemImage(id, imageUrl));
     }
 
-    /**
-     * Handles PUT request to remove a category from an existing item resource
-     *
-     * @param categoryName name of category to be removed
-     * @param id the UUID of the Item to be updated
-     * @return the updated item
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
-    @PutMapping(path = "/user/items/{id}", params = "categoryName")
-    public ItemDto removeCategory(@RequestParam String categoryName, @PathVariable UUID id) {
-        return converter.convertToDto(updateItem.removeCategory(id, categoryName));
-    }
 
     /**
      * Handle DELETE request to delete an item resource from the system

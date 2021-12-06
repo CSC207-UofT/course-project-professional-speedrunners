@@ -56,4 +56,12 @@ public interface UpdateItemService {
      */
     Item removeCategory(UUID itemId, String categoryName) throws ResourceNotFoundException;
 
+
+    /**
+     * Update an item's image
+     * @param id id of the item
+     * @param imageURL URL of the image
+     * @return updated item
+     */
+    Item updateItemImage(UUID id, String imageURL);
 }
