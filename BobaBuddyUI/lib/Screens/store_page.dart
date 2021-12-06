@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 
+import 'package:boba_buddy/Authentication/firebaseauth.dart';
+import 'package:boba_buddy/Database/database.dart';
 import 'package:boba_buddy/Screens/price_update_page.dart';
 import 'package:boba_buddy/core/model/models.dart';
 import 'package:boba_buddy/core/repository/repository.dart';
@@ -34,6 +36,8 @@ class _StorePage extends State<StorePage> {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     ItemRepository db = context.read<ItemRepository>();
+    Database db = Database();
+    bool isThumbsDownPressed, isThumbsUpPressed;
 
     print(widget.item.id);
     print("item id ^^^^^");
@@ -236,8 +240,8 @@ class _StorePage extends State<StorePage> {
                               )),
                         ),
                         Positioned(
-                          left: 250,
-                          top: 125,
+                          left: 260,
+                          top: 80,
                           child: Text(
                             "\$${snapshot.data.price.toString()}",
                             textAlign: TextAlign.start,
@@ -249,8 +253,109 @@ class _StorePage extends State<StorePage> {
                           ),
                         ),
                         Positioned(
+                          left: 320,
+                          top: 80,
+                          child: Text(
+                            "${(100*snapshot.data["avgRating"]).round().toString()}%",
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Josefin Sans",
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Positioned(
+                          left: 260,
+                          top: 150,
+                          child: FutureBuilder(
+                            future: db.getUserRating(Auth().getUserEmail(), widget.itemId),
+                            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                if (snapshot.data == null){
+                                  isThumbsUpPressed = false;
+                                  isThumbsDownPressed = false;
+                                }
+                                else{
+                                  if (snapshot.data['rating'] == 1){
+                                    isThumbsUpPressed = true;
+                                    isThumbsDownPressed = false;
+                                  }
+                                  else{
+                                    isThumbsUpPressed = false;
+                                    isThumbsDownPressed = true;
+                                  }
+                                }
+                              return (IconButton(
+                                  icon: isThumbsUpPressed
+                        ?         const Icon(Icons.thumb_up_alt_sharp) : const Icon(Icons.thumb_up_outlined),
+                                  onPressed: () =>
+                                    setState(() {
+                                      if (!isThumbsUpPressed && isThumbsDownPressed) {
+                                        isThumbsDownPressed = !isThumbsDownPressed;
+                                        db.changeUserRating(snapshot.data['id'], 1);
+                                      }
+                                      else if (!isThumbsUpPressed && !isThumbsDownPressed){
+                                        db.addRating(1, Auth().getUserEmail(), widget.itemId);
+                                      }
+                                      else{
+                                        db.deleteRating(ratingID: snapshot.data['id']);
+                                      }
+                                      isThumbsUpPressed = !isThumbsUpPressed;
+                                    }
+                                    ),
+                                  color: Colors.green,
+                                )
+                              );
+                            }
+                          )
+                        ),
+                        Positioned(
+                            left: 310,
+                            top: 150,
+                            child: FutureBuilder(
+                                future: db.getUserRating(Auth().getUserEmail(), widget.itemId),
+                                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                    if (snapshot.data == null){
+                                      isThumbsUpPressed = false;
+                                      isThumbsDownPressed = false;
+                                    }
+                                    else{
+                                      if (snapshot.data['rating'] == 1){
+                                        isThumbsUpPressed = true;
+                                        isThumbsDownPressed = false;
+                                      }
+                                      else{
+                                        isThumbsUpPressed = false;
+                                        isThumbsDownPressed = true;
+                                      }
+                                    }
+                                    return (IconButton(
+                                        icon: isThumbsDownPressed
+                                            ?         const Icon(Icons.thumb_down_alt_sharp) : const Icon(Icons.thumb_down_outlined),
+                                        onPressed: () =>
+                                            setState(() {
+                                              if (!isThumbsDownPressed && isThumbsUpPressed) {
+                                                isThumbsUpPressed = !isThumbsUpPressed;
+                                                db.changeUserRating(snapshot.data['id'], 0);
+                                              }
+                                              else if (!isThumbsDownPressed && !isThumbsUpPressed){
+                                                db.addRating(0, Auth().getUserEmail(), widget.itemId);
+                                              }
+                                              else {
+                                                db.deleteRating(ratingID: snapshot.data['id']);
+                                              }
+                                              isThumbsDownPressed = !isThumbsDownPressed;
+                                            }
+                                            ),
+                                        color: Colors.red,
+                                      )
+                                    );
+                                }
+                            )
+                        ),
+                        Positioned(
                           left: 250,
-                          top: 175,
+                          top: 220,
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
