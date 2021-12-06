@@ -115,5 +115,4 @@ public class CategoryController {
     public void removeCategory(@PathVariable UUID id, @RequestParam("userId") UUID userId){
         removeCategory.removeById(id);
     }
-
 }
