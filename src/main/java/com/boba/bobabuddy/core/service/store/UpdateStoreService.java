@@ -7,7 +7,6 @@ import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 
-import java.io.IOException;
 import java.util.UUID;
 
 /**

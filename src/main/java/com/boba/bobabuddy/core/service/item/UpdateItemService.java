@@ -4,7 +4,6 @@ import com.boba.bobabuddy.core.data.dto.ItemDto;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 
-import java.io.IOException;
 import java.util.UUID;
 
 /**
