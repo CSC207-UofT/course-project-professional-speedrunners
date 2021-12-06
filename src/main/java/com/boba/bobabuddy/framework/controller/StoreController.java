@@ -166,7 +166,7 @@ public class StoreController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/stores/{id}")
-    @PreAuthorize("@FindStoreService.findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindStoreService.findById(#id).getOwner()")
     public StoreDto updateStore(@RequestBody StoreDto storePatch, @PathVariable UUID id) {
         return converter.convertToDto(updateStore.updateStore(findStore.findById(id), storePatch));
     }
@@ -180,7 +180,7 @@ public class StoreController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/stores/{id}", params = "imageUrl")
-    @PreAuthorize("@FindStoreService.findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindStoreService.findById(#id).getOwner()")
     public StoreDto updateStoreImage(@RequestParam String imageUrl, @PathVariable UUID id) {
         return converter.convertToDto(updateStore.updateStoreImage(id, imageUrl));
     }
@@ -192,7 +192,7 @@ public class StoreController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/stores/{id}")
-    @PreAuthorize("@FindStoreService.findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindStoreService.findById(#id).getOwner()")
     public void removeStore(@PathVariable UUID id) {
         removeStore.removeById(id);
     }

@@ -31,13 +31,12 @@ public class CategoryController {
      * Post HTTP requests for creating category resource
      *
      * @param createCategoryRequest Request class that contains data necessary to construct a Category entity.
-     * @param userId id of the user to ensure only admin can create category
      * @return Category that was constructed, which will be automatically converted to JSON and send it to the caller.
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/categories", params = "userId")
-    @PreAuthorize("@FindUserService.findById(#userId).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
-    public CategoryDto createCategory(@RequestBody CategoryDto createCategoryRequest, @RequestParam("userId") UUID userId){
+    @PostMapping(path = "/categories")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public CategoryDto createCategory(@RequestBody CategoryDto createCategoryRequest){
         return converter.convertToDto(createCategory.create(createCategoryRequest));
     }
 
@@ -107,12 +106,11 @@ public class CategoryController {
      * Handles DELETE request to delete a category resource from the system
      *
      * @param id id of the resource to be deleted
-     * @param userId id of the user to ensure only admins can delete a category
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/categories/{id}")
-    @PreAuthorize("@FindUserService.findById(#userId).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
-    public void removeCategory(@PathVariable UUID id, @RequestParam("userId") UUID userId){
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void removeCategory(@PathVariable UUID id){
         removeCategory.removeById(id);
     }
 

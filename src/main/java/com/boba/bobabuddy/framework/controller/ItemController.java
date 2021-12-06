@@ -171,7 +171,7 @@ public class ItemController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/items/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindItemService.findById(#id).getStore().getOwner()")
     public ItemDto updateItem(@RequestBody ItemDto newItem, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.updateItem(id, newItem));
     }
@@ -188,7 +188,6 @@ public class ItemController {
     public ItemDto updateItemPrice(@RequestParam double price, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.updateItemPrice(id, price));
     }
-
     /**
      * Handles PUT request to update the image of an existing item resource
      *
@@ -197,10 +196,37 @@ public class ItemController {
      * @return the updated item
      */
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/user/items/{id}", params = "imageUrl")
-    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PutMapping(path = "/items/{id}", params = "imageUrl")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindItemService.findById(#id).getStore().getOwner()")
     public ItemDto updateItemImage(@RequestParam String imageUrl, @PathVariable UUID id){
         return converter.convertToDto(updateItem.updateItemImage(id, imageUrl));
+    }
+
+    /**
+     * Handles PUT request to add a category to an existing item resource
+     *
+     * @param categoryToAdd name of category to be added
+     * @param id the UUID of the Item to be updated
+     * @return the updated item
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindItemService.findById(#id).getStore().getOwner()")
+    @PutMapping(path = "/items/{id}", params = "categoryToAdd")
+    public ItemDto addCategory(@RequestParam String categoryToAdd, @PathVariable UUID id) {
+        return converter.convertToDto(updateItem.addCategory(id, categoryToAdd));
+    }
+
+    /**
+     * Handles PUT request to remove a category from an existing item resource
+     *
+     * @param id the UUID of the Item to be updated
+     * @return the updated item
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindItemService.findById(#id).getStore().getOwner()")
+    @PutMapping(path = "/items/{id}", params = "categoryToRemove")
+    public ItemDto removeCategory(@RequestParam String categoryToRemove, @PathVariable UUID id) {
+        return converter.convertToDto(updateItem.removeCategory(id, categoryToRemove));
     }
 
     /**
@@ -210,8 +236,8 @@ public class ItemController {
      * @param id id of the resource to be deleted
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping(path = "/user/items/{id}")
-    @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping(path = "/items/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindItemService.findById(#id).getStore().getOwner()")
     public void removeItem(@PathVariable UUID id) {
         removeItem.removeById(id);
     }

@@ -14,6 +14,7 @@ class Store extends Equatable{
   @JsonKey(toJson: menuToJson)
   late final List<Item>? menu;
   final Set<Rating>? ratings;
+  final String? imageUrl;
 
   static List<String> menuToJson(dynamic menu) {
     return menu.map((e) => e.toJson()).toList();
@@ -33,7 +34,8 @@ class Store extends Equatable{
       (json['ratings'] as List<dynamic>?)
           ?.map((e) => Rating.fromJson(e as Map<String, dynamic>))
           .toSet(),
-      json['avgRating'] as double
+      json['avgRating'] as double,
+      json['imageUrl'] as String?
     );
     List<Item>? menu = (json['menu'] as List<dynamic>?)
         ?.map((e) => Item.fromJsonAsNested(e as Map<String, dynamic>, store))
@@ -44,7 +46,7 @@ class Store extends Equatable{
 
   Map<String, dynamic> toJson() => _$StoreToJson(this);
 
-  Store(this.id, this.name, this.location, this.ratings, this.avgRating);
+  Store(this.id, this.name, this.location, this.ratings, this.avgRating, this.imageUrl);
 
   @override
   List<Object?> get props => [id, name, location, avgRating] ;

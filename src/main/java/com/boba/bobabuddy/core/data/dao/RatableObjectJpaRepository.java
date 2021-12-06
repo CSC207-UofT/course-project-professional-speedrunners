@@ -24,4 +24,5 @@ public interface RatableObjectJpaRepository<T extends RatableObject> extends Gen
     List<T> findByAvgRatingGreaterThanEqual(float rating, Sort sort);
 
     Optional<T> findByRatings_id(UUID id);
+
 }

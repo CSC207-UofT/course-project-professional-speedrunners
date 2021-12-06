@@ -14,8 +14,11 @@ class User extends Equatable{
   final String? password;
   final List<Rating>? ratings;
   final List<Role>? roles;
+  final String? imageUrl;
 
-  const User({required this.email, this.name, this.password, this.ratings, this.roles, this.id});
+
+
+  const User({this.imageUrl, required this.email, this.name, this.password, this.ratings, this.roles, this.id});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
@@ -23,6 +26,6 @@ class User extends Equatable{
   static const empty = User(email: "");
 
   @override
-  List<Object?> get props => [email, name, password, roles];
+  List<Object?> get props => [id, email, name, password, roles, ratings, imageUrl];
 
 }

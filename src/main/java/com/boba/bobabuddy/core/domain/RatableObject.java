@@ -36,6 +36,7 @@ public abstract class RatableObject {
     @GeneratedValue
     private UUID id;
     private String name;
+    private String imageUrl;
 
     @Min(value = 0)
     @Max(value = 1)

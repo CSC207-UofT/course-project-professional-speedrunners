@@ -37,6 +37,7 @@ public class RemoveItemServiceImpl implements RemoveItemService {
     @Override
     public void removeById(UUID id) throws ResourceNotFoundException {
         Item item = findItem.findById(id);
+        item.getCategories().forEach(category -> category.removeItem(item));
         repo.delete(item);
     }
 }

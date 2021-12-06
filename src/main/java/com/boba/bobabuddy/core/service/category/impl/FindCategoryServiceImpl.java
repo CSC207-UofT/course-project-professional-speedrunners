@@ -23,13 +23,9 @@ import java.util.UUID;
 @Transactional
 public class FindCategoryServiceImpl implements FindCategoryService {
     final private CategoryJpaRepository repo;
-    final private FindItemService findItem;
-    final private FindCategoryService findCategory;
 
-    public FindCategoryServiceImpl(CategoryJpaRepository repo, FindItemServiceImpl findItem, FindCategoryService findCategory){
+    public FindCategoryServiceImpl(CategoryJpaRepository repo){
         this.repo = repo;
-        this.findItem = findItem;
-        this.findCategory = findCategory;
     }
 
     @Override
@@ -44,8 +40,7 @@ public class FindCategoryServiceImpl implements FindCategoryService {
 
     @Override
     public List<Category> findByItem(UUID id, Sort sort) throws ResourceNotFoundException{
-        Set<String> categoryNames = findItem.findById(id).getCategories();
-        return repo.findByNameIsIn(categoryNames, sort);
+        return repo.findByItems_id(id, sort);
     }
 
     @Override

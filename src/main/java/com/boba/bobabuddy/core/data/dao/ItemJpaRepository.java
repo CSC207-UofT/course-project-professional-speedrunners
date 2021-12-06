@@ -20,4 +20,7 @@ public interface ItemJpaRepository extends RatableObjectJpaRepository<Item> {
 
     List<Item> findByPriceLessThanEqual(double price, Sort sort);
 
+    List<Item> findByCategories_name(String name, Sort sort);
+
+
 }

@@ -189,6 +189,7 @@ class _StorePage extends State<StorePage> {
                           ? db.getOneItemFromStore(widget.store.id)
                           : db.getItemById(widget.item.id),
                       builder: (context, AsyncSnapshot snapshot) {
+                        String email = userRepository.currentUser.email;
                         if (!snapshot.hasData) {
                           return const Center(
                               child: CircularProgressIndicator());
@@ -205,7 +206,7 @@ class _StorePage extends State<StorePage> {
                         else {
                           return FutureBuilder(
                               future: userRepository
-                                  .getUser(userRepository.currentUser.email),
+                                  .getUser(email),
                               builder: (context, AsyncSnapshot userSnapshot) {
                                 if(!userSnapshot.hasData){ return const CircularProgressIndicator();}
                                 Rating? rating = _getUserRating(userSnapshot.data, snapshot.data);

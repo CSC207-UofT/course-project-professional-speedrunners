@@ -122,7 +122,7 @@ public class RatingController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/ratings/{id}")
-    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindUserService.findByRating(#id).getEmail()")
     public void removeById(@PathVariable UUID id) {
         removeRating.removeById(id);
     }
@@ -136,7 +136,7 @@ public class RatingController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/ratings/{id}")
-    @PreAuthorize("@FindUserService.findByRating(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindUserService.findByRating(#id).getEmail()")
     public RatingDto updateRating(@PathVariable UUID id, @RequestBody RatingDto rating) {
         return converter.convertToDto(updateRating.updateRating(id, rating.getRating()));
     }

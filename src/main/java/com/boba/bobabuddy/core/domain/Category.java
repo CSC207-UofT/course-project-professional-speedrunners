@@ -24,16 +24,15 @@ public class Category {
     private UUID id;
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @ManyToMany(mappedBy = "categories")
     @Builder.Default
     private Set<Item> items = new HashSet<>();
 
-    public boolean addItem(Item item){
+    public boolean addItem(Item item) {
         return items.add(item);
     }
 
-    public boolean removeItem(Item item){
+    public boolean removeItem(Item item) {
         return items.remove(item);
     }
 
@@ -43,6 +42,11 @@ public class Category {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Category category = (Category) o;
         return id != null && Objects.equals(id, category.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
     @Override

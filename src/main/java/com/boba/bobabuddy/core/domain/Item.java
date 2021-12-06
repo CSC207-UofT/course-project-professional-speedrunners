@@ -21,7 +21,6 @@ import java.util.Set;
 @AllArgsConstructor
 @SuperBuilder
 public class Item extends RatableObject {
-    private String imageUrl;
 
     @Min(value = 0)
     private double price;
@@ -29,15 +28,22 @@ public class Item extends RatableObject {
     @ManyToOne
     private Store store;
 
-    @ElementCollection
-    private Set<String> categories;
+    @ManyToMany
+    @JoinTable(
+            name = "item_categories",
+            joinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
+    )
+    private Set<Category> categories;
 
-    public boolean addCategory(String category){
-        return this.categories.add(category);
+    public boolean addCategory(Category category){
+        category.addItem(this);
+        return categories.add(category);
     }
 
-    public boolean removeCategory(String category){
-        return this.categories.remove(category);
+    public boolean removeCategory(Category category){
+        category.removeItem(this);
+        return categories.remove(category);
     }
 
     @Override

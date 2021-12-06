@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,5 +29,5 @@ public class ItemDto {
     private double price;
     private UUID id;
     private double avgRating;
-    private Set<String> categories;
+    private List<CategoryDto> categories;
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -34,19 +35,25 @@ public class UpdateUserServiceImpl implements UpdateUserService {
     /**
      * Update user fields and save it to the database
      *
-     * @param userToUpdate old user data
-     * @param newUser      user DTO containing new data and matching id
+     * @param email   old user data
+     * @param newUser user DTO containing new data and matching id
      * @return saved user entity
-     * @throws DifferentResourceException when userToUpdate and newUser have different email
+     * @throws DifferentResourceException when email and newUser have different email
      */
     @Override
-    public User updateUser(User userToUpdate, UserDto newUser) throws DifferentResourceException {
-
+    public User updateUser(String email, UserDto newUser) throws DifferentResourceException {
+        User userToUpdate = findUserService.findByEmail(email);
         if (Objects.equals(userToUpdate.getEmail(), newUser.getEmail())) {
-            userToUpdate.setName(newUser.getName());
-            userToUpdate.setPassword(newUser.getPassword());
-            return repo.save(userToUpdate);
-
+            User user = User.builder()
+                    .id(userToUpdate.getId())
+                    .ratings(userToUpdate.getRatings())
+                    .roles(userToUpdate.getRoles())
+                    .email(Optional.ofNullable(newUser.getEmail()).orElse(userToUpdate.getEmail()))
+                    .imageUrl(Optional.ofNullable(newUser.getImageUrl()).orElse(userToUpdate.getImageUrl()))
+                    .name(Optional.ofNullable(newUser.getName()).orElse(userToUpdate.getName()))
+                    .password(Optional.ofNullable(newUser.getPassword()).orElse(userToUpdate.getPassword()))
+                    .build();
+            return repo.save(user);
         }
         throw new DifferentResourceException("Not the same user");
     }
@@ -69,7 +76,7 @@ public class UpdateUserServiceImpl implements UpdateUserService {
     }
 
     @Override
-    public User updateUserImage(UUID userId, String imageUrl){
+    public User updateUserImage(UUID userId, String imageUrl) {
         User userToUpdate = findUserService.findById(userId);
         userToUpdate.setImageUrl(imageUrl);
         return repo.save(userToUpdate);

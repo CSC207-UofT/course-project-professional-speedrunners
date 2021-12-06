@@ -12,7 +12,7 @@ import java.util.UUID;
  * Usecase Input Boundary
  */
 public interface UpdateUserService {
-    User updateUser(User userToUpdate, UserDto newUser) throws DifferentResourceException;
+    User updateUser(String email, UserDto newUser) throws DifferentResourceException;
 
     User addRating(User userToUpdate, Rating rating) throws DuplicateResourceException;
 

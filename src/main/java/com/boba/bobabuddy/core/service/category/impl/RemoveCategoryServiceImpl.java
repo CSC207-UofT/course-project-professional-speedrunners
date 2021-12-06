@@ -33,6 +33,7 @@ public class RemoveCategoryServiceImpl implements RemoveCategoryService{
 
     public void removeById(UUID id) throws ResourceNotFoundException {
         Category category = findCategory.findById(id);
+        category.getItems().forEach(item -> item.removeCategory(category));
         repo.delete(category);
     }
 

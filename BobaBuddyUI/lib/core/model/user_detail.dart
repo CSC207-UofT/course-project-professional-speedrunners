@@ -7,7 +7,7 @@ class UserDetail extends Equatable {
   const UserDetail({required this.email,
     this.id,
     this.name,
-    this.photo,
+    this.imageUrl,
     this.roles = const ["ROLE_ANONYMOUS"],
     this.idToken});
 
@@ -31,7 +31,7 @@ class UserDetail extends Equatable {
   final String? idToken;
 
   /// Url for the current user's photo.
-  final String? photo;
+  final String? imageUrl;
 
   final List<String?>? roles;
 
@@ -42,7 +42,7 @@ class UserDetail extends Equatable {
   bool get isAdmin => roles?.contains("ROLE_ADMIN") ?? false;
 
   @override
-  List<Object?> get props => [id, name, email, photo, roles];
+  List<Object?> get props => [id, name, email, imageUrl, roles];
 
   static const empty = UserDetail(email: '');
 }

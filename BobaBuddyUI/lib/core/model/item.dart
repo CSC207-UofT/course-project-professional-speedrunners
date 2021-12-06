@@ -17,6 +17,7 @@ class Item extends Equatable{
   final String name;
   final double price;
   final double? avgRating;
+  final String? imageUrl;
 
 
 
@@ -32,6 +33,7 @@ class Item extends Equatable{
       json['name'] as String,
       (json['price'] as num).toDouble(),
       (json['avgRating'] as num).toDouble(),
+      json['imageUrl'] as String?
     );
   }
 
@@ -44,7 +46,7 @@ class Item extends Equatable{
   //   'avgRating': instance.avgRating,
   // };
 
-  const Item(this.store, this.ratings, this.id, this.name, this.price, this.avgRating);
+  const Item(this.store, this.ratings, this.id, this.name, this.price, this.avgRating, this.imageUrl);
 
   @override
   List<Object?> get props => [id, name, price, avgRating];
