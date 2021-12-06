@@ -15,7 +15,7 @@ public interface FindStoreService {
      * Find all stores that exist in the database
      *
      * @return list of all stores in the database, or an empty list if the database is empty
-     * @param sort
+     * @param sort sort the returned list
      */
     List<Store> findAll(Sort sort);
 
@@ -23,7 +23,7 @@ public interface FindStoreService {
      * Find Store by its location
      *
      * @param location location of the store
-     * @param sort
+     * @param sort sort the returned list
      * @return the Store if it was found. Otherwise, return null.
      */
     List<Store> findByLocation(String location, Sort sort);
@@ -32,7 +32,7 @@ public interface FindStoreService {
      * Find Store by its name. Also do partial match.
      *
      * @param name name to be matched
-     * @param sort
+     * @param sort sort the returned list
      * @return Store that partially matches the name, or an empty list if no such Store exist
      */
     List<Store> findByNameContaining(String name, Sort sort);
@@ -49,7 +49,7 @@ public interface FindStoreService {
     /***
      * Find Store by its name. Have to be fully matching.
      * @param name name to be matched
-     * @param sort
+     * @param sort sort the returned list
      * @return Store with matching name. Or an empty list if no such Store exist
      */
     List<Store> findByName(String name, Sort sort);
@@ -58,7 +58,7 @@ public interface FindStoreService {
      * Find all Store that have avgRating greater than or equal to param rating
      *
      * @param avgRating avgRating to be compared with
-     * @param sort
+     * @param sort sort the returned list
      * @return Store that has avgRating greater than or equal to param rating, or an empty list if no such Store exist
      * @throws IllegalArgumentException when avgRating is out of bound
      */

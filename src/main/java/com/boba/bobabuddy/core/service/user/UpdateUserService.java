@@ -1,13 +1,11 @@
 package com.boba.bobabuddy.core.service.user;
 
 import com.boba.bobabuddy.core.data.dto.UserDto;
-import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.domain.Rating;
 import com.boba.bobabuddy.core.domain.User;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 
-import java.io.IOException;
 import java.util.UUID;
 
 /**

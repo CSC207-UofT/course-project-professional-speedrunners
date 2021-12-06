@@ -110,6 +110,19 @@ public class ItemController {
     }
 
     /**
+     * Handles GET requests for an item resources that belongs to a category
+     *
+     * @param name name of the category
+     * @return list of item resources that belong to the specified store
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(path = "/category", params = "name, sortBy")
+    public List<ItemDto> findByCategory(@RequestParam("name") String name,
+                                       @RequestParam(defaultValue = "price") String sortBy){
+        return converter.convertToDtoList(findItem.findByCategory(name, SortQueryBuilder.buildSort(sortBy)));
+    }
+
+    /**
      * Handles GET requests for item resources that have price less than equal to a given value
      *
      * @param price the price used for comparison
@@ -161,7 +174,6 @@ public class ItemController {
     @PreAuthorize("@FindItemService.findById(#id).getStore().getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ItemDto updateItem(@RequestBody ItemDto newItem, @PathVariable UUID id) {
         return converter.convertToDto(updateItem.updateItem(id, newItem));
-
     }
 
     /**
