@@ -87,15 +87,18 @@ class LoginPage extends StatelessWidget {
                               await _auth.logInWithEmailAndPassword(
                                   email: emailController.text,
                                   password: passwordController.text);
-                              var token = _auth.currentUser.idToken;
-                           }on Exception catch(e){
-                              _buildErrorToast(e.toString());
+
+                           }on LogInWithEmailAndPasswordFailure catch(e, stack){
+                              _buildErrorToast(e.message);
+                              return;
                             }
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) => const HomeScreen(),
-                                    )
-                                );
+                                  builder: (context) => const HomeScreen(),
+                                )
+                            );
+
+
                           },
                           child: const Text(
                             'Login',

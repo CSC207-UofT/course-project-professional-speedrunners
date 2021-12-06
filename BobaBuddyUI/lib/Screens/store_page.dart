@@ -1,10 +1,7 @@
 import 'dart:ui';
-
-
-import 'package:boba_buddy/Authentication/firebaseauth.dart';
-import 'package:boba_buddy/Database/database.dart';
 import 'package:boba_buddy/Screens/price_update_page.dart';
 import 'package:boba_buddy/core/model/models.dart';
+import 'package:boba_buddy/core/repository/rating_repository.dart';
 import 'package:boba_buddy/core/repository/repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +18,6 @@ class StorePage extends StatefulWidget {
     required this.item,
   }) : super(key: key);
 
-
   final String imageSrc;
   final Store store;
   final Item item;
@@ -36,7 +32,8 @@ class _StorePage extends State<StorePage> {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     ItemRepository db = context.read<ItemRepository>();
-    Database db = Database();
+    UserRepository userRepository = context.read<UserRepository>();
+    RatingRepository ratingRepository = context.read<RatingRepository>();
     bool isThumbsDownPressed, isThumbsUpPressed;
 
     print(widget.item.id);
@@ -187,208 +184,205 @@ class _StorePage extends State<StorePage> {
             Positioned(
               bottom: 200,
               child: SizedBox(
-                child: FutureBuilder(
-                  future: widget.item.id.isEmpty
-                      ? db.getOneItemFromStore(widget.store.id)
-                      : db.getItemById(widget.item.id),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    // TODO: properly handle empty response
-                    // else if (snapshot.data.length == 0) {
-                    //   return const Padding(
-                    //       padding: EdgeInsets.only(bottom: 100),
-                    //       child: Text(
-                    //         "no items available",
-                    //         style: TextStyle(fontSize: 30),
-                    //       ));
-                    // }
-                    else {
-                      print(widget.item.id);
-                      return Stack(children: [
-                        SizedBox(
-                          width: deviceWidth,
-                          height: 300,
-                        ),
-                        Positioned(
-                          left: 25,
-                          bottom: 250,
-                          child: Text(
-                            snapshot.data.name.toString(),
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Josefin Sans",
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                          child: Container(
-                              margin: const EdgeInsets.only(left: 25, top: 65),
-                              width: 200,
-                              height: 200,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      "https://theforkedspoon.com/wp-content/uploads/2019/03/How-to-make-Bubble-Tea-8.jpg"),
-                                  fit: BoxFit.fitWidth,
-                                ),
-                                shape: BoxShape.rectangle,
-                              )),
-                        ),
-                        Positioned(
-                          left: 260,
-                          top: 80,
-                          child: Text(
-                            "\$${snapshot.data.price.toString()}",
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Josefin Sans",
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Positioned(
-                          left: 320,
-                          top: 80,
-                          child: Text(
-                            "${(100*snapshot.data["avgRating"]).round().toString()}%",
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Josefin Sans",
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Positioned(
-                          left: 260,
-                          top: 150,
-                          child: FutureBuilder(
-                            future: db.getUserRating(Auth().getUserEmail(), widget.itemId),
-                            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                                if (snapshot.data == null){
+                  child: FutureBuilder(
+                      future: widget.item.id.isEmpty
+                          ? db.getOneItemFromStore(widget.store.id)
+                          : db.getItemById(widget.item.id),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        // TODO: properly handle empty response
+                        // else if (snapshot.data.length == 0) {
+                        //   return const Padding(
+                        //       padding: EdgeInsets.only(bottom: 100),
+                        //       child: Text(
+                        //         "no items available",
+                        //         style: TextStyle(fontSize: 30),
+                        //       ));
+                        // }
+                        else {
+                          return FutureBuilder(
+                              future: userRepository
+                                  .getUser(userRepository.currentUser.email),
+                              builder: (context, AsyncSnapshot userSnapshot) {
+                                if(!userSnapshot.hasData){ return const CircularProgressIndicator();}
+                                Rating? rating = _getUserRating(userSnapshot.data, snapshot.data);
+                                if (rating == null) {
                                   isThumbsUpPressed = false;
                                   isThumbsDownPressed = false;
-                                }
-                                else{
-                                  if (snapshot.data['rating'] == 1){
+                                } else {
+                                  if (rating.rating == 1) {
                                     isThumbsUpPressed = true;
                                     isThumbsDownPressed = false;
-                                  }
-                                  else{
+                                  } else {
                                     isThumbsUpPressed = false;
                                     isThumbsDownPressed = true;
                                   }
                                 }
-                              return (IconButton(
-                                  icon: isThumbsUpPressed
-                        ?         const Icon(Icons.thumb_up_alt_sharp) : const Icon(Icons.thumb_up_outlined),
-                                  onPressed: () =>
-                                    setState(() {
-                                      if (!isThumbsUpPressed && isThumbsDownPressed) {
-                                        isThumbsDownPressed = !isThumbsDownPressed;
-                                        db.changeUserRating(snapshot.data['id'], 1);
-                                      }
-                                      else if (!isThumbsUpPressed && !isThumbsDownPressed){
-                                        db.addRating(1, Auth().getUserEmail(), widget.itemId);
-                                      }
-                                      else{
-                                        db.deleteRating(ratingID: snapshot.data['id']);
-                                      }
-                                      isThumbsUpPressed = !isThumbsUpPressed;
-                                    }
+                                print(widget.item.id);
+                                return Stack(children: [
+                                  SizedBox(
+                                    width: deviceWidth,
+                                    height: 300,
+                                  ),
+                                  Positioned(
+                                    left: 25,
+                                    bottom: 250,
+                                    child: Text(
+                                      snapshot.data.name.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: "Josefin Sans",
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                  color: Colors.green,
-                                )
-                              );
-                            }
-                          )
-                        ),
-                        Positioned(
-                            left: 310,
-                            top: 150,
-                            child: FutureBuilder(
-                                future: db.getUserRating(Auth().getUserEmail(), widget.itemId),
-                                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                                    if (snapshot.data == null){
-                                      isThumbsUpPressed = false;
-                                      isThumbsDownPressed = false;
-                                    }
-                                    else{
-                                      if (snapshot.data['rating'] == 1){
-                                        isThumbsUpPressed = true;
-                                        isThumbsDownPressed = false;
-                                      }
-                                      else{
-                                        isThumbsUpPressed = false;
-                                        isThumbsDownPressed = true;
-                                      }
-                                    }
-                                    return (IconButton(
+                                  ),
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    child: Container(
+                                        margin: const EdgeInsets.only(
+                                            left: 25, top: 65),
+                                        width: 200,
+                                        height: 200,
+                                        decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                "https://theforkedspoon.com/wp-content/uploads/2019/03/How-to-make-Bubble-Tea-8.jpg"),
+                                            fit: BoxFit.fitWidth,
+                                          ),
+                                          shape: BoxShape.rectangle,
+                                        )),
+                                  ),
+                                  Positioned(
+                                    left: 260,
+                                    top: 80,
+                                    child: Text(
+                                      "\$${snapshot.data.price.toString()}",
+                                      textAlign: TextAlign.start,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: "Josefin Sans",
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 320,
+                                    top: 80,
+                                    child: Text(
+                                      "${(100 * snapshot.data.avgRating).round().toString()}%",
+                                      textAlign: TextAlign.start,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: "Josefin Sans",
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Positioned(
+                                      left: 260,
+                                      top: 150,
+                                      child: IconButton(
+                                        icon: isThumbsUpPressed
+                                            ? const Icon(
+                                                Icons.thumb_up_alt_sharp)
+                                            : const Icon(
+                                                Icons.thumb_up_outlined),
+                                        onPressed: () => setState(() {
+                                          if (!isThumbsUpPressed &&
+                                              isThumbsDownPressed) {
+                                            isThumbsDownPressed =
+                                                !isThumbsDownPressed;
+                                            ratingRepository.updateRating(
+                                                rating!.id, 1);
+                                          } else if (!isThumbsUpPressed &&
+                                              !isThumbsDownPressed) {
+                                            ratingRepository.addRating(
+                                                1,
+                                                userRepository
+                                                    .currentUser.email,
+                                                snapshot.data.id);
+                                          } else {
+                                            ratingRepository
+                                                .deleteRating(rating!.id);
+                                          }
+                                          isThumbsUpPressed =
+                                              !isThumbsUpPressed;
+                                        }),
+                                        color: Colors.green,
+                                      )),
+                                  Positioned(
+                                      left: 310,
+                                      top: 150,
+                                      child: IconButton(
                                         icon: isThumbsDownPressed
-                                            ?         const Icon(Icons.thumb_down_alt_sharp) : const Icon(Icons.thumb_down_outlined),
-                                        onPressed: () =>
-                                            setState(() {
-                                              if (!isThumbsDownPressed && isThumbsUpPressed) {
-                                                isThumbsUpPressed = !isThumbsUpPressed;
-                                                db.changeUserRating(snapshot.data['id'], 0);
-                                              }
-                                              else if (!isThumbsDownPressed && !isThumbsUpPressed){
-                                                db.addRating(0, Auth().getUserEmail(), widget.itemId);
-                                              }
-                                              else {
-                                                db.deleteRating(ratingID: snapshot.data['id']);
-                                              }
-                                              isThumbsDownPressed = !isThumbsDownPressed;
-                                            }
-                                            ),
+                                            ? const Icon(
+                                                Icons.thumb_down_alt_sharp)
+                                            : const Icon(
+                                                Icons.thumb_down_outlined),
+                                        onPressed: () => setState(() {
+                                          if (!isThumbsDownPressed &&
+                                              isThumbsUpPressed) {
+                                            isThumbsUpPressed =
+                                                !isThumbsUpPressed;
+                                            ratingRepository.updateRating(
+                                                rating!.id, 0);
+                                          } else if (!isThumbsDownPressed &&
+                                              !isThumbsUpPressed) {
+                                            ratingRepository.addRating(
+                                                0,
+                                                userRepository
+                                                    .currentUser.email,
+                                                snapshot.data.id);
+                                          } else {
+                                            ratingRepository
+                                                .deleteRating(rating!.id);
+                                          }
+                                          isThumbsDownPressed =
+                                              !isThumbsDownPressed;
+                                        }),
                                         color: Colors.red,
-                                      )
-                                    );
-                                }
-                            )
-                        ),
-                        Positioned(
-                          left: 250,
-                          top: 220,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PriceUpdaterPage(
-                                        item: widget.item,
-                                        imageSrc: widget.imageSrc,
-                                      )));
-                            },
-                            child: const Text(
-                              'Wrong Price?',
-                              style: TextStyle(
-                                  fontFamily: "Josefin Sans",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                              minimumSize: const Size(100, 40),
-                              primary: const Color.fromRGBO(132, 141, 255, 1),
-                            ),
-                          ),
-                        ),
-                      ]);
-                    }
-                  },
-                ),
+                                      )),
+                                  Positioned(
+                                    left: 250,
+                                    top: 220,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PriceUpdaterPage(
+                                                      item: widget.item,
+                                                      imageSrc: widget.imageSrc,
+                                                    )));
+                                      },
+                                      child: const Text(
+                                        'Wrong Price?',
+                                        style: TextStyle(
+                                            fontFamily: "Josefin Sans",
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8))),
+                                        minimumSize: const Size(100, 40),
+                                        primary: const Color.fromRGBO(
+                                            132, 141, 255, 1),
+                                      ),
+                                    ),
+                                  ),
+                                ]);
+                              });
+                        }
+                      }
+                      )
               ),
-            )
-
-            // Positioned(bottom: 200,
-            //     child: itemWidget(imageSrc: widget.imageSrc, itemId: widget.itemId))
+            ) // Positioned(bottom: 200,//     child: itemWidget(imageSrc: widget.imageSrc, itemId: widget.itemId))
           ],
         ),
       ),
@@ -396,8 +390,19 @@ class _StorePage extends State<StorePage> {
   }
 }
 
-Widget itemWidget({required String imageSrc, required String itemId, required BuildContext context}) {
+Rating? _getUserRating(User user, ratable) {
+  List<Rating>? userRatings = user.ratings;
+  if (userRatings != null && ratable.ratings != null) {
+    for (Rating i in userRatings) {
+      if (ratable.ratings.contains(i)) return i;
+    }
+  }
+}
 
+Widget itemWidget(
+    {required String imageSrc,
+    required String itemId,
+    required BuildContext context}) {
   return FutureBuilder(
     future: context.read<ItemRepository>().getItemById(itemId),
     builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

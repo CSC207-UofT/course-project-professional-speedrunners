@@ -15,6 +15,7 @@ import com.google.firebase.auth.UserRecord;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,8 +69,8 @@ public class UserController {
      * @return the User resource with matching email
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/user/users/{email}")
-    @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @GetMapping(path = "/users/{email}")
+    @PostAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public UserDto findByEmail(@PathVariable String email) {
         return converter.convertToDto(findUser.findByEmail(email));
 
@@ -105,7 +106,7 @@ public class UserController {
      * @return NO_CONTENT http status
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping(path = "/user/users/{email}")
+    @DeleteMapping(path = "/users/{email}")
     @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> removeUserByEmail(@PathVariable String email) {
         removeUser.removeByEmail(email);
@@ -120,7 +121,7 @@ public class UserController {
      * @return the User resource after the modification
      */
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/user/users/{email}")
+    @PutMapping(path = "/users/{email}")
     @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public UserDto updateUser(@PathVariable String email, @RequestBody UserDto userPatch) {
         return converter.convertToDto(updateUser.updateUser(findUser.findByEmail(email), userPatch));
@@ -134,7 +135,7 @@ public class UserController {
      * @return the updated user
      */
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/user/users/{id}", params = "imageUrl")
+    @PutMapping(path = "/users/{id}", params = "imageUrl")
     @PreAuthorize("FindUserService.findById(#id).getEmail() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public UserDto updateUserImage(@RequestParam String imageUrl, @PathVariable UUID id) {
         return converter.convertToDto(updateUser.updateUserImage(id, imageUrl));

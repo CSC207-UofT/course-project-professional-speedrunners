@@ -6,9 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
-import java.util.Set;
 
 /**
  * Class that represents an Item in the domain layer
@@ -28,17 +29,6 @@ public class Item extends RatableObject {
 
     @ManyToOne
     private Store store;
-
-    @ElementCollection
-    private Set<String> categories;
-
-    public boolean addCategory(String category){
-        return this.categories.add(category);
-    }
-
-    public boolean removeCategory(String category){
-        return this.categories.remove(category);
-    }
 
     @Override
     public String toString() {

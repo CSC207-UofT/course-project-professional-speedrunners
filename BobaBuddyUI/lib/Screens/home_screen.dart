@@ -3,6 +3,7 @@ import 'package:boba_buddy/Screens/home_page.dart';
 import 'package:boba_buddy/Screens/profile_page.dart';
 import 'package:boba_buddy/core/model/user_detail.dart';
 import 'package:boba_buddy/core/repository/authentication_repository.dart';
+import 'package:boba_buddy/core/repository/repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
@@ -26,8 +27,9 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AuthenticationRepository _authenticationRepository = context.read<AuthenticationRepository>();
 //Decides which layout will be shown to user based on the user privilege
-    UserDetail user = context.read<AuthenticationRepository>().currentUser;
+    UserDetail user = _authenticationRepository.currentUser;
         if (user.isAdmin) {
           return (Scaffold(
             body:

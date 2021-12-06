@@ -23,6 +23,7 @@ public class CreateStoreServiceImpl implements CreateStoreService {
         Store createdStore = Store.builder()
                 .name(store.getName())
                 .location(store.getLocation())
+                .owner(store.getOwner())
                 .build();
         return repo.save(createdStore);
     }

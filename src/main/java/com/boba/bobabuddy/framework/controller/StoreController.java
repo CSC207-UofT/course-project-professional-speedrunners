@@ -91,7 +91,7 @@ public class StoreController {
      * Handles GET requests for store resources that have matching location.
      *
      * @param location location of required store
-     * @param sortBy sort the returned list
+     * @param sortBy
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -105,7 +105,7 @@ public class StoreController {
      * Handles GET requests for store resources that have matching name
      *
      * @param name name of required store
-     * @param sortBy sort the returned list
+     * @param sortBy
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -119,7 +119,7 @@ public class StoreController {
      * Handles GET requests for store resources that partially matches the provided name
      *
      * @param nameContain name to match for
-     * @param sortBy sort the returned list
+     * @param sortBy
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -133,7 +133,7 @@ public class StoreController {
      * Handles GET requests for store resources that have rating greater than or equal to a given value
      *
      * @param rating the rating used for comparison
-     * @param sortBy sort the returned list
+     * @param sortBy
      * @return collection of store resources that match the query.
      */
     @ResponseStatus(HttpStatus.OK)
@@ -165,7 +165,7 @@ public class StoreController {
      * @return the store resource after the modification
      */
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/user/stores/{id}")
+    @PutMapping(path = "/stores/{id}")
     @PreAuthorize("@FindStoreService.findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public StoreDto updateStore(@RequestBody StoreDto storePatch, @PathVariable UUID id) {
         return converter.convertToDto(updateStore.updateStore(findStore.findById(id), storePatch));
@@ -179,13 +179,14 @@ public class StoreController {
      * @return the updated Store
      */
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(path = "/user/stores/{id}", params = "imageUrl")
+    @PutMapping(path = "/stores/{id}", params = "imageUrl")
+    @PreAuthorize("@FindStoreService.findById(#id).getOwner() == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
     public StoreDto updateStoreImage(@RequestParam String imageUrl, @PathVariable UUID id) {
         return converter.convertToDto(updateStore.updateStoreImage(id, imageUrl));
     }
 
     /**
-     * Handles DELETE request to delete a store resource from the system
+     * Handle DELETE request to delete a store resource from the system
      *
      * @param id id of the resource to be deleted.
      */
@@ -195,5 +196,4 @@ public class StoreController {
     public void removeStore(@PathVariable UUID id) {
         removeStore.removeById(id);
     }
-
 }

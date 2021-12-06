@@ -19,10 +19,6 @@ public class DtoConverterConfig {
     }
 
     @Bean
-    public DtoConverterImpl<Category, CategoryDto> categoryDtoConverter(){
-        return new DtoConverterImpl<>(modelMapper, Category.class, CategoryDto.class);
-    }
-    @Bean
     public DtoConverterImpl<Item, ItemDto> itemDtoConverter() {
         return new DtoConverterImpl<>(modelMapper, Item.class, ItemDto.class);
     }

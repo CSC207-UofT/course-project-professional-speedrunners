@@ -29,5 +29,5 @@ public class StoreDto {
     private List<ItemDto> menu;
     private String owner;
     private Set<RatingDto> ratings;
-    private float avgRating;
+    private double avgRating;
 }

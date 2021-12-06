@@ -6,6 +6,7 @@ import com.boba.bobabuddy.framework.config.auth.firebase.FirebaseFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -82,8 +83,9 @@ public class SecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.addFilterBefore(tokenAuthorizationFilter(), BasicAuthenticationFilter.class).authorizeRequests()//
-                    .antMatchers("/admin/**").hasAnyRole(Roles.ADMIN)
-                    .antMatchers("/user/**").authenticated()
+                    .mvcMatchers("/admin/**").hasAnyRole(Roles.ADMIN)
+                    .mvcMatchers(HttpMethod.POST, "/users/").permitAll()
+                    .mvcMatchers(HttpMethod.POST).authenticated()
                     .antMatchers("/**").permitAll()
                     .and().csrf().disable()//
                     .anonymous().authorities(Roles.ROLE_ANONYMOUS);//

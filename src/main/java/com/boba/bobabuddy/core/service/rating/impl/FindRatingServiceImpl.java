@@ -39,10 +39,12 @@ public class FindRatingServiceImpl implements FindRatingService {
         this.findStore = findStore;
     }
 
+
     @Override
     public Set<Rating> findByItem(UUID id) throws ResourceNotFoundException {
         return findItem.findById(id).getRatings();
     }
+
 
     @Override
     public Set<Rating> findByStore(UUID id) throws ResourceNotFoundException {

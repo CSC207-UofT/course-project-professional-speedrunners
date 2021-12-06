@@ -1,11 +1,8 @@
 package com.boba.bobabuddy.core.service.item;
 
 import com.boba.bobabuddy.core.data.dto.ItemDto;
-import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
-import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
-import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 
 import java.util.UUID;
 
@@ -34,28 +31,7 @@ public interface UpdateItemService {
      * @return the updated Item
      * @throws IllegalArgumentException if the new price is less than 0
      */
-    Item updateItemPrice(UUID itemId, float price) throws IllegalArgumentException;
-
-    /**
-     * Adds category to item
-     *
-     * @param itemId UUID of item to update
-     * @param categoryName name of category to add
-     * @return updated item
-     * @throws DuplicateResourceException if item already contains this category
-     */
-    Item addCategory(UUID itemId, String categoryName) throws DuplicateResourceException;
-
-    /**
-     * Removes a category from item
-     *
-     * @param itemId UUID of item to update
-     * @param categoryName name of category to remove
-     * @return updated item
-     * @throws ResourceNotFoundException if item does not contain this category
-     */
-    Item removeCategory(UUID itemId, String categoryName) throws ResourceNotFoundException;
-
+    Item updateItemPrice(UUID itemId, double price) throws IllegalArgumentException;
 
     /**
      * Update an item's image

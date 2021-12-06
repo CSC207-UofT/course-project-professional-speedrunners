@@ -5,7 +5,6 @@ import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -17,20 +16,10 @@ public interface FindItemService {
      * The query matches the uuid of the store.
      *
      * @param id uuid of the Store object
-     * @param sort sort the item that is returned
+     * @param sort
      * @return A list of Item that belongs to the store. Or an empty list if no Item is sold from this store.
      */
     List<Item> findByStore(UUID id, Sort sort);
-
-    /**
-     * Find an Item by its category.
-     * The query matches name of the category.
-     *
-     * @param name name of the category
-     * @param sort sort the item that is returned
-     * @return A list of Item that belongs to the category. Or an empty list if no Item is sold from this category.
-     */
-    Set<Item> findByCategory(String name, Sort sort);
 
     /**
      * Find Item by its uuid
@@ -45,7 +34,7 @@ public interface FindItemService {
      * Find all items that exist in the database
      *
      * @return list of all items in the database, or an empty list if the database is empty
-     * @param sort sort the item that is returned
+     * @param sort
      */
     List<Item> findAll(Sort sort);
 
@@ -53,7 +42,7 @@ public interface FindItemService {
      * Find Item by its name. Have to be fully matching.
      *
      * @param name name to be matched
-     * @param sort sort the item that is returned
+     * @param sort
      * @return Item with matching name. Or an empty list if no such Item exist
      */
     List<Item> findByName(String name, Sort sort);
@@ -62,7 +51,7 @@ public interface FindItemService {
      * Find Item by its name. Also do partial match.
      *
      * @param name name to be matched
-     * @param sort sort the item that is returned
+     * @param sort
      * @return Item that partially matches the name, or an empty list if no such Item exist
      */
     List<Item> findByNameContaining(String name, Sort sort);
@@ -71,7 +60,7 @@ public interface FindItemService {
      * Find all items that have price less than or equal to param price
      *
      * @param price  price to be compared with
-     * @param sort sort the item that is returned
+     * @param sort
      * @return Items that have price less than or equal to param price, or an empty list if no such Item exist
      */
     List<Item> findByPriceLessThanEqual(float price, Sort sort);
@@ -80,7 +69,7 @@ public interface FindItemService {
      * Find all items that have avgRating greater than or equal to param rating
      *
      * @param rating avgRating to be compared with
-     * @param sort sort the item that is returned
+     * @param sort
      * @return Items that has avgRating greater than or equal to param rating, or an empty list if no such Item exist
      * @throws IllegalArgumentException when avgRating is out of bound
      */

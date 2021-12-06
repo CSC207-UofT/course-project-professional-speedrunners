@@ -47,8 +47,8 @@ public class RatingController {
      * @return the constructed RatingPoint
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/user/{ratableObject}/{id}/ratings", params = "createdBy")
-    @PreAuthorize("#email == authentication.principal.username || hasAuthority('ROLE_ADMIN')")
+    @PostMapping(path = "/{ratableType}/{id}/ratings", params = "createdBy")
+    @PreAuthorize("isAuthenticated()")
     public RatingDto createRating(@RequestBody RatingDto createRatingRequest, @PathVariable String ratableType,
                                   @PathVariable UUID id, @RequestParam("createdBy") String email) throws MalformedURLException {
 
@@ -81,10 +81,10 @@ public class RatingController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/{ratableType}/{id}/ratings")
     public List<RatingDto> findByRatableObject(@PathVariable String ratableType, @PathVariable UUID id) throws MalformedURLException {
-        if (ratableType.equals("items")) {
+        if ("items".equals(ratableType)) {
             return converter.convertToDtoList(findRating.findByItem(id));
         }
-        if (ratableType.equals("stores")) {
+        if ("stores".equals(ratableType)) {
             return converter.convertToDtoList(findRating.findByStore(id));
         }
         throw new MalformedURLException("must be /items/ or /stores/");

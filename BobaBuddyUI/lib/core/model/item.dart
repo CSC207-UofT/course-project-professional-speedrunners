@@ -16,7 +16,7 @@ class Item extends Equatable{
   final String id;
   final String name;
   final double price;
-  final double avgRating;
+  final double? avgRating;
 
 
 
