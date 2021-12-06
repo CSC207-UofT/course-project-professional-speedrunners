@@ -24,12 +24,10 @@ import java.util.UUID;
 public class FindCategoryServiceImpl implements FindCategoryService {
     final private CategoryJpaRepository repo;
     final private FindItemService findItem;
-    final private FindCategoryService findCategory;
 
-    public FindCategoryServiceImpl(CategoryJpaRepository repo, FindItemServiceImpl findItem, FindCategoryService findCategory){
+    public FindCategoryServiceImpl(CategoryJpaRepository repo, FindItemServiceImpl findItem){
         this.repo = repo;
         this.findItem = findItem;
-        this.findCategory = findCategory;
     }
 
     @Override

@@ -30,7 +30,7 @@ public interface FindItemService {
      * @param sort sort the item that is returned
      * @return A list of Item that belongs to the category. Or an empty list if no Item is sold from this category.
      */
-    Set<Item> findByCategory(String name, Sort sort);
+    List<Item> findByCategory(String name, Sort sort);
 
     /**
      * Find Item by its uuid

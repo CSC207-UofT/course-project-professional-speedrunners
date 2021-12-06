@@ -37,7 +37,6 @@ public class FindStoreServiceImpl implements FindStoreService {
         return repo.findAll(sort);
     }
 
-
     @Override
     public List<Store> findByLocation(String location, Sort sort) {
         return repo.findByLocation(location, sort);

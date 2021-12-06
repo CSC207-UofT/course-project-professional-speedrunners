@@ -5,14 +5,11 @@ import com.boba.bobabuddy.core.data.dao.ItemJpaRepository;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.item.FindItemService;
-import com.boba.bobabuddy.core.domain.Category;
-import com.boba.bobabuddy.core.service.category.FindCategoryService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -23,17 +20,14 @@ import java.util.UUID;
 public class FindItemServiceImpl implements FindItemService {
 
     private final ItemJpaRepository repo;
-    private final FindCategoryService findCategoryService;
 
     /**
      * Initialize FindItem usecase by injecting dependencies
      *
      * @param repo data access object for handling item data
-     * @param findCategoryService finds category that has the item in it
      */
-    public FindItemServiceImpl(final ItemJpaRepository repo, FindCategoryService findCategoryService) {
+    public FindItemServiceImpl(final ItemJpaRepository repo) {
         this.repo = repo;
-        this.findCategoryService = findCategoryService;
     }
 
     @Override
@@ -42,11 +36,9 @@ public class FindItemServiceImpl implements FindItemService {
     }
 
     @Override
-    public Set<Item> findByCategory(String name, Sort sort){
-        Category foundCategory = findCategoryService.findByName(name);
-        return foundCategory.getItems();
+    public List<Item> findByCategory(String name, Sort sort){
+        return repo.findByCategories(name);
     }
-
 
     @Override
     public Item findById(UUID id) throws ResourceNotFoundException {
@@ -64,31 +56,26 @@ public class FindItemServiceImpl implements FindItemService {
         return repo.findAll(sort);
     }
 
-
     @Override
     public List<Item> findByName(String name, Sort sort) {
         return repo.findByNameIgnoreCase(name, sort);
     }
-
 
     @Override
     public List<Item> findByNameContaining(String name, Sort sort) {
         return repo.findByNameContainingIgnoreCase(name, sort);
     }
 
-
     @Override
     public List<Item> findByPriceLessThanEqual(float price, Sort sort) {
         return repo.findByPriceLessThanEqual(price, sort);
     }
-
 
     @Override
     public List<Item> findByAvgRatingGreaterThanEqual(float avgRating, Sort sort) throws IllegalArgumentException {
         if (avgRating > 1 || avgRating < 0) throw new IllegalArgumentException("avgRating must be between 0 and 1");
         return repo.findByAvgRatingGreaterThanEqual(avgRating, sort);
     }
-
 
     @Override
     public Item findByRating(UUID id) throws ResourceNotFoundException {
