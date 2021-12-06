@@ -15,7 +15,7 @@ class UserDetail extends Equatable {
     return UserDetail(id: user.id,
         email: user.email,
         name: user.name,
-        roles: user.roles?.map((e) => e?.name).toList());
+        roles: user.roles?.map((e) => e.name).toList());
   }
 
 

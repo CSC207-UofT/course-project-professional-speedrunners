@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
                     color: Colors.black,
                     fontWeight: FontWeight.bold),
               )),
-          Padding(padding: EdgeInsets.only(top: 150.h), child: PopularShops()),
+          Padding(padding: EdgeInsets.only(top: 110.h), child: PopularShops()),
           Positioned(
               left: 11,
               bottom: 280,

@@ -64,7 +64,7 @@ class AuthenticationRepository {
     //TODO: add idToken to get user call. this only works when spring security is disabled in the backend
     final idToken = await firebaseUser.getIdToken();
     final user = await _userApiClient.getUser(firebaseUser.email!, idToken);
-    return UserDetail(id: user.id, email: user.email, roles: user.roles?.map((e) => e?.name).toList(), name: user.name, idToken: idToken);
+    return UserDetail(id: user.id, email: user.email, roles: user.roles?.map((e) => e.name).toList(), name: user.name, idToken: idToken);
   }
 
   /// Returns the current cached user.
