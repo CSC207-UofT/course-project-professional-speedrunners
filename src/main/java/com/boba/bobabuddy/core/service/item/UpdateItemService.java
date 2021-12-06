@@ -4,6 +4,7 @@ import com.boba.bobabuddy.core.data.dto.ItemDto;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -32,4 +33,12 @@ public interface UpdateItemService {
      * @throws IllegalArgumentException if the new price is less than 0
      */
     Item updateItemPrice(UUID itemId, float price) throws IllegalArgumentException;
+
+    /**
+     * Update an item's image
+     * @param id id of the item
+     * @param imageURL URL of the image
+     * @return updated item
+     */
+    Item updateItemImage(UUID id, String imageURL);
 }

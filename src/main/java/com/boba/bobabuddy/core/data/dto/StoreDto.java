@@ -25,6 +25,7 @@ public class StoreDto {
     private UUID id;
     private String name;
     private String location;
+    private String imageUrl;
     private List<ItemDto> menu;
     private String owner;
     private Set<RatingDto> ratings;
