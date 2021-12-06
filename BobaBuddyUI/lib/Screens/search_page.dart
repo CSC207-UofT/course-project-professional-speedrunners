@@ -1,4 +1,3 @@
-
 import 'package:boba_buddy/Screens/store_page.dart';
 import 'package:boba_buddy/core/model/models.dart';
 import 'package:boba_buddy/core/repository/item_repository.dart';
@@ -89,7 +88,7 @@ class _SearchPage extends State<SearchPage> {
                         itemBuilder: (BuildContext context, int index) {
                           return singleShop(
                               context: context,
-                              imageSrc:snapshot.data[index].store.imageUrl ??
+                              imageSrc: snapshot.data[index].store.imageUrl ??
                                   'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
                               //todo need image src implemented in entity classes
                               store: snapshot.data[index].store,
@@ -108,7 +107,7 @@ Widget singleShop(
     required Store store,
     required Item item}) {
   const double WIDGETWIDTH = 325;
-  const double WIDGETHEIGHT = 220;
+  const double WIDGETHEIGHT = 250;
 
   return InkWell(
     onTap: () {
@@ -167,6 +166,19 @@ Widget singleShop(
                           AssetImage("assets/images/default-store.dart.png"));
                 })),
             Positioned(
+                bottom: 55,
+                child: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Text(
+                      item.name,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Josefin Sans",
+                      ),
+                    ))),
+            Positioned(
               bottom: -15,
               child: Align(
                 alignment: Alignment.bottomLeft,
@@ -182,9 +194,8 @@ Widget singleShop(
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         style: const TextStyle(
-                            fontFamily: "Josefin Sans",
                             color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                             fontSize: 15),
                         // style: AppTheme.getTextStyle(themeData.textTheme.subtitle1,
                         //     fontWeight: 600, color: Colors.white, letterSpacing: 0.3),
