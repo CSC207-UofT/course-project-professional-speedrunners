@@ -1,4 +1,3 @@
-
 import 'package:boba_buddy/Screens/store_page.dart';
 import 'package:boba_buddy/core/model/models.dart';
 import 'package:boba_buddy/core/repository/item_repository.dart';
@@ -10,7 +9,6 @@ class FullMenuPage extends StatelessWidget {
   final Store store;
   final StoreRepository db = StoreRepository();
 
-
   FullMenuPage({Key? key, required this.store}) : super(key: key);
 
   @override
@@ -20,17 +18,18 @@ class FullMenuPage extends StatelessWidget {
     return Scaffold(
       body: Stack(children: [
         ListView.builder(
-        padding: const EdgeInsets.only(top: 100),
-        itemCount: store.menu!.length,
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          return singleItem(
-              context: context,
-              item: store.menu![index],
-              imageSrc:
-              "https://chatime.com/wp-content/uploads/2020/10/Brown-Sugar-Pearls-with-Milk-Tea.png");
-        }),
+            padding: const EdgeInsets.only(top: 100),
+            itemCount: store.menu!.length,
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (context, index) {
+              return singleItem(
+                  store: store,
+                  context: context,
+                  item: store.menu![index],
+                  imageSrc: store.menu![index].imageUrl ??
+                      "https://www.trendsetter.com/pub/media/catalog/product/placeholder/default/no_image_placeholder.jpg");
+            }),
         Positioned(
           top: 0.0,
           left: 0.0,
@@ -63,13 +62,19 @@ class FullMenuPage extends StatelessWidget {
 Widget singleItem(
     {required String imageSrc,
     required Item item,
-    required BuildContext context}) {
+    required BuildContext context,
+    required Store store}) {
   ItemRepository db = ItemRepository();
   return Container(
+    decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.white,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(20))),
     margin: const EdgeInsets.only(bottom: 30, right: 30, left: 30),
     height: 125,
     //width: 20,
-    color: Colors.white,
+    //color: Colors.white,
 
     child: Stack(children: [
       Row(
@@ -78,9 +83,12 @@ Widget singleItem(
             margin: const EdgeInsets.only(right: 10),
             height: 125,
             width: 100,
-            child: Image.network(
-              imageSrc,
-              fit: BoxFit.fitWidth,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: Image.network(
+                imageSrc,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Align(
@@ -90,6 +98,7 @@ Widget singleItem(
                   child: Column(children: [
                     Text(
                       item.name,
+                      textAlign: TextAlign.left,
                       style: const TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.w500,
@@ -115,8 +124,8 @@ Widget singleItem(
 
             StorePage storePage = StorePage(
               store: refreshedItem.store!,
-              //TODO: need image in entity class
-              imageSrc:  'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
+              imageSrc: store.imageUrl ??
+                  "https://www.trendsetter.com/pub/media/catalog/product/placeholder/default/no_image_placeholder.jpg",
               item: item,
             );
 
@@ -128,8 +137,6 @@ Widget singleItem(
             );
             Navigator.of(context).pop();
             Navigator.pushReplacement(context, pageRoute);
-
-
           },
           child: const Text(
             "View",
