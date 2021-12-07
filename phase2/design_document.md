@@ -1,3 +1,6 @@
+App Demo: https://youtube.com/playlist?list=PLECF-cwue5-sygEJ1i_h4csWJfxgqw_er
+
+
 ## Specification: Product Comparison System
 
 Our application is a product comparison system that is designed for students from University of Toronto. The purpose of this program is to keep track of prices and ratings for bubble teas, sort them based on a user supplied parameter (price, distance or rating). The item list will then be displayed via each individual item’s store. With this, the user can find their desired bubble tea, along with its corresponding store location and pricing.
