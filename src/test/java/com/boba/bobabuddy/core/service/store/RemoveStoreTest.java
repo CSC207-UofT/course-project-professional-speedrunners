@@ -36,18 +36,19 @@ public class RemoveStoreTest {
 
     @Test
     void testRemove() throws DifferentResourceException, ResourceNotFoundException {
-        Store store1 = new Store("M.Jordan's fav milk tea", "75 Charles St, Toronto, Ontario M5S 1K9");
-        Item item1 = new Item(5, store1, "milk tea");
+        Store store = new Store();
+        Item item = new Item();
+        item.setStore(store);
 
-        UUID storeId1 = UUID.randomUUID();
-        UUID itemId1 = UUID.randomUUID();
+        UUID storeId = UUID.randomUUID();
+        UUID itemId = UUID.randomUUID();
 
-        store1.setId(storeId1);
-        item1.setId(itemId1);
+        store.setId(storeId);
+        item.setId(itemId);
 
-        when(findStore.findById(storeId1)).thenReturn(store1);
+        when(findStore.findById(storeId)).thenReturn(store);
 
-        removeStore.removeById(storeId1);
-        verify(repo, Mockito.times(1)).delete(store1);
+        removeStore.removeById(storeId);
+        verify(repo, Mockito.times(1)).delete(store);
     }
 }

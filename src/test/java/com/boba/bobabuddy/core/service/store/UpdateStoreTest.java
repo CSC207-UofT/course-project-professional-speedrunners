@@ -5,10 +5,12 @@ import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.service.item.FindItemService;
+import com.boba.bobabuddy.core.service.store.FindStoreService;
 import com.boba.bobabuddy.core.data.dao.StoreJpaRepository;
 import com.boba.bobabuddy.core.data.dto.StoreDto;
 import com.boba.bobabuddy.core.service.store.impl.UpdateStoreServiceImpl;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,6 +25,11 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 // tell JUnit 5 to enable Spring support
 public class UpdateStoreTest {
+    private Store store;
+    private Item item1;
+    private Item item2;
+
+    private UUID storeId;
 
     @Mock
     //helps to create a mock object, want to use mock dependency so that we can actually test our code
@@ -30,81 +37,91 @@ public class UpdateStoreTest {
     private StoreJpaRepository repo;
 
     @Mock
-    private FindItemService findItem;
+    private FindStoreService findStoreService;
 
     @InjectMocks
     // creates an instance of the class and injects the mocks that are created
     // with the @Mock annotations into this instance.
     private UpdateStoreServiceImpl updateStore;
 
+    @BeforeEach
+    void setUp(){
+        store = new Store();
+        store.setName("Lebron's milk tea");
+        store.setLocation("91 Charles St, Toronto, Ontario M5S 1K9");
+        store.setId(storeId);
+
+        storeId = UUID.randomUUID();
+        store.setId(storeId);
+
+        item1 = new Item();
+        item1.setStore(store);
+        item1.setName("molk");
+
+        item2 = new Item();
+        item2.setStore(store);
+        item2.setName("melk");
+
+        store.addItem(item1);
+    }
+
+    @AfterEach
+    void tearDown(){
+        store = null;
+    }
 
     @Test
-        // this is not working -,-
     void testUpdate() throws DifferentResourceException {
-        Store store1 = new Store("Lebron's milk tea", "91 Charles St, Toronto, Ontario M5S 1K9");
         StoreDto storeDto = new StoreDto();
         storeDto.setName("Kuzma's milk tea");
         storeDto.setLocation("89 Charles St, Toronto, Ontario M5S 1K9");
 
-        Store store2 = new Store("Kuzma's milk tea", "89 Charles St, Toronto, Ontario M5S 1K9");
-        UUID storeId = UUID.randomUUID();
+        Store store1 = new Store();
+        store1.setName("Kuzma's milk tea");
+        store1.setLocation("89 Charles St, Toronto, Ontario M5S 1K9");
 
         store1.setId(storeId);
-        store2.setId(storeId);
         storeDto.setId(storeId);
 
-        assertEquals(store1, store2);
-
-        when(repo.save(store2)).thenReturn(store2);
+        when(repo.save(store)).thenReturn(store);
         // making sure that when we call updatestore we have a return value since the repo is mocked.
 
-        Store returnedStore = updateStore.updateStore(store1, storeDto);
+        Store returnedStore = updateStore.updateStore(store, storeDto);
 
-        assertEquals(store2, returnedStore);
-        assertEquals(store2.toString(), returnedStore.toString());
+        assertEquals(store1, returnedStore);
+        assertEquals(store1.toString(), returnedStore.toString());
         assertNotNull(returnedStore);
     }
 
     @Test
     void testAddItemToStore() throws DuplicateResourceException {
-        Store store2 = new Store("Lebron's milk tea", "91 Charles St, Toronto, Ontario M5S 1K9");
-        Item item = new Item(5, store2, "milk tea");
+        when(repo.save(store)).thenReturn(store);
 
-        UUID storeId2 = UUID.randomUUID();
-        UUID itemId = UUID.randomUUID();
-
-        store2.setId(storeId2);
-        item.setId(itemId);
-
-        when(repo.save(store2)).thenReturn(store2);
-
-        updateStore.addItem(store2, item);
-        assertTrue(store2.getMenu().contains(item));
-        assertEquals(store2, item.getStore());
+        updateStore.addItem(store, item2);
+        assertEquals(2, store.getMenu().size());
+        assertTrue(store.getMenu().contains(item2));
     }
 
     @Test
     void testRemoveItemFromStore() throws ResourceNotFoundException {
-        Store store1 = new Store("Shuyi", "75 Charles St, Toronto, Ontario M5S 1K9");
-        Item item1 = new Item(5, store1, "milk tea");
-        Item item2 = new Item(19, store1, "coconut milk tea");
-        UUID storeID = UUID.randomUUID();
-        UUID itemId1 = UUID.randomUUID();
-        UUID itemId2 = UUID.randomUUID();
+        store.addItem(item2);
 
-        store1.setId(storeID);
-        item1.setId(itemId1);
-        item2.setId(itemId2);
+        when(repo.save(store)).thenReturn(store);
 
-        when(repo.save(store1)).thenReturn(store1);
+        Store returnedStore = updateStore.removeItem(store, item1);
 
-        Store returnedStore1 = updateStore.addItem(store1, item1);
-        Store returnedStore2 = updateStore.addItem(store1, item2);
+        assertFalse(returnedStore.getMenu().contains(item1));
+        assertTrue(returnedStore.getMenu().contains(item2));
+        assertEquals(1, returnedStore.getMenu().size());
+    }
 
-        Store returnedStore3 = updateStore.removeItem(store1, item1);
+    @Test
+    void testUpdateStoreImage(){
+        when(findStoreService.findById(storeId)).thenReturn(store);
+        when(repo.save(store)).thenReturn(store);
 
-        assertFalse(returnedStore3.getMenu().contains(item1));
-        assertTrue(returnedStore3.getMenu().contains(item2));
-        assertEquals(1, returnedStore3.getMenu().size());
+        updateStore.updateStoreImage(storeId, "abc.com");
+
+        assertEquals("abc.com", store.getImageUrl());
     }
 }
