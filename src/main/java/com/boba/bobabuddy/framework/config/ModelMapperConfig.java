@@ -47,6 +47,7 @@ public class ModelMapperConfig {
                     .name(item.getName())
                     .id(item.getId())
                     .avgRating(item.getAvgRating())
+                    .imageUrl(item.getImageUrl())
                     .price(item.getPrice())
                     .build();
 

@@ -36,9 +36,6 @@ class _StorePage extends State<StorePage> {
     RatingRepository ratingRepository = context.read<RatingRepository>();
     bool isThumbsDownPressed, isThumbsUpPressed;
 
-    print(widget.item.id);
-    print("item id ^^^^^");
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -57,7 +54,7 @@ class _StorePage extends State<StorePage> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(widget.imageSrc),
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.cover,
                   ),
                   shape: BoxShape.rectangle,
                 ),
@@ -204,12 +201,18 @@ class _StorePage extends State<StorePage> {
                         //       ));
                         // }
                         else {
+                          print("888");
+                          print(snapshot.data.id);
+                          print(snapshot.data.imageUrl);
                           return FutureBuilder(
-                              future: userRepository
-                                  .getUser(email),
+                              future: userRepository.getUser(email),
                               builder: (context, AsyncSnapshot userSnapshot) {
-                                if(!userSnapshot.hasData){ return const CircularProgressIndicator();}
-                                Rating? rating = _getUserRating(userSnapshot.data, snapshot.data);
+                                if (!userSnapshot.hasData) {
+                                  return const CircularProgressIndicator();
+                                }
+
+                                Rating? rating = _getUserRating(
+                                    userSnapshot.data, snapshot.data);
                                 if (rating == null) {
                                   isThumbsUpPressed = false;
                                   isThumbsDownPressed = false;
@@ -240,23 +243,24 @@ class _StorePage extends State<StorePage> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                  ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(8)),
-                                    child: Container(
-                                        margin: const EdgeInsets.only(
-                                            left: 25, top: 65),
-                                        width: 200,
-                                        height: 200,
-                                        decoration: const BoxDecoration(
+                                  Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 25, top: 65),
+                                      width: 200,
+                                      height: 200,
+                                      decoration: BoxDecoration(
                                           image: DecorationImage(
                                             image: NetworkImage(
-                                                "https://theforkedspoon.com/wp-content/uploads/2019/03/How-to-make-Bubble-Tea-8.jpg"),
-                                            fit: BoxFit.fitWidth,
+                                              snapshot.data.imageUrl ??
+                                                  "https://www.trendsetter.com/pub/media/catalog/product/placeholder/default/no_image_placeholder.jpg",
+
+                                              //  "https://theforkedspoon.com/wp-content/uploads/2019/03/How-to-make-Bubble-Tea-8.jpg"
+                                            ),
+                                            fit: BoxFit.cover,
                                           ),
                                           shape: BoxShape.rectangle,
-                                        )),
-                                  ),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10)))),
                                   Positioned(
                                     left: 260,
                                     top: 80,
@@ -380,10 +384,9 @@ class _StorePage extends State<StorePage> {
                                 ]);
                               });
                         }
-                      }
-                      )
-              ),
-            ) // Positioned(bottom: 200,//     child: itemWidget(imageSrc: widget.imageSrc, itemId: widget.itemId))
+                      })),
+            )
+            // Positioned(bottom: 200,//     child: itemWidget(imageSrc: widget.imageSrc, itemId: widget.itemId))
           ],
         ),
       ),

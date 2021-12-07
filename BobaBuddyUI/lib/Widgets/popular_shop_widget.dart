@@ -1,4 +1,3 @@
-
 import 'package:boba_buddy/Screens/store_page.dart';
 import 'package:boba_buddy/core/model/models.dart';
 import 'package:boba_buddy/core/repository/repository.dart';
@@ -51,7 +50,10 @@ class _PopularShops extends State<PopularShops> {
                                 return _buildSingleShop(
                                     context: context,
                                     imageSrc:
-                                        'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
+                                        snapshot.data[index].imageUrl != null
+                                            ? snapshot.data[index].imageUrl
+                                            : '',
+
                                     //todo need image src implemented in entity classes
                                     store: snapshot.data[index],
                                     items: snapshot.data[index].menu);
@@ -74,6 +76,8 @@ Widget _buildSingleShop(
     required List<Item> items}) {
   double WIDGETWIDTH = 325.w;
   double WIDGETHEIGHT = 100.h;
+  print(store.name);
+  print(imageSrc);
 
   // TODO: this is hacky. need to look into better structure
   // Also could create a widget for displaying no item status
@@ -125,8 +129,7 @@ Widget _buildSingleShop(
                         Object exception, StackTrace? stackTrace) {
                   //Error handling for image
                   return const Image(
-                      image:
-                          AssetImage("assets/images/default-store.dart.png"));
+                      image: AssetImage("assets/images/default-store.png"));
                 })),
             Positioned(
               bottom: -15,
