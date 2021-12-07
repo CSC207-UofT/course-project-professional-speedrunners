@@ -1,5 +1,6 @@
 package com.boba.bobabuddy.core.service.store;
 
+import com.boba.bobabuddy.core.data.dto.StoreDto;
 import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.data.dao.StoreJpaRepository;
 import com.boba.bobabuddy.core.service.store.impl.CreateStoreServiceImpl;
@@ -30,12 +31,20 @@ public class CreateStoreTest {
         String name = "Boba shop";
         String location = "123 street";
 
-        Store store = new Store(name, location);
+        StoreDto storeDto = new StoreDto();
+        storeDto.setName(name);
+        storeDto.setLocation(location);
+
+        Store store = new Store();
+        store.setLocation(location);
+        store.setName(name);
+
         UUID storeId = UUID.randomUUID();
+        storeDto.setId(storeId);
         store.setId(storeId);
         when(repo.save(any())).thenReturn(store);
 
-        Store returnedStore = createStore.create(store);
+        Store returnedStore = createStore.create(storeDto);
 
         assertNotNull(returnedStore);
         assertEquals(storeId, returnedStore.getId());
