@@ -1,5 +1,7 @@
 package com.boba.bobabuddy.core.service.item;
 
+import com.boba.bobabuddy.core.data.dto.ItemDto;
+import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.service.item.impl.CreateItemServiceImpl;
@@ -12,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,10 +48,12 @@ public class CreateItemImplTest {
         //Note that we are assuming store is returned with findStore.findById, regardless of the actual database status
         when(findStore.findById(storeId)).thenReturn(store);
 
-        Item item = new Item(5, store, "milk tea");
+        ItemDto item = new ItemDto();
+        Item item1 = new Item();
         UUID itemId = UUID.randomUUID();
         item.setId(itemId);
-        when(repo.save(any())).thenReturn(item);
+        item1.setId(itemId);
+        when(repo.save(any())).thenReturn(item1);
 
         //Execute service call
         Item returnedItem = createItemImpl.create(item, storeId);

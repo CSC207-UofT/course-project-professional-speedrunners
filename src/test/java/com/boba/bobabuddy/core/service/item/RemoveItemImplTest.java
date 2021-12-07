@@ -47,6 +47,4 @@ public class RemoveItemImplTest {
         removeItemImpl.removeById(itemId);
         verify(repo, Mockito.times(1)).delete(item1);
     }
-
-
 }

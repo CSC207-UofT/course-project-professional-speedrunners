@@ -166,6 +166,4 @@ public class FindItemImplTest {
         assertIterableEquals(itemLstRating, returnedItem);
         assertNotNull(returnedItem);
     }
-
-
 }

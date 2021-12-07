@@ -165,4 +165,5 @@ class FindStoreTest {
         assertEquals(store, returnedStore);
         assertNotNull(returnedStore);
     }
+
 }
