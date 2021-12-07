@@ -1,9 +1,6 @@
 package com.boba.bobabuddy.core.service.store;
 
-import com.boba.bobabuddy.core.domain.Item;
-import com.boba.bobabuddy.core.domain.Rating;
-import com.boba.bobabuddy.core.domain.Store;
-import com.boba.bobabuddy.core.domain.User;
+import com.boba.bobabuddy.core.domain.*;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.item.impl.FindItemServiceImpl;
 import com.boba.bobabuddy.core.data.dao.StoreJpaRepository;
@@ -17,10 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -32,6 +26,9 @@ class FindStoreTest {
     private UUID itemId;
     private String location;
     private String name;
+
+    @Mock
+    private Sort sort;
 
     @Mock
     private Item item;
@@ -64,11 +61,18 @@ class FindStoreTest {
         name = "Boba shop";
         location = "123 street";
 
-        store = new Store(name, location);
-        Store store1 = new Store("B1", "bloor street");
-        Store store2 = new Store("B2", "bloor street");
+        store = new Store();
+        store.setName(name);
 
-        item = new Item(5, store, "Milk tea");
+        Store store1 = new Store();
+        store1.setLocation("bb street");
+        store1.setName("bb");
+        Store store2 = new Store();
+        store2.setLocation("bb street");
+        store2.setName("cc");
+
+        Set<Category> set = new HashSet<>();
+        item = new Item(5, store, set);
 
         store.addItem(item);
         store.setId(storeId);
@@ -92,18 +96,17 @@ class FindStoreTest {
 
     @Test
     void findAll() {
-        when(repo.findAll()).thenReturn(storeLst);
-
-        List<Store> returnedStores = findStore.findAll();
+        when(repo.findAll(sort)).thenReturn(storeLst);
+        List<Store> returnedStores = findStore.findAll(sort);
         assertIterableEquals(storeLst, returnedStores);
         assertNotNull(returnedStores);
     }
 
     @Test
     void findByLocation() {
-        when(repo.findByLocation("123 street")).thenReturn(storeLst);
+        when(repo.findByLocation("123 street", sort)).thenReturn(storeLst);
 
-        List<Store> returnedStores = findStore.findByLocation("123 street", );
+        List<Store> returnedStores = findStore.findByLocation("123 street", sort);
         assertIterableEquals(storeLst, returnedStores);
         assertNotNull(returnedStores);
     }
@@ -119,18 +122,18 @@ class FindStoreTest {
 
     @Test
     void findByName() {
-        when(repo.findByNameIgnoreCase("Boba shop", )).thenReturn(storeLst);
+        when(repo.findByNameIgnoreCase("Boba shop", sort)).thenReturn(storeLst);
 
-        List<Store> returnedStores = findStore.findByName("Boba shop", );
+        List<Store> returnedStores = findStore.findByName("Boba shop", sort);
         assertIterableEquals(storeLst, returnedStores);
         assertNotNull(returnedStores);
     }
 
     @Test
     void findByNameContaining() {
-        when(repo.findByNameContainingIgnoreCase("Boba")).thenReturn(storeLst);
+        when(repo.findByNameContainingIgnoreCase("Boba shop", sort)).thenReturn(storeLst);
 
-        List<Store> returnedStores = findStore.findByNameContaining("Boba", );
+        List<Store> returnedStores = findStore.findByNameContaining("Boba shop", sort);
         assertIterableEquals(storeLst, returnedStores);
         assertNotNull(returnedStores);
     }
@@ -139,7 +142,7 @@ class FindStoreTest {
     void findByAvgRatingGreaterThanEqual() {
         when(repo.findByAvgRatingGreaterThanEqual(1, Sort.by("avgRating").descending())).thenReturn(storeLst);
 
-        List<Store> returnedStores = findStore.findByAvgRatingGreaterThanEqual(1, , true);
+        List<Store> returnedStores = findStore.findByAvgRatingGreaterThanEqual(1, Sort.by("avgRating").descending());
         assertIterableEquals(storeLst, returnedStores);
         assertNotNull(returnedStores);
     }
@@ -162,4 +165,5 @@ class FindStoreTest {
         assertEquals(store, returnedStore);
         assertNotNull(returnedStore);
     }
+
 }

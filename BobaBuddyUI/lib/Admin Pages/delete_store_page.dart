@@ -38,8 +38,8 @@ class DeleteStorePage extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return singleShop(
                         context: context,
-                        imageSrc:
-                            'https://d1ralsognjng37.cloudfront.net/3586a06b-55c6-4370-a9b9-fe34ef34ad61.jpeg',
+                        imageSrc: snapshot.data[index].imageUrl ??
+                            "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg",
                         //todo need image src implemented in entity classes
                         title: snapshot.data[index].name ?? "",
                         address: snapshot.data[index].location ?? "",

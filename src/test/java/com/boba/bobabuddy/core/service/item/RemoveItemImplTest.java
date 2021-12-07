@@ -1,5 +1,6 @@
 package com.boba.bobabuddy.core.service.item;
 
+import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
@@ -13,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.mockito.Mockito.verify;
@@ -35,7 +38,8 @@ public class RemoveItemImplTest {
 
     @Test
     void testRemove() throws DifferentResourceException, ResourceNotFoundException {
-        Item item1 = new Item(5, store, "milk tea");
+        Set<Category> set = new HashSet<>();
+        Item item1 = new Item(5, store, set);
         UUID itemId = UUID.randomUUID();
         item1.setId(itemId);
         when(findItem.findById(itemId)).thenReturn(item1);
@@ -43,6 +47,4 @@ public class RemoveItemImplTest {
         removeItemImpl.removeById(itemId);
         verify(repo, Mockito.times(1)).delete(item1);
     }
-
-
 }
