@@ -16,9 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RatableObjectTest {
     private RatableObject ratableObject;
 
-    @Mock
-    private User user1, user2, user3;
-
     private Rating rating1, rating2, rating3;
 
     private Set<Rating> ratings;
@@ -26,9 +23,12 @@ public class RatableObjectTest {
     @BeforeEach
     void setup() {
         ratableObject = Mockito.mock(RatableObject.class, Mockito.CALLS_REAL_METHODS);
-        rating1 = new Rating(1, user1, ratableObject);
-        rating2 = new Rating(0, user2, ratableObject);
-        rating3 = new Rating(1, user3, ratableObject);
+        rating1 = new Rating();
+        rating1.setRating(1);
+        rating2 = new Rating();
+        rating2.setRating(0);
+        rating3 = new Rating();
+        rating3.setRating(1);
         ratings = new HashSet<>();
     }
 
@@ -42,7 +42,7 @@ public class RatableObjectTest {
         assertFalse(ratableObject.addRating(rating2));
         assertEquals(0.5, ratableObject.getAvgRating());
         assertTrue(ratableObject.addRating(rating3));
-        assertEquals(2 / 3f, ratableObject.getAvgRating());
+        assertEquals((double) 2 / 3, ratableObject.getAvgRating());
     }
 
     @Test
@@ -59,4 +59,5 @@ public class RatableObjectTest {
         assertEquals(0, ratableObject.getAvgRating());
         assertFalse(ratableObject.removeRating(rating3));
     }
+
 }
