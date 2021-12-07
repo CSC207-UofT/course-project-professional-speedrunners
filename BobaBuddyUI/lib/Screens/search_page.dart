@@ -162,8 +162,7 @@ Widget singleShop(
                   // );
                   return const Image(
                       //fit: BoxFit.fitWidth,
-                      image:
-                          AssetImage("assets/images/default-store.dart.png"));
+                      image: AssetImage("assets/images/default-store.png"));
                 })),
             Positioned(
                 bottom: 55,

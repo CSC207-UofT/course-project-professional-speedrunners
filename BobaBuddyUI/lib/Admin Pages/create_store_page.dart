@@ -11,8 +11,10 @@ class CreateStorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController storeNameController = TextEditingController();
     TextEditingController storeAddressController = TextEditingController();
+    TextEditingController storeImageUrlController = TextEditingController();
     TextEditingController itemNameController = TextEditingController();
-    TextEditingController itempriceController = TextEditingController();
+    TextEditingController itemPriceController = TextEditingController();
+    TextEditingController itemUrlController = TextEditingController();
 
     List<Map> storeItems = [];
 
@@ -50,6 +52,14 @@ class CreateStorePage extends StatelessWidget {
                 hintText: "Store Address",
                 labelText: "Store Address *"),
           ),
+          const SizedBox(height: 15),
+          TextFormField(
+            controller: storeImageUrlController,
+            decoration: const InputDecoration(
+                contentPadding: EdgeInsets.only(left: 20),
+                hintText: "Store Image Url",
+                labelText: "Store Image Url *"),
+          ),
           ExpansionTile(
             title: const Text('Items'),
             subtitle: const Text('Add Items To The Store'),
@@ -57,7 +67,6 @@ class CreateStorePage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-
               TextFormField(
                 controller: itemNameController,
                 decoration: const InputDecoration(
@@ -65,31 +74,45 @@ class CreateStorePage extends StatelessWidget {
                     hintText: "Item name",
                     labelText: "Item Name *"),
               ),
-
               const SizedBox(height: 15),
-
               TextFormField(
-                controller: itempriceController,
+                controller: itemPriceController,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.only(left: 20),
                     hintText: "Item Price",
                     labelText: "Item Price *"),
               ),
-              //TODO: add field for custom image src
-
+              const SizedBox(height: 15),
+              TextFormField(
+                controller: itemUrlController,
+                decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 20),
+                    hintText: "Item Image Url",
+                    labelText: "Item Image Url *"),
+              ),
               const SizedBox(height: 30),
               TextButton(
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
+                  if (itemUrlController.text.trim().isEmpty ||
+                      itemNameController.text.trim().isEmpty ||
+                      itemPriceController.text.trim().isEmpty) {
+                    _buildToast(
+                        message: "Please fill out all item fields",
+                        color: Colors.red);
+                    return;
+                  }
                   storeItems.add({
                     "name": itemNameController.text,
-                    "price": double.parse(itempriceController.text)
+                    "price": double.parse(itemPriceController.text),
+                    "imageUrl": itemUrlController.text
                   });
-                  itempriceController.clear();
+                  itemPriceController.clear();
                   itemNameController.clear();
+                  itemUrlController.clear();
                   _buildToast(message: "Item Recorded", color: Colors.green);
                 },
                 child: const Text('Add Item'),
@@ -111,7 +134,8 @@ class CreateStorePage extends StatelessWidget {
                 context.read<StoreRepository>().createStore(
                     storeNameController.text,
                     storeAddressController.text,
-                    storeItems);
+                    storeItems,
+                    storeImageUrlController.text);
                 _buildToast(
                     message: "Store created succesfully", color: Colors.green);
                 Navigator.pop(context);

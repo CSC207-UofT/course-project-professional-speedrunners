@@ -6,12 +6,14 @@ class StoreRepository {
   final StoreApiClient _storeApiClient;
   final AuthenticationRepository _authenticationRepository;
 
-  StoreRepository({StoreApiClient? storeApiClient,
-  AuthenticationRepository? authenticationRepository})
+  StoreRepository(
+      {StoreApiClient? storeApiClient,
+      AuthenticationRepository? authenticationRepository})
       : _storeApiClient = storeApiClient ?? StoreApiClient(),
-  _authenticationRepository = authenticationRepository ?? AuthenticationRepository();
+        _authenticationRepository =
+            authenticationRepository ?? AuthenticationRepository();
 
-  String get idToken{
+  String get idToken {
     return _authenticationRepository.currentUser.idToken ?? "";
   }
 
@@ -23,7 +25,14 @@ class StoreRepository {
     _storeApiClient.deleteStore(storeId: storeId, idToken: idToken);
   }
 
-  createStore(String storeName, String address, List items){
-    _storeApiClient.createStore(storeName: storeName, storeAddress: address, storeItems: items, idToken: idToken, email: _authenticationRepository.currentUser.email);
+  createStore(
+      String storeName, String address, List items, String storeImageUrl) {
+    _storeApiClient.createStore(
+        storeName: storeName,
+        storeAddress: address,
+        storeItems: items,
+        idToken: idToken,
+        email: _authenticationRepository.currentUser.email,
+        storeImageUrl: storeImageUrl);
   }
 }
