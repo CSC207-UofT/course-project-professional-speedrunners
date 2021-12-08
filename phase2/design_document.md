@@ -27,9 +27,6 @@ For authentication we opted to use Firebase Auth to store password and generate 
 
 We chose to upload our images to Firebase so that there would be no need for users to store them locally, where this would’ve increased the size of our application. Since our current implementation of the front end accepts images in the form of a URL, we must download the image in order to prevent the loss of any necessary pictures, hence the need for external storage.
 
-  
-
-When implementing categories for items, we initially decided to have a many to many relationship between our two entity classes (category and item). But because such a relationship would create a circular reference between the two entities, and it might cause problems during serialization, we decided to avoid many to many relations between these two entities. Instead, we decided to have one to many relation between category and item classes. With our new design, a category object will store items in that category as Item objects, but each Item object will store the categories it is in as strings.
 
 ## Clean Architecture Properties
 
@@ -220,6 +217,5 @@ The main purpose of our program is to help students that are in University of To
 
 ## Lost Demographic
 
-Since our target demographic is quite specific, those that are less likely to use our program do so mainly because of lack of interest. The more obvious demographic would be those who don’t like bubble tea, where the lack of interest is expected. Further, since the app is designed to be used within University of Toronto only, the general public will be less likely to use it because it does not contain relevant information outside of UofT campus. There may also be boundaries in the usage of our app which may prevent those with disabilities from using it to its fullest. For example, this app is currently not suitable for the blind community given that there are no ALT texts for our images, where we did not consider the use of text-to-speech programs when considering our app layout.
-
+Since our target demographic is quite specific, those that are less likely to use our program do so mainly because of lack of interest. The more obvious demographic would be those who don’t like bubble tea, where the lack of interest is expected. Further, since the app is designed to be used within University of Toronto only, the general public will be less likely to use it because it does not contain relevant information outside of UofT campus. There may also be boundaries in the usage of our app which may prevent those with disabilities from using it to its fullest. For example, this app is currently not suitable for the blind community given that there are no ALT texts for our images, where we weren’t able to take into account the use of text-to-speech programs when considering our app layout due to time constraints (This would be a next step).
 
