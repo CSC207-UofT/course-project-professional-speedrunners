@@ -151,7 +151,7 @@ Phase 2 tasks:
 
 Leo: 
 - [Refactoring of the Project Structure by Maddobun · Pull Request #34 · CSC207-UofT/course-project-professional-speedrunners (github.com)](https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/34)
-
+- This pull request contained many quality of life changes, including lombok support, reduced code complexity, better DTO mapping, sort, and laid ground works for authentication support. 
   
 
 Mason: 
