@@ -8,9 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Data Transfer Objects matching the corresponding entities in the domain layer
@@ -26,8 +24,18 @@ public class StoreDto {
     private String name;
     private String location;
     private String imageUrl;
-    private List<ItemDto> menu;
+    @Builder.Default
+    private List<ItemDto> menu = new ArrayList<>();
     private String owner;
-    private Set<RatingDto> ratings;
+    @Builder.Default
+    private Set<RatingDto> ratings = new HashSet<>();
     private double avgRating;
+
+    public boolean addItem(ItemDto item){
+        return menu.add(item);
+    }
+
+    public boolean addRating(RatingDto ratingDto) {
+        return ratings.add(ratingDto);
+    }
 }

@@ -1,8 +1,11 @@
 package com.boba.bobabuddy.core.service.user;
 
+import com.boba.bobabuddy.core.data.dao.RoleJpaRepository;
+import com.boba.bobabuddy.core.data.dto.RoleDto;
+import com.boba.bobabuddy.core.data.dto.UserDto;
 import com.boba.bobabuddy.core.domain.Rating;
+import com.boba.bobabuddy.core.domain.Role;
 import com.boba.bobabuddy.core.domain.User;
-import com.boba.bobabuddy.core.domain.builder.UserBuilder;
 import com.boba.bobabuddy.core.service.user.impl.CreateUserServiceImpl;
 import com.boba.bobabuddy.core.data.dao.UserJpaRepository;
 import org.junit.jupiter.api.Test;
@@ -12,7 +15,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,6 +32,9 @@ public class CreateUserTest {
     private UserJpaRepository repo;
 
     @Mock
+    private RoleJpaRepository roleRepo;
+
+    @Mock
     private FindUserService findUser;
 
     @InjectMocks
@@ -36,15 +45,27 @@ public class CreateUserTest {
         String name = "name";
         String email = "name@gmail.com";
         String password = "password";
-        Set<Rating> ratings = Collections.emptySet();
 
-        User user = new UserBuilder().setName(name).setEmail(email).setPassword(password).createUser();
+        UserDto userDto = UserDto.builder()
+                .name(name)
+                .email(email)
+                .password(password)
+                .roles(Stream.of("ROLE_ADMIN").map(e -> RoleDto.builder().name(e).build()).collect(Collectors.toList()))
+                .build();
+        User user = User.builder()
+                .name(name)
+                .email(email)
+                .password(password)
+                .roles(Stream.of("ROLE_ADMIN").map(e -> Role.builder().name(e).build()).collect(Collectors.toSet()))
+                .build();
+
+        when(findUser.userExistenceCheck(email)).thenReturn(false);
+        when(roleRepo.findByName("ROLE_ADMIN")).thenReturn(Role.builder().name("ROLE_ADMIN").build());
         when(repo.save(any())).thenReturn(user);
 
-        User returnedUser = createUser.create(user);
+        User returnedUser = createUser.create(userDto);
 
         assertNotNull(returnedUser);
         assertEquals(user.toString(), returnedUser.toString());
-        assertEquals(ratings, returnedUser.getRatings());
     }
 }

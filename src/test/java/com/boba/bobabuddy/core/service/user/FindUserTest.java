@@ -2,7 +2,6 @@ package com.boba.bobabuddy.core.service.user;
 
 import com.boba.bobabuddy.core.domain.Rating;
 import com.boba.bobabuddy.core.domain.User;
-import com.boba.bobabuddy.core.domain.builder.UserBuilder;
 import com.boba.bobabuddy.core.data.dao.UserJpaRepository;
 import com.boba.bobabuddy.core.service.user.impl.FindUserServiceImpl;
 import org.junit.jupiter.api.AfterEach;
@@ -44,9 +43,9 @@ public class FindUserTest {
         String name2 = "name2";
         ratingId = UUID.randomUUID();
 
-        user1 = new UserBuilder().setName(name2).setEmail(email1).setPassword(password).createUser();
-        User user2 = new UserBuilder().setName(name1).setEmail(email2).setPassword(password).createUser();
-        User user3 = new UserBuilder().setName(name2).setEmail(email3).setPassword(password).createUser();
+        user1 = User.builder().name(name2).email(email1).password(password).build();
+        User user2 = User.builder().name(name1).email(email2).password(password).build();
+        User user3 = User.builder().name(name2).email(email3).password(password).build();
         user1.addRating(rating);
         userList = List.of(user1, user2, user3);
         userNameList = List.of(user1, user3);
@@ -69,8 +68,8 @@ public class FindUserTest {
 
     @Test
     void testFindByEmail() {
-        when(repo.findById("name@gmail.com")).thenReturn(Optional.ofNullable(user1));
-        User returnedUser = findUser.findByEmail("name@gmail.com");
+        when(repo.findByEmail(user1.getEmail())).thenReturn(Optional.ofNullable(user1));
+        User returnedUser = findUser.findByEmail(user1.getEmail());
         assertEquals(user1, returnedUser);
     }
 
@@ -92,8 +91,8 @@ public class FindUserTest {
 
     @Test
     void testUserExistenceCheck() {
-        when(repo.findById("name@gmail.com")).thenReturn(Optional.ofNullable(user1));
-        when(repo.findById("notinrepo@gmail.com")).thenReturn(Optional.empty());
+        when(repo.findByEmail("name@gmail.com")).thenReturn(Optional.ofNullable(user1));
+        when(repo.findByEmail("notinrepo@gmail.com")).thenReturn(Optional.empty());
         assertTrue(findUser.userExistenceCheck("name@gmail.com"));
         assertFalse(findUser.userExistenceCheck("notinrepo@gmail.com"));
     }

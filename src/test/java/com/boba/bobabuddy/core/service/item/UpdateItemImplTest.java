@@ -35,6 +35,12 @@ public class UpdateItemImplTest {
     @Mock
     private ItemJpaRepository repo;
 
+    @Mock
+    private FindItemService findItemService;
+
+    @Mock
+    private FindCategoryService findCategoryService;
+
     private Category c1;
     private Category c2;
     private UUID itemId;

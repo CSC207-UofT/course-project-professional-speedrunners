@@ -1,7 +1,6 @@
 package com.boba.bobabuddy.core.service.user;
 
 import com.boba.bobabuddy.core.domain.User;
-import com.boba.bobabuddy.core.domain.builder.UserBuilder;
 import com.boba.bobabuddy.core.service.user.impl.RemoveUserServiceImpl;
 import com.boba.bobabuddy.core.data.dao.UserJpaRepository;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,7 @@ public class RemoveUserTest {
         String name = "name";
         String email = "name@gmail.com";
         String password = "password";
-        User user = new UserBuilder().setName(name).setEmail(email).setPassword(password).createUser();
+        User user = User.builder().name(name).email(email).password(password).build();
 
         when(findUser.findByEmail(email)).thenReturn(user);
 

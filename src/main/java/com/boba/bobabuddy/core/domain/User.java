@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -29,7 +30,8 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    private Set<Rating> ratings;
+    @Builder.Default
+    private Set<Rating> ratings = new HashSet<>();
     @ManyToMany
     @JoinTable(
             name = "users_roles",
