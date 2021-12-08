@@ -84,9 +84,10 @@ public class UpdateStoreTest {
         storeDto.setId(storeId);
 
         when(repo.save(store)).thenReturn(store);
+        when(findStoreService.findById(storeId)).thenReturn(store);
         // making sure that when we call updatestore we have a return value since the repo is mocked.
 
-        Store returnedStore = updateStore.updateStore(store, storeDto);
+        Store returnedStore = updateStore.updateStore(storeId, storeDto);
 
         assertEquals(store1, returnedStore);
         assertEquals(store1.toString(), returnedStore.toString());
