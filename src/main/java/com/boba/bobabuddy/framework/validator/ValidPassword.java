@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = PasswordValidator.class)
 @Documented
 public @interface ValidPassword {
-    String message() default "Minimum password length 8, must contain one letter, one number, and no whitespace.";
+    String message() default "Minimum password length 6, must contain one letter, one number, and no whitespace.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
