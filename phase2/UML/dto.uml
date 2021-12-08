@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.boba.bobabuddy.core.data.dto</OriginalElement>
+  <nodes>
+    <node x="213.25446428571428" y="672.0">com.boba.bobabuddy.core.data.dto.CategoryDto</node>
+    <node x="209.625" y="0.0">com.boba.bobabuddy.core.data.dto.RatingDto</node>
+    <node x="0.0" y="161.0">com.boba.bobabuddy.core.data.dto.UserDto</node>
+    <node x="188.75446428571428" y="412.0">com.boba.bobabuddy.core.data.dto.ItemDto</node>
+    <node x="38.0" y="11.0">com.boba.bobabuddy.core.data.dto.RoleDto</node>
+    <node x="210.0" y="150.0">com.boba.bobabuddy.core.data.dto.StoreDto</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.boba.bobabuddy.core.data.dto.UserDto" target="com.boba.bobabuddy.core.data.dto.RatingDto" relationship="TO_MANY">
+      <point x="-47.25" y="-94.0" />
+      <point x="47.25" y="129.0" />
+      <point x="85.25446428571428" y="129.0" />
+      <point x="85.25446428571428" y="109.0" />
+      <point x="235.94196428571428" y="109.0" />
+      <point x="235.94196428571428" y="99.0" />
+      <point x="239.625" y="99.0" />
+      <point x="-30.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.UserDto" target="com.boba.bobabuddy.core.data.dto.RoleDto" relationship="DEPENDENCY">
+      <point x="47.25" y="-94.0" />
+      <point x="141.75" y="129.0" />
+      <point x="95.25446428571428" y="129.0" />
+      <point x="95.25446428571428" y="99.0" />
+      <point x="122.75" y="99.0" />
+      <point x="28.25" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.ItemDto" target="com.boba.bobabuddy.core.data.dto.StoreDto" relationship="DEPENDENCY">
+      <point x="51.75" y="-105.0" />
+      <point x="344.0044642857143" y="391.0" />
+      <point x="324.1294642857143" y="391.0" />
+      <point x="324.1294642857143" y="381.0" />
+      <point x="339.75" y="381.0" />
+      <point x="43.25" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.StoreDto" target="com.boba.bobabuddy.core.data.dto.ItemDto" relationship="DEPENDENCY">
+      <point x="43.25000000000001" y="105.0" />
+      <point x="339.75" y="381.0" />
+      <point x="324.1294642857143" y="381.0" />
+      <point x="324.1294642857143" y="391.0" />
+      <point x="344.0044642857143" y="391.0" />
+      <point x="51.75" y="-105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.CategoryDto" target="com.boba.bobabuddy.core.data.dto.ItemDto" relationship="TO_MANY">
+      <point x="39.5" y="-50.0" />
+      <point x="331.7544642857143" y="647.0" />
+      <point x="344.0044642857143" y="647.0" />
+      <point x="51.75" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.ItemDto" target="com.boba.bobabuddy.core.data.dto.CategoryDto" relationship="TO_MANY">
+      <point x="51.75" y="105.0" />
+      <point x="344.0044642857143" y="647.0" />
+      <point x="331.7544642857143" y="647.0" />
+      <point x="39.5" y="-50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.UserDto" target="com.boba.bobabuddy.core.data.dto.RoleDto" relationship="TO_MANY">
+      <point x="-47.25" y="-94.0" />
+      <point x="47.25" y="129.0" />
+      <point x="85.25446428571428" y="129.0" />
+      <point x="85.25446428571428" y="99.0" />
+      <point x="66.25" y="99.0" />
+      <point x="-28.25" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.CategoryDto" target="com.boba.bobabuddy.core.data.dto.ItemDto" relationship="DEPENDENCY">
+      <point x="-39.5" y="-50.0" />
+      <point x="252.75446428571428" y="647.0" />
+      <point x="240.50446428571428" y="647.0" />
+      <point x="-51.75" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.ItemDto" target="com.boba.bobabuddy.core.data.dto.CategoryDto" relationship="DEPENDENCY">
+      <point x="-51.75" y="105.0" />
+      <point x="240.50446428571428" y="647.0" />
+      <point x="252.75446428571428" y="647.0" />
+      <point x="-39.5" y="-50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.ItemDto" target="com.boba.bobabuddy.core.data.dto.RatingDto" relationship="TO_MANY">
+      <point x="-51.75" y="-105.0" />
+      <point x="240.50446428571428" y="391.0" />
+      <point x="260.3794642857143" y="391.0" />
+      <point x="260.3794642857143" y="381.0" />
+      <point x="199.5" y="381.0" />
+      <point x="199.5" y="129.0" />
+      <point x="235.94196428571428" y="129.0" />
+      <point x="235.94196428571428" y="99.0" />
+      <point x="239.625" y="99.0" />
+      <point x="-30.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.ItemDto" target="com.boba.bobabuddy.core.data.dto.StoreDto" relationship="TO_ONE">
+      <point x="-51.75" y="-105.0" />
+      <point x="240.50446428571428" y="391.0" />
+      <point x="260.3794642857143" y="391.0" />
+      <point x="260.3794642857143" y="381.0" />
+      <point x="253.25" y="381.0" />
+      <point x="-43.25" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.StoreDto" target="com.boba.bobabuddy.core.data.dto.RatingDto" relationship="TO_MANY">
+      <point x="-43.25" y="-105.0" />
+      <point x="253.25" y="129.0" />
+      <point x="235.94196428571428" y="129.0" />
+      <point x="235.94196428571428" y="99.0" />
+      <point x="239.625" y="99.0" />
+      <point x="-30.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.ItemDto" target="com.boba.bobabuddy.core.data.dto.RatingDto" relationship="DEPENDENCY">
+      <point x="51.75" y="-105.0" />
+      <point x="344.0044642857143" y="391.0" />
+      <point x="324.1294642857143" y="391.0" />
+      <point x="324.1294642857143" y="381.0" />
+      <point x="393.5" y="381.0" />
+      <point x="393.5" y="109.0" />
+      <point x="301.5" y="109.0" />
+      <point x="301.5" y="99.0" />
+      <point x="299.625" y="99.0" />
+      <point x="29.99999999999997" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.StoreDto" target="com.boba.bobabuddy.core.data.dto.ItemDto" relationship="TO_MANY">
+      <point x="-43.25" y="105.0" />
+      <point x="253.25" y="381.0" />
+      <point x="260.3794642857143" y="381.0" />
+      <point x="260.3794642857143" y="391.0" />
+      <point x="240.50446428571428" y="391.0" />
+      <point x="-51.75" y="-105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.UserDto" target="com.boba.bobabuddy.core.data.dto.RatingDto" relationship="DEPENDENCY">
+      <point x="47.25" y="-94.0" />
+      <point x="141.75" y="129.0" />
+      <point x="95.25446428571428" y="129.0" />
+      <point x="95.25446428571428" y="119.0" />
+      <point x="301.5" y="119.0" />
+      <point x="301.5" y="99.0" />
+      <point x="299.625" y="99.0" />
+      <point x="29.99999999999997" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dto.StoreDto" target="com.boba.bobabuddy.core.data.dto.RatingDto" relationship="DEPENDENCY">
+      <point x="43.25" y="-105.0" />
+      <point x="339.75" y="109.0" />
+      <point x="301.5" y="109.0" />
+      <point x="301.5" y="99.0" />
+      <point x="299.625" y="99.0" />
+      <point x="29.99999999999997" y="39.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="true" x="198.0" y="386.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

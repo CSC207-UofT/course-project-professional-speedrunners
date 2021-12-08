@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.boba.bobabuddy.core.domain.Store</OriginalElement>
+  <nodes>
+    <node x="436.5" y="-188.0">com.boba.bobabuddy.core.service.store.impl.CreateStoreServiceImpl</node>
+    <node x="1266.0" y="-748.0">com.boba.bobabuddy.core.service.store.RemoveStoreService</node>
+    <node x="623.5" y="-1427.0">com.boba.bobabuddy.core.domain.Store</node>
+    <node x="1516.0" y="-781.0">com.boba.bobabuddy.core.service.store.UpdateStoreService</node>
+    <node x="136.5" y="-759.0">com.boba.bobabuddy.core.data.dao.StoreJpaRepository</node>
+    <node x="1051.5" y="-748.0">com.boba.bobabuddy.core.service.store.CreateStoreService</node>
+    <node x="1242.0" y="-309.0">com.boba.bobabuddy.framework.controller.StoreController</node>
+    <node x="1544.0" y="-1592.0">com.boba.bobabuddy.core.data.dto.StoreDto</node>
+    <node x="536.5" y="-825.0">com.boba.bobabuddy.core.service.store.FindStoreService</node>
+    <node x="691.0" y="-188.0">com.boba.bobabuddy.core.service.store.impl.RemoveStoreServiceImpl</node>
+    <node x="36.5" y="-265.0">com.boba.bobabuddy.core.service.store.impl.FindStoreServiceImpl</node>
+    <node x="956.0" y="-221.0">com.boba.bobabuddy.core.service.store.impl.UpdateStoreServiceImpl</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.FindStoreServiceImpl" target="com.boba.bobabuddy.core.data.dao.StoreJpaRepository" relationship="TO_ONE">
+      <point x="0.0" y="-105.0" />
+      <point x="220.0" y="-460.0" />
+      <point x="380.0" y="-460.0" />
+      <point x="60.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.StoreController" target="com.boba.bobabuddy.core.service.store.FindStoreService" relationship="DEPENDENCY">
+      <point x="100.0" y="-149.0" />
+      <point x="1540.0" y="-400.0" />
+      <point x="1360.0" y="-400.0" />
+      <point x="1360.0" y="-460.0" />
+      <point x="940.0" y="-460.0" />
+      <point x="940.0" y="-580.0" />
+      <point x="842.3333333333334" y="-580.0" />
+      <point x="122.33333333333337" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.StoreController" target="com.boba.bobabuddy.core.service.store.UpdateStoreService" relationship="DEPENDENCY">
+      <point x="100.0" y="-149.0" />
+      <point x="-100.0" y="61.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.RemoveStoreServiceImpl" target="com.boba.bobabuddy.core.service.store.RemoveStoreService" relationship="REALIZATION">
+      <point x="72.66666666666663" y="-28.0" />
+      <point x="872.6666666666666" y="-240.0" />
+      <point x="1100.0" y="-240.0" />
+      <point x="1100.0" y="-660.0" />
+      <point x="1296.8000000000002" y="-660.0" />
+      <point x="-63.19999999999982" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.UpdateStoreServiceImpl" target="com.boba.bobabuddy.core.data.dto.StoreDto" relationship="DEPENDENCY">
+      <point x="-100.0" y="-61.0" />
+      <point x="980.0" y="-400.0" />
+      <point x="1020.0" y="-400.0" />
+      <point x="1020.0" y="-940.0" />
+      <point x="1660.0" y="-940.0" />
+      <point x="0.0" y="292.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.UpdateStoreService" target="com.boba.bobabuddy.core.domain.Store" relationship="DEPENDENCY">
+      <point x="0.0" y="61.0" />
+      <point x="1640.0" y="-550.0" />
+      <point x="925.0" y="-550.0" />
+      <point x="925.0" y="-1300.0" />
+      <point x="96.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.StoreController" target="com.boba.bobabuddy.core.domain.Store" relationship="DEPENDENCY">
+      <point x="0.0" y="-149.0" />
+      <point x="1440.0" y="-350.0" />
+      <point x="925.0" y="-350.0" />
+      <point x="925.0" y="-1300.0" />
+      <point x="96.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.FindStoreServiceImpl" target="com.boba.bobabuddy.core.data.dao.StoreJpaRepository" relationship="DEPENDENCY">
+      <point x="-120.0" y="-105.0" />
+      <point x="100.0" y="-480.0" />
+      <point x="420.0" y="-480.0" />
+      <point x="100.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.UpdateStoreService" target="com.boba.bobabuddy.core.data.dto.StoreDto" relationship="DEPENDENCY">
+      <point x="0.0" y="-61.0" />
+      <point x="1640.0" y="-880.0" />
+      <point x="1660.0" y="-880.0" />
+      <point x="0.0" y="292.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.RemoveStoreServiceImpl" target="com.boba.bobabuddy.core.service.store.FindStoreService" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="800.0" y="-400.0" />
+      <point x="860.0" y="-400.0" />
+      <point x="860.0" y="-460.0" />
+      <point x="940.0" y="-460.0" />
+      <point x="940.0" y="-580.0" />
+      <point x="842.3333333333334" y="-580.0" />
+      <point x="122.33333333333337" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.UpdateStoreServiceImpl" target="com.boba.bobabuddy.core.service.store.FindStoreService" relationship="TO_ONE">
+      <point x="-116.0" y="-61.0" />
+      <point x="964.0" y="-280.0" />
+      <point x="680.0" y="-280.0" />
+      <point x="680.0" y="-380.0" />
+      <point x="740.0" y="-380.0" />
+      <point x="740.0" y="-500.0" />
+      <point x="720.0" y="-500.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.RemoveStoreServiceImpl" target="com.boba.bobabuddy.core.service.store.FindStoreService" relationship="TO_ONE">
+      <point x="-72.66666666666663" y="-28.0" />
+      <point x="727.3333333333334" y="-220.0" />
+      <point x="620.0" y="-220.0" />
+      <point x="620.0" y="-500.0" />
+      <point x="720.0" y="-500.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.RemoveStoreServiceImpl" target="com.boba.bobabuddy.core.data.dao.StoreJpaRepository" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="800.0" y="-400.0" />
+      <point x="780.0" y="-400.0" />
+      <point x="780.0" y="-480.0" />
+      <point x="420.0" y="-480.0" />
+      <point x="100.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.StoreController" target="com.boba.bobabuddy.core.service.store.UpdateStoreService" relationship="TO_ONE">
+      <point x="-180.0" y="-149.0" />
+      <point x="1260.0" y="-380.0" />
+      <point x="1320.0" y="-380.0" />
+      <point x="1320.0" y="-500.0" />
+      <point x="1524.0" y="-500.0" />
+      <point x="-116.0" y="61.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.CreateStoreServiceImpl" target="com.boba.bobabuddy.core.domain.Store" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="540.0" y="-350.0" />
+      <point x="925.0" y="-350.0" />
+      <point x="925.0" y="-1300.0" />
+      <point x="96.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.UpdateStoreServiceImpl" target="com.boba.bobabuddy.core.data.dao.StoreJpaRepository" relationship="DEPENDENCY">
+      <point x="-100.0" y="-61.0" />
+      <point x="980.0" y="-400.0" />
+      <point x="900.0" y="-400.0" />
+      <point x="900.0" y="-480.0" />
+      <point x="420.0" y="-480.0" />
+      <point x="100.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.StoreController" target="com.boba.bobabuddy.core.service.store.RemoveStoreService" relationship="TO_ONE">
+      <point x="-180.0" y="-149.0" />
+      <point x="1260.0" y="-640.0" />
+      <point x="1358.4" y="-640.0" />
+      <point x="-1.599999999999909" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.UpdateStoreServiceImpl" target="com.boba.bobabuddy.core.data.dao.StoreJpaRepository" relationship="TO_ONE">
+      <point x="-116.0" y="-61.0" />
+      <point x="964.0" y="-280.0" />
+      <point x="680.0" y="-280.0" />
+      <point x="680.0" y="-460.0" />
+      <point x="380.0" y="-460.0" />
+      <point x="60.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.RemoveStoreServiceImpl" target="com.boba.bobabuddy.core.data.dao.StoreJpaRepository" relationship="TO_ONE">
+      <point x="-72.66666666666663" y="-28.0" />
+      <point x="727.3333333333334" y="-220.0" />
+      <point x="620.0" y="-220.0" />
+      <point x="620.0" y="-380.0" />
+      <point x="560.0" y="-380.0" />
+      <point x="560.0" y="-460.0" />
+      <point x="380.0" y="-460.0" />
+      <point x="60.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.CreateStoreService" target="com.boba.bobabuddy.core.domain.Store" relationship="DEPENDENCY">
+      <point x="-88.5" y="0.0" />
+      <point x="925.0" y="-720.0" />
+      <point x="925.0" y="-1300.0" />
+      <point x="96.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.UpdateStoreServiceImpl" target="com.boba.bobabuddy.core.service.store.FindStoreService" relationship="DEPENDENCY">
+      <point x="-100.0" y="-61.0" />
+      <point x="980.0" y="-400.0" />
+      <point x="940.0" y="-400.0" />
+      <point x="940.0" y="-580.0" />
+      <point x="842.3333333333334" y="-580.0" />
+      <point x="122.33333333333337" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.FindStoreServiceImpl" target="com.boba.bobabuddy.core.service.store.FindStoreService" relationship="REALIZATION">
+      <point x="122.33333333333331" y="-105.0" />
+      <point x="342.3333333333333" y="-300.0" />
+      <point x="520.0" y="-300.0" />
+      <point x="520.0" y="-500.0" />
+      <point x="597.6666666666666" y="-500.0" />
+      <point x="-122.33333333333337" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.StoreController" target="com.boba.bobabuddy.core.service.store.FindStoreService" relationship="TO_ONE">
+      <point x="-180.0" y="-149.0" />
+      <point x="1260.0" y="-380.0" />
+      <point x="1140.0" y="-380.0" />
+      <point x="1140.0" y="-500.0" />
+      <point x="720.0" y="-500.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dao.StoreJpaRepository" target="com.boba.bobabuddy.core.domain.Store" relationship="DEPENDENCY">
+      <point x="0.0" y="39.0" />
+      <point x="320.0" y="-550.0" />
+      <point x="925.0" y="-550.0" />
+      <point x="925.0" y="-1300.0" />
+      <point x="96.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.StoreController" target="com.boba.bobabuddy.core.data.dto.StoreDto" relationship="DEPENDENCY">
+      <point x="100.0" y="-149.0" />
+      <point x="1540.0" y="-400.0" />
+      <point x="1680.0" y="-400.0" />
+      <point x="1680.0" y="-440.0" />
+      <point x="1800.0" y="-440.0" />
+      <point x="1800.0" y="-940.0" />
+      <point x="1660.0" y="-940.0" />
+      <point x="0.0" y="292.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.CreateStoreServiceImpl" target="com.boba.bobabuddy.core.service.store.CreateStoreService" relationship="REALIZATION">
+      <point x="49.0" y="-28.0" />
+      <point x="589.0" y="-260.0" />
+      <point x="1060.0" y="-260.0" />
+      <point x="-80.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.CreateStoreServiceImpl" target="com.boba.bobabuddy.core.data.dao.StoreJpaRepository" relationship="TO_ONE">
+      <point x="-60.0" y="-28.0" />
+      <point x="480.0" y="-460.0" />
+      <point x="380.0" y="-460.0" />
+      <point x="60.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.CreateStoreServiceImpl" target="com.boba.bobabuddy.core.data.dao.StoreJpaRepository" relationship="DEPENDENCY">
+      <point x="-89.0" y="-28.0" />
+      <point x="451.0" y="-280.0" />
+      <point x="300.0" y="-280.0" />
+      <point x="300.0" y="-400.0" />
+      <point x="340.0" y="-400.0" />
+      <point x="340.0" y="-480.0" />
+      <point x="420.0" y="-480.0" />
+      <point x="100.0" y="39.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.FindStoreServiceImpl" target="com.boba.bobabuddy.core.domain.Store" relationship="DEPENDENCY">
+      <point x="-15.0" y="-105.0" />
+      <point x="205.0" y="-350.0" />
+      <point x="925.0" y="-350.0" />
+      <point x="925.0" y="-1300.0" />
+      <point x="96.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.RemoveStoreServiceImpl" target="com.boba.bobabuddy.core.domain.Store" relationship="DEPENDENCY">
+      <point x="109.0" y="0.0" />
+      <point x="925.0" y="-160.0" />
+      <point x="925.0" y="-1300.0" />
+      <point x="96.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.StoreController" target="com.boba.bobabuddy.core.service.store.RemoveStoreService" relationship="DEPENDENCY">
+      <point x="100.0" y="-149.0" />
+      <point x="1540.0" y="-400.0" />
+      <point x="1440.0" y="-400.0" />
+      <point x="1440.0" y="-520.0" />
+      <point x="1420.0" y="-520.0" />
+      <point x="60.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.CreateStoreServiceImpl" target="com.boba.bobabuddy.core.data.dto.StoreDto" relationship="DEPENDENCY">
+      <point x="-89.0" y="-28.0" />
+      <point x="451.0" y="-280.0" />
+      <point x="300.0" y="-280.0" />
+      <point x="300.0" y="-660.0" />
+      <point x="100.0" y="-660.0" />
+      <point x="100.0" y="-940.0" />
+      <point x="1660.0" y="-940.0" />
+      <point x="0.0" y="292.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.StoreController" target="com.boba.bobabuddy.core.service.store.CreateStoreService" relationship="TO_ONE">
+      <point x="-180.0" y="-149.0" />
+      <point x="1260.0" y="-380.0" />
+      <point x="1200.0" y="-380.0" />
+      <point x="60.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.CreateStoreService" target="com.boba.bobabuddy.core.data.dto.StoreDto" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="1140.0" y="-940.0" />
+      <point x="1660.0" y="-940.0" />
+      <point x="0.0" y="292.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.FindStoreService" target="com.boba.bobabuddy.core.domain.Store" relationship="DEPENDENCY">
+      <point x="183.5" y="0.0" />
+      <point x="925.0" y="-720.0" />
+      <point x="925.0" y="-1300.0" />
+      <point x="96.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.UpdateStoreServiceImpl" target="com.boba.bobabuddy.core.domain.Store" relationship="DEPENDENCY">
+      <point x="-124.0" y="0.0" />
+      <point x="925.0" y="-160.0" />
+      <point x="925.0" y="-1300.0" />
+      <point x="96.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.store.impl.UpdateStoreServiceImpl" target="com.boba.bobabuddy.core.service.store.UpdateStoreService" relationship="REALIZATION">
+      <point x="49.33333333333326" y="-61.0" />
+      <point x="1129.3333333333333" y="-320.0" />
+      <point x="1720.0" y="-320.0" />
+      <point x="80.0" y="61.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.StoreController" target="com.boba.bobabuddy.core.service.store.CreateStoreService" relationship="DEPENDENCY">
+      <point x="100.0" y="-149.0" />
+      <point x="1540.0" y="-400.0" />
+      <point x="1400.0" y="-400.0" />
+      <point x="1400.0" y="-480.0" />
+      <point x="1219.0" y="-480.0" />
+      <point x="79.0" y="28.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.4488112566715187" showDependencies="true" x="918.0" y="-571.5" />
+  <SelectedNodes>
+    <node>com.boba.bobabuddy.core.domain.Store</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
