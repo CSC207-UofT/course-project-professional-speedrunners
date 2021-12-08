@@ -29,5 +29,5 @@ public class ItemDto {
     private double price;
     private UUID id;
     private double avgRating;
-    private List<CategoryDto> categories;
+    private Set<CategoryDto> categories;
 }
