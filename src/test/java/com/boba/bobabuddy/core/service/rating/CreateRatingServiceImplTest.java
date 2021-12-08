@@ -19,7 +19,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+
 
 @ExtendWith(MockitoExtension.class)
 public class CreateRatingServiceImplTest {
@@ -38,27 +42,30 @@ public class CreateRatingServiceImplTest {
     private RatableObject ratableObject;
     @Mock
     private User user;
-    private String email;
-    private String ratableType;
 
     @InjectMocks
     private CreateRatingServiceImpl createRatingServiceImpl;
 
     @Test
     void testCreate() {
-        UUID ratableId = UUID.randomUUID();
-        Rating rating = new Rating();
-        rating.setRating(1);
-        RatingDto ratingDto = new RatingDto();
-        ratingDto.setRating(1);
-
-        when(findUser.findByEmail(email)).thenReturn(user);
-        when(findRatable.findByTypeAndId(ratableType, ratableId)).thenReturn(ratableObject);
-        when(repo.save(any())).thenReturn(rating);
-
-        Rating returnedRating = createRatingServiceImpl.create(ratingDto, ratableType, ratableId, email);
+        when(findUser.findByEmail(any())).thenReturn(user);
+        when(findRatable.findByTypeAndId(any(), any())).thenReturn(ratableObject);
 
 
-        assertEquals(rating, returnedRating);
+        UUID id = UUID.randomUUID();
+        RatingDto ratingDto = RatingDto.builder().rating(1).id(id).build();
+        Rating rating = Rating.builder().rating(1).build();
+        Rating createdRating = Rating.builder().rating(1).id(id).build();
+
+        when(repo.save(any())).thenReturn(createdRating);
+
+
+        Rating returnedRating = createRatingServiceImpl.create(ratingDto, "", ratableObject.getId(), user.getEmail());
+
+        assertEquals(createdRating, returnedRating);
+        verify(updateUser, times(1)).addRating(user, createdRating);
+        verify(updateRatable, times(1)).addRating(ratableObject, createdRating);
+
+
     }
 }

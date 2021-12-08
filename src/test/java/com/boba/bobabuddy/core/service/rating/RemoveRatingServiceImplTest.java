@@ -28,21 +28,22 @@ public class RemoveRatingServiceImplTest {
     private UpdateRatableService updateRatable;
 
     @Mock
-    private FindRatableService findRatable;
+    private FindRatableService findRatableService;
 
     @InjectMocks
     private RemoveRatingServiceImpl removeRatingServiceImpl;
 
+    @Mock
+    private Rating rating;
     @Mock
     private RatableObject ratableObject;
 
     @Test
     void testRemoveById() {
         UUID id = UUID.randomUUID();
-        Rating rating = new Rating();
-        rating.setId(id);
         when(findRating.findById(id)).thenReturn(rating);
-        when(findRatable.findByRating(id)).thenReturn(ratableObject);
+        when(rating.getId()).thenReturn(id);
+        when(findRatableService.findByRating(id)).thenReturn(ratableObject);
 
         removeRatingServiceImpl.removeById(id);
         verify(updateRatable, times(1)).removeRating(ratableObject, rating);
