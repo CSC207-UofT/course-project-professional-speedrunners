@@ -149,12 +149,14 @@ Phase 2 tasks:
 
 ## Pull requests for each member for phase 2
 
-Leo: [Refactoring of the Project Structure by Maddobun · Pull Request #34 · CSC207-UofT/course-project-professional-speedrunners (github.com)](https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/34)
+Leo: 
+- [Refactoring of the Project Structure by Maddobun · Pull Request #34 · CSC207-UofT/course-project-professional-speedrunners (github.com)](https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/34)
 
   
 
-Mason: [https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/28](https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/28)
-(Pull request made by Leo but creation and changes were made here because of initial basing issues [https://github.com/PondsFargo/BobaBuddyUI](https://github.com/PondsFargo/BobaBuddyUI) )
+Mason: 
+- [https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/28](https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/28)
+- (Pull request made by Leo but creation and changes were made here because of initial basing issues [https://github.com/PondsFargo/BobaBuddyUI](https://github.com/PondsFargo/BobaBuddyUI) )
 
   
 
@@ -163,53 +165,53 @@ Mason: [https://github.com/CSC207-UofT/course-project-professional-speedrunners/
 
   
 
-Ricky: [https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/35](https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/35)
+Ricky: 
+- [https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/35](https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/35)
 
 - I think this demonstrates a significant contribution because it represents a large part of the authentication and access implemented in phase 2.
 
   
 
-Angela & Arzu: [https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/39](https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/39)
+Angela & Arzu: 
+- [https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/39](https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/39)
 
-This is where we implemented the categories features - separate new entity (Items contain multiple categories which can be used to find/sort items)
+- This is where we implemented the categories features - separate new entity (Items contain multiple categories which can be used to find/sort items) (Worked on these features as a group)
 
-(Worked on these features as a group)
-
--   This pull request demonstrates a significant contribution because we have created a completely new entity (category) and have modified the Item entity according to our new implementation. Moreover, we have added image support for Item, Store and User entities so that any user can upload an URL to change the image of these entities. This is a brand new feature which was not supported in neither phase 0 nor phase 1.
+- This pull request demonstrates a significant contribution because we have created a completely new entity (category) and have modified the Item entity according to our new implementation. Moreover, we have added image support for Item, Store and User entities so that any user can upload an URL to change the image of these entities. This is a brand new feature which was not supported in neither phase 0 nor phase 1.
     
 
   
-Arup: [https://github.com/CSC207-UofT/course-project-professional-speedrunners/commit/c6a5a4bb95be3554d482cab394bf706592710077](https://github.com/CSC207-UofT/course-project-professional-speedrunners/commit/c6a5a4bb95be3554d482cab394bf706592710077) - If you need an example of me working in the backend, this was a commit I made in phase 1 which is when I added majority of the user entity use cases and user entity controller.
+Arup: 
+- [https://github.com/CSC207-UofT/course-project-professional-speedrunners/commit/c6a5a4bb95be3554d482cab394bf706592710077](https://github.com/CSC207-UofT/course-project-professional-speedrunners/commit/c6a5a4bb95be3554d482cab394bf706592710077) 
+- If you need an example of me working in the backend, this was a commit I made in phase 1 which is when I added majority of the user entity use cases and user entity controller.
 
 
 # Accessibility Report
 
-1. Equitable Use:
+- Equitable Use:
 	-   Our application is useful and marketable to people with diverse abilities. While implementing the app we did not segrate any user, anyone can create an account to access the service we have implemented. Moreover, every user’s information is secure within our application.
-    
 	-   However, there is room to improve in order to make our application more equitable. For instance, we can change the design of the UI, so that the design of the app is appealing to a wider range of users.
 
-	Flexibility in Use:
-	-   In our application we have implemented different categories for bubble tea. With this wide range of choices, users can indicate their preference while trying to find their desired bubble tea on our application. Therefore we have accommodated a wide range of individual preferences while designing.
-    
-	-   In the future, we could change our UI design so that it accommodates right and left handed access and use. Moreover, we can change the design of our UI in order to accommodate individuals with a wide range of abilities to use our application comfortably. For instance, we can change our text font so that individuals with visual impairment can use our application without having to struggle.
+- Flexibility in Use:
+	-  In our application we have implemented different categories for bubble tea. With this wide range of choices, users can indicate their preference while trying to find their desired bubble tea on our application. Therefore we have accommodated a wide range of individual preferences while designing.
 
-	Simple and Intuitive Use:
+	- In the future, we could change our UI design so that it accommodates right and left handed access and use. Moreover, we can change the design of our UI in order to accommodate individuals with a wide range of abilities to use our application comfortably. For instance, we can change our text font so that individuals with visual impairment can use our application without having to struggle.
+
+- Simple and Intuitive Use:
 	- Our application has been designed to be quite straight forward in function, using simple terminology as well as any standard formatting used by other popular apps (the knowledge is transferable and intuitive). Additionally, we’ve assured that all presented data will follow the same format/template, where also we’ve ordered the information based on its importance (more easily visible -> more important)
 
-	Perceptible Information:
+- Perceptible Information:
 	- We’ve made sure to design our GUI so that users can tell apart bits of information being presented to them. We’ve done this by using variations in text colours/fonts (e.g. state of store(open or closed) in green, the name of the store is in a bigger font in black-easily readable). Additionally, we’ve made sure that essential information is the most visible. For example, the opening hours for stores users may want to visit is highlighted in red as this is an important piece of information that may allow users to determine whether or not they want to visit this store.
 
-	Tolerance for Error:
+- Tolerance for Error:
 	- One feature we added which adheres to this principle is a confirmation dialog for admin users when a delete store action is initiated. Since this action is one that cannot be undone we also force admin users to re login each time they delete a store to discourage multiple deletes. We did this because deleting a store is an action that is very rarely needed and permanent so the utmost caution is needed when performing such a task.
 
-	Low Physical Effort:
+- Low Physical Effort:
 	- Since the main feature of our application is to allow users to quickly search for a drink to find the cheapest option, we have the main layout designed around that idea. Once logged in the user is able to immediately search for a drink they’re looking for and the results are automatically sorted by cheapest first. This ensures the user does not need to repeatedly scroll to find the cheapest item in the search. Another feature added is the ability to navigate to the store in one click. We have implemented google maps to limit the amount of effort put into navigating to a store.
 
-	Size and Space for Approach and Use:
+- Size and Space for Approach and Use:
 	-    Our UI elements currently do not adhere to this principle, since some of the widgets on top of the screen can be hard to reach in a one-handed phone usage.
-    
-	-   In the future, we could implement changes to the UI layout design where, either users can customize the layout themselves, or we can design a better layout such that frequently interacted UI elements not only stand out more visually, but are also closer to the bottom of the screen for ease of access.
+	- In the future, we could implement changes to the UI layout design where, either users can customize the layout themselves, or we can design a better layout such that frequently interacted UI elements not only stand out more visually, but are also closer to the bottom of the screen for ease of access.
 
 ## Target Market
 
