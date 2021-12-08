@@ -1,5 +1,6 @@
 package com.boba.bobabuddy.core.service.rating;
 
+import com.boba.bobabuddy.core.data.dto.RatingDto;
 import com.boba.bobabuddy.core.domain.RatableObject;
 import com.boba.bobabuddy.core.domain.Rating;
 import com.boba.bobabuddy.core.domain.User;
@@ -18,8 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CreateRatingServiceImplTest {
@@ -38,26 +38,27 @@ public class CreateRatingServiceImplTest {
     private RatableObject ratableObject;
     @Mock
     private User user;
+    private String email;
+    private String ratableType;
 
     @InjectMocks
     private CreateRatingServiceImpl createRatingServiceImpl;
 
     @Test
     void testCreate() {
-        when(findUser.findByEmail(any())).thenReturn(user);
-        when(findRatable.findById(any())).thenReturn(ratableObject);
+        UUID ratableId = UUID.randomUUID();
+        Rating rating = new Rating();
+        rating.setRating(1);
+        RatingDto ratingDto = new RatingDto();
+        ratingDto.setRating(1);
 
+        when(findUser.findByEmail(email)).thenReturn(user);
+        when(findRatable.findByTypeAndId(ratableType, ratableId)).thenReturn(ratableObject);
+        when(repo.save(any())).thenReturn(rating);
 
-        UUID id = UUID.randomUUID();
-        Rating rating = new Rating(1, user, ratableObject);
-        rating.setId(id);
-        when(repo.save(rating)).thenReturn(rating);
+        Rating returnedRating = createRatingServiceImpl.create(ratingDto, ratableType, ratableId, email);
 
-
-        Rating returnedRating = createRatingServiceImpl.create(rating, ratableType, ratableObject.getId(), user.getEmail());
 
         assertEquals(rating, returnedRating);
-
-
     }
 }

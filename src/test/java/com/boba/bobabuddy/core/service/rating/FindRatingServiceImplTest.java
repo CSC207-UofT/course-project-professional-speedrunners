@@ -5,6 +5,7 @@ import com.boba.bobabuddy.core.service.item.FindItemService;
 import com.boba.bobabuddy.core.service.rating.impl.FindRatingServiceImpl;
 import com.boba.bobabuddy.core.service.store.FindStoreService;
 import com.boba.bobabuddy.core.data.dao.RatingJpaRepository;
+import com.boba.bobabuddy.core.service.user.FindUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +35,9 @@ public class FindRatingServiceImplTest {
     @Mock
     private FindStoreService findStore;
     @Mock
-    private User user1, user2;
+    private FindUserService findUser;
+    @Mock
+    private User user1;
     private RatableObject ratableObject1, ratableObject2;
     @InjectMocks
     private FindRatingServiceImpl findRatingServiceImpl;
@@ -57,10 +60,15 @@ public class FindRatingServiceImplTest {
         email = "leo@gmail.com";
         ratableObject1 = item;
         ratableObject2 = store;
-        rating1 = new Rating(1, user1, ratableObject1);
-        Rating rating2 = new Rating(1, user1, ratableObject2);
-        Rating rating3 = new Rating(1, user2, ratableObject1);
-        Rating rating4 = new Rating(1, user2, ratableObject2);
+        rating1 = new Rating();
+        rating1.setRating(1);
+        rating1.setId(ratingId1);
+        Rating rating2 = new Rating();
+        rating2.setRating(1);
+        Rating rating3 = new Rating();
+        rating3.setRating(1);
+        Rating rating4 = new Rating();
+        rating4.setRating(1);
 
         ratingSetUser = Set.of(rating1, rating2);
         ratingSetItem = Set.of(rating1, rating3);
@@ -93,7 +101,8 @@ public class FindRatingServiceImplTest {
 
     @Test
     void testFindByUser() {
-        when(repo.findByUser_email(email)).thenReturn(ratingSetUser);
+        when(findUser.findByEmail(email)).thenReturn(user1);
+        when(user1.getRatings()).thenReturn(ratingSetUser);
 
         Set<Rating> returnedRating = findRatingServiceImpl.findByUser(email);
 

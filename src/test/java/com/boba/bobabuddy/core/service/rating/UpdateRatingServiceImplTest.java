@@ -2,7 +2,7 @@ package com.boba.bobabuddy.core.service.rating;
 
 import com.boba.bobabuddy.core.domain.RatableObject;
 import com.boba.bobabuddy.core.domain.Rating;
-import com.boba.bobabuddy.core.domain.User;
+import com.boba.bobabuddy.core.service.ratableobject.FindRatableService;
 import com.boba.bobabuddy.core.service.ratableobject.UpdateRatableService;
 import com.boba.bobabuddy.core.service.rating.impl.UpdateRatingServiceImpl;
 import com.boba.bobabuddy.core.data.dao.RatingJpaRepository;
@@ -29,7 +29,7 @@ public class UpdateRatingServiceImplTest {
     private UpdateRatableService updateRatable;
 
     @Mock
-    private User user;
+    private FindRatableService findRatable;
 
     @InjectMocks
     private UpdateRatingServiceImpl updateRatingServiceImpl;
@@ -39,10 +39,13 @@ public class UpdateRatingServiceImplTest {
     @Test
     void testUpdateRating() {
         UUID id = UUID.randomUUID();
-        Rating rating = new Rating(1, user, ratableObject);
+        Rating rating = new Rating();
+        rating.setRating(1);
+        rating.setId(id);
 
         when(findRating.findById(id)).thenReturn(rating);
         when(repo.save(rating)).thenReturn(rating);
+        when(findRatable.findByRating(id)).thenReturn(ratableObject);
 
         Rating updatedRating = updateRatingServiceImpl.updateRating(id, 0);
         verify(updateRatable, times(1)).updateRating(ratableObject, rating, 1, 0);
