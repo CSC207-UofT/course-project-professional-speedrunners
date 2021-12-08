@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.boba.bobabuddy.core.domain.Rating</OriginalElement>
+  <nodes>
+    <node x="807.6380597014922" y="736.0">com.boba.bobabuddy.core.service.rating.impl.UpdateRatingServiceImpl</node>
+    <node x="711.25" y="0.0">com.boba.bobabuddy.core.data.dto.RatingDto</node>
+    <node x="975.5416666666667" y="11.0">com.boba.bobabuddy.core.domain.Rating</node>
+    <node x="10.5" y="358.0">com.boba.bobabuddy.core.service.rating.RemoveRatingService</node>
+    <node x="1354.6380597014922" y="692.0">com.boba.bobabuddy.core.service.rating.impl.FindRatingServiceImpl</node>
+    <node x="227.5" y="358.0">com.boba.bobabuddy.core.service.rating.CreateRatingService</node>
+    <node x="826.6312189054729" y="314.0">com.boba.bobabuddy.core.service.rating.FindRatingService</node>
+    <node x="1170.3949004975125" y="370.5">com.boba.bobabuddy.core.data.dao.RatingJpaRepository</node>
+    <node x="74.24129353233809" y="670.0">com.boba.bobabuddy.framework.controller.RatingController</node>
+    <node x="542.554726368159" y="736.0">com.boba.bobabuddy.core.service.rating.impl.RemoveRatingServiceImpl</node>
+    <node x="1048.6380597014922" y="736.0">com.boba.bobabuddy.core.service.rating.impl.CreateRatingServiceImpl</node>
+    <node x="533.5" y="358.0">com.boba.bobabuddy.core.service.rating.UpdateRatingService</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.CreateRatingServiceImpl" target="com.boba.bobabuddy.core.service.rating.CreateRatingService" relationship="REALIZATION">
+      <point x="-95.33333333333326" y="-28.0" />
+      <point x="1096.304726368159" y="539.0" />
+      <point x="465.8333333333333" y="539.0" />
+      <point x="95.33333333333331" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.RemoveRatingServiceImpl" target="com.boba.bobabuddy.core.service.rating.FindRatingService" relationship="TO_ONE">
+      <point x="75.33333333333337" y="-28.0" />
+      <point x="730.8880597014922" y="639.0" />
+      <point x="878.651741293532" y="639.0" />
+      <point x="878.651741293532" y="529.0" />
+      <point x="933.6312189054729" y="529.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.FindRatingServiceImpl" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="71.33333333333326" y="-72.0" />
+      <point x="1532.9713930348255" y="649.0" />
+      <point x="1616.0746268656715" y="649.0" />
+      <point x="1616.0746268656715" y="273.0" />
+      <point x="1061.5416666666667" y="273.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.RatingController" target="com.boba.bobabuddy.core.data.dto.RatingDto" relationship="DEPENDENCY">
+      <point x="-84.75" y="-94.0" />
+      <point x="158.9912935323381" y="649.0" />
+      <point x="238.7412935323381" y="649.0" />
+      <point x="238.7412935323381" y="529.0" />
+      <point x="0.0" y="529.0" />
+      <point x="0.0" y="283.0" />
+      <point x="804.75" y="283.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.UpdateRatingService" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="639.5" y="273.0" />
+      <point x="1061.5416666666667" y="273.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.FindRatingService" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="0.0" y="-72.0" />
+      <point x="933.6312189054729" y="273.0" />
+      <point x="1061.5416666666667" y="273.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dao.RatingJpaRepository" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="0.0" y="-15.5" />
+      <point x="1264.3949004975125" y="273.0" />
+      <point x="1061.5416666666667" y="273.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.RemoveRatingServiceImpl" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="655.554726368159" y="649.0" />
+      <point x="839.2916666666667" y="649.0" />
+      <point x="839.2916666666667" y="569.0" />
+      <point x="785.5416666666667" y="569.0" />
+      <point x="785.5416666666667" y="273.0" />
+      <point x="1061.5416666666667" y="273.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.RemoveRatingServiceImpl" target="com.boba.bobabuddy.core.data.dao.RatingJpaRepository" relationship="TO_ONE">
+      <point x="75.33333333333337" y="-28.0" />
+      <point x="730.8880597014922" y="639.0" />
+      <point x="878.651741293532" y="639.0" />
+      <point x="878.651741293532" y="609.0" />
+      <point x="1055.8184079601988" y="609.0" />
+      <point x="1055.8184079601988" y="479.0" />
+      <point x="1217.3949004975125" y="479.0" />
+      <point x="-47.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.RatingController" target="com.boba.bobabuddy.core.service.rating.CreateRatingService" relationship="DEPENDENCY">
+      <point x="-84.75" y="-94.0" />
+      <point x="158.9912935323381" y="649.0" />
+      <point x="238.7412935323381" y="649.0" />
+      <point x="238.7412935323381" y="529.0" />
+      <point x="275.16666666666674" y="529.0" />
+      <point x="-95.33333333333331" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.UpdateRatingServiceImpl" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="73.66666666666663" y="-28.0" />
+      <point x="991.804726368159" y="649.0" />
+      <point x="1083.8246268656715" y="649.0" />
+      <point x="1083.8246268656715" y="619.0" />
+      <point x="1159.8949004975125" y="619.0" />
+      <point x="1159.8949004975125" y="273.0" />
+      <point x="1061.5416666666667" y="273.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.RemoveRatingServiceImpl" target="com.boba.bobabuddy.core.data.dao.RatingJpaRepository" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="655.554726368159" y="649.0" />
+      <point x="839.2916666666667" y="649.0" />
+      <point x="839.2916666666667" y="629.0" />
+      <point x="1440.2978855721394" y="629.0" />
+      <point x="1440.2978855721394" y="479.0" />
+      <point x="1311.3949004975125" y="479.0" />
+      <point x="47.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.FindRatingServiceImpl" target="com.boba.bobabuddy.core.service.rating.FindRatingService" relationship="REALIZATION">
+      <point x="-71.33333333333326" y="-72.0" />
+      <point x="1390.304726368159" y="529.0" />
+      <point x="1004.9645522388062" y="529.0" />
+      <point x="71.33333333333337" y="72.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.RatingController" target="com.boba.bobabuddy.core.service.rating.UpdateRatingService" relationship="TO_ONE">
+      <point x="84.75" y="-94.0" />
+      <point x="328.4912935323381" y="649.0" />
+      <point x="277.82462686567146" y="649.0" />
+      <point x="277.82462686567146" y="519.0" />
+      <point x="639.5" y="519.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.RatingController" target="com.boba.bobabuddy.core.service.rating.RemoveRatingService" relationship="DEPENDENCY">
+      <point x="-84.75" y="-94.0" />
+      <point x="158.9912935323381" y="649.0" />
+      <point x="238.7412935323381" y="649.0" />
+      <point x="238.7412935323381" y="529.0" />
+      <point x="108.5" y="529.0" />
+      <point x="-1.4210854715202004E-14" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.FindRatingServiceImpl" target="com.boba.bobabuddy.core.data.dao.RatingJpaRepository" relationship="DEPENDENCY">
+      <point x="71.33333333333326" y="-72.0" />
+      <point x="1532.9713930348255" y="649.0" />
+      <point x="1616.0746268656715" y="649.0" />
+      <point x="1616.0746268656715" y="499.0" />
+      <point x="1440.2978855721394" y="499.0" />
+      <point x="1440.2978855721394" y="479.0" />
+      <point x="1311.3949004975125" y="479.0" />
+      <point x="47.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.RatingController" target="com.boba.bobabuddy.core.service.rating.UpdateRatingService" relationship="DEPENDENCY">
+      <point x="-84.75" y="-94.0" />
+      <point x="158.9912935323381" y="649.0" />
+      <point x="238.7412935323381" y="649.0" />
+      <point x="238.7412935323381" y="529.0" />
+      <point x="568.8333333333334" y="529.0" />
+      <point x="-70.66666666666669" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.FindRatingServiceImpl" target="com.boba.bobabuddy.core.data.dao.RatingJpaRepository" relationship="TO_ONE">
+      <point x="0.0" y="-72.0" />
+      <point x="1461.6380597014922" y="519.0" />
+      <point x="1055.8184079601988" y="519.0" />
+      <point x="1055.8184079601988" y="479.0" />
+      <point x="1217.3949004975125" y="479.0" />
+      <point x="-47.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.RatingController" target="com.boba.bobabuddy.core.service.rating.RemoveRatingService" relationship="TO_ONE">
+      <point x="84.75" y="-94.0" />
+      <point x="328.4912935323381" y="649.0" />
+      <point x="277.82462686567146" y="649.0" />
+      <point x="277.82462686567146" y="519.0" />
+      <point x="173.83333333333326" y="519.0" />
+      <point x="65.33333333333331" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.UpdateRatingServiceImpl" target="com.boba.bobabuddy.core.service.rating.UpdateRatingService" relationship="REALIZATION">
+      <point x="-73.66666666666674" y="-28.0" />
+      <point x="844.4713930348255" y="559.0" />
+      <point x="710.1666666666667" y="559.0" />
+      <point x="70.66666666666674" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.CreateRatingService" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="370.5" y="293.0" />
+      <point x="815.25" y="293.0" />
+      <point x="815.25" y="263.0" />
+      <point x="1061.5416666666667" y="263.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.CreateRatingServiceImpl" target="com.boba.bobabuddy.core.data.dao.RatingJpaRepository" relationship="TO_ONE">
+      <point x="0.0" y="-28.0" />
+      <point x="1191.6380597014922" y="519.0" />
+      <point x="1055.8184079601988" y="519.0" />
+      <point x="1055.8184079601988" y="479.0" />
+      <point x="1217.3949004975125" y="479.0" />
+      <point x="-47.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.CreateRatingService" target="com.boba.bobabuddy.core.data.dto.RatingDto" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="370.5" y="293.0" />
+      <point x="815.25" y="293.0" />
+      <point x="815.25" y="253.0" />
+      <point x="804.75" y="253.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.RatingController" target="com.boba.bobabuddy.core.service.rating.CreateRatingService" relationship="TO_ONE">
+      <point x="84.75" y="-94.0" />
+      <point x="328.4912935323381" y="649.0" />
+      <point x="277.82462686567146" y="649.0" />
+      <point x="277.82462686567146" y="519.0" />
+      <point x="370.5" y="519.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.UpdateRatingServiceImpl" target="com.boba.bobabuddy.core.data.dao.RatingJpaRepository" relationship="TO_ONE">
+      <point x="0.0" y="-28.0" />
+      <point x="918.1380597014922" y="649.0" />
+      <point x="961.5416666666667" y="649.0" />
+      <point x="961.5416666666667" y="619.0" />
+      <point x="1055.8184079601988" y="619.0" />
+      <point x="1055.8184079601988" y="479.0" />
+      <point x="1217.3949004975125" y="479.0" />
+      <point x="-47.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.UpdateRatingServiceImpl" target="com.boba.bobabuddy.core.service.rating.FindRatingService" relationship="TO_ONE">
+      <point x="0.0" y="-28.0" />
+      <point x="918.1380597014922" y="649.0" />
+      <point x="961.5416666666667" y="649.0" />
+      <point x="961.5416666666667" y="589.0" />
+      <point x="878.651741293532" y="589.0" />
+      <point x="878.651741293532" y="529.0" />
+      <point x="933.6312189054729" y="529.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.CreateRatingServiceImpl" target="com.boba.bobabuddy.core.data.dto.RatingDto" relationship="DEPENDENCY">
+      <point x="95.33333333333326" y="-28.0" />
+      <point x="1286.9713930348255" y="649.0" />
+      <point x="1465.804726368159" y="649.0" />
+      <point x="1465.804726368159" y="489.0" />
+      <point x="1054.6449004975125" y="489.0" />
+      <point x="1054.6449004975125" y="283.0" />
+      <point x="804.75" y="283.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.UpdateRatingServiceImpl" target="com.boba.bobabuddy.core.data.dao.RatingJpaRepository" relationship="DEPENDENCY">
+      <point x="73.66666666666663" y="-28.0" />
+      <point x="991.804726368159" y="649.0" />
+      <point x="1083.8246268656715" y="649.0" />
+      <point x="1083.8246268656715" y="639.0" />
+      <point x="1440.2978855721394" y="639.0" />
+      <point x="1440.2978855721394" y="479.0" />
+      <point x="1311.3949004975125" y="479.0" />
+      <point x="47.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.RemoveRatingServiceImpl" target="com.boba.bobabuddy.core.service.rating.FindRatingService" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="655.554726368159" y="649.0" />
+      <point x="839.2916666666667" y="649.0" />
+      <point x="839.2916666666667" y="589.0" />
+      <point x="844.5416666666667" y="589.0" />
+      <point x="844.5416666666667" y="529.0" />
+      <point x="862.2978855721394" y="529.0" />
+      <point x="-71.33333333333337" y="72.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.UpdateRatingServiceImpl" target="com.boba.bobabuddy.core.service.rating.FindRatingService" relationship="DEPENDENCY">
+      <point x="73.66666666666663" y="-28.0" />
+      <point x="991.804726368159" y="649.0" />
+      <point x="1083.8246268656715" y="649.0" />
+      <point x="1083.8246268656715" y="549.0" />
+      <point x="844.5416666666667" y="549.0" />
+      <point x="844.5416666666667" y="529.0" />
+      <point x="862.2978855721394" y="529.0" />
+      <point x="-71.33333333333337" y="72.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.CreateRatingServiceImpl" target="com.boba.bobabuddy.core.data.dao.RatingJpaRepository" relationship="DEPENDENCY">
+      <point x="95.33333333333326" y="-28.0" />
+      <point x="1286.9713930348255" y="649.0" />
+      <point x="1465.804726368159" y="649.0" />
+      <point x="1465.804726368159" y="509.0" />
+      <point x="1440.2978855721394" y="509.0" />
+      <point x="1440.2978855721394" y="479.0" />
+      <point x="1311.3949004975125" y="479.0" />
+      <point x="47.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.RemoveRatingServiceImpl" target="com.boba.bobabuddy.core.service.rating.RemoveRatingService" relationship="REALIZATION">
+      <point x="-75.33333333333331" y="-28.0" />
+      <point x="580.2213930348256" y="569.0" />
+      <point x="43.16666666666663" y="569.0" />
+      <point x="-65.33333333333333" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.RatingController" target="com.boba.bobabuddy.core.service.rating.FindRatingService" relationship="TO_ONE">
+      <point x="84.75" y="-94.0" />
+      <point x="328.4912935323381" y="649.0" />
+      <point x="277.82462686567146" y="649.0" />
+      <point x="277.82462686567146" y="599.0" />
+      <point x="878.651741293532" y="599.0" />
+      <point x="878.651741293532" y="529.0" />
+      <point x="933.6312189054729" y="529.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.rating.impl.CreateRatingServiceImpl" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="95.33333333333326" y="-28.0" />
+      <point x="1286.9713930348255" y="649.0" />
+      <point x="1465.804726368159" y="649.0" />
+      <point x="1465.804726368159" y="489.0" />
+      <point x="1497.7978855721394" y="489.0" />
+      <point x="1497.7978855721394" y="273.0" />
+      <point x="1061.5416666666667" y="273.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.RatingController" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="-84.75" y="-94.0" />
+      <point x="158.9912935323381" y="649.0" />
+      <point x="238.7412935323381" y="649.0" />
+      <point x="238.7412935323381" y="529.0" />
+      <point x="217.0" y="529.0" />
+      <point x="217.0" y="273.0" />
+      <point x="1061.5416666666667" y="273.0" />
+      <point x="0.0" y="105.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.RatingController" target="com.boba.bobabuddy.core.service.rating.FindRatingService" relationship="DEPENDENCY">
+      <point x="-84.75" y="-94.0" />
+      <point x="158.9912935323381" y="649.0" />
+      <point x="238.7412935323381" y="649.0" />
+      <point x="238.7412935323381" y="579.0" />
+      <point x="844.5416666666667" y="579.0" />
+      <point x="844.5416666666667" y="529.0" />
+      <point x="862.2978855721394" y="529.0" />
+      <point x="-71.33333333333337" y="72.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8344532681734881" showDependencies="true" x="808.5" y="429.0" />
+  <SelectedNodes>
+    <node>com.boba.bobabuddy.core.domain.Rating</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

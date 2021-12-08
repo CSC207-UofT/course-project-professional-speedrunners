@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.boba.bobabuddy.core.domain</OriginalElement>
+  <nodes>
+    <node x="51.5" y="-1259.0">com.boba.bobabuddy.core.domain.Rating</node>
+    <node x="249.5" y="-550.0">com.boba.bobabuddy.core.domain.Store</node>
+    <node x="71.5" y="-550.0">com.boba.bobabuddy.core.domain.Category</node>
+    <node x="43.0" y="-872.0">com.boba.bobabuddy.core.domain.RatableObject</node>
+    <node x="107.0" y="-110.0">com.boba.bobabuddy.core.domain.Item</node>
+    <node x="243.0" y="-894.0">com.boba.bobabuddy.core.domain.User</node>
+    <node x="253.0" y="-1270.0">com.boba.bobabuddy.core.domain.Role</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.boba.bobabuddy.core.domain.Role" target="com.boba.bobabuddy.core.domain.User" relationship="TO_MANY">
+      <point x="45.0" y="50.0" />
+      <point x="45.0" y="-94.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.User" target="com.boba.bobabuddy.core.domain.Role" relationship="TO_MANY">
+      <point x="30.0" y="-94.0" />
+      <point x="30.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.RatableObject" target="com.boba.bobabuddy.core.domain.Rating" relationship="TO_MANY">
+      <point x="0.0" y="-72.0" />
+      <point x="120.0" y="-1088.5" />
+      <point x="185.0" y="-1088.5" />
+      <point x="185.0" y="-1235.0" />
+      <point x="48.5" y="-15.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.User" target="com.boba.bobabuddy.core.domain.Rating" relationship="TO_MANY">
+      <point x="0.0" y="-94.0" />
+      <point x="320.0" y="-1088.5" />
+      <point x="185.0" y="-1088.5" />
+      <point x="185.0" y="-1235.0" />
+      <point x="48.5" y="-15.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Item" target="com.boba.bobabuddy.core.domain.RatableObject" relationship="GENERALIZATION">
+      <point x="0.0" y="-50.0" />
+      <point x="200.0" y="-432.5" />
+      <point x="226.0" y="-432.5" />
+      <point x="226.0" y="-777.5" />
+      <point x="77.0" y="22.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Item" target="com.boba.bobabuddy.core.domain.Category" relationship="TO_MANY">
+      <point x="-90.0" y="-50.0" />
+      <point x="-30.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Category" target="com.boba.bobabuddy.core.domain.Item" relationship="TO_MANY">
+      <point x="-15.0" y="50.0" />
+      <point x="-75.0" y="-50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.User" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="-77.0" y="0.0" />
+      <point x="220.0" y="-800.0" />
+      <point x="220.0" y="-1220.0" />
+      <point x="48.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Store" target="com.boba.bobabuddy.core.domain.Item" relationship="TO_MANY">
+      <point x="-15.0" y="50.0" />
+      <point x="305.0" y="-351.0" />
+      <point x="125.0" y="-351.0" />
+      <point x="-75.0" y="-50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Store" target="com.boba.bobabuddy.core.domain.RatableObject" relationship="GENERALIZATION">
+      <point x="-70.5" y="0.0" />
+      <point x="226.0" y="-500.0" />
+      <point x="226.0" y="-777.5" />
+      <point x="77.0" y="22.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Item" target="com.boba.bobabuddy.core.domain.Category" relationship="DEPENDENCY">
+      <point x="-93.0" y="0.0" />
+      <point x="85.0" y="-60.0" />
+      <point x="-55.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Category" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="0.0" y="50.0" />
+      <point x="140.0" y="-271.0" />
+      <point x="185.0" y="-271.0" />
+      <point x="-15.0" y="-50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Store" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="0.0" y="50.0" />
+      <point x="320.0" y="-271.0" />
+      <point x="185.0" y="-271.0" />
+      <point x="-15.0" y="-50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Item" target="com.boba.bobabuddy.core.domain.Store" relationship="DEPENDENCY">
+      <point x="93.0" y="15.0" />
+      <point x="350.0" y="-45.0" />
+      <point x="30.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Role" target="com.boba.bobabuddy.core.domain.User" relationship="DEPENDENCY">
+      <point x="15.0" y="50.0" />
+      <point x="15.0" y="-94.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.User" target="com.boba.bobabuddy.core.domain.Role" relationship="DEPENDENCY">
+      <point x="60.0" y="-94.0" />
+      <point x="60.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.RatableObject" target="com.boba.bobabuddy.core.domain.Rating" relationship="DEPENDENCY">
+      <point x="77.0" y="0.0" />
+      <point x="220.0" y="-800.0" />
+      <point x="220.0" y="-1220.0" />
+      <point x="48.5" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.domain.Item" target="com.boba.bobabuddy.core.domain.Store" relationship="TO_ONE">
+      <point x="93.0" y="0.0" />
+      <point x="335.0" y="-60.0" />
+      <point x="15.0" y="50.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.8421153030945315" showDependencies="true" x="402.87594540781805" y="-745.0270435684116" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

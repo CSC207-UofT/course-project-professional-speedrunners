@@ -151,7 +151,7 @@ Phase 2 tasks:
 
 Leo: 
 - [Refactoring of the Project Structure by Maddobun · Pull Request #34 · CSC207-UofT/course-project-professional-speedrunners (github.com)](https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/34)
-
+- This pull request contained many quality of life changes, including lombok support, reduced code complexity, better DTO mapping, sort, and laid ground works for authentication support. 
   
 
 Mason: 
@@ -182,6 +182,8 @@ Angela & Arzu:
 
   
 Arup: 
+- https://github.com/CSC207-UofT/course-project-professional-speedrunners/pull/40
+- Added the rating system in the front end for phase 2 which allows the user to be able to finally interact with the rating entities and its use cases.
 - [https://github.com/CSC207-UofT/course-project-professional-speedrunners/commit/c6a5a4bb95be3554d482cab394bf706592710077](https://github.com/CSC207-UofT/course-project-professional-speedrunners/commit/c6a5a4bb95be3554d482cab394bf706592710077) 
 - If you need an example of me working in the backend, this was a commit I made in phase 1 which is when I added majority of the user entity use cases and user entity controller.
 

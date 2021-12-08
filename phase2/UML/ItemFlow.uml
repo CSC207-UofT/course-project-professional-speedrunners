@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.boba.bobabuddy.core.service.item.FindItemService</OriginalElement>
+  <nodes>
+    <node x="1220.5" y="-1030.0">com.boba.bobabuddy.core.data.dao.ItemJpaRepository</node>
+    <node x="1338.0" y="-387.5">com.boba.bobabuddy.core.service.item.impl.FindItemServiceImpl</node>
+    <node x="471.5" y="-376.5">com.boba.bobabuddy.core.service.item.impl.UpdateItemServiceImpl</node>
+    <node x="39.0" y="-1052.0">com.boba.bobabuddy.core.service.item.UpdateItemService</node>
+    <node x="40.5" y="-1600.5">com.boba.bobabuddy.core.domain.Item</node>
+    <node x="1071.0" y="-321.5">com.boba.bobabuddy.core.service.item.impl.CreateItemServiceImpl</node>
+    <node x="328.5" y="-1008.0">com.boba.bobabuddy.core.service.item.RemoveItemService</node>
+    <node x="818.0" y="-1096.0">com.boba.bobabuddy.core.service.item.FindItemService</node>
+    <node x="544.0" y="-1008.0">com.boba.bobabuddy.core.service.item.CreateItemService</node>
+    <node x="813.5" y="-310.5">com.boba.bobabuddy.core.service.item.impl.RemoveItemServiceImpl</node>
+    <node x="43.5" y="-508.5">com.boba.bobabuddy.framework.controller.ItemController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.UpdateItemServiceImpl" target="com.boba.bobabuddy.core.service.item.UpdateItemService" relationship="REALIZATION">
+      <point x="-59.0" y="-116.5" />
+      <point x="561.0" y="-520.0" />
+      <point x="80.0" y="-520.0" />
+      <point x="-80.0" y="72.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.RemoveItemServiceImpl" target="com.boba.bobabuddy.core.data.dao.ItemJpaRepository" relationship="TO_ONE">
+      <point x="71.0" y="-50.5" />
+      <point x="991.0" y="-360.0" />
+      <point x="1100.0" y="-360.0" />
+      <point x="1100.0" y="-600.0" />
+      <point x="1160.0" y="-600.0" />
+      <point x="1160.0" y="-680.0" />
+      <point x="1340.0" y="-680.0" />
+      <point x="-40.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.RemoveItemServiceImpl" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="0.0" y="-50.5" />
+      <point x="920.0" y="-620.0" />
+      <point x="900.0" y="-620.0" />
+      <point x="900.0" y="-760.0" />
+      <point x="800.0" y="-760.0" />
+      <point x="800.0" y="-1200.0" />
+      <point x="160.0" y="-1200.0" />
+      <point x="0.0" y="160.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.ItemController" target="com.boba.bobabuddy.core.service.item.RemoveItemService" relationship="TO_ONE">
+      <point x="144.33333333333331" y="-248.5" />
+      <point x="384.3333333333333" y="-540.0" />
+      <point x="440.0" y="-540.0" />
+      <point x="440.0" y="-600.0" />
+      <point x="500.0" y="-600.0" />
+      <point x="500.0" y="-760.0" />
+      <point x="420.0" y="-760.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.FindItemServiceImpl" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="120.0" y="-127.5" />
+      <point x="1640.0" y="-620.0" />
+      <point x="1680.0" y="-620.0" />
+      <point x="1680.0" y="-1200.0" />
+      <point x="160.0" y="-1200.0" />
+      <point x="0.0" y="160.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.ItemController" target="com.boba.bobabuddy.core.service.item.UpdateItemService" relationship="TO_ONE">
+      <point x="144.33333333333331" y="-248.5" />
+      <point x="384.3333333333333" y="-540.0" />
+      <point x="440.0" y="-540.0" />
+      <point x="440.0" y="-740.0" />
+      <point x="240.0" y="-740.0" />
+      <point x="80.0" y="72.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.UpdateItemServiceImpl" target="com.boba.bobabuddy.core.service.item.FindItemService" relationship="DEPENDENCY">
+      <point x="148.5" y="0.0" />
+      <point x="785.0" y="-260.0" />
+      <point x="785.0" y="-980.0" />
+      <point x="-182.0" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.RemoveItemServiceImpl" target="com.boba.bobabuddy.core.data.dao.ItemJpaRepository" relationship="DEPENDENCY">
+      <point x="0.0" y="-50.5" />
+      <point x="920.0" y="-620.0" />
+      <point x="940.0" y="-620.0" />
+      <point x="940.0" y="-740.0" />
+      <point x="1260.0" y="-740.0" />
+      <point x="-120.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.ItemController" target="com.boba.bobabuddy.core.service.item.FindItemService" relationship="TO_ONE">
+      <point x="196.5" y="-241.0" />
+      <point x="720.0" y="-501.0" />
+      <point x="720.0" y="-929.5" />
+      <point x="-182.0" y="50.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.UpdateItemServiceImpl" target="com.boba.bobabuddy.core.service.item.FindItemService" relationship="TO_ONE">
+      <point x="0.0" y="-116.5" />
+      <point x="620.0" y="-486.0" />
+      <point x="720.0" y="-486.0" />
+      <point x="720.0" y="-929.5" />
+      <point x="-182.0" y="50.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dao.ItemJpaRepository" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="0.0" y="-50.0" />
+      <point x="1380.0" y="-1200.0" />
+      <point x="160.0" y="-1200.0" />
+      <point x="0.0" y="160.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.ItemController" target="com.boba.bobabuddy.core.service.item.RemoveItemService" relationship="DEPENDENCY">
+      <point x="40.0" y="-248.5" />
+      <point x="280.0" y="-620.0" />
+      <point x="320.0" y="-620.0" />
+      <point x="320.0" y="-920.0" />
+      <point x="360.0" y="-920.0" />
+      <point x="-60.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.ItemController" target="com.boba.bobabuddy.core.service.item.UpdateItemService" relationship="DEPENDENCY">
+      <point x="40.0" y="-248.5" />
+      <point x="280.0" y="-620.0" />
+      <point x="160.0" y="-620.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.FindItemServiceImpl" target="com.boba.bobabuddy.core.data.dao.ItemJpaRepository" relationship="TO_ONE">
+      <point x="-120.0" y="-127.5" />
+      <point x="1400.0" y="-680.0" />
+      <point x="1340.0" y="-680.0" />
+      <point x="-40.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.UpdateItemServiceImpl" target="com.boba.bobabuddy.core.data.dao.ItemJpaRepository" relationship="TO_ONE">
+      <point x="139.0" y="-116.5" />
+      <point x="759.0" y="-440.0" />
+      <point x="980.0" y="-440.0" />
+      <point x="980.0" y="-600.0" />
+      <point x="1040.0" y="-600.0" />
+      <point x="1040.0" y="-680.0" />
+      <point x="1340.0" y="-680.0" />
+      <point x="-40.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.UpdateItemService" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="0.0" y="-72.0" />
+      <point x="0.0" y="160.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.UpdateItemServiceImpl" target="com.boba.bobabuddy.core.data.dao.ItemJpaRepository" relationship="DEPENDENCY">
+      <point x="120.0" y="-116.5" />
+      <point x="740.0" y="-620.0" />
+      <point x="820.0" y="-620.0" />
+      <point x="820.0" y="-740.0" />
+      <point x="1260.0" y="-740.0" />
+      <point x="-120.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.FindItemServiceImpl" target="com.boba.bobabuddy.core.data.dao.ItemJpaRepository" relationship="DEPENDENCY">
+      <point x="120.0" y="-127.5" />
+      <point x="1640.0" y="-740.0" />
+      <point x="1260.0" y="-740.0" />
+      <point x="-120.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.CreateItemService" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="640.0" y="-1200.0" />
+      <point x="160.0" y="-1200.0" />
+      <point x="0.0" y="160.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.RemoveItemServiceImpl" target="com.boba.bobabuddy.core.service.item.FindItemService" relationship="TO_ONE">
+      <point x="-20.0" y="-50.5" />
+      <point x="900.0" y="-600.0" />
+      <point x="720.0" y="-600.0" />
+      <point x="720.0" y="-929.5" />
+      <point x="-182.0" y="50.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.CreateItemServiceImpl" target="com.boba.bobabuddy.core.service.item.CreateItemService" relationship="REALIZATION">
+      <point x="-46.0" y="-61.5" />
+      <point x="1134.0" y="-420.0" />
+      <point x="700.0" y="-420.0" />
+      <point x="60.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.FindItemServiceImpl" target="com.boba.bobabuddy.core.service.item.FindItemService" relationship="REALIZATION">
+      <point x="175.0" y="-127.5" />
+      <point x="1695.0" y="-1455.0" />
+      <point x="1015.0" y="-1455.0" />
+      <point x="15.0" y="-116.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.RemoveItemServiceImpl" target="com.boba.bobabuddy.core.service.item.FindItemService" relationship="DEPENDENCY">
+      <point x="-106.5" y="0.0" />
+      <point x="785.0" y="-260.0" />
+      <point x="785.0" y="-980.0" />
+      <point x="-182.0" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.RemoveItemServiceImpl" target="com.boba.bobabuddy.core.service.item.RemoveItemService" relationship="REALIZATION">
+      <point x="-71.0" y="-50.5" />
+      <point x="849.0" y="-400.0" />
+      <point x="660.0" y="-400.0" />
+      <point x="660.0" y="-920.0" />
+      <point x="481.0" y="-920.0" />
+      <point x="61.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.ItemController" target="com.boba.bobabuddy.core.service.item.CreateItemService" relationship="DEPENDENCY">
+      <point x="40.0" y="-248.5" />
+      <point x="280.0" y="-620.0" />
+      <point x="360.0" y="-620.0" />
+      <point x="360.0" y="-900.0" />
+      <point x="580.0" y="-900.0" />
+      <point x="-60.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.UpdateItemServiceImpl" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="120.0" y="-116.5" />
+      <point x="740.0" y="-740.0" />
+      <point x="760.0" y="-740.0" />
+      <point x="760.0" y="-1200.0" />
+      <point x="160.0" y="-1200.0" />
+      <point x="0.0" y="160.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.ItemController" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="40.0" y="-248.5" />
+      <point x="280.0" y="-880.0" />
+      <point x="300.0" y="-880.0" />
+      <point x="300.0" y="-1200.0" />
+      <point x="160.0" y="-1200.0" />
+      <point x="0.0" y="160.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.CreateItemServiceImpl" target="com.boba.bobabuddy.core.data.dao.ItemJpaRepository" relationship="TO_ONE">
+      <point x="99.33333333333326" y="-61.5" />
+      <point x="1279.3333333333333" y="-400.0" />
+      <point x="1340.0" y="-400.0" />
+      <point x="-40.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.ItemController" target="com.boba.bobabuddy.core.service.item.CreateItemService" relationship="TO_ONE">
+      <point x="144.33333333333331" y="-248.5" />
+      <point x="384.3333333333333" y="-540.0" />
+      <point x="440.0" y="-540.0" />
+      <point x="440.0" y="-600.0" />
+      <point x="560.0" y="-600.0" />
+      <point x="560.0" y="-740.0" />
+      <point x="620.0" y="-740.0" />
+      <point x="-20.0" y="28.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.CreateItemServiceImpl" target="com.boba.bobabuddy.core.data.dao.ItemJpaRepository" relationship="DEPENDENCY">
+      <point x="80.0" y="-61.5" />
+      <point x="-120.0" y="50.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.framework.controller.ItemController" target="com.boba.bobabuddy.core.service.item.FindItemService" relationship="DEPENDENCY">
+      <point x="196.5" y="134.0" />
+      <point x="785.0" y="-126.0" />
+      <point x="785.0" y="-980.0" />
+      <point x="-182.0" y="0.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.impl.CreateItemServiceImpl" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="80.0" y="-61.5" />
+      <point x="1260.0" y="-620.0" />
+      <point x="1300.0" y="-620.0" />
+      <point x="1300.0" y="-760.0" />
+      <point x="1560.0" y="-760.0" />
+      <point x="1560.0" y="-1200.0" />
+      <point x="160.0" y="-1200.0" />
+      <point x="0.0" y="160.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.service.item.FindItemService" target="com.boba.bobabuddy.core.domain.Item" relationship="DEPENDENCY">
+      <point x="0.0" y="-116.0" />
+      <point x="1000.0" y="-1440.0" />
+      <point x="119.5" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.5539301310043668" showDependencies="true" x="1048.3365756635535" y="-836.866874965156" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

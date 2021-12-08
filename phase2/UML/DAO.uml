@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.boba.bobabuddy.core.data.dao</OriginalElement>
+  <nodes>
+    <node x="387.00000000000006" y="275.0">com.boba.bobabuddy.core.data.dao.ItemJpaRepository</node>
+    <node x="561.1176470588235" y="103.0">com.boba.bobabuddy.core.data.dao.UserJpaRepository</node>
+    <node x="777.5" y="0.0">com.boba.bobabuddy.core.data.dao.GenericResourceJpaRepository</node>
+    <node x="1041.1176470588234" y="137.5">com.boba.bobabuddy.core.data.dao.RatingJpaRepository</node>
+    <node x="195.11764705882354" y="81.0">com.boba.bobabuddy.core.data.dao.RatableObjectJpaRepository</node>
+    <node x="1249.1176470588234" y="103.0">com.boba.bobabuddy.core.data.dao.CategoryJpaRepository</node>
+    <node x="0.0" y="286.0">com.boba.bobabuddy.core.data.dao.StoreJpaRepository</node>
+    <node x="841.1176470588235" y="125.0">com.boba.bobabuddy.core.data.dao.RoleJpaRepository</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.boba.bobabuddy.core.data.dao.UserJpaRepository" target="com.boba.bobabuddy.core.data.dao.GenericResourceJpaRepository" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-50.0" />
+      <point x="691.1176470588235" y="56.0" />
+      <point x="928.0" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dao.RatableObjectJpaRepository" target="com.boba.bobabuddy.core.data.dao.GenericResourceJpaRepository" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-72.0" />
+      <point x="368.11764705882354" y="56.0" />
+      <point x="928.0" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dao.RoleJpaRepository" target="com.boba.bobabuddy.core.data.dao.GenericResourceJpaRepository" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-28.0" />
+      <point x="931.1176470588235" y="56.0" />
+      <point x="928.0" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dao.ItemJpaRepository" target="com.boba.bobabuddy.core.data.dao.RatableObjectJpaRepository" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-50.0" />
+      <point x="546.5" y="250.0" />
+      <point x="368.11764705882354" y="250.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dao.CategoryJpaRepository" target="com.boba.bobabuddy.core.data.dao.GenericResourceJpaRepository" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-50.0" />
+      <point x="1441.1176470588234" y="56.0" />
+      <point x="928.0" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dao.RatingJpaRepository" target="com.boba.bobabuddy.core.data.dao.GenericResourceJpaRepository" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="1135.1176470588234" y="56.0" />
+      <point x="928.0" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="com.boba.bobabuddy.core.data.dao.StoreJpaRepository" target="com.boba.bobabuddy.core.data.dao.RatableObjectJpaRepository" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="183.5" y="250.0" />
+      <point x="368.11764705882354" y="250.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8258766626360339" showDependencies="true" x="817.0" y="187.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
