@@ -60,7 +60,7 @@ public class CreateRatingServiceImpl implements CreateRatingService {
         Rating createdRating = Rating.builder()
                 .rating(rating.getRating())
                 .build();
-        repo.save(createdRating);
+        createdRating = repo.save(createdRating);
         updateUser.addRating(userToUpdate, createdRating);
         updateRatable.addRating(ratableToUpdate, createdRating);
 

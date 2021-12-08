@@ -130,7 +130,7 @@ public class ItemController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/items", params = {"price-leq"})
-    public List<ItemDto> findByPriceLessThanEqual(@RequestParam("price-leq") float price,
+    public List<ItemDto> findByPriceLessThanEqual(@RequestParam("price-leq") double price,
                                                   @RequestParam(defaultValue = "price") String sortBy) {
         return converter.convertToDtoList(
                 findItem.findByPriceLessThanEqual(price, SortQueryBuilder.buildSort(sortBy)));
@@ -144,7 +144,7 @@ public class ItemController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/items", params = {"rating-geq"})
-    public List<ItemDto> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
+    public List<ItemDto> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") double rating,
                                                          @RequestParam(defaultValue = "price") String sortBy) {
         return converter.convertToDtoList(
                 findItem.findByAvgRatingGreaterThanEqual(rating, SortQueryBuilder.buildSort(sortBy)));

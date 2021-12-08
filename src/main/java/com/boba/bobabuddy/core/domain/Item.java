@@ -1,13 +1,11 @@
 package com.boba.bobabuddy.core.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -34,7 +32,8 @@ public class Item extends RatableObject {
             joinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
     )
-    private Set<Category> categories;
+    @Builder.Default
+    private Set<Category> categories = new HashSet<>();
 
     public boolean addCategory(Category category){
         category.addItem(this);

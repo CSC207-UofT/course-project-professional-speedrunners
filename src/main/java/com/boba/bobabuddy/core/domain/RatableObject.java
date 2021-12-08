@@ -54,7 +54,7 @@ public abstract class RatableObject {
         this.ratings = ratings;
         if (ratings == null) return;
 
-        float counter = 0;
+        double counter = 0;
         for (Rating i : ratings) {
             counter += i.getRating();
         }
@@ -91,7 +91,7 @@ public abstract class RatableObject {
             if (size - 1 == 0) {
                 this.avgRating = 0;
             } else {
-                this.avgRating = (float) (Math.round(avgRating * size) - point.getRating()) / (size - 1);
+                this.avgRating = (double) (Math.round(avgRating * size) - point.getRating()) / (size - 1);
             }
         }
         return result;
@@ -108,7 +108,7 @@ public abstract class RatableObject {
     public boolean updateRating(Rating point, int oldRating, int newRating) {
         if (ratings.contains(point)) {
             int size = ratings.size();
-            this.avgRating = (float) (Math.round(avgRating * size) - oldRating + newRating) / size;
+            this.avgRating = (double) (Math.round(avgRating * size) - oldRating + newRating) / size;
             return true;
         }
         return false;

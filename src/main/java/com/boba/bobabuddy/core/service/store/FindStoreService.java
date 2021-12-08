@@ -62,7 +62,7 @@ public interface FindStoreService {
      * @return Store that has avgRating greater than or equal to param rating, or an empty list if no such Store exist
      * @throws IllegalArgumentException when avgRating is out of bound
      */
-    List<Store> findByAvgRatingGreaterThanEqual(float avgRating, Sort sort);
+    List<Store> findByAvgRatingGreaterThanEqual(double avgRating, Sort sort);
 
     /**
      * Find store that contains the specified Item

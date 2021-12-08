@@ -18,12 +18,12 @@ public interface UpdateStoreService {
      * The api user is responsible for sending in a Store representation that was modified.
      * However, if no Store with the same uuid exist and exception will be thrown.
      *
-     * @param storeToUpdate Store to update.
+     * @param storeId Store to update.
      * @param storePatch    the same store with updated fields
      * @return the updated store.
      * @throws DifferentResourceException thrown when storePatch have a different id than the storeToUpdate
      */
-    Store updateStore(Store storeToUpdate, StoreDto storePatch) throws DifferentResourceException;
+    Store updateStore(UUID storeId, StoreDto storePatch) throws DifferentResourceException;
 
     /**
      * Adding an Item to a Store

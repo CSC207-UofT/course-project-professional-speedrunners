@@ -43,19 +43,16 @@ public class UpdateUserServiceImpl implements UpdateUserService {
     @Override
     public User updateUser(String email, UserDto newUser) throws DifferentResourceException {
         User userToUpdate = findUserService.findByEmail(email);
-        if (Objects.equals(userToUpdate.getEmail(), newUser.getEmail())) {
-            User user = User.builder()
-                    .id(userToUpdate.getId())
-                    .ratings(userToUpdate.getRatings())
-                    .roles(userToUpdate.getRoles())
-                    .email(Optional.ofNullable(newUser.getEmail()).orElse(userToUpdate.getEmail()))
-                    .imageUrl(Optional.ofNullable(newUser.getImageUrl()).orElse(userToUpdate.getImageUrl()))
-                    .name(Optional.ofNullable(newUser.getName()).orElse(userToUpdate.getName()))
-                    .password(Optional.ofNullable(newUser.getPassword()).orElse(userToUpdate.getPassword()))
-                    .build();
-            return repo.save(user);
-        }
-        throw new DifferentResourceException("Not the same user");
+        User user = User.builder()
+                .id(userToUpdate.getId())
+                .ratings(userToUpdate.getRatings())
+                .roles(userToUpdate.getRoles())
+                .email(Optional.ofNullable(newUser.getEmail()).orElse(userToUpdate.getEmail()))
+                .imageUrl(Optional.ofNullable(newUser.getImageUrl()).orElse(userToUpdate.getImageUrl()))
+                .name(Optional.ofNullable(newUser.getName()).orElse(userToUpdate.getName()))
+                .password(Optional.ofNullable(newUser.getPassword()).orElse(userToUpdate.getPassword()))
+                .build();
+        return repo.save(user);
     }
 
     /**

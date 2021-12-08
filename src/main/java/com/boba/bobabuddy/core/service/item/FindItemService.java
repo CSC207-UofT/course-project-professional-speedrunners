@@ -73,7 +73,7 @@ public interface FindItemService {
      * @param sort sort the item that is returned
      * @return Items that have price less than or equal to param price, or an empty list if no such Item exist
      */
-    List<Item> findByPriceLessThanEqual(float price, Sort sort);
+    List<Item> findByPriceLessThanEqual(double price, Sort sort);
 
     /**
      * Find all items that have avgRating greater than or equal to param rating
@@ -83,7 +83,7 @@ public interface FindItemService {
      * @return Items that has avgRating greater than or equal to param rating, or an empty list if no such Item exist
      * @throws IllegalArgumentException when avgRating is out of bound
      */
-    List<Item> findByAvgRatingGreaterThanEqual(float rating, Sort sort);
+    List<Item> findByAvgRatingGreaterThanEqual(double rating, Sort sort);
 
     /**
      * Find item that has a matching rating object

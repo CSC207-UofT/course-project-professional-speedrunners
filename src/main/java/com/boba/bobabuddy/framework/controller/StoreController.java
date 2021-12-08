@@ -138,7 +138,7 @@ public class StoreController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/stores", params = "rating-geq")
-    public List<StoreDto> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") float rating,
+    public List<StoreDto> findByAvgRatingGreaterThanEqual(@RequestParam("rating-geq") double rating,
                                                           @RequestParam(defaultValue = "unsorted") String sortBy) {
         return converter.convertToDtoList(
                 findStore.findByAvgRatingGreaterThanEqual(rating, SortQueryBuilder.buildSort(sortBy)));
@@ -168,7 +168,7 @@ public class StoreController {
     @PutMapping(path = "/stores/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') || principal.username == @FindStoreService.findById(#id).getOwner()")
     public StoreDto updateStore(@RequestBody StoreDto storePatch, @PathVariable UUID id) {
-        return converter.convertToDto(updateStore.updateStore(findStore.findById(id), storePatch));
+        return converter.convertToDto(updateStore.updateStore(id, storePatch));
     }
 
     /**

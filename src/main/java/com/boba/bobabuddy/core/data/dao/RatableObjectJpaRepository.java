@@ -21,7 +21,7 @@ public interface RatableObjectJpaRepository<T extends RatableObject> extends Gen
     @Query(value = "select * from RATABLE_OBJECT where TYPE = ?1 AND ID = ?2", nativeQuery = true)
     Optional<T> findByTypeAndId(String type, UUID id);
 
-    List<T> findByAvgRatingGreaterThanEqual(float rating, Sort sort);
+    List<T> findByAvgRatingGreaterThanEqual(double rating, Sort sort);
 
     Optional<T> findByRatings_id(UUID id);
 

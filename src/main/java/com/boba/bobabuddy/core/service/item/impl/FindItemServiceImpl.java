@@ -5,7 +5,6 @@ import com.boba.bobabuddy.core.data.dao.ItemJpaRepository;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.item.FindItemService;
-import com.boba.bobabuddy.core.service.category.FindCategoryService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,12 +69,12 @@ public class FindItemServiceImpl implements FindItemService {
     }
 
     @Override
-    public List<Item> findByPriceLessThanEqual(float price, Sort sort) {
+    public List<Item> findByPriceLessThanEqual(double price, Sort sort) {
         return repo.findByPriceLessThanEqual(price, sort);
     }
 
     @Override
-    public List<Item> findByAvgRatingGreaterThanEqual(float avgRating, Sort sort) throws IllegalArgumentException {
+    public List<Item> findByAvgRatingGreaterThanEqual(double avgRating, Sort sort) throws IllegalArgumentException {
         if (avgRating > 1 || avgRating < 0) throw new IllegalArgumentException("avgRating must be between 0 and 1");
         return repo.findByAvgRatingGreaterThanEqual(avgRating, sort);
     }

@@ -38,14 +38,12 @@ public class UpdateStoreServiceImpl implements UpdateStoreService {
 
 
     @Override
-    public Store updateStore(Store storeToUpdate, StoreDto storePatch) throws DifferentResourceException {
-        if (Objects.equals(storeToUpdate.getId(), storePatch.getId())) {
-            storeToUpdate.setLocation(storePatch.getLocation());
-            storeToUpdate.setName(storePatch.getName());
-            storeToUpdate.setOwner(storePatch.getOwner());
-            return repo.save(storeToUpdate);
-        }
-        throw new DifferentResourceException("Not the same store");
+    public Store updateStore(UUID storeId, StoreDto storePatch) throws DifferentResourceException {
+        Store storeToUpdate = findStoreService.findById(storeId);
+        storeToUpdate.setLocation(storePatch.getLocation());
+        storeToUpdate.setName(storePatch.getName());
+        storeToUpdate.setOwner(storePatch.getOwner());
+        return repo.save(storeToUpdate);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class ModelMapperConfig {
     public static class ItemToDtoConverter implements Converter<Collection<Item>, Collection<ItemDto>> {
 
         @Override
-        public Collection<ItemDto> convert(MappingContext<Collection<Item>, Collection<ItemDto>> context) {
+        public List<ItemDto> convert(MappingContext<Collection<Item>, Collection<ItemDto>> context) {
             return context.getSource().stream()
                     .map(this::convertItem)
                     .collect(Collectors.toList());
@@ -50,20 +50,21 @@ public class ModelMapperConfig {
                     .imageUrl(item.getImageUrl())
                     .price(item.getPrice())
                     .build();
-
         }
     }
 
     public static class CategoryToDtoConverter implements Converter<Collection<Category>, Collection<CategoryDto>> {
 
         @Override
-        public Collection<CategoryDto> convert(MappingContext<Collection<Category>, Collection<CategoryDto>> context) {
+        public List<CategoryDto> convert(MappingContext<Collection<Category>, Collection<CategoryDto>> context) {
+            if(context.getSource() == null){return null;}
+
             return context.getSource().stream()
-                    .map(this::convertItem)
+                    .map(this::convertCategory)
                     .collect(Collectors.toList());
         }
 
-        private CategoryDto convertItem(Category category) {
+        private CategoryDto convertCategory(Category category) {
 
             return CategoryDto.builder()
                     .id(category.getId())

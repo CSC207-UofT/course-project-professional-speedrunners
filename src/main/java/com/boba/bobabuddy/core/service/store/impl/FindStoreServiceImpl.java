@@ -59,7 +59,7 @@ public class FindStoreServiceImpl implements FindStoreService {
     }
 
     @Override
-    public List<Store> findByAvgRatingGreaterThanEqual(float avgRating, Sort sort) {
+    public List<Store> findByAvgRatingGreaterThanEqual(double avgRating, Sort sort) {
         if (avgRating < 0 || avgRating > 1) {
             throw new IllegalArgumentException("avgRating must be between 0 and 1");
         }
