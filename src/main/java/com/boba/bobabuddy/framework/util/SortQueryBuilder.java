@@ -1,11 +1,13 @@
-package com.boba.bobabuddy.framework.converter;
+package com.boba.bobabuddy.framework.util;
 
 import com.boba.bobabuddy.framework.config.GeneralConfig.SortParam;
 import org.springframework.data.domain.Sort;
 
-import java.net.MalformedURLException;
-
 // Builder in name, not actually a builder pattern
+
+/**
+ * Generate Sort parameter for Spring JPA DAO consumption
+ */
 public class SortQueryBuilder {
 
     public static Sort buildSort(String param){

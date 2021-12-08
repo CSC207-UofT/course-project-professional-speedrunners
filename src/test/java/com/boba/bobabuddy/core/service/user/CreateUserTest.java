@@ -1,22 +1,18 @@
 package com.boba.bobabuddy.core.service.user;
 
 import com.boba.bobabuddy.core.data.dao.RoleJpaRepository;
+import com.boba.bobabuddy.core.data.dao.UserJpaRepository;
 import com.boba.bobabuddy.core.data.dto.RoleDto;
 import com.boba.bobabuddy.core.data.dto.UserDto;
-import com.boba.bobabuddy.core.domain.Rating;
 import com.boba.bobabuddy.core.domain.Role;
 import com.boba.bobabuddy.core.domain.User;
 import com.boba.bobabuddy.core.service.user.impl.CreateUserServiceImpl;
-import com.boba.bobabuddy.core.data.dao.UserJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

@@ -1,16 +1,14 @@
 package com.boba.bobabuddy.core.service.item;
 
+import com.boba.bobabuddy.core.data.dao.ItemJpaRepository;
+import com.boba.bobabuddy.core.data.dto.ItemDto;
 import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.domain.Rating;
-import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
-import com.boba.bobabuddy.core.data.dao.ItemJpaRepository;
-import com.boba.bobabuddy.core.data.dto.ItemDto;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.category.FindCategoryService;
-import com.boba.bobabuddy.core.service.category.UpdateCategoryService;
 import com.boba.bobabuddy.core.service.item.impl.UpdateItemServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,8 +19,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;

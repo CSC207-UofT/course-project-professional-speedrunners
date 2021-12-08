@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.framework.validator;
+package com.boba.bobabuddy.framework.util.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

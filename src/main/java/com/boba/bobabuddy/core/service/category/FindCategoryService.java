@@ -5,7 +5,6 @@ import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**

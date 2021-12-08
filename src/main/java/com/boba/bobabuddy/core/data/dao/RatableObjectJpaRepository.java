@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * DAO for Ratable object type. Query will be made on both chile types (item, store)
+ */
+
 @Repository
 public interface RatableObjectJpaRepository<T extends RatableObject> extends GenericResourceJpaRepository<T, UUID> {
 

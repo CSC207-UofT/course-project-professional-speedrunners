@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
-
+/**
+ * DAO for Store Resources
+ */
 @Repository
 public interface StoreJpaRepository extends RatableObjectJpaRepository<Store> {
     List<Store> findByLocation(String location, Sort sort);

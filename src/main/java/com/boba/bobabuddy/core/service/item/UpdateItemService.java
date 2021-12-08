@@ -1,7 +1,6 @@
 package com.boba.bobabuddy.core.service.item;
 
 import com.boba.bobabuddy.core.data.dto.ItemDto;
-import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;

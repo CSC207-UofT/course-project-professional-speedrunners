@@ -2,6 +2,7 @@ package com.boba.bobabuddy.framework.controller;
 
 import com.boba.bobabuddy.core.data.dto.ItemDto;
 import com.boba.bobabuddy.core.data.dto.RatingDto;
+import com.boba.bobabuddy.core.data.dto.StoreDto;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.domain.Rating;
 import com.boba.bobabuddy.core.domain.Store;
@@ -9,8 +10,7 @@ import com.boba.bobabuddy.core.service.store.CreateStoreService;
 import com.boba.bobabuddy.core.service.store.FindStoreService;
 import com.boba.bobabuddy.core.service.store.RemoveStoreService;
 import com.boba.bobabuddy.core.service.store.UpdateStoreService;
-import com.boba.bobabuddy.core.data.dto.StoreDto;
-import com.boba.bobabuddy.framework.converter.DtoConverter;
+import com.boba.bobabuddy.framework.util.DtoConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

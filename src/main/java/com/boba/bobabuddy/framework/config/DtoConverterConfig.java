@@ -2,11 +2,17 @@ package com.boba.bobabuddy.framework.config;
 
 import com.boba.bobabuddy.core.data.dto.*;
 import com.boba.bobabuddy.core.domain.*;
-import com.boba.bobabuddy.framework.converter.DtoConverterImpl;
+import com.boba.bobabuddy.framework.util.DtoConverterImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+/**
+ * Configuration class to create DTO to Entity converter beans for each controller to autowire
+ * This is not the same converter as defined in ModelMapper config. Model Mapper converter is a component of the library
+ * ModelMapper, while DtoConverter is a generic consumer of the said library.
+ */
 
 @Configuration
 public class DtoConverterConfig {

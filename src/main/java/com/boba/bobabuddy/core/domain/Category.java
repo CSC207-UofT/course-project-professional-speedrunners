@@ -3,7 +3,10 @@ package com.boba.bobabuddy.core.domain;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;

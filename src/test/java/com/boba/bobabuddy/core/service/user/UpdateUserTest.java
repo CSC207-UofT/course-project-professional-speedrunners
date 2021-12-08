@@ -1,10 +1,10 @@
 package com.boba.bobabuddy.core.service.user;
 
+import com.boba.bobabuddy.core.data.dao.UserJpaRepository;
+import com.boba.bobabuddy.core.data.dto.UserDto;
 import com.boba.bobabuddy.core.domain.Rating;
 import com.boba.bobabuddy.core.domain.User;
 import com.boba.bobabuddy.core.service.user.impl.UpdateUserServiceImpl;
-import com.boba.bobabuddy.core.data.dao.UserJpaRepository;
-import com.boba.bobabuddy.core.data.dto.UserDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

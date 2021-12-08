@@ -8,7 +8,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+
+/**
+ * Custom AuthenticationProvide impl to provide firebase auth functionalities.
+ *
+ */
 
 @Component
 public class FirebaseAuthenticationProvider implements AuthenticationProvider {
@@ -20,10 +26,12 @@ public class FirebaseAuthenticationProvider implements AuthenticationProvider {
         this.userService = userService;
     }
 
+    @Override
     public boolean supports(Class<?> authentication) {
         return (FirebaseAuthenticationToken.class.isAssignableFrom(authentication));
     }
 
+    @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         if (!supports(authentication.getClass())) {
             return null;
@@ -35,7 +43,7 @@ public class FirebaseAuthenticationProvider implements AuthenticationProvider {
             authenticationToken = new FirebaseAuthenticationToken(details, authentication.getCredentials(),
                     details.getAuthorities());
             return authenticationToken;
-        } catch (ResourceNotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             throw new FirebaseUserNotExistsException(e);
         }
     }

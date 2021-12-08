@@ -1,13 +1,13 @@
 package com.boba.bobabuddy.framework.controller;
 
+import com.boba.bobabuddy.core.data.dto.UserDto;
 import com.boba.bobabuddy.core.domain.Rating;
 import com.boba.bobabuddy.core.domain.User;
 import com.boba.bobabuddy.core.service.user.CreateUserService;
 import com.boba.bobabuddy.core.service.user.FindUserService;
 import com.boba.bobabuddy.core.service.user.RemoveUserService;
 import com.boba.bobabuddy.core.service.user.UpdateUserService;
-import com.boba.bobabuddy.core.data.dto.UserDto;
-import com.boba.bobabuddy.framework.converter.DtoConverter;
+import com.boba.bobabuddy.framework.util.DtoConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,12 +27,14 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)

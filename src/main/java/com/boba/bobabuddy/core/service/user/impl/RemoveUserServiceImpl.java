@@ -28,11 +28,7 @@ public class RemoveUserServiceImpl implements RemoveUserService {
         this.findUser = findUser;
     }
 
-    /***
-     * removes a user from database that has the matching email.
-     * @param email id of the user
-     * @throws ResourceNotFoundException when no user with the associated email was found
-     */
+
     @Override
     public void removeByEmail(String email) throws ResourceNotFoundException {
         User user = findUser.findByEmail(email);

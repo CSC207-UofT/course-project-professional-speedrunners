@@ -1,11 +1,11 @@
 package com.boba.bobabuddy.core.service.item;
 
+import com.boba.bobabuddy.core.data.dao.ItemJpaRepository;
 import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.domain.Rating;
 import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.data.dao.ItemJpaRepository;
 import com.boba.bobabuddy.core.service.item.impl.FindItemServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

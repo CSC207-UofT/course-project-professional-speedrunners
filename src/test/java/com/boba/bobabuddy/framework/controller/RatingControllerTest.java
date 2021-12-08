@@ -1,5 +1,6 @@
 package com.boba.bobabuddy.framework.controller;
 
+import com.boba.bobabuddy.core.data.dto.RatingDto;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.domain.Rating;
 import com.boba.bobabuddy.core.domain.Store;
@@ -8,8 +9,7 @@ import com.boba.bobabuddy.core.service.rating.CreateRatingService;
 import com.boba.bobabuddy.core.service.rating.FindRatingService;
 import com.boba.bobabuddy.core.service.rating.RemoveRatingService;
 import com.boba.bobabuddy.core.service.rating.UpdateRatingService;
-import com.boba.bobabuddy.core.data.dto.RatingDto;
-import com.boba.bobabuddy.framework.converter.DtoConverter;
+import com.boba.bobabuddy.framework.util.DtoConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,11 +30,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.*;
 
 import static org.hamcrest.Matchers.is;
-
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //integration testing without core and persistence layer

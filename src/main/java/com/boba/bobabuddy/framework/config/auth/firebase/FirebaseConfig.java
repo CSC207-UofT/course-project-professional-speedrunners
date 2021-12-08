@@ -11,6 +11,11 @@ import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * Config class to initialize FirebaseAuth instance with service account private key.
+ * Initialize this by setting environment variable will be more secure.
+ */
+
 @Configuration
 public class FirebaseConfig {
     @Bean

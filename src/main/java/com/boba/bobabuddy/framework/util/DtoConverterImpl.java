@@ -1,18 +1,11 @@
-package com.boba.bobabuddy.framework.converter;
+package com.boba.bobabuddy.framework.util;
 
 import org.modelmapper.ModelMapper;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Basic version of a DTO converter that convert between DTO and entity
- *
- * @param <T> entity type
- * @param <S> DTO type
- */
 public class DtoConverterImpl<T, S> implements DtoConverter<T, S> {
 
     protected final ModelMapper modelMapper;

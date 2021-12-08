@@ -1,22 +1,18 @@
 package com.boba.bobabuddy.framework.controller;
 
-import com.boba.bobabuddy.core.data.dto.ItemDto;
 import com.boba.bobabuddy.core.data.dto.StoreDto;
 import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.service.store.CreateStoreService;
 import com.boba.bobabuddy.core.service.store.FindStoreService;
 import com.boba.bobabuddy.core.service.store.RemoveStoreService;
 import com.boba.bobabuddy.core.service.store.UpdateStoreService;
-import com.boba.bobabuddy.framework.converter.DtoConverter;
-import com.boba.bobabuddy.framework.converter.SortQueryBuilder;
+import com.boba.bobabuddy.framework.util.DtoConverter;
+import com.boba.bobabuddy.framework.util.SortQueryBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 

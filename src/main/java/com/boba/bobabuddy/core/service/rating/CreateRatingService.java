@@ -15,7 +15,7 @@ public interface CreateRatingService {
      * Persist a new rating to the database and construct relevant bidirectional associations
      *
      * @param rating      new rating to be persisted
-     * @param ratableType
+     * @param ratableType type of the ratable object related to it
      * @param ratableId   id of the associated ratable object
      * @param email       email of the associated user
      * @return the persisted rating entity

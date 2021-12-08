@@ -1,5 +1,6 @@
 package com.boba.bobabuddy.core.service.rating;
 
+import com.boba.bobabuddy.core.data.dao.RatingJpaRepository;
 import com.boba.bobabuddy.core.data.dto.RatingDto;
 import com.boba.bobabuddy.core.domain.RatableObject;
 import com.boba.bobabuddy.core.domain.Rating;
@@ -9,7 +10,6 @@ import com.boba.bobabuddy.core.service.ratableobject.UpdateRatableService;
 import com.boba.bobabuddy.core.service.rating.impl.CreateRatingServiceImpl;
 import com.boba.bobabuddy.core.service.user.FindUserService;
 import com.boba.bobabuddy.core.service.user.UpdateUserService;
-import com.boba.bobabuddy.core.data.dao.RatingJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,9 +20,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)

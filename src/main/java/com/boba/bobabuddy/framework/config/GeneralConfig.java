@@ -2,6 +2,9 @@ package com.boba.bobabuddy.framework.config;
 
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Constant definitions for SortQueryBuilder to use
+ */
 public class GeneralConfig {
     @Configuration
     public static class SortParam{

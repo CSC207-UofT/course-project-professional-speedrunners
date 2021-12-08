@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * entity class that represent a Role (authority) in the system
+ */
 @Entity
 @Getter
 @Setter

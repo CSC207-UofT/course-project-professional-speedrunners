@@ -8,7 +8,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-// For initial loading of Roles to database only
+// For initial loading of Roles to database only. kindly disregard.
 @Component
 public class RoleLoader implements ApplicationListener<ContextRefreshedEvent> {
     boolean alreadySetup = false;

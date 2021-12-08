@@ -1,6 +1,5 @@
 package com.boba.bobabuddy.framework.controller;
 
-import com.boba.bobabuddy.core.data.dto.ItemDto;
 import com.boba.bobabuddy.core.data.dto.RoleDto;
 import com.boba.bobabuddy.core.data.dto.UserDto;
 import com.boba.bobabuddy.core.domain.User;
@@ -8,7 +7,7 @@ import com.boba.bobabuddy.core.service.user.CreateUserService;
 import com.boba.bobabuddy.core.service.user.FindUserService;
 import com.boba.bobabuddy.core.service.user.RemoveUserService;
 import com.boba.bobabuddy.core.service.user.UpdateUserService;
-import com.boba.bobabuddy.framework.converter.DtoConverter;
+import com.boba.bobabuddy.framework.util.DtoConverter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
@@ -19,7 +18,6 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -141,6 +139,13 @@ public class UserController {
         return converter.convertToDto(updateUser.updateUserImage(id, imageUrl));
     }
 
+    /**
+     * Get custom firebase token for specific user
+     * For Debug only
+     * @param userDto Dto containing email
+     * @return custom token for firebase
+     * @throws FirebaseAuthException error with firebase auth
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/admin/user/token")
     public String loginUser(@RequestBody UserDto userDto) throws FirebaseAuthException {

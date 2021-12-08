@@ -1,4 +1,4 @@
-package com.boba.bobabuddy.framework;
+package com.boba.bobabuddy.framework.util;
 
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;

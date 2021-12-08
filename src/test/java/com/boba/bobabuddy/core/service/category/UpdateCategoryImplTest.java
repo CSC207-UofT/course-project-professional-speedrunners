@@ -1,8 +1,8 @@
 package com.boba.bobabuddy.core.service.category;
 
+import com.boba.bobabuddy.core.data.dao.CategoryJpaRepository;
 import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.domain.Item;
-import com.boba.bobabuddy.core.data.dao.CategoryJpaRepository;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.category.impl.UpdateCategoryServiceImpl;
@@ -16,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;

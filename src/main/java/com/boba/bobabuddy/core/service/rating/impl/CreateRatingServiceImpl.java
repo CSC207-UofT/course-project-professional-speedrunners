@@ -2,7 +2,9 @@ package com.boba.bobabuddy.core.service.rating.impl;
 
 import com.boba.bobabuddy.core.data.dao.RatingJpaRepository;
 import com.boba.bobabuddy.core.data.dto.RatingDto;
-import com.boba.bobabuddy.core.domain.*;
+import com.boba.bobabuddy.core.domain.RatableObject;
+import com.boba.bobabuddy.core.domain.Rating;
+import com.boba.bobabuddy.core.domain.User;
 import com.boba.bobabuddy.core.exceptions.DuplicateResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.ratableobject.FindRatableService;

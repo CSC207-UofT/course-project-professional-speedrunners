@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,14 +31,7 @@ public class UpdateUserServiceImpl implements UpdateUserService {
         this.findUserService = findUserService;
     }
 
-    /**
-     * Update user fields and save it to the database
-     *
-     * @param email   old user data
-     * @param newUser user DTO containing new data and matching id
-     * @return saved user entity
-     * @throws DifferentResourceException when email and newUser have different email
-     */
+
     @Override
     public User updateUser(String email, UserDto newUser) throws DifferentResourceException {
         User userToUpdate = findUserService.findByEmail(email);
@@ -55,15 +47,7 @@ public class UpdateUserServiceImpl implements UpdateUserService {
         return repo.save(user);
     }
 
-    /**
-     * Internal usecase for creating of ratings
-     * used for adding rating pointer to the user object during rating creation
-     *
-     * @param userToUpdate user to add rating to
-     * @param rating       the rating
-     * @return the updated User
-     * @throws DuplicateResourceException when same rating already exist in user
-     */
+
     @Override
     public User addRating(User userToUpdate, Rating rating) throws DuplicateResourceException {
         if (userToUpdate.addRating(rating)) {

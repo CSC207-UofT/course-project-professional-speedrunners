@@ -1,9 +1,9 @@
 package com.boba.bobabuddy.core.service.store;
 
+import com.boba.bobabuddy.core.data.dao.StoreJpaRepository;
 import com.boba.bobabuddy.core.domain.*;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.item.impl.FindItemServiceImpl;
-import com.boba.bobabuddy.core.data.dao.StoreJpaRepository;
 import com.boba.bobabuddy.core.service.store.impl.FindStoreServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

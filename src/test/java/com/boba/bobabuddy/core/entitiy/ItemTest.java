@@ -1,8 +1,8 @@
 package com.boba.bobabuddy.core.entitiy;
 
 import com.boba.bobabuddy.core.domain.Category;
-import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.domain.Item;
+import com.boba.bobabuddy.core.domain.Store;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ItemTest {
     private Store store;

@@ -18,7 +18,18 @@ public interface FindRatableService {
      */
     RatableObject findById(UUID id);
 
+    /**
+     * Find RatableObject by the rating object it contains
+     * @param id uuid of rating
+     * @return RatableObject matching the condition
+     */
     RatableObject findByRating(UUID id);
 
+    /**
+     * Find RatableObject by both its type and its id
+     * @param id uuid of rating
+     * @param type type of the RatableObject, either Item or Store
+     * @return RatableObject matching the condition
+     */
     RatableObject findByTypeAndId(String type, UUID id);
 }

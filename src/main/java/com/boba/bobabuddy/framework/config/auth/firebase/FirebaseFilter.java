@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Spring Security filter that performs filtering on web requests.
+ * Only requests with X-Authorization-Firebase header containing valid idToken will be grant access to the program.
+ */
+
 public class FirebaseFilter extends OncePerRequestFilter {
 
     private static final String HEADER_NAME = "X-Authorization-Firebase";

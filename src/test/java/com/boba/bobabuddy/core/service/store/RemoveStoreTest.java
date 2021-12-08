@@ -1,10 +1,10 @@
 package com.boba.bobabuddy.core.service.store;
 
+import com.boba.bobabuddy.core.data.dao.StoreJpaRepository;
 import com.boba.bobabuddy.core.domain.Item;
 import com.boba.bobabuddy.core.domain.Store;
 import com.boba.bobabuddy.core.exceptions.DifferentResourceException;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
-import com.boba.bobabuddy.core.data.dao.StoreJpaRepository;
 import com.boba.bobabuddy.core.service.store.impl.RemoveStoreServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,18 +1,14 @@
 package com.boba.bobabuddy.core.service.category.impl;
 
+import com.boba.bobabuddy.core.data.dao.CategoryJpaRepository;
 import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.category.FindCategoryService;
-import com.boba.bobabuddy.core.service.item.FindItemService;
-import com.boba.bobabuddy.core.service.item.impl.FindItemServiceImpl;
-import com.boba.bobabuddy.core.data.dao.CategoryJpaRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**

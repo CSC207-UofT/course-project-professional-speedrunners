@@ -12,15 +12,20 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
+/**
+ * Configuration class for spring security
+ */
 
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
+    // Defines available roles in the system
     @Configuration
     public static class Roles {
         public static final String ANONYMOUS = "ANONYMOUS";
@@ -41,6 +46,7 @@ public class SecurityConfig {
         }
     }
 
+    // Hook up our custom UserDetail service and FirebaseAuthProvider over Spring security defaults.
     @Configuration
     protected static class AuthenticationSecurity extends GlobalAuthenticationConfigurerAdapter {
 
@@ -62,6 +68,8 @@ public class SecurityConfig {
         }
     }
 
+
+    // Defines the filter chain used and web endpoint matching conditions
     @Configuration
     protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
@@ -74,7 +82,7 @@ public class SecurityConfig {
         }
 
         @Override
-        public void configure(WebSecurity web) throws Exception {
+        public void configure(WebSecurity web){
             web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
                     "/configuration/security", "/swagger-ui.html", "/webjars/**", "/v2/swagger.json", "/h2-console/**",
                     "/admin/user/token");

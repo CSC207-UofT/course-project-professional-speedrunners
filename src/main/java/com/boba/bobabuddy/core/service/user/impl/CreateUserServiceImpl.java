@@ -28,7 +28,7 @@ public class CreateUserServiceImpl implements CreateUserService {
     /***
      * Constructor for injecting dependencies
      * @param repo DAO for interacting with user data
-     * @param roleRepo
+     * @param roleRepo DAO for fetching Role Info
      * @param findUser FindUser usecase for checking duplication
      */
     @Autowired
@@ -38,12 +38,7 @@ public class CreateUserServiceImpl implements CreateUserService {
         this.findUser = findUser;
     }
 
-    /***
-     * Persist a new user to the database
-     * @param user User to be persisted to the database
-     * @return the persisted user entity
-     * @throws DuplicateResourceException thrown when user with the same email exists in the database
-     */
+
     @Override
     public User create(UserDto user) throws DuplicateResourceException {
         if (findUser.userExistenceCheck(user.getEmail())) {

@@ -1,8 +1,8 @@
 package com.boba.bobabuddy.core.service.user;
 
+import com.boba.bobabuddy.core.data.dao.UserJpaRepository;
 import com.boba.bobabuddy.core.domain.User;
 import com.boba.bobabuddy.core.service.user.impl.RemoveUserServiceImpl;
-import com.boba.bobabuddy.core.data.dao.UserJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

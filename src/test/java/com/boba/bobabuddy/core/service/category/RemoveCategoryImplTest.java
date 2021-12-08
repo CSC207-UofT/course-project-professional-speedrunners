@@ -1,7 +1,7 @@
 package com.boba.bobabuddy.core.service.category;
 
-import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.data.dao.CategoryJpaRepository;
+import com.boba.bobabuddy.core.domain.Category;
 import com.boba.bobabuddy.core.exceptions.ResourceNotFoundException;
 import com.boba.bobabuddy.core.service.category.impl.RemoveCategoryServiceImpl;
 import org.junit.jupiter.api.Test;

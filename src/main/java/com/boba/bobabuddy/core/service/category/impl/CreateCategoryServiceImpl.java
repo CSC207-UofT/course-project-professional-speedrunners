@@ -1,14 +1,12 @@
 package com.boba.bobabuddy.core.service.category.impl;
 
-import com.boba.bobabuddy.core.domain.Category;
-import com.boba.bobabuddy.core.service.category.CreateCategoryService;
 import com.boba.bobabuddy.core.data.dao.CategoryJpaRepository;
 import com.boba.bobabuddy.core.data.dto.CategoryDto;
+import com.boba.bobabuddy.core.domain.Category;
+import com.boba.bobabuddy.core.service.category.CreateCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 /**
  * This class handle the usecase of creating category and adding it into the system
