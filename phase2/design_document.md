@@ -5,7 +5,7 @@ App Demo: https://youtube.com/playlist?list=PLECF-cwue5-sygEJ1i_h4csWJfxgqw_er
 
 Our application is a product comparison system that is designed for students from University of Toronto. The purpose of this program is to keep track of prices and ratings for bubble teas, sort them based on a user supplied parameter (price, distance or rating). The item list will then be displayed via each individual item’s store. With this, the user can find their desired bubble tea, along with its corresponding store location and pricing.
 
-Within the program, there are four main types of object: item, store, user, and rating. Each item in the program is associated with a name, an id, a price, the shop in which it is being sold, a list of ratings of this item, and its average rating. Each store is associated with a store name, an id, a list of items (a menu), a location, a list of ratings and a corresponding average rating. Each user is associated with a name, an id, an email, a password, a set of ratings that the user has made, and the type of privilege the user has.
+Within the program, there are four main types of object: item, store, user, and rating. Each item in the program is associated with a name, an id, a price, a category, an image url, the shop in which it is being sold, a list of ratings of this item, and its average rating. Each store is associated with a store name, an id, an image url, a list of items (a menu), a location, a list of ratings and a corresponding average rating. Each user is associated with a name, an id, an email, a password, a set of ratings that the user has made, and the type of privilege the user has.
 
 Apart from using the application for its intended purpose (sorting items), admin users accessing the program also have the ability to create items, stores, and ratings. Admins may also delete or modify these entities at will.
 
@@ -19,18 +19,15 @@ In phase 2, we expanded upon our program to add support for many new features. T
 
 A big design decision we made for phase 1 is to implement our program as a web application. This means that instead of a single program responsible for everything, we would implement a backend server for handling data and a frontend UI that interacts with the user. We opted for using Spring framework to implement our backend as a REST API server, and Flutter for deploying frontend apps. We think that such a model is well suited for our program as a rating + price tracking app, and it demonstrates well the separation of layers in terms of a clean architecture design.
 
-  
 
 For authentication we opted to use Firebase Auth to store password and generate session token for us instead of handling these on our own backend app. We believed that rather than implement the core authentication functionalities ourselves, using matured authentication solutions like Firebase Auth will offer us much stronger security by decoupling password storage and token issuing responsibility from our own resource server.
 
-  
 
-We chose to upload our images to Firebase so that there would be no need for users to store them locally, where this would’ve increased the size of our application. Since our current implementation of the front end accepts images in the form of a URL, we must download the image in order to prevent the loss of any necessary pictures, hence the need for external storage.
-
+We chose to store images as url and use Firebase storage to upload our images and get permanent url. This way we can easily decouple the responsibility of storing large content from our data server, improving IO performance. In the future we can also easily hook up Contend Delivery Network so that clients can access these image resource at very low latency even when our data server is far away.
 
 ## Clean Architecture Properties
 
-We believe that our project adheres well to the clean architecture design, in fact, our project is packaged according to the clean architecture layers. Our entity classes are within the core.domain package, our use case classes in core.service and core.data package, adapters in framework.controller and framework.adapter package, and framework classes in framework.config, external dependencies, and our main application.
+We believe that our project adheres well to the clean architecture design, in fact, our project is packaged according to the clean architecture layers. Our entity classes are within the `core.domain` package, our use case classes in `core.service` and `core.data` package, adapters in `framework.controller` and `framework.adapter` package, and framework classes in `framework.config`, external dependencies, and our main application.
 
   
 
@@ -42,7 +39,6 @@ Elaborating further, the classes in our entity layer do not depend on anything f
 ## SOLID properties
 
 -   Single responsibility principle:
-    
 
 	-   In our program, we’ve split the responsibilities of each use case in such a way that every class handles only one (e.g. the item use case is separated into the following classes: createItem, findItem, updateItem, removeItem). This is a far more efficient design than having one use case class overloaded with several responsibilities.
     
@@ -50,27 +46,31 @@ Elaborating further, the classes in our entity layer do not depend on anything f
     
 
 -   Open/closed principle:
-    
 
 	-   Throughout programming, we have adhered to the open/closed principle closely, and this principle has allowed us to expand our program freely. For instance, in phase 1, we only implemented the use case for Item entity. For phase 2, we were able to expand the use case by adding more functionalities to the use case. Moreover, while developing our program, we were able add new features to each use case whenever it is needed. This also shows that we have adhered to the open/closed principle closely.
     
 
 -   Substitution principle:
-    
 
-	-   Entities item and store extend ratable objects, where they both contain an ID, name, and average rating. Both classes add additional variables and methods to the abstract class, implementing the substitution principle (child classes are more complex, more features/variables than parent class).
-    
+    - One aspect that clearly demonstrate Substitution principle in our program is the inheritance relationship between Store, Item, and RatableObject. 
+    Entities item and store extend ratable objects, where they both contain an ID, name, and average rating. Both classes add additional variables and methods to the abstract class, and substituting parent classes with child classes does not cause our program to break. 
+    It is thus clear that our program adheres well to the Liskov Substitution principle
+
 
 -   Interface segregation principle:
-    
 
-	-   All interfaces are implemented in full; classes that extend them utilize all abstract methods in their interface. Then, no classes in our program are forced to implement unnecessary methods.
+    - Our program adheres to the Interface Segregation Principle by making sure each interface contains as litter methods as possible.
+    Classes that require multiple interfaces can simply implement all of them, while classes that only need some are not forced to implement the others.
+    This can be clearly seen from our Input boundary design: each usecase offers one interface only.
+    As such, no classes in our program are forced to implement unnecessary methods.
     
 
 -   Dependency inversion principle:
-    
 
-	-   Our program depends on the dependency injection. For instance, for each use case there are ports available for them. These ports are responsible for the inversion. For instance, use case creatitem, which is a high level class, does not depend on the controller, which is a low level class, and JPA repo, . By adding an interface, ICreateItem, we only allowed the high class to depend on the interface, so that the use case does not have to worry about the design of our controller and JPA repo.
+    - Our program heavily utilize dependency injection, and this can be clearly observed from our use case (service) classes and our controller classes.
+    For instance, during construction of our controller classes, many use case instances are passed in to support the controller's function. These dependencies are thus "injected" to our controller classes.
+    Further, use cases instances are injected as their interface type. This means the controller no longer depends on the implementation of these use case services but instead on the contract of service formed by the interface.
+    Thus, the inversion of dependency is achieved. 
     
 
 ## Packaging Strategy
@@ -79,7 +79,7 @@ While developing the program, we found that the most efficient way to package ou
 
 ## Design patterns
 
--   We applied Dependency injection throughout our project, in part due to the nature of a Spring project. In a Spring project all classes are handled as beans that can be injected to other beans that have matching constructor types. This means Spring will automatically inject dependency as needed without explicit configuration.
+-   We applied Dependency injection throughout our project, in part due to the nature of a Spring project. In a Spring project all classes are handled as beans that can be injected, or autowired, to other beans that have matching constructor types. This means Spring will automatically inject dependency as needed without explicit configuration.
     
 -   We also applied the Model-View-Controller pattern through the usage of Spring Web MVC. This dependency allows Spring framework to generate implementations that handle a lot of the controller work for us: listening to web requests, parsing JSON to entity classes. The actual controller methods invoked by request mapping will then call the appropriate service (Model) to perform tasks. Then, the return value of these controller classes are again handled by Spring MVC which serializes them to a JSON and passes it back to the view, which is either a webpage or frontend UI.
     
@@ -95,7 +95,7 @@ While developing the program, we found that the most efficient way to package ou
   
 #### What had worked well
 
-Throughout the process of developing our program there are two things that worked out well for us and they are listed below:
+Throughout the process of developing our program there are two things that worked out well for us, and they are listed below:
 
 -   Spring framework allowed us to implement many functionalities, such as data persistence, without having to write too much code ourselves.
     
