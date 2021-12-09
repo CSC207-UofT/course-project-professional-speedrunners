@@ -2,8 +2,8 @@
 Phase 2 notes:
 
  - The REST server is now hosted on an Azure Cloud virtual machine at `http://20.124.182.63:8080`.
- - By Default, the android application will access this remote server to fetch resource. If you wish to change this behaviour, edit the url constant at `BobaBuddyUI/lib/utils/constant.dart`.
- - If you are running the server on the same machine, use the android loopback address `http://10.0.2.2 :8080`.
+ - By Default, the android application will access this remote server to fetch resources. If you wish to change this behaviour, edit the url constant at `BobaBuddyUI/lib/utils/constant.dart`.
+ - If you are running the server on your local machine, use the android loopback address `http://10.0.2.2 :8080`.
 ### How To run
 - Clone the repo
 - Let gradle set up the project dependencies
@@ -96,17 +96,23 @@ GET http://localhost:8080/items/?price-leq=15&sorted=true
 For all available api methods, see `http://20.124.182.63:8080/swagger-ui.html` or `http://127.0.0.1:8080/swagger-ui.html`
 when the program is running on the same machine.
 
-##BobaBuddy UI
+## BobaBuddy UI
 
-The frontend client of this application, written using dart and Flutter sdk.
+The frontend android client of the application. We chose to write the UI in dart using the flutter sdk to give us complete control of design and 
+functionality. For a full walkthrough of functionality, there is a playlist here: https://youtube.com/playlist?list=PLECF-cwue5-sygEJ1i_h4csWJfxgqw_er 
 
-###How to run
+Currently, the UI reflects the core functionality of our application, however, moving forward we would like to have our UI utilize all features in our backend
+such as finding drinks by category.
+
+We designed this UI with the simple and intuitive use principle in mind by keeping the layout familiar, clutter-free, and easily navigable. 
+
+### How to run
  - the prebuilt apk is available at `BobaBuddyUI/build/app/outputs/apk/debug`. 
  - It is recommended to run this app on a Pixel 4 emulator, as this is our development environment.
  - If you wish to build from source, the following are required:
    - Flutter 
    - Android studio 
- - Once you setup Flutter and android stk in android studio, you may connect to an emulator and build the app from source.
+ - Once you setup Flutter and android sdk in android studio, you may connect to an emulator and build the app from source.
 
 
 
