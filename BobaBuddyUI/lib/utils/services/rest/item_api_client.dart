@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert' as convert;
 import 'package:boba_buddy/core/model/models.dart';
 import 'package:http/http.dart' as http;
+import 'package:boba_buddy/utils/constant.dart';
 
 class ItemApiClient {
-  static const url = 'http://10.0.2.2:8080';
   final http.Client _httpClient;
   final String authHeader = "X-Authorization-Firebase";
 

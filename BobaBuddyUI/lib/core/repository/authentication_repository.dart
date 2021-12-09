@@ -143,6 +143,16 @@ class AuthenticationRepository {
     }
   }
 
+  Future<void> updateEmail(String email) async{
+    await _userApiClient.updateEmail(currentUser.email, email, currentUser.idToken ?? "");
+    await _firebaseAuth.currentUser?.updateEmail(email);
+  }
+
+  Future<void> updateName(String name) async{
+    await _userApiClient.updateName(currentUser.email, name, currentUser.idToken ?? "");
+    await _firebaseAuth.currentUser?.updateDisplayName(name);
+  }
+
   /// Signs out the current user which will emit
   /// [User.empty] from the [user] Stream.
   ///

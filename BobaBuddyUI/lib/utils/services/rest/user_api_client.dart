@@ -3,9 +3,9 @@ import 'dart:convert' as convert;
 import 'dart:io';
 import 'package:boba_buddy/core/model/models.dart';
 import 'package:http/http.dart' as http;
+import 'package:boba_buddy/utils/constant.dart';
 
 class UserApiClient {
-  static const url = 'http://10.0.2.2:8080';
   final http.Client _httpClient;
   final String authHeader = "X-Authorization-Firebase";
 
@@ -23,6 +23,25 @@ class UserApiClient {
     }else if(response.statusCode == 403){
       throw Exception("Cannot be authenticated by server: \n" + response.body);
     }throw Exception("something went wrong server side: \n" + response.body);
+  }
+
+  Future<User> updateEmail(String currentUserEmail, String email, String idToken) async{
+    final response = await _httpClient.put(Uri.parse(url + '/users/$currentUserEmail'),
+        headers: {"Content-Type": 'application/json', authHeader: idToken},
+    body: convert.jsonEncode({"email": email}));
+
+    if (response.statusCode != 200) throw Exception(response.body);
+    return User.fromJson(convert.jsonDecode(response.body));
+  }
+
+  Future<User> updateName(String currentUserEmail, String name, String idToken) async{
+    final response = await _httpClient.put(Uri.parse(url + '/users/$currentUserEmail'),
+        headers: {"Content-Type": 'application/json', authHeader: idToken},
+        body: convert.jsonEncode({"name": name}));
+
+    if (response.statusCode != 200) throw Exception(response.body);
+    return User.fromJson(convert.jsonDecode(response.body));
+
   }
 
   createUser({required String email, required String name, required String idToken}) async {

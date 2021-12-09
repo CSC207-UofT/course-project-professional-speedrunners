@@ -18,7 +18,8 @@ class ProfilePage extends StatelessWidget {
     return ScreenUtilInit(
         designSize: const Size(393, 830),
         builder: () => Scaffold(
-                body: Center(
+                body: SingleChildScrollView(child:
+                    Center(
                     child: SafeArea(
                         child: Column(children: [
               SafeArea(
@@ -112,7 +113,12 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
               )
-            ])))));
+            ])
+                    )
+                )
+                )
+        )
+    );
   }
 }
 
@@ -155,10 +161,15 @@ _openDialog(BuildContext context, String field) {
                   },
                   child: const Text("Cancel")),
               TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    AuthenticationRepository authenticationRepository = context.read<AuthenticationRepository>();
                     if (fieldController.text.trim().isNotEmpty) {
-                      //TODO: add required method call for updating user profile
-                      //use fieldController.text to access input
+                      if(action[action.length - 1] == "Email"){
+                        await authenticationRepository.updateEmail(fieldController.text);
+                      }else if(action[action.length - 1] == "Username"){
+                        await authenticationRepository.updateName(fieldController.text);
+                      }
+                      Navigator.pop(context);
                     } else {
                       Fluttertoast.showToast(
                           msg: "Please Fill In Required Fields",
